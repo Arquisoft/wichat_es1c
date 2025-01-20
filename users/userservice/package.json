@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arquisoft/wichat_0.git"
+    "url": "git+https://github.com/arquisoft/wichat_es1c.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/arquisoft/wichat_0/issues"
+    "url": "https://github.com/arquisoft/wichat_es1c/issues"
   },
-  "homepage": "https://github.com/arquisoft/wichat_0#readme",
+  "homepage": "https://github.com/arquisoft/wichat_es1c#readme",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "express": "^4.21.2",
