@@ -1,6 +1,9 @@
 // Query format to retrieve all info about an entity given its QID
 const wikidata_url = "https://www.wikidata.org/wiki/Special:EntityData/{qid}.json";
 
+// SQARQL query URL
+const sparql_url = "https://query.wikidata.org/sparql";
+
 // Question JSON format
 const response_format =
 {
@@ -15,21 +18,25 @@ const response_format =
 const queries =
 {
     random_monument :
-    `
-    SELECT ?item ?itemLabel WHERE {
-    VALUES ?type { 
-        wd:Q4989906   # Monument
-    }
-    ?item wdt:P31 ?type.
-    FILTER(STRSTARTS(STR(?item), "http://www.wikidata.org/entity/Q"))
-    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],es". }
-    }
-    LIMIT 50
-    `
+        `SELECT DISTINCT ?item WHERE {
+            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE]". }
+            {
+            SELECT DISTINCT ?item WHERE {
+                ?item p:P31 ?statement0.
+                ?statement0 (ps:P31/(wdt:P279*)) wd:Q4989906.
+            }
+            LIMIT 50
+            }
+        }`
 }
 
 class Wikidata
 {
+    constructor()
+    {
+        this.query_dispatcher = new SPARQLQueryDispatcher( sparql_url );
+    }
+
     /**
      * Generates a random question, returning a JSON containing info about the
      * question, with this format:
@@ -77,42 +84,48 @@ class Wikidata
      */
     async generateMonumentQuestion()
     {
-        var result = { ... response_format }
+        var results = { }
 
-        try
-        {
-            // Use query to retrieve 4 random monuments
-            var response = await fetch(
-                'https://query.wikidata.org/sparql',
+        // Retrieve 50 monuments using SPARQL
+        this.query_dispatcher
+            .query( queries.random_monument )
+            .then( function(data)
+            {
+                results = data.results.bindings;
+
+                for (let index = 0; index < results.length; index++)
                 {
-                    method : 'POST',
-                    headers :
-                    {
-                        'Content-Type' : 'application/x-www-form-urlencoded',
-                        'Accept' : 'application/sparql-results+json'
-                    },
-                    body : new URLSearchParams({ query : queries.random_monument })
+                    var q = results[index].item.value;
+                    console.log(q);
                 }
-            );
+            });
 
-            if (!response.ok)
-                throw new Error("Failed to execute SPARQL query");
+        // Select 4 random entities - 1 correct, 3 wrong answers
+        var ids = randomIDs(results.length, 4);
 
-            const data = await response.json();
-
-            // Get 4 random entities from response
-            // TODO
-
-            // Build result JSON objet
-            // TODO
-
-            console.log(response);
-        }
-        catch (error)
+        // TODO : Get name and image for correct answer (getting JSON from 1st entity)
+        var correct_answer =
         {
-            console.error(error);
-            return null;
-        }
+            name : "",
+            image_url : ""
+        };
+
+        // TODO : Get name and image for wrong answers (getting JSON from 2nd-4th entities)
+        var wrong_answers =
+        [
+            "",
+            "",
+            ""
+        ]
+
+        // Build result JSON
+        var result =
+        {
+            question : "What is the name of this monument?",
+            correct_answer : correct_answer.name,
+            wrong_answers : shuffle(wrong_answers),
+            image_url : correct_answer.image_url
+        };
 
         return result;
     }
@@ -131,4 +144,50 @@ function randomIDs(len, count)
     }
 
     return arr.slice(0, count);
+}
+
+function shuffle(array)
+{
+    let currentIndex = array.length;
+  
+    // While there remain elements to shuffle
+    while (currentIndex != 0) {
+  
+      // Pick a remaining element
+      let randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+  
+      // And swap it with the current element
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+  }
+  
+
+function makeSPARQLQuery( endpointUrl, sparqlQuery, doneCallback )
+{
+	var settings =
+    {
+		headers: { Accept: 'application/sparql-results+json' },
+		data: { query: sparqlQuery }
+	};
+
+	return $.ajax( endpointUrl, settings ).then( doneCallback );
+}
+
+// Aux. class - SPARQL Query Dispatcher
+class SPARQLQueryDispatcher
+{
+	constructor( endpoint )
+    {
+		this.endpoint = endpoint;
+	}
+
+	async query( sparqlQuery )
+    {
+		const fullUrl = this.endpoint + '?query=' + encodeURIComponent( sparqlQuery );
+		const headers = { 'Accept': 'application/sparql-results+json' };
+
+		return fetch( fullUrl, { headers } ).then( body => body.json() );
+	}
 }
