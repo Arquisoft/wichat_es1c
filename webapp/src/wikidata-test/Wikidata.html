@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+    <!--
+        Test HTML document to test Wikidata query API use.
+        This document will be removed later on.
+    -->
+
+    <head>
+        <title>Wikidata Test</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="wikidata-api-queries-v0.js"></script>
+        <script src="Wikidata.js"></script>
+    </head>
+
+    <body>
+
+        <h1>Test Query</h1>
+
+        <button onclick="iniciarFuncionAsincrona()">Generar pregunta</button>
+
+        <pre id="jsonContainer"></pre>
+
+        <script>
+            async function iniciarFuncionAsincrona()
+            {
+                // Call async question function
+                var wikidata = new Wikidata();
+                var result = await wikidata.generateMonumentQuestion();
+
+                // Convert JSON object to string and show it
+                const jsonString = JSON.stringify(result, null, 2);
+                const jsonContainer = document.getElementById("jsonContainer");
+                jsonContainer.textContent = jsonString;
+            }
+        </script>
+
+    </body>
+</html>
