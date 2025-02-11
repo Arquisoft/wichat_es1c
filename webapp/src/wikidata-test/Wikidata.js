@@ -4,6 +4,9 @@ const wikidata_url = "https://www.wikidata.org/wiki/Special:EntityData/{qid}.jso
 // SQARQL query URL
 const sparql_url = "https://query.wikidata.org/sparql";
 
+// URL format for retrieving images from Wikidata
+const image_format = "https://commons.wikimedia.org/wiki/File:{file_name}";
+
 // Question JSON format
 const response_format =
 {
@@ -84,39 +87,44 @@ class Wikidata
      */
     async generateMonumentQuestion()
     {
-        var results = { }
+        var results = [];
 
         // Retrieve 50 monuments using SPARQL
         this.query_dispatcher
             .query( queries.random_monument )
             .then( function(data)
             {
-                results = data.results.bindings;
+                var response = data.results.bindings;
 
-                for (let index = 0; index < results.length; index++)
+                for (let index = 0; index < response.length; index++)
                 {
-                    var q = results[index].item.value;
-                    console.log(q);
+                    var q = response[index].item.value + ".json";
+                    results.push(q);
                 }
             });
 
         // Select 4 random entities - 1 correct, 3 wrong answers
         var ids = randomIDs(results.length, 4);
+        console.log(results.length);
+        console.log(ids);
 
-        // TODO : Get name and image for correct answer (getting JSON from 1st entity)
+        // Get name and image for correct answer (getting JSON from 1st entity)
+        var correct_entity_url = results[ids[0]];
+        var correct_entity = getEntity(correct_entity_url);
         var correct_answer =
         {
-            name : "",
-            image_url : ""
+            name : getEntityName(correct_entity),
+            image_url : getImageFile(correct_entity)
         };
 
-        // TODO : Get name and image for wrong answers (getting JSON from 2nd-4th entities)
+        // Get name and image for wrong answers (getting JSON from 2nd-4th entities)
+        var wrong_answers_urls = [results[ids[1]], results[ids[2]], results[ids[3]]];
         var wrong_answers =
         [
-            "",
-            "",
-            ""
-        ]
+            getEntityName( getEntity(wrong_answers_urls[0]) ),
+            getEntityName( getEntity(wrong_answers_urls[1]) ),
+            getEntityName( getEntity(wrong_answers_urls[2]) )
+        ];
 
         // Build result JSON
         var result =
@@ -131,7 +139,54 @@ class Wikidata
     }
 }
 
-// Aux. methods -------------------------------------------
+// Aux. functions and classes ---------------------------------------
+
+/**
+ * Aux. function to get a Wikidata entity from URL.
+ * @param {string} url URL
+ * @returns {JSON} JSON containing the entity
+ */
+async function getEntity(url) // <- TODO: this isn't working
+{
+    try
+    {
+        const response = await fetch(url);
+        
+        if (!response.ok)
+            throw new Error(`Request error: ${response.status}`);
+
+        const data = await response.json();
+        console.log(data);
+        return data.entities[0];
+    }
+    catch (error)
+    {
+        console.error(`Error while getting entity JSON: ${error}`);
+        return null;
+    }
+}
+
+/**
+ * Aux. function to extract name from Wikidata entity.
+ * @param {JSON} entity Entity in JSON format
+ * @returns {string} name of the entity
+ */
+function getEntityName(entity)
+{
+    return entity.labels.en.value;
+}
+
+/**
+ * Aux. function to extract image URL from Wikidata entity.
+ * @param {JSON} entity Entity in JSON format
+ * @returns {string} image file name
+ */
+function getImageFile(entity)
+{
+    var fileName = entity.claims["P18"][0].mainsnak.datavalue.value;
+    fileName = fileName.replace(" ", "_");
+    return image_format.replace("{file_name}", fileName);
+}
 
 function randomIDs(len, count)
 {
@@ -161,18 +216,6 @@ function shuffle(array)
       [array[currentIndex], array[randomIndex]] = [
         array[randomIndex], array[currentIndex]];
     }
-  }
-  
-
-function makeSPARQLQuery( endpointUrl, sparqlQuery, doneCallback )
-{
-	var settings =
-    {
-		headers: { Accept: 'application/sparql-results+json' },
-		data: { query: sparqlQuery }
-	};
-
-	return $.ajax( endpointUrl, settings ).then( doneCallback );
 }
 
 // Aux. class - SPARQL Query Dispatcher
