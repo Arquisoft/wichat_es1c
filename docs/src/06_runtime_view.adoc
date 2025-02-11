@@ -46,19 +46,7 @@ endif::arc42help[]
 * _<insert description of the notable aspects of the interactions between the
 building block instances depicted in this diagram.>_
 
-It is possible to use a sequence diagram:
-
-[plantuml,"Sequence diagram",png]
-----
-actor Alice
-actor Bob
-database Pod as "Bob's Pod"
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
-Alice  --> Pod: Store route
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
-----
+image::06_runtime_view-EN.png[align="center"]
 
 === <Runtime Scenario 2>
 
