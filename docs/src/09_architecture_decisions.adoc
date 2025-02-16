@@ -1,37 +1,25 @@
-ifndef::imagesdir[:imagesdir: ../images]
-
-[[section-design-decisions]]
 == Architecture Decisions
 
+=== Overview
+This section outlines the key architectural decisions made during the development of **WIChat**. These decisions have been carefully evaluated based on technical feasibility, project constraints, scalability, and maintainability. The rationale for each decision is provided to ensure transparency and traceability for all stakeholders.
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-.Contents
-Important, expensive, large scale or risky architecture decisions including rationales.
-With "decisions" we mean selecting one alternative based on given criteria.
+=== Key Architectural Decisions
 
-Please use your judgement to decide whether an architectural decision should be documented
-here in this central section or whether you better document it locally
-(e.g. within the white box template of one building block).
+[options="header"]
+|===
+| *Decision* | *Rationale* | *Impact* | *Alternatives Considered*
+| Use of **Node.js with Express Backend** | Provides more control over business logic and authentication, supports complex operations | Requires dedicated hosting and server management but allows better scalability and flexibility | Serverless Functions (Netlify, AWS Lambda), FastAPI
+| **MongoDB Atlas as Database** | Flexible NoSQL solution, managed service, easy integration with backend | Requires proper indexing and connection pooling to optimize performance | Firebase Firestore, PostgreSQL
+| **JWT for Authentication** | Stateless authentication method, easy to integrate with Node.js | Token expiration must be managed properly, security risks if improperly implemented | OAuth2, Firebase Authentication
+| **React with TypeScript for Frontend** | Strong typing improves maintainability, React provides a modular and scalable UI | Slightly more initial setup compared to plain JavaScript | React with JavaScript, Vue.js
+| **Integration with Wikidata** | Enables automatic question generation using structured knowledge sources | Requires SPARQL queries, handling API rate limits | Custom dataset, Wikipedia API
+| **Deployment on Netlify (Frontend) and Render/AWS (Backend)** | Simplifies CI/CD for the frontend and provides scalable backend hosting | Backend requires manual configuration and maintenance | Vercel, Heroku
+| **Event-Driven Architecture using MongoDB Change Streams** | Allows real-time updates without polling, optimizing performance | Requires additional monitoring and handling of real-time events | Periodic polling from the frontend, WebSockets
+|===
 
-Avoid redundancy. 
-Refer to section 4, where you already captured the most important decisions of your architecture.
+=== Motivation
+The above decisions were made to ensure that **WIChat** is scalable, maintainable, and easy to deploy within the constraints of a university project. By selecting **a dedicated backend with Node.js and Express**, we gain better control over the application’s logic while ensuring flexibility in handling authentication, database interactions, and API management.
 
-.Motivation
-Stakeholders of your system should be able to comprehend and retrace your decisions.
+=== Conclusion
+These architectural choices align with the project’s goals of rapid development, minimal operational overhead, and scalability. Future iterations of the system can refine these choices based on usage patterns and performance considerations.
 
-.Form
-Various options:
-
-* ADR (https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions[Documenting Architecture Decisions]) for every important decision
-* List or table, ordered by importance and consequences or:
-* more detailed in form of separate sections per decision
-
-.Further Information
-
-See https://docs.arc42.org/section-9/[Architecture Decisions] in the arc42 documentation.
-There you will find links and examples about ADR.
-
-****
-endif::arc42help[]
