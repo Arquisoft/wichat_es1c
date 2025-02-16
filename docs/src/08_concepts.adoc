@@ -3,7 +3,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-concepts]]
 == Cross-cutting Concepts
 
-
 ifdef::arc42help[]
 [role="arc42help"]
 ****
@@ -18,13 +17,11 @@ They can include many different topics, such as
 * principal, often technical decisions of an overarching (= cross-cutting) nature
 * implementation rules
 
-
 .Motivation
 Concepts form the basis for _conceptual integrity_ (consistency, homogeneity) of the architecture. 
 Thus, they are an important contribution to achieve inner qualities of your system.
 
 Some of these concepts cannot be assigned to individual building blocks, e.g. security or safety. 
-
 
 .Form
 The form can be varied:
@@ -50,25 +47,78 @@ on this list.
 
 image::08-concepts-EN.drawio.png["Possible topics for crosscutting concepts"]
 
-
 .Further Information
 
 See https://docs.arc42.org/section-8/[Concepts] in the arc42 documentation.
 ****
 endif::arc42help[]
 
-=== _<Concept 1>_
+=== Domain Concepts
 
-_<explanation>_
+#### Introduction
+This section covers fundamental principles that influence various aspects of the system, ensuring consistency and proper functionality. It includes domain models, design principles, technologies used, and key architectural decisions.
+
+#### Motivation
+The use of cross-cutting concepts ensures the system's coherence, optimizing development and maintenance while enhancing security, scalability, and user experience.
+
+#### Categories of Concepts
+- **Domain Models**
+- **User Experience (UX)**
+- **Operational Concepts**
+- **Architecture and Design Patterns**
+- **Security and Data Protection**
+- **Development Strategies**
+
+Each of these is detailed below.
+
+---
+
+### 8.1. Domain Models
+
+#### Domain Structure
+- **User:** An individual interacting with the application, capable of handling multiple concurrent sessions.
+- **Game:** A feature allowing users to engage in individual or multiplayer challenges with different formats.
+- **Stats:** A section displaying user performance, including total games, accuracy, and average scores.
+- **Ranking:** Displays user rankings based on scores, correct answers, and playtime.
+
+image::08_entity_diagram-EN.svg["Domain Entity Diagram"]
+
+---
+
+### 8.2. User Experience (UX)
+- **Intuitive Design:** A clear and accessible interface for easy navigation.
+- **Multilingual Support:** Available in multiple languages, with English as the default.
+- **Accessibility Features:** Visual aids such as icons and colors to improve understanding.
+
+---
+
+### 8.3. Operational Concepts
+- **Ease of Use:** User testing conducted to enhance usability.
+- **Enhanced Accessibility:** Adjustments made to improve the experience for all users.
+
+---
+
+### 8.4. Security
+- **Access Control:** Restriction of certain sections to authenticated users.
+- **Password Security:** Minimum 8-character passwords with letters, numbers, and special characters.
+- **Data Protection:** Encrypted credentials to prevent unauthorized access.
+
+---
+
+### 8.5. Architecture and Design Patterns
+- **Microservices Architecture:** The application is segmented into independent modules such as user management, question generation, and graphical interface.
+- **Scalability:** The modular structure enables system expansion without compromising performance.
+
+---
+
+### 8.6. Development Strategies
+- **Automated Testing:** Implementation of unit and integration tests to validate system functionality.
+- **Continuous Deployment:** Use of CI/CD pipelines to ensure active development and deployment processes.
 
 
+---
 
-=== _<Concept 2>_
+### 8.6. Development Strategies
+- **Automated Testing:** Implementation of unit and integration tests to validate system functionality.
+- **Continuous Deployment:** Use of CI/CD pipelines to ensure active development and deployment processes.
 
-_<explanation>_
-
-...
-
-=== _<Concept n>_
-
-_<explanation>_
