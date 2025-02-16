@@ -1,34 +1,70 @@
-ifndef::imagesdir[:imagesdir: ../images]
-
-[[section-solution-strategy]]
 == Solution Strategy
 
+=== 4.1. Technology Decisions
+For the implementation of **WIChat**, we have selected the following technologies based on their ease of development, scalability, and compatibility with the project requirements:
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-.Contents
-A short summary and explanation of the fundamental decisions and solution strategies, that shape system architecture. It includes
+- *Frontend:* React with TypeScript for an interactive and modular user interface.
+- *Backend:* Node.js with Express to manage business logic, authentication, and data operations.
+- *Database:* MongoDB Atlas, a cloud-based NoSQL database optimized for flexible and scalable storage.
+- *Authentication:* JSON Web Tokens (JWT) for secure authentication without third-party dependencies.
+- *Question Generation:* Use of queries to Wikidata via the backend to retrieve images and data.
+- *Deployment:* Netlify for frontend hosting and a cloud-based platform (such as Render or AWS) for the backend.
 
-* technology decisions
-* decisions about the top-level decomposition of the system, e.g. usage of an architectural pattern or design pattern
-* decisions on how to achieve key quality goals
-* relevant organizational decisions, e.g. selecting a development process or delegating certain tasks to third parties.
+=== 4.2. Top-Level System Decomposition
+The system follows a *frontend + dedicated backend architecture*, where all business logic is handled by a Node.js backend instead of serverless functions.
 
-.Motivation
-These decisions form the cornerstones for your architecture. They are the foundation for many other detailed decisions or implementation rules.
+. *Presentation Layer (Frontend - React)*
+** Implemented in React with TypeScript, providing an interactive experience.
+** Communicates with the backend via HTTP requests to the Node.js API.
 
-.Form
-Keep the explanations of such key decisions short.
+. *Business Logic Layer (Backend - Node.js & Express)*
+** Manages question generation, answer validation, and data storage.
+** Connects to Wikidata to retrieve questions and answers.
+** Handles user authentication with JWT, generating and validating tokens.
 
-Motivate what was decided and why it was decided that way,
-based upon problem statement, quality goals and key constraints.
-Refer to details in the following sections.
+. *Data Layer (MongoDB Atlas)*
+** Stores information about users, generated questions, and game statistics.
+** Optimized for flexible storage and efficient queries.
 
+=== 4.2.1. Architectural Patterns
 
-.Further Information
+- *Monolithic Backend Architecture:* The backend is implemented as a single Node.js application managing all API requests.
+- *API Gateway:* The backend acts as a centralized API that receives requests from the frontend and processes the corresponding logic.
+- *Event-Driven Architecture:* MongoDB enables real-time updates through triggers and change streams.
 
-See https://docs.arc42.org/section-4/[Solution Strategy] in the arc42 documentation.
+=== 4.2.2. Design Patterns
 
-****
-endif::arc42help[]
+- *Façade:* Centralizes calls to MongoDB Atlas and Wikidata within the backend API.
+- *Observer:* MongoDB allows real-time subscriptions to data changes.
+- *Lazy Loading:* Loads data progressively to optimize frontend performance.
+
+=== 4.3. Decisions for Achieving Quality Goals
+To ensure system quality, the following strategic decisions have been made:
+
+[options="header"]
+|===
+| *Quality Goal* | *Decision Taken*
+| *Scalability* | Use of MongoDB Atlas and Node.js backend, ensuring efficient request handling.
+| *Availability* | Deployment in a cloud-based environment with automatic scaling.
+| *Security* | Implementation of JWT-based authentication for secure access control without third-party dependencies.
+| *Maintainability* | Use of Express framework for a structured and maintainable backend.
+| *Usability* | Intuitive web interface with React and automatic question generation to enhance user experience.
+| *Mitigation of LLM Errors* | Use of specifically designed prompts to reduce incorrect responses and pre-filter generated hints.
+|===
+
+=== 4.4. Organizational Decisions
+
+[options="header"]
+|===
+| Third Party Product | Reason
+| Git | Easy to use distributed version control system.
+| GitHub | Web-based platform for hosting and managing Git repositories, including features like issues tracking, pull requests, and GitHub Actions.
+| Netlify | Cloud service used for deploying the frontend with built-in support for continuous integration.
+| MongoDB Atlas | Scalable and flexible cloud-based NoSQL database solution.
+| JSON Web Tokens (JWT) | Secure and stateless authentication mechanism used to handle user sessions.
+| Render / AWS | Cloud-based hosting service for the Node.js backend, ensuring scalability and reliability.
+|===
+
+=== Motivation
+The architectural decisions in this system are based on the need for an agile and efficient development approach within a **10-week academic environment**. A **Node.js backend with Express** was chosen to ensure greater control over business logic while maintaining scalability and ease of integration with React and MongoDB.
+
