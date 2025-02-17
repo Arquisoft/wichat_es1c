@@ -1,12 +1,12 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
-= Introduction and Goals
+== Introduction and Goals
 
-== Requirements Overview
+=== Requirements Overview
 
 WIChat is an enhanced version of last year's experimental game show app developed by HappySw for RTVE. The main improvement is the addition of a chatbot powered by a large language model (LLM), allowing contestants to interact and receive clues during the game. The app generates questions and images automatically using data from Wikidata, offering a diverse range of topics and visual content. It also features user registration, history tracking, and performance data, making the game more engaging and personalized. WIChat is a web-based platform designed to be scalable, flexible, and easily maintainable while providing an interactive, fun, and educational experience for users.
 
-== Essential Functional Requirements:
+=== Essential Functional Requirements:
 * *User registration and authentication*: 
   ** Users will be able to create accounts and log in to participate in the contest.
 
@@ -22,7 +22,7 @@ WIChat is an enhanced version of last year's experimental game show app develope
 * *Automatic content generation*:
   ** Images and clues will be automatically generated from data obtained from Wikidata.
 
-== Driving Forces:
+=== Driving Forces:
 * *Improvement of user interaction*: 
   ** The inclusion of conversational clues aims to increase user interest and engagement.
 
@@ -34,13 +34,13 @@ WIChat is an enhanced version of last year's experimental game show app develope
 
 
 
-== Motivation
+=== Motivation
 
 From the perspective of the end users, the WIChat system is created with the purpose of enhancing the user experience in the "Saber y Ganar" quiz. The modification of the system aims primarily to increase participant interaction by allowing them to obtain clues in a conversational manner through an external large language model (LLM). This enriches the gaming experience and makes it somewhat easier for users by receiving "assistance" from the chatbot.
 
 This system is designed to improve player support through the chatbot with clues, while the quality of the game is also enhanced by integrating advanced technology to automatically generate images and clues based on Wikidata. This ensures that the content is relevant, up-to-date, and non-repetitive, which guarantees a more enriching and engaging experience for users.
 
-== Quality Goals
+=== Quality Goals
 
 [options="header",cols="1,3"]
 |===
@@ -55,7 +55,7 @@ This system is designed to improve player support through the chatbot with clues
 
 
 
-== WIChat System Stakeholders
+=== WIChat System Stakeholders
 
 1. *End Users:*
 * *Role:* Contestants of the quiz.

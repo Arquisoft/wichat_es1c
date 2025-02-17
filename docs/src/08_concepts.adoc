@@ -73,7 +73,7 @@ Each of these is detailed below.
 
 ---
 
-### 8.1. Domain Models
+### Domain Models
 
 #### Domain Structure
 - **User:** An individual interacting with the application, capable of handling multiple concurrent sessions.
@@ -85,40 +85,40 @@ image::08_entity_diagram-EN.svg["Domain Entity Diagram"]
 
 ---
 
-### 8.2. User Experience (UX)
+### User Experience (UX)
 - **Intuitive Design:** A clear and accessible interface for easy navigation.
 - **Multilingual Support:** Available in multiple languages, with English as the default.
 - **Accessibility Features:** Visual aids such as icons and colors to improve understanding.
 
 ---
 
-### 8.3. Operational Concepts
+### Operational Concepts
 - **Ease of Use:** User testing conducted to enhance usability.
 - **Enhanced Accessibility:** Adjustments made to improve the experience for all users.
 
 ---
 
-### 8.4. Security
+### Security
 - **Access Control:** Restriction of certain sections to authenticated users.
 - **Password Security:** Minimum 8-character passwords with letters, numbers, and special characters.
 - **Data Protection:** Encrypted credentials to prevent unauthorized access.
 
 ---
 
-### 8.5. Architecture and Design Patterns
+### Architecture and Design Patterns
 - **Microservices Architecture:** The application is segmented into independent modules such as user management, question generation, and graphical interface.
 - **Scalability:** The modular structure enables system expansion without compromising performance.
 
 ---
 
-### 8.6. Development Strategies
+### Development Strategies
 - **Automated Testing:** Implementation of unit and integration tests to validate system functionality.
 - **Continuous Deployment:** Use of CI/CD pipelines to ensure active development and deployment processes.
 
 
 ---
 
-### 8.6. Development Strategies
+### Development Strategies
 - **Automated Testing:** Implementation of unit and integration tests to validate system functionality.
 - **Continuous Deployment:** Use of CI/CD pipelines to ensure active development and deployment processes.
 

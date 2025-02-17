@@ -1,9 +1,9 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-context-and-scope]]
-= Context and Scope
+== Context and Scope
 
-== Business Context
+=== Business Context
 
 [options="header",cols="^2,^3,^3"]
 |===
@@ -18,7 +18,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 | LLM (Large Language Model)| Receives relevant information about the question the user needs to answer. | Interacts or provides answers to the user in different ways, depending on the used wildcard.
 |===
 
-=== Communication Partners:
+==== Communication Partners:
 * *Users:* 
     ** The end-users interact with the system through the chatbot and other game features. They are provided feedback or hints within the game.
 * *Web Application:* 
@@ -34,7 +34,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 * *LLM (Large Language Model):* 
     ** A complex model that processes user queries and generates responses or hints, adapting based on the wildcards used in the game.
 
-== Technical Context
+=== Technical Context
 
 [options="header",cols="^2,^3"]
 |===
