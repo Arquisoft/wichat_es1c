@@ -115,10 +115,3 @@ image::08_entity_diagram-EN.svg["Domain Entity Diagram"]
 - **Automated Testing:** Implementation of unit and integration tests to validate system functionality.
 - **Continuous Deployment:** Use of CI/CD pipelines to ensure active development and deployment processes.
 
-
----
-
-### Development Strategies
-- **Automated Testing:** Implementation of unit and integration tests to validate system functionality.
-- **Continuous Deployment:** Use of CI/CD pipelines to ensure active development and deployment processes.
-
