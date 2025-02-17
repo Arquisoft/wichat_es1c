@@ -2,26 +2,11 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-technical-risks]]
 == Risks and Technical Debts
-
-
-ifdef::arc42help[]
-[role="arc42help"]
-****
-.Contents
-A list of identified technical risks or technical debts, ordered by priority
-
-.Motivation
-“Risk management is project management for grown-ups” (Tim Lister, Atlantic Systems Guild.) 
-
-This should be your motto for systematic detection and evaluation of risks and technical debts in the architecture, which will be needed by management stakeholders (e.g. project managers, product owners) as part of the overall risk analysis and measurement planning.
-
-.Form
-List of risks and/or technical debts, probably including suggested measures to minimize, mitigate or avoid risks or reduce technical debts.
-
-
-.Further Information
-
-See https://docs.arc42.org/section-11/[Risks and Technical Debt] in the arc42 documentation.
-
-****
-endif::arc42help[]
+Risks and problems may occur during project development.
+[options="header",cols="1,1,1,1"]
+|===
+| Type | Name | Description | Priority
+| Risk | Time | The time we have for the development of the project as we have limited time for the deliveries and we have more subjects to do while we are working on the project. | Medium
+| Risk | Github | Github is a version control tool in which if we do a bad management we could lose some functionality when it comes to manage the conflicts occurred. | Low
+| Technical Debt | React | React is a new technology for almost everyone in the group, so we should help each other to learn how to use it, as well as watch some tutorials to understand it better. | High
+|===

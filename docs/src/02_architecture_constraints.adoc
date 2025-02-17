@@ -3,27 +3,29 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-architecture-constraints]]
 == Architecture Constraints
 
+=== Technical constraints
+[options="header",cols="1,2"]
+|===
+|Name|Description
+|React| We are going to use React for the frontend development of the web application. 
+|Node.js Express| We are going to use the Node.js Express framework for the backend development of the application.
+|MongoDB| We are going to use the MongoDB database for user management.
+|LLM| We will use an LLM for hint generation based on an image that we will send.
+|Deployment| We will use docker for local deployment.
+|===
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-.Contents
-Any requirement that constraints software architects in their freedom of design and implementation decisions or decision about the development process. These constraints sometimes go beyond individual systems and are valid for whole organizations and companies.
+=== Organizational constraints
+[options="header",cols="1,2"]
+|===
+|Name|Description
+|Github| We will use github to host the project repository, from which each member will work on a branch for their implementations.
+|Class Meetings| For the meetings we will use the classrooms to meet and discuss the work to be done and the work we have done during the week. There is also a whatsapp group where we will communicate with each other in case we need to meet outside the classroom.
+|===
 
-.Motivation
-Architects should know exactly where they are free in their design decisions and where they must adhere to constraints.
-Constraints must always be dealt with; they may be negotiable, though.
+=== Convention Constraints
+[options="header",cols="1,2"]
+|===
+|Name|Description
+|Project documentation| We will use the Arc42 template for the documentation which will be written in English in its entirety.
+|===
 
-.Form
-Simple tables of constraints with explanations.
-If needed you can subdivide them into
-technical constraints, organizational and political constraints and
-conventions (e.g. programming or versioning guidelines, documentation or naming conventions)
-
-
-.Further Information
-
-See https://docs.arc42.org/section-2/[Architecture Constraints] in the arc42 documentation.
-
-****
-endif::arc42help[]
