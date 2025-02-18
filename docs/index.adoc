@@ -6,7 +6,7 @@
 // configure EN settings for asciidoc
 include::src/config.adoc[]
 
-= image:arc42-logo.png[arc42] wichat_es1c
+= image:arc42-Wichat1.png[arc42] wichat_es1c
 :revnumber: 8.2 EN
 :revdate: January 2023
 :revremark: (based upon AsciiDoc version)
