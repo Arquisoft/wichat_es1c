@@ -60,41 +60,22 @@ For multiple environments or alternative deployments please copy and adapt this 
 ****
 endif::arc42help[]
 
-_**<Overview Diagram>**_
+image::07_deployment_view-EN.svg[align="center"]
 
 Motivation::
 
-_<explanation in text form>_
+The diagram portrays an overview of the distrubution of each element in the infraestructure, offering details about relationships between devices and communications. Understanding this diagram will help with identifying potential points of failure in the future.
 
 Quality and/or Performance Features::
 
-_<explanation in text form>_
+This design has been made taking in consideration potential performance and availability issues. Accessing data from the Wikidata servers, as well as the LLM, will ensure that their failure won't be fatal to the entire app. On the other hand, hosting the database in the same server as the game will help in reducing response time when accessing the database.
 
 Mapping of Building Blocks to Infrastructure::
-_<description of the mapping>_
 
-
-=== Infrastructure Level 2
-
-ifdef::arc42help[]
-[role="arc42help"]
-****
-Here you can include the internal structure of (some) infrastructure elements from level 1.
-
-Please copy the structure from level 1 for each selected element.
-****
-endif::arc42help[]
-
-==== _<Infrastructure Element 1>_
-
-_<diagram + explanation>_
-
-==== _<Infrastructure Element 2>_
-
-_<diagram + explanation>_
-
-...
-
-==== _<Infrastructure Element n>_
-
-_<diagram + explanation>_
+[options="header",cols="1,2"]
+|===
+| Device/Node        | Deployed Artifacts
+| WIChat server      | Game app - Frontend (React), Backend (node.js), database (MongoDB)
+| Wikidata server    | Wikidata API to fetch data via SPARQL queries to dynamically generate questions
+| OpenLLM server     | Open LLM (AI) designed to give hints during the game
+|===

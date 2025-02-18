@@ -1,101 +1,94 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
-[[section-introduction-and-goals]]
 == Introduction and Goals
-
-ifdef::arc42help[]
-[role="arc42help"]
-****
-Describes the relevant requirements and the driving forces that software architects and development team must consider. 
-These include
-
-* underlying business goals, 
-* essential features, 
-* essential functional requirements, 
-* quality goals for the architecture and
-* relevant stakeholders and their expectations
-****
-endif::arc42help[]
 
 === Requirements Overview
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-.Contents
-Short description of the functional requirements, driving forces, extract (or abstract)
-of requirements. Link to (hopefully existing) requirements documents
-(with version number and information where to find it).
+WIChat is an enhanced version of last year's experimental game show app developed by HappySw for RTVE. The main improvement is the addition of a chatbot powered by a large language model (LLM), allowing contestants to interact and receive clues during the game. The app generates questions and images automatically using data from Wikidata, offering a diverse range of topics and visual content. It also features user registration, history tracking, and performance data, making the game more engaging and personalized. WIChat is a web-based platform designed to be scalable, flexible, and easily maintainable while providing an interactive, fun, and educational experience for users.
 
-.Motivation
-From the point of view of the end users a system is created or modified to
-improve support of a business activity and/or improve the quality.
+=== Essential Functional Requirements:
+* *User registration and authentication*: 
+  ** Users will be able to create accounts and log in to participate in the contest.
 
-.Form
-Short textual description, probably in tabular use-case format.
-If requirements documents exist this overview should refer to these documents.
+* *Question and answer game*:
+  ** Presentation of images to the contestants, who must guess the place or theme represented.
+  ** Inclusion of questions about the images in the chatbot.
+  ** Rewarding users for each correct answer.
 
-Keep these excerpts as short as possible. Balance readability of this document with potential redundancy w.r.t to requirements documents.
+* *Interactive clue functionality*:
+  ** Users will be able to request clues about the answers conversationally.
+  ** The clues will be generated using an external large language model (LLM).
+
+* *Automatic content generation*:
+  ** Images and clues will be automatically generated from data obtained from Wikidata.
+
+=== Driving Forces:
+* *Improvement of user interaction*: 
+  ** The inclusion of conversational clues aims to increase user interest and engagement.
+
+* *Content automation*: 
+  ** Automatically generating images and clues reduces manual work and helps keep the content updated and diverse.
+
+* *Alignment with modern technologies*: 
+  ** The integration of an LLM and the use of Wikidata position the app at the forefront of technology, which is key for RTVE as an innovative public media entity.
 
 
-.Further Information
 
-See https://docs.arc42.org/section-1/[Introduction and Goals] in the arc42 documentation.
+=== Motivation
 
-****
-endif::arc42help[]
+From the perspective of the end users, the WIChat system is created with the purpose of enhancing the user experience in the "Saber y Ganar" quiz. The modification of the system aims primarily to increase participant interaction by allowing them to obtain clues in a conversational manner through an external large language model (LLM). This enriches the gaming experience and makes it somewhat easier for users by receiving "assistance" from the chatbot.
+
+This system is designed to improve player support through the chatbot with clues, while the quality of the game is also enhanced by integrating advanced technology to automatically generate images and clues based on Wikidata. This ensures that the content is relevant, up-to-date, and non-repetitive, which guarantees a more enriching and engaging experience for users.
 
 === Quality Goals
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-.Contents
-The top three (max five) quality goals for the architecture whose fulfillment is of highest importance to the major stakeholders. 
-We really mean quality goals for the architecture. Don't confuse them with project goals.
-They are not necessarily identical.
-
-Consider this overview of potential topics (based upon the ISO 25010 standard):
-
-image::01_2_iso-25010-topics-EN.drawio.png["Categories of Quality Requirements"]
-
-.Motivation
-You should know the quality goals of your most important stakeholders, since they will influence fundamental architectural decisions. 
-Make sure to be very concrete about these qualities, avoid buzzwords.
-If you as an architect do not know how the quality of your work will be judged...
-
-.Form
-A table with quality goals and concrete scenarios, ordered by priorities
-****
-endif::arc42help[]
-
-=== Stakeholders
-
-ifdef::arc42help[]
-[role="arc42help"]
-****
-.Contents
-Explicit overview of stakeholders of the system, i.e. all person, roles or organizations that
-
-* should know the architecture
-* have to be convinced of the architecture
-* have to work with the architecture or with code
-* need the documentation of the architecture for their work
-* have to come up with decisions about the system or its development
-
-.Motivation
-You should know all parties involved in development of the system or affected by the system.
-Otherwise, you may get nasty surprises later in the development process.
-These stakeholders determine the extent and the level of detail of your work and its results.
-
-.Form
-Table with role names, person names, and their expectations with respect to the architecture and its documentation.
-****
-endif::arc42help[]
-
-[options="header",cols="1,2,2"]
+[options="header",cols="1,3"]
 |===
-|Role/Name|Contact|Expectations
-| _<Role-1>_ | _<Contact-1>_ | _<Expectation-1>_
-| _<Role-2>_ | _<Contact-2>_ | _<Expectation-2>_
+| *Quality Goal* | *Concrete Scenario*
+| High Availability | The system must be available 24/7 with minimal downtime.
+| Scalability | The architecture must support the addition of more servers without interrupting service, managing traffic spikes during peak times.
+| Security | The application must ensure the protection of user data, particularly during registration and access.
+| Performance | The response time for displaying a question and its options should be under 2 seconds.
+| Integration with Wikidata | Images and clues must be generated correctly from Wikidata data without errors.
+| Usability | The user interface must be intuitive, with clear instructions on how to participate and get clues.
+|===
+
+
+
+=== WIChat System Stakeholders
+
+1. *End Users:*
+* *Role:* Contestants of the quiz.
+* *Responsibility:* They should understand the basic architecture of the game to know how to interact with the questions and hints. They do not need to be aware of technical details.
+
+2. *Software developers:*
+* *Role:* Frontend and Backend developers.
+* *Responsibility:* They need to understand the architecture in detail to implement system functionalities, such as image generation and integration with the language model for the chatbot hints.
+
+3. *Software Architects:*
+* *Role:* Technical architects responsible for the system's infrastructure.
+* *Responsibility:* They must have a deep understanding of the architecture and make key decisions regarding the scalability, security, and modularity of the system.
+
+4. *Testers:*
+* *Role:* Responsible for ensuring the system’s quality.
+* *Responsibility:* They need to understand the architecture and work organization to ensure the game functions correctly, and the images and hints are generated properly.
+
+
+.Project stakeholders
+[options="header",cols="^1,^2,^2"]
+|===
+| Role/Name         | Contact                           | Expectations  
+| Software developers, architects and testers |  
+https://github.com/uo283794[Daniel Alberto Alonso Fernández] +  
+https://github.com/davidalvarezcabezas[David Álvarez Cabezas] +  
+https://github.com/alejandrofdzgarcia[Alejandro Fernández García] +  
+https://github.com/AggroTheShark[Emilio García Fernández] +  
+https://github.com/mario5garciap[Mario García Prieto]  
+| Collaborate effectively across all project stages, ensuring clean, maintainable code. Focus on scalability, performance, and integration with external systems. Conduct thorough testing and automation. Document and share design decisions and best practices.  
+| Client |  
+link:https://www.rtve.es/play/videos/saber-y-ganar/[Radio Televisión Española (RTVE)]  
+| Expects a stable and attractive web solution that increases user engagement and provides an entertaining and interactive gaming experience.  
+| Final Users |  
+People who are going to use the application.  
+| The final users are expected to interact with the system, provide input on usability, and report any issues or improvements related to user experience.  
 |===
