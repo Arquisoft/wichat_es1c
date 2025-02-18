@@ -77,7 +77,7 @@ endif::arc42help[]
 |===
 | Description | Quality Attribute | Scenario 
 | The application must protect sensitive data with encryption and two-factor authentication. | Security | A user logs in and must enter a code sent to their email to access their account. 
-| The application should work offline and sync data when a connection is available. | Adaptability | A user fills out a form offline and the data syncs automatically when online. 
+| The application should work offline and sync data when a Connection is available. | Adaptability | A user fills out a form offline and the data syncs automatically when online. 
 | The user interface must be accessible to visually impaired users, supporting screen readers. | Usability | A visually impaired user navigates the app with a screen reader. 
 | The application should have redundant servers ensuring 99% uptime. | Availability | A user tries to access the app during maintenance and can use a backup version. 
 |===
