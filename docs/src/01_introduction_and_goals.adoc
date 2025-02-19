@@ -88,7 +88,13 @@ https://github.com/mario5garciap[Mario García Prieto]
 | Client |  
 link:https://www.rtve.es/play/videos/saber-y-ganar/[Radio Televisión Española (RTVE)]  
 | Expects a stable and attractive web solution that increases user engagement and provides an entertaining and interactive gaming experience.  
-| Final Users |  
-People who are going to use the application.  
-| The final users are expected to interact with the system, provide input on usability, and report any issues or improvements related to user experience.  
+| ChattySW (Development Company) |  
+Internal development team at ChattySW  
+| Deliver a robust and interactive application that integrates AI-driven hints for the game. Ensure availability, performance, and security. Maintain clear communication with RTVE and align with project deadlines.  
+| System Administrator |  
+IT team responsible for system maintenance  
+| Ensure system uptime, security, and performance. Manage deployments, monitor server load, and provide technical support.  
+| Regular User (Player) |  
+People who register and play the game  
+| Engage with the game by answering image-based questions and using the conversational hint system. Provide feedback on usability and user experience.  
 |===
