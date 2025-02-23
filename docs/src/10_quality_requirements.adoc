@@ -75,9 +75,12 @@ endif::arc42help[]
 
 [cols="3*", options="header"]
 |===
-| Description | Quality Attribute | Scenario 
-| The application must protect sensitive data with encryption and two-factor authentication. | Security | A user logs in and must enter a code sent to their email to access their account. 
-| The application should work offline and sync data when a connection is available. | Adaptability | A user fills out a form offline and the data syncs automatically when online. 
-| The user interface must be accessible to visually impaired users, supporting screen readers. | Usability | A visually impaired user navigates the app with a screen reader. 
-| The application should have redundant servers ensuring 99% uptime. | Availability | A user tries to access the app during maintenance and can use a backup version. 
+| Description | Quality Attribute | Scenario
+| The system must be available 24/7 with minimal downtime. | High Availability | Users can access the system at any time without interruptions.
+| The architecture must support the addition of more servers without interrupting service. | Scalability | During peak hours, the system can distribute traffic across multiple servers without degrading performance.
+| The application must ensure the protection of user data, particularly during registration and access. | Security | User credentials and personal data are encrypted and securely stored to prevent unauthorized access.
+| The response time for displaying a question and its options should be under 2 seconds. | Performance | A contestant requests a new question, and the system presents it almost instantly.
+| Images and clues must be generated correctly from Wikidata data without errors. | Integration with Wikidata | The chatbot retrieves information from Wikidata and provides accurate hints without inconsistencies.
+| The user interface must be intuitive, with clear instructions on how to participate and get clues. | Usability | A new user can navigate the app without prior instructions and understand how to interact with the game.
 |===
+
