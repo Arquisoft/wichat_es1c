@@ -20,7 +20,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
       </Routes>
-      {/* Opcional: enlaces de navegación para cambiar entre Login y Registro */}
+      {}
       {window.location.pathname !== '/home' && (
         <Typography component="div" align="center" sx={{ mt: 2 }}>
           {window.location.pathname === '/' ? (
