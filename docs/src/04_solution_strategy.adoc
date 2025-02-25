@@ -1,6 +1,6 @@
 == Solution Strategy
 
-=== 4.1. Technology Decisions
+=== Technology Decisions
 For the implementation of **WIChat**, we have selected the following technologies based on their ease of development, scalability, and compatibility with the project requirements:
 
 - *Frontend:* React with TypeScript for an interactive and modular user interface.
@@ -10,7 +10,7 @@ For the implementation of **WIChat**, we have selected the following technologie
 - *Question Generation:* Use of queries to Wikidata via the backend to retrieve images and data.
 - *Deployment:* Netlify for frontend hosting and a cloud-based platform (such as Render or AWS) for the backend.
 
-=== 4.2. Top-Level System Decomposition
+=== Top-Level System Decomposition
 The system follows a *frontend + dedicated backend architecture*, where all business logic is handled by a Node.js backend instead of serverless functions.
 
 . *Presentation Layer (Frontend - React)*
@@ -26,19 +26,19 @@ The system follows a *frontend + dedicated backend architecture*, where all busi
 ** Stores information about users, generated questions, and game statistics.
 ** Optimized for flexible storage and efficient queries.
 
-=== 4.2.1. Architectural Patterns
+=== Architectural Patterns
 
 - *Monolithic Backend Architecture:* The backend is implemented as a single Node.js application managing all API requests.
 - *API Gateway:* The backend acts as a centralized API that receives requests from the frontend and processes the corresponding logic.
 - *Event-Driven Architecture:* MongoDB enables real-time updates through triggers and change streams.
 
-=== 4.2.2. Design Patterns
+=== Design Patterns
 
 - *Façade:* Centralizes calls to MongoDB Atlas and Wikidata within the backend API.
 - *Observer:* MongoDB allows real-time subscriptions to data changes.
 - *Lazy Loading:* Loads data progressively to optimize frontend performance.
 
-=== 4.3. Decisions for Achieving Quality Goals
+=== Decisions for Achieving Quality Goals
 To ensure system quality, the following strategic decisions have been made:
 
 [options="header"]
@@ -52,7 +52,7 @@ To ensure system quality, the following strategic decisions have been made:
 | *Mitigation of LLM Errors* | Use of specifically designed prompts to reduce incorrect responses and pre-filter generated hints.
 |===
 
-=== 4.4. Organizational Decisions
+=== Organizational Decisions
 
 [options="header"]
 |===
