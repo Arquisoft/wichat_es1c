@@ -1,6 +1,6 @@
 [
     {
-        "question": "De que país es esta bandera? *",
+        "question": "De que país es esta bandera?|*",
         "query": "SELECT ?countryLabel ?flag_img WHERE {  ?country wdt:P31 wd:Q6256.  ?country wdt:P41 ?flag_img.  SERVICE wikibase:label { bd:serviceParam wikibase:language \"es\". }}",
         "category": "Geografía"
 
