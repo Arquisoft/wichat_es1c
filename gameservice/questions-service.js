@@ -103,7 +103,7 @@ async function generateQuestion(results, template)
     {
         title: title,
         correctAnswer: correctAnswer.country,
-        allAnswers: answers.join(',')
+        allAnswers: answers.map(ans => ans.country).join(',')
     });
 
     await newQuestion.save();
