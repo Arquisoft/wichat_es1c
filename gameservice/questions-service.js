@@ -46,7 +46,7 @@ async function sendQuery(template) {
  * @param {int} count Number of random IDs to generate
  * @returns {Array} Array containing the random IDs
  */
-function randomIDs(length, count)
+function genRandomIDs(length, count)
 {
     let arr = Array.from({length: length}, (v, k) => k);
 
@@ -86,7 +86,7 @@ function shuffleArray(array)
 async function generateQuestion(results, template)
 {
     // Get 4 random answers - 1 correct and 3 incorrect
-    const randomIDs = randomIDs(results.length, NUMBER_OF_WRONG_ANSWERS + 1);
+    const randomIDs = genRandomIDs(results.length, NUMBER_OF_WRONG_ANSWERS + 1);
         const correctID = randomIDs[0];           // Correct answer ID
         const incorrectIDs = randomIDs.slice(1);  // Incorrect answers IDs
 
@@ -103,7 +103,7 @@ async function generateQuestion(results, template)
     {
         title: title,
         correctAnswer: correctAnswer.country,
-        allAnswers: answers
+        allAnswers: answers.join(',')
     });
 
     await newQuestion.save();
