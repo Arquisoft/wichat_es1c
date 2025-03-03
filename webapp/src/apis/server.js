@@ -5,18 +5,20 @@ const cors = require('cors');
 const { MongoClient, ObjectId } = require('mongodb');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const axios = require('axios'); // Se agrega axios para el chatbot
 
-// Importa los módulos de API; cada uno exporta una función que recibe las dependencias
+// Importa los módulos de API
 const loginRoutes = require('./login');
 const registerRoutes = require('./register');
 const homeRoutes = require('./home');
-const authenticateToken = require('./auth'); // Se inyecta en deps si se desea
+const chatbotRoutes = require('./chatbot'); // Nuevo
+
+const authenticateToken = require('./auth');
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-// Cadena de conexión a MongoDB Atlas (reemplaza con tus datos)
 const uri = 'mongodb+srv://fFFH8ALCgMl58vdLNovG:y122LzFpRq4LgpHfNRlJ@wichat.sz10z.mongodb.net/?retryWrites=true&w=majority&appName=wichat';
 
 async function connectDB() {
@@ -31,19 +33,12 @@ async function startServer() {
     const db = await connectDB();
     app.locals.db = db;
     
-    // Objeto de dependencias a inyectar en los módulos
-    const deps = {
-      jwt,
-      bcrypt,
-      express,
-      ObjectId,
-      authenticateToken
-    };
-    
-    // Monta los routers; cada uno usa la ruta base /api
+    const deps = { jwt, bcrypt, express, ObjectId, authenticateToken, axios };
+
     app.use('/api', loginRoutes(deps));
     app.use('/api', registerRoutes(deps));
     app.use('/api', homeRoutes(deps));
+    app.use('/api', chatbotRoutes(deps)); // Se añade el chatbot
     
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`));
