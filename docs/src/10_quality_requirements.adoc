@@ -76,11 +76,14 @@ endif::arc42help[]
 [cols="3*", options="header"]
 |===
 | Description | Quality Attribute | Scenario
-| The system must be available 24/7 with minimal downtime. | High Availability | Users can access the system at any time without interruptions.
-| The architecture must support the addition of more servers without interrupting service. | Scalability | During peak hours, the system can distribute traffic across multiple servers without degrading performance.
-| The application must ensure the protection of user data, particularly during registration and access. | Security | User credentials and personal data are encrypted and securely stored to prevent unauthorized access.
-| The response time for displaying a question and its options should be under 2 seconds. | Performance | A contestant requests a new question, and the system presents it almost instantly.
-| Images and clues must be generated correctly from Wikidata data without errors. | Integration with Wikidata | The chatbot retrieves information from Wikidata and provides accurate hints without inconsistencies.
-| The user interface must be intuitive, with clear instructions on how to participate and get clues. | Usability | A new user can navigate the app without prior instructions and understand how to interact with the game.
+| El sistema debe estar disponible 24/7 con un tiempo de inactividad mínimo. | Alta Disponibilidad | Los usuarios pueden acceder al sistema en cualquier momento sin interrupciones.
+| La arquitectura debe permitir la adición de más servidores sin interrumpir el servicio. | Escalabilidad | Durante las horas pico, el sistema distribuye el tráfico entre múltiples servidores sin degradar el rendimiento.
+| La aplicación debe garantizar la protección de los datos de los usuarios, especialmente durante el registro y acceso. | Seguridad | Las credenciales y datos personales de los usuarios están cifrados y almacenados de forma segura para evitar accesos no autorizados.
+| El tiempo de respuesta para mostrar una pregunta y sus opciones debe ser menor a 2 segundos. | Rendimiento | Un concursante solicita una nueva pregunta y el sistema la presenta casi instantáneamente.
+| Las preguntas deben generarse correctamente a partir de los datos de Wikidata sin errores. | Integración con Wikidata | El sistema extrae información de Wikidata para generar preguntas de manera precisa y sin inconsistencias.
+| El chatbot debe proporcionar pistas relevantes y coherentes basadas en la API de LLM. | Precisión de Pistas | Cuando un usuario solicita una pista, el chatbot la genera correctamente utilizando la API de LLM.
+| La interfaz de usuario debe ser intuitiva, con instrucciones claras sobre cómo participar y obtener pistas. | Usabilidad | Un nuevo usuario puede navegar en la aplicación sin instrucciones previas y entender cómo interactuar con el juego.
 |===
+
+
 
