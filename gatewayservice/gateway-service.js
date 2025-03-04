@@ -13,6 +13,7 @@ const port = 8000;
 const llmServiceUrl = process.env.LLM_SERVICE_URL || 'http://localhost:8003';
 const authServiceUrl = process.env.AUTH_SERVICE_URL || 'http://localhost:8002';
 const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
+const questionServiceUrl = process.env.QUESTION_SERVICE_URL || 'http://localhost:8010';
 
 app.use(cors());
 app.use(express.json());
@@ -55,6 +56,16 @@ app.post('/askllm', async (req, res) => {
     res.status(error.response.status).json({ error: error.response.data.error });
   }
 });
+
+app.get('/generate-question', async (req, res) =>{
+  try {
+    const questionGenerated = await axios.get(questionServiceUrl + '/add-test')
+    console.log('test')
+    res.json(questionGenerated.data)
+  } catch (error) {
+    res.status(error.response.status).json({ error: error.response.data.error });
+  }
+})
 
 // Read the OpenAPI YAML file synchronously
 openapiPath='./openapi.yaml'

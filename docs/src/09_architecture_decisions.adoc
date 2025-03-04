@@ -6,16 +6,8 @@ This section outlines the key architectural decisions made during the developmen
 === Key Architectural Decisions
 
 [options="header"]
-|===
-| *Decision* | *Rationale* | *Impact* | *Alternatives Considered*
-| Use of **Node.js with Express Backend** | Provides more control over business logic and authentication, supports complex operations | Requires dedicated hosting and server management but allows better scalability and flexibility | Serverless Functions (Netlify, AWS Lambda), FastAPI
-| **MongoDB Atlas as Database** | Flexible NoSQL solution, managed service, easy integration with backend | Requires proper indexing and connection pooling to optimize performance | Firebase Firestore, PostgreSQL
-| **JWT for Authentication** | Stateless authentication method, easy to integrate with Node.js | Token expiration must be managed properly, security risks if improperly implemented | OAuth2, Firebase Authentication
-| **React with TypeScript for Frontend** | Strong typing improves maintainability, React provides a modular and scalable UI | Slightly more initial setup compared to plain JavaScript | React with JavaScript, Vue.js
-| **Integration with Wikidata** | Enables automatic question generation using structured knowledge sources | Requires SPARQL queries, handling API rate limits | Custom dataset, Wikipedia API
-| **Deployment on Netlify (Frontend) and Render/AWS (Backend)** | Simplifies CI/CD for the frontend and provides scalable backend hosting | Backend requires manual configuration and maintenance | Vercel, Heroku
-| **Event-Driven Architecture using MongoDB Change Streams** | Allows real-time updates without polling, optimizing performance | Requires additional monitoring and handling of real-time events | Periodic polling from the frontend, WebSockets
-|===
+An up-to-date list of all architecture decisions taken can be found in this link:
+https://github.com/Arquisoft/wichat_es1c/wiki
 
 === Motivation
 The above decisions were made to ensure that **WIChat** is scalable, maintainable, and easy to deploy within the constraints of a university project. By selecting **a dedicated backend with Node.js and Express**, we gain better control over the application’s logic while ensuring flexibility in handling authentication, database interactions, and API management.

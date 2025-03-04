@@ -1,0 +1,31 @@
+[
+    {
+        "question": "De que país es esta bandera?|*",
+        "query": "SELECT ?countryLabel ?flag_img WHERE {  ?country wdt:P31 wd:Q6256.  ?country wdt:P41 ?flag_img.  SERVICE wikibase:label { bd:serviceParam wikibase:language \"es\". }}",
+        "category": "Geografía"
+    },
+
+    {
+        "question": "¿De quién es esta pintura?|*",
+        "query": "SELECT ?artistLabel ?painting_img WHERE { ?painting wdt:P31 wd:Q3305213; wdt:P170 ?artist; wdt:P18 ?painting_img. SERVICE wikibase:label { bd:serviceParam wikibase:language \"es\". }} LIMIT 50",
+        "category": "Arte"
+    },
+
+    {
+        "question": "¿De qué país es este platillo típico?|*",
+        "query": "SELECT ?countryLabel ?dish_img WHERE { ?dish wdt:P31 wd:Q2095. ?dish wdt:P495 ?country. ?dish wdt:P18 ?dish_img. SERVICE wikibase:label { bd:serviceParam wikibase:language \"es\". }} LIMIT 50",
+        "category": "Gastronomía"
+    },
+
+    {
+        "question": "¿Quién es este científico famoso?|*",
+        "query": "SELECT ?scientistLabel ?image WHERE { ?scientist wdt:P31 wd:Q5. ?scientist wdt:P106 wd:Q901. ?scientist wdt:P18 ?image. SERVICE wikibase:label { bd:serviceParam wikibase:language \"es\". }} LIMIT 4",
+        "category": "Ciencia"
+    },
+    
+    {
+        "question": "¿De qué ciudad es esta imagen?|*",
+        "query": "SELECT ?cityLabel ?image WHERE { ?city wdt:P31 wd:Q515. ?city wdt:P18 ?image. SERVICE wikibase:label { bd:serviceParam wikibase:language \"es\". }} LIMIT 4",
+        "category": "Geografía"
+    }
+]
