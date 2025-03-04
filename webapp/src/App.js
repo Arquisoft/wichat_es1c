@@ -1,36 +1,41 @@
-import React, { useState } from 'react';
-import AddUser from './components/AddUser';
+// src/App.js
+import React from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
 import Login from './components/Login';
+import Register from './components/Register';
+import Home from './components/Home';
+import Game from './components/Game'
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
 
 function App() {
-  const [showLogin, setShowLogin] = useState(true);
-
-  const handleToggleView = () => {
-    setShowLogin(!showLogin);
-  };
-
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <Typography component="h1" variant="h5" align="center" sx={{ marginTop: 2 }}>
+      <Typography component="h1" variant="h5" align="center" sx={{ mt: 2 }}>
         Welcome to the 2025 edition of the Software Architecture course
       </Typography>
-      {showLogin ? <Login /> : <AddUser />}
-      <Typography component="div" align="center" sx={{ marginTop: 2 }}>
-        {showLogin ? (
-          <Link name="gotoregister" component="button" variant="body2" onClick={handleToggleView}>
-            Don't have an account? Register here.
-          </Link>
-        ) : (
-          <Link component="button" variant="body2" onClick={handleToggleView}>
-            Already have an account? Login here.
-          </Link>
-        )}
-      </Typography>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/game" element={<Game />} />
+      </Routes>
+      {}
+      {window.location.pathname !== '/home' && (
+        <Typography component="div" align="center" sx={{ mt: 2 }}>
+          {window.location.pathname === '/' ? (
+            <Link to="/register" variant="body2" component="button">
+              Don't have an account? Register here.
+            </Link>
+          ) : (
+            <Link to="/" variant="body2" component="button">
+              Already have an account? Login here.
+            </Link>
+          )}
+        </Typography>
+      )}
     </Container>
   );
 }
