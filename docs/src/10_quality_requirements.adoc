@@ -75,9 +75,15 @@ endif::arc42help[]
 
 [cols="3*", options="header"]
 |===
-| Description | Quality Attribute | Scenario 
-| The application must protect sensitive data with encryption and two-factor authentication. | Security | A user logs in and must enter a code sent to their email to access their account. 
-| The application should work offline and sync data when a connection is available. | Adaptability | A user fills out a form offline and the data syncs automatically when online. 
-| The user interface must be accessible to visually impaired users, supporting screen readers. | Usability | A visually impaired user navigates the app with a screen reader. 
-| The application should have redundant servers ensuring 99% uptime. | Availability | A user tries to access the app during maintenance and can use a backup version. 
+| Description | Quality Attribute | Scenario
+| El sistema debe estar disponible 24/7 con un tiempo de inactividad mínimo. | Alta Disponibilidad | Los usuarios pueden acceder al sistema en cualquier momento sin interrupciones.
+| La arquitectura debe permitir la adición de más servidores sin interrumpir el servicio. | Escalabilidad | Durante las horas pico, el sistema distribuye el tráfico entre múltiples servidores sin degradar el rendimiento.
+| La aplicación debe garantizar la protección de los datos de los usuarios, especialmente durante el registro y acceso. | Seguridad | Las credenciales y datos personales de los usuarios están cifrados y almacenados de forma segura para evitar accesos no autorizados.
+| El tiempo de respuesta para mostrar una pregunta y sus opciones debe ser menor a 2 segundos. | Rendimiento | Un concursante solicita una nueva pregunta y el sistema la presenta casi instantáneamente.
+| Las preguntas deben generarse correctamente a partir de los datos de Wikidata sin errores. | Integración con Wikidata | El sistema extrae información de Wikidata para generar preguntas de manera precisa y sin inconsistencias.
+| El chatbot debe proporcionar pistas relevantes y coherentes basadas en la API de LLM. | Precisión de Pistas | Cuando un usuario solicita una pista, el chatbot la genera correctamente utilizando la API de LLM.
+| La interfaz de usuario debe ser intuitiva, con instrucciones claras sobre cómo participar y obtener pistas. | Usabilidad | Un nuevo usuario puede navegar en la aplicación sin instrucciones previas y entender cómo interactuar con el juego.
 |===
+
+
+
