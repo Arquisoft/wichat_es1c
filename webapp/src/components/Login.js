@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import '../Login.css';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -18,7 +19,6 @@ const Login = () => {
         { email, password },
         { withCredentials: true }
       );
-      // Guarda el token (por ejemplo, en localStorage) y redirige a /home
       const { token } = response.data;
       localStorage.setItem('token', token);
       navigate('/home');
@@ -35,7 +35,8 @@ const Login = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs" sx={{ mt: 4 }}>
+    <Container component="main" maxWidth="xs" className="login-container">
+      <img src="/LogoWichat.png" alt="Logo Wichat" className="login-logo" /> {/* Imagen añadida */}
       <Typography variant="h5" align="center">
         Login
       </Typography>
@@ -55,7 +56,7 @@ const Login = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }} onClick={loginUser}>
+      <Button variant="contained" color="primary" fullWidth className="login-button" onClick={loginUser}>
         Login
       </Button>
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={error} />
