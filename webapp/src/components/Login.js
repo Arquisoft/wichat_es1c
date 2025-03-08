@@ -1,25 +1,26 @@
-// src/components/Login.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
+axios.defaults.withCredentials = true; // Habilita cookies con credenciales
+
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail]       = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError]       = useState('');
+  const [error, setError] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const loginUser = async () => {
     try {
-      const response = await axios.post(
-        '/api/login',
-        { email, password },
-        { withCredentials: true }
-      );
-      // Guarda el token (por ejemplo, en localStorage) y redirige a /home
+      const response = await axios.post('/api/login', { email, password });
       const { token } = response.data;
+
+      if (!token) {
+        throw new Error("No se recibió token");
+      }
+
       localStorage.setItem('token', token);
       navigate('/home');
     } catch (err) {
