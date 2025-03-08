@@ -3,10 +3,10 @@ name: SonarCloud Analysis
 on:
   push:
     branches:
-      - Dani
+      - main    
   pull_request:
     branches:
-      - Dani
+      - main
 
 jobs:
   sonarcloud:
