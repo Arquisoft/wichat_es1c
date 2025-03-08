@@ -1,10 +1,10 @@
 // src/App.js
 import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-import Login from './components/Login';
-import Register from './components/Register';
-import Home from './components/Home';
-import Game from './components/Game';
+import Login from './components/Login.js';
+import Register from './components/Register.js';
+import Home from './components/Home.js';
+import Game from './components/Game.js'
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
