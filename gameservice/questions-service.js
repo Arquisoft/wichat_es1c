@@ -10,6 +10,7 @@ const data = require("./data/questions-templates.json")
 const app = express()
 const port = 8010
 
+const NUMBER_OF_QUESTIONS = 10
 const NUMBER_OF_WRONG_ANSWERS = 3
 
 app.use(express.json())
@@ -171,6 +172,36 @@ async function generateQuestion(results, template)
 
     await newQuestion.save();
     return newQuestion;
+}
+
+/**
+ * Generate the full list of questions to be displayed in a game.
+ * @returns {Array} List of generated questions
+ */
+async function generateQuestions()
+{
+    const questions = [];
+
+    for ( let i = 0; i < NUMBER_OF_QUESTIONS; i++ )
+    {
+        // Get a random template - Can paremeterize this for game modes
+        const template = await getTemplate(i);
+
+        // Send query and generate question
+        const data = await sendQuery(template);
+        const results = data.data.results.bindings.map(binding => {
+            return {
+                country: binding.countryLabel.value,
+                flag: binding.flag_img.value
+            }
+        });
+        const newQuestion = await generateQuestion(results, template);
+
+        // Add question to the result list
+        questions.push(newQuestion);
+    }
+
+    return questions;
 }
 
 // ----------------------------------------------------------------------------
