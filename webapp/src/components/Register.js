@@ -70,10 +70,7 @@ const Register = () => {
         </Button>
         <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={error} />
       </Container>
-
-      <Typography variant="body2" align="center" className="register-text">
-        Already have an account? <a href="/login" className="register-link">Login here</a>.
-      </Typography>
+      
     </div>
   );
 };
