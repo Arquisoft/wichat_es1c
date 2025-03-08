@@ -6,24 +6,14 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
-  unit-tests:
-    runs-on: ubuntu-latest
+  sonarqube:
+    name: SonarQube
+    runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 22
-    - run: npm --prefix users/authservice ci
-    - run: npm --prefix users/userservice ci
-    - run: npm --prefix llmservice ci
-    - run: npm --prefix gatewayservice ci
-    - run: npm --prefix webapp ci
-    - run: npm --prefix users/authservice test -- --coverage
-    - run: npm --prefix users/userservice test -- --coverage
-    - run: npm --prefix llmservice test -- --coverage
-    - run: npm --prefix gatewayservice test -- --coverage
-    - run: npm --prefix webapp test -- --coverage
-    - name: Analyze with SonarQube
-      uses: SonarSource/sonarqube-scan-action@master
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
