@@ -16,7 +16,9 @@ const Game = () => {
     }, []);
 
     const generateQuestions = async (setQuestions) => {
-        axios.get(endpoint + '/generateQuestions')
+        axios.get(endpoint + '/api/generate-questions', {
+            withCredentials: true  // 🔥 Importante para enviar cookies o credenciales
+        })
             .then((response) => {
                 const formattedQuestions = response.data.map(data => {
                     const [title, imageUrl] = data.title.split("|");
