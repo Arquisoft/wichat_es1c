@@ -1,7 +1,6 @@
-// src/components/Register.js
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
+import { Container, Typography, TextField, Button, Snackbar, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import '../Login.css';
 
@@ -12,6 +11,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [userExists, setUserExists] = useState(false); // Estado para detectar si el usuario ya está registrado
 
   const registerUser = async () => {
     try {
@@ -27,6 +27,10 @@ const Register = () => {
       const errorMessage = err.response?.data?.message || 'Error al registrarse';
       setError(errorMessage);
       setOpenSnackbar(true);
+
+      if (err.response?.status === 409) {
+        setUserExists(true); // Si el usuario ya existe, activamos el estado
+      }
     }
   };
 
@@ -36,45 +40,49 @@ const Register = () => {
   };
 
   return (
-    <div className="page-container">
-      <Container component="main" maxWidth="xs" className="login-container">
-        <img src="/LogoWichat.png" alt="Logo Wichat" className="login-logo" />
-        <Typography variant="h5" align="center">
-          Registro
-        </Typography>
-        <TextField
-          margin="normal"
-          fullWidth
-          label="Nombre"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <TextField
-          margin="normal"
-          fullWidth
-          label="Email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <TextField
-          margin="normal"
-          fullWidth
-          label="Contraseña"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button variant="contained" color="primary" fullWidth className="login-button" sx={{ mt: 2 }} onClick={registerUser}>
-          Registrarse
-        </Button>
-        <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={error} />
-      </Container>
-
-      <Typography variant="body2" align="center" className="register-text">
-        Already have an account? <a href="/login" className="register-link">Login here</a>.
+    <Container component="main" maxWidth="xs" sx={{ mt: 4 }}>
+      <Typography variant="h5" align="center">
+        Registro
       </Typography>
-    </div>
+      <TextField
+        margin="normal"
+        fullWidth
+        label="Nombre"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <TextField
+        margin="normal"
+        fullWidth
+        label="Email"
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <TextField
+        margin="normal"
+        fullWidth
+        label="Contraseña"
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }} onClick={registerUser}>
+        Registrarse
+      </Button>
+
+      {/* Mostrar solo el enlace a Login si el usuario ya está registrado */}
+      {userExists && (
+        <Typography align="center" sx={{ mt: 2 }}>
+          Ya tienes una cuenta?{' '}
+          <Link href="/" variant="body2">
+            Inicia sesión aquí.
+          </Link>
+        </Typography>
+      )}
+
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={error} />
+    </Container>
   );
 };
 
