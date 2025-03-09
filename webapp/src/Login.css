@@ -1,0 +1,91 @@
+/* Fondo de la página con imagen */
+body {
+    background: url('../public/FondoWichat.png') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+.login-container {
+    background: rgba(255, 255, 255, 0.85); 
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.login-logo {
+    display: block;
+    margin: 0 auto 15px;
+    max-width: 120px;
+    height: auto;
+}
+
+.login-title {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.MuiTextField-root {
+    border-radius: 8px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    transition: all 0.3s ease-in-out;
+}
+
+.MuiTextField-root:focus-within {
+    border-color: #007BFF;
+    box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.3);
+}
+
+.login-button {
+    margin-top: 20px !important;
+    font-size: 16px !important;
+    padding: 12px !important;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: #007BFF !important;
+    color: white !important;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+    border: none;
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background-color: #0056b3 !important;
+    transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .login-title {
+        font-size: 22px;
+    }
+}
+
+

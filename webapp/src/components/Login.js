@@ -1,25 +1,27 @@
-// src/components/Login.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import '../Login.css';
+
+axios.defaults.withCredentials = true; // Habilita cookies con credenciales
 
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail]       = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError]       = useState('');
+  const [error, setError] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const loginUser = async () => {
     try {
-      const response = await axios.post(
-        '/api/login',
-        { email, password },
-        { withCredentials: true }
-      );
-      // Guarda el token (por ejemplo, en localStorage) y redirige a /home
+      const response = await axios.post('/api/login', { email, password });
       const { token } = response.data;
+
+      if (!token) {
+        throw new Error("No se recibió token");
+      }
+
       localStorage.setItem('token', token);
       navigate('/home');
     } catch (err) {
@@ -35,7 +37,8 @@ const Login = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs" sx={{ mt: 4 }}>
+    <Container component="main" maxWidth="xs" className="login-container">
+      <img src="/LogoWichat.png" alt="Logo Wichat" className="login-logo" /> {/* Imagen añadida */}
       <Typography variant="h5" align="center">
         Login
       </Typography>
@@ -55,7 +58,7 @@ const Login = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }} onClick={loginUser}>
+      <Button variant="contained" color="primary" fullWidth className="login-button" onClick={loginUser}>
         Login
       </Button>
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={error} />

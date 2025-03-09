@@ -3,13 +3,14 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import '../Login.css';
 
 const Register = () => {
   const navigate = useNavigate();
-  const [name, setName]         = useState('');
-  const [email, setEmail]       = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError]       = useState('');
+  const [error, setError] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const registerUser = async () => {
@@ -35,38 +36,42 @@ const Register = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs" sx={{ mt: 4 }}>
-      <Typography variant="h5" align="center">
-        Registro
-      </Typography>
-      <TextField
-        margin="normal"
-        fullWidth
-        label="Nombre"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <TextField
-        margin="normal"
-        fullWidth
-        label="Email"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <TextField
-        margin="normal"
-        fullWidth
-        label="Contraseña"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }} onClick={registerUser}>
-        Registrarse
-      </Button>
-      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={error} />
-    </Container>
+    <div className="page-container">
+      <Container component="main" maxWidth="xs" className="login-container">
+        <img src="/LogoWichat.png" alt="Logo Wichat" className="login-logo" />
+        <Typography variant="h5" align="center">
+          Registro
+        </Typography>
+        <TextField
+          margin="normal"
+          fullWidth
+          label="Nombre"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <TextField
+          margin="normal"
+          fullWidth
+          label="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField
+          margin="normal"
+          fullWidth
+          label="Contraseña"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Button variant="contained" color="primary" fullWidth className="login-button" sx={{ mt: 2 }} onClick={registerUser}>
+          Registrarse
+        </Button>
+        <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={error} />
+      </Container>
+      
+    </div>
   );
 };
 

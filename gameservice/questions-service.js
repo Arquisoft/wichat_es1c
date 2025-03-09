@@ -10,7 +10,6 @@ const data = require("./data/questions-templates.json")
 const app = express()
 const port = 8010
 
-const NUMBER_OF_QUESTIONS = 10
 const NUMBER_OF_WRONG_ANSWERS = 3
 
 app.use(express.json())
@@ -22,72 +21,9 @@ mongoose.connect(mongoUri)
     .then(() => {return Template.deleteMany({})})
     .then(() => {return Template.insertMany(data)});
 
-// ----------------------------------------------------------------------------
-
-/**
- * Select a template based on given parameters:
- * - No parameter: Random template
- * - Integer parameter: Template by index
- * - String parameter: Template by category
- * @param {int|string} param - Optional parameter:
- *  - int : Index of the template to retrieve
- *  - string : Template category to filter
- * @returns {JSON} Found template
- * @throws {TypeError} If the parameter is not an integer or a string
- */
-async function getTemplate(param)
-{
-    // No param -> Random template
-    if (param === undefined)
-        return await getRandomTemplate();
-
-    // Param:int -> Template by index
-    if (Number.isInteger(param))
-        return await getTemplateByIndex(param);
-
-    // Param:string -> Template by category
-    if (typeof param === 'string')
-        return await getTemplateByCategory(param);
-
-    // No match -> Throw error
-    throw new TypeError("Invalid parameter type. Expected int or string.");
-}
-
-/**
- * Select a random template from the entire collection of templates.
- * @returns {JSON} A random template from the database
- */
-async function getRandomTemplate()
-{
+async function getTemplate(){
     const template = await Template.aggregate([{ $sample: { size: 1 } }]);
     return template[0];
-}
-
-/**
- * Select a specific template from the collection of templates, given its index
- * inside the `questions-templates.json` file.
- * @param {int} index Index of the template to retrieve
- * @returns {JSON} Template at the given index, null if index out of bounds
- */
-async function getTemplateByIndex(index)
-{
-    const template = await Template.findOne().skip(index).exec();
-    return template || null;
-}
-
-/**
- * Select a random template from the collection of templates, given a specific
- * category to filter.
- * @param {string} category Question category to filter
- * @returns {JSON} A random template from the database, null if no match
- */
-async function getTemplateByCategory(category)
-{
-    const template = await Template.aggregate([
-        { $match: { category: category } },
-        { $sample: { size: 1 } }
-    ]);
-    return template[0] || null;
 }
 
 async function sendQuery(template) {
@@ -174,38 +110,6 @@ async function generateQuestion(results, template)
     return newQuestion;
 }
 
-/**
- * Generate the full list of questions to be displayed in a game.
- * @returns {Array} List of generated questions
- */
-async function generateQuestions()
-{
-    const questions = [];
-
-    for ( let i = 0; i < NUMBER_OF_QUESTIONS; i++ )
-    {
-        // Get a random template - Can paremeterize this for game modes
-        const template = await getTemplate(0);
-
-        // Send query and generate question
-        const data = await sendQuery(template);
-        const results = data.data.results.bindings.map(binding => {
-            return {
-                country: binding.pLabel.value,
-                flag: binding.img.value
-            }
-        });
-        const newQuestion = await generateQuestion(results, template);
-
-        // Add question to the result list
-        questions.push(newQuestion);
-    }
-
-    return questions;
-}
-
-// ----------------------------------------------------------------------------
-
 // Test if service is active
 app.get('/test', (req, res) => {
     res.json({ status: 'OK' });
@@ -213,7 +117,7 @@ app.get('/test', (req, res) => {
 
 
 app.get('/add-test', async (req, res) =>{
-    const template = await getTemplate(0);
+    const template = await getTemplate();
     const data = await sendQuery(template)
     const results = data.data.results.bindings.map(binding => {
         return {
@@ -223,11 +127,6 @@ app.get('/add-test', async (req, res) =>{
     })
     const newQuestion = await generateQuestion(results, template)
     res.json(newQuestion)
-});
-
-app.get('/generateQuestions', async (req, res) => {
-    const questions = await generateQuestions()
-    res.json(questions)
 });
 
 const server = app.listen(port, () => {
