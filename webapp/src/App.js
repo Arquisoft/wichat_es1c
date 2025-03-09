@@ -1,18 +1,31 @@
-// src/App.js
-import React from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import Login from './components/Login.js';
 import Register from './components/Register.js';
 import Home from './components/Home.js';
-import Game from './components/Game.js'
+import Game from './components/Game.js';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { useLocation } from 'react-router-dom';
-
 
 function App() {
-  const location = useLocation(); // Obtiene la ruta actual de React Router
+  const location = useLocation();  
+
+  useEffect(() => {
+    const currentPath = location.pathname;
+
+    if (currentPath === '/') {
+      document.body.style.backgroundImage = 'url(/FondoWichat.png)';
+    } else if (currentPath === '/register') {
+      document.body.style.backgroundImage = 'url(/FondoWichat_2.png)';
+    } 
+    else if (currentPath === '/home') {
+      document.body.style.backgroundImage = 'url(/FondoWichat_4.png)';
+    } 
+    else {
+      document.body.style.backgroundImage = 'url(/FondoWichat_3.png)';  
+    }
+  }, [location]); 
 
   return (
     <Container component="main" maxWidth="lg">
