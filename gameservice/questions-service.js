@@ -185,14 +185,14 @@ async function generateQuestions()
     for ( let i = 0; i < NUMBER_OF_QUESTIONS; i++ )
     {
         // Get a random template - Can paremeterize this for game modes
-        const template = await getTemplate(i);
+        const template = await getTemplate(0);
 
         // Send query and generate question
         const data = await sendQuery(template);
         const results = data.data.results.bindings.map(binding => {
             return {
-                country: binding.countryLabel.value,
-                flag: binding.flag_img.value
+                country: binding.pLabel.value,
+                flag: binding.img.value
             }
         });
         const newQuestion = await generateQuestion(results, template);
@@ -223,6 +223,11 @@ app.get('/add-test', async (req, res) =>{
     })
     const newQuestion = await generateQuestion(results, template)
     res.json(newQuestion)
+});
+
+app.get('/generateQuestions', async (req, res) => {
+    const questions = await generateQuestions()
+    res.json(questions)
 });
 
 const server = app.listen(port, () => {

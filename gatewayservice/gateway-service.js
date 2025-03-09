@@ -67,6 +67,16 @@ app.get('/generate-question', async (req, res) =>{
   }
 })
 
+app.get('/generateQuestions', async (req, res) =>{
+  try {
+    const questionGenerated = await axios.get(questionServiceUrl + '/generateQuestions')
+    console.log('test')
+    res.json(questionGenerated.data)
+  } catch (error) {
+    res.status(error.response.status).json({ error: error.response.data.error });
+  }
+})
+
 // Read the OpenAPI YAML file synchronously
 openapiPath='./openapi.yaml'
 if (fs.existsSync(openapiPath)) {
