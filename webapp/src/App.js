@@ -42,7 +42,7 @@ function App() {
         <Route path="/game" element={<Game />} />
       </Routes>
 
-      {location.pathname !== '/home' && (
+      {location.pathname !== '/home' && location.pathname !== '/game' && (
         <Typography component="div" align="center" sx={{ mt: 2 }}>
           {location.pathname === '/' ? (
             <Link to="/register" variant="body2" component="button" style={{ color: 'white' }}>
