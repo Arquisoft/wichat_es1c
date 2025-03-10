@@ -15,7 +15,10 @@ const authServiceUrl = process.env.AUTH_SERVICE_URL || 'http://localhost:8002';
 const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
 const gameServiceUrl = process.env.GAME_SERVICE_URL || 'http://localhost:8010';
 
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true 
+  }));
 app.use(express.json());
 
 const metricsMiddleware = promBundle({ includeMethod: true });
@@ -79,6 +82,19 @@ app.get('/api/generate-question', async (req, res) => {
     res.json(questionGenerated.data);
   } catch (error) {
     console.error("❌ Error en /api/generate-question:", error.response?.data || error.message);
+    res.status(error.response?.status || 500).json({
+      error: error.response?.data?.message || 'Error al generar pregunta'
+    });
+  }
+});
+
+// 🔹 **Generación de preguntas - Redirige a GameService**
+app.get('/api/generate-questions', async (req, res) => {
+  try {
+    const questionGenerated = await axios.get(`${gameServiceUrl}/generateQuestions`);
+    res.json(questionGenerated.data);
+  } catch (error) {
+    console.error("❌ Error en /api/generate-questions:", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({
       error: error.response?.data?.message || 'Error al generar pregunta'
     });
