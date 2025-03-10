@@ -18,7 +18,16 @@ const Game = () => {
     const navigate = useNavigate(); // Usamos useNavigate para la navegación
 
     useEffect(() => {
-        generateQuestions(setQuestions);
+        // Cargar preguntas desde localStorage o hacer solicitud si no están disponibles
+        const storedQuestions = localStorage.getItem("questions");
+        if (storedQuestions) {
+            setQuestions(JSON.parse(storedQuestions));
+        } else {
+            generateQuestions((newQuestions) => {
+                setQuestions(newQuestions);
+                localStorage.setItem("questions", JSON.stringify(newQuestions)); // Guardar en localStorage
+            });
+        }
     }, []);
 
     const generateQuestions = async (setQuestions) => {
@@ -41,6 +50,14 @@ const Game = () => {
             .catch((error) => console.error("Error al obtener preguntas", error));
     };
 
+    useEffect(() => {
+        // Precargar la imagen de la siguiente pregunta (si existe)
+        if (questions.length > currentQuestionIndex + 1) {
+            const img = new Image();
+            img.src = questions[currentQuestionIndex + 1].image;
+        }
+    }, [currentQuestionIndex, questions]);
+
     if (questions.length === 0) {
         return <Typography variant="h6" style={{ textAlign: "center", marginTop: "20px" }}>Cargando preguntas...</Typography>;
     }
@@ -61,19 +78,22 @@ const Game = () => {
             setCorrectAnswer(question.correctAnswer); // Y mostramos la respuesta correcta
         }
 
-        // Esperamos 3 segundos antes de pasar a la siguiente pregunta
+        // Precargamos la siguiente pregunta antes de pasar a ella
+        if (questions.length > currentQuestionIndex + 1) {
+            const nextQuestion = questions[currentQuestionIndex + 1];
+            const img = new Image();
+            img.src = nextQuestion.image; // Precargamos la imagen de la siguiente pregunta
+        }
+
+        // Cambiar la pregunta después de 3 segundos, durante los cuales precargamos la siguiente pregunta
         setTimeout(() => {
             setSelected('');
             setResult('');
             setCorrectAnswerAnimation(false); // Desactivamos la animación
             setIncorrectAnswer(''); // Limpiamos la respuesta incorrecta
             setCorrectAnswer(''); // Limpiamos la respuesta correcta
-            if (currentQuestionIndex < questions.length - 1) {
-                setCurrentQuestionIndex(currentQuestionIndex + 1);
-            } else {
-                alert(`Juego terminado. Puntuación final: ${score + (isCorrect ? 1 : 0)}/10`);
-            }
-        }, 3000); // 3 segundos de espera
+            setCurrentQuestionIndex(prevIndex => prevIndex + 1); // Avanzamos a la siguiente pregunta
+        }, 3000); // Tiempo de espera de 3 segundos
     };
 
     const handleGoHome = () => {
@@ -83,7 +103,12 @@ const Game = () => {
     return (
         <Container maxWidth="xs" style={{ marginTop: "20px", textAlign: "center" }}>
             <Typography variant="h5" style={{ marginBottom: "10px" }}>{question.title}</Typography>
-            <img src={question.image} alt={question.title} style={{ width: "100%", height: "200px" }} />
+            <img
+                src={question.image}
+                srcSet={`${question.image}?w=300 300w, ${question.image}?w=600 600w`} // Usamos srcSet para imágenes optimizadas
+                alt={question.title}
+                style={{ width: "100%", height: "200px" }}
+            />
             <Typography variant="h6" style={{ marginTop: "10px" }}>Selecciona la respuesta correcta:</Typography>
             <Grid container spacing={2} justifyContent="center" style={{ marginTop: "10px" }}>
                 {question.options.map((option, index) => (
@@ -93,7 +118,7 @@ const Game = () => {
                             fullWidth
                             color={selected === option ? "secondary" : "primary"}
                             style={{
-                                backgroundColor: 
+                                backgroundColor:
                                     option === correctAnswer ? '#4caf50' : // Verde para la correcta
                                     option === incorrectAnswer ? '#f44336' : // Rojo para la incorrecta
                                     '', // Sin color si no ha sido seleccionada
@@ -106,10 +131,10 @@ const Game = () => {
                 ))}
             </Grid>
             {result && (
-                <Typography 
-                    variant="h6" 
+                <Typography
+                    variant="h6"
                     style={{
-                        marginTop: "15px", 
+                        marginTop: "15px",
                         animation: correctAnswerAnimation ? "correctAnswerAnim 0.5s ease" : "none", // Aplicamos la animación al resultado
                         fontWeight: "bold",
                         color: correctAnswerAnimation ? "#4caf50" : "black" // Cambiamos el color si la respuesta es correcta
