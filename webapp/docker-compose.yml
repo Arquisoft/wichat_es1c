@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"   # Frontend (React)
+      - "8000:8000"   # API Gateway
+      - "8001:8001"   # User Service
+      - "8002:8002"   # Auth Service
+      - "8003:8003"   # LLM Service
+      - "8010:8010"   # Game Service
+    environment:
+      - NODE_ENV=production
+    restart: always
