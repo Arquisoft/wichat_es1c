@@ -7,9 +7,9 @@ ifndef::imagesdir[:imagesdir: ../images]
 [options="header",cols="1,2"]
 |===
 |Name|Description
-|React| We are going to use React for the frontend development of the web application. 
-|Node.js Express| We are going to use the Node.js Express framework for the backend development of the application.
-|MongoDB| We are going to use the MongoDB database for user management.
+|FrontEnd| The system shall have at least one frontend for user interaction.
+|Question Generation| Questions should be generated automatically from wikidata.
+|User Management| The system shall have a user management system that allows for login, registration, andhistorical consultation.
 |LLM| We will use an LLM for hint generation based on an image that we will send.
 |Deployment| We will use docker for local deployment.
 |===
