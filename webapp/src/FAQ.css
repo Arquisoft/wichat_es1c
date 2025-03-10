@@ -1,0 +1,68 @@
+/* Estilos generales del contenedor */
+.faq-container {
+    background: rgba(255, 255, 255, 0.85); 
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Título principal */
+.faq-title {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Estilos de los acordeones */
+.faq-accordion {
+    margin-bottom: 10px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilo del resumen del acordeón (pregunta) */
+.faq-summary {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #1976d2;
+    transition: color 0.3s ease-in-out;
+}
+
+.faq-summary:hover {
+    color: #3b82f6;
+}
+
+/* Estilo del contenido del acordeón (respuesta) */
+.faq-details {
+    font-size: 1rem;
+    color: #555;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+/* Botón de volver a inicio */
+.faq-back-button {
+    margin-top: 20px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #1976d2;
+    color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-transform: none;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.faq-back-button:hover {
+    transform: scale(1.1);
+    background-color: #3b82f6;
+}

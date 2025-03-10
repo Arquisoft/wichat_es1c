@@ -6,7 +6,22 @@ import OptionsDropdown from './OptionsDropdown'; // Importamos el componente del
 const Home = () => {
   return (
     <Container component="main" maxWidth="md">
-      <Typography variant="h4" align="center" sx={{ mt: 4 }}>
+      <Typography
+                         component="h1"
+                         variant="h3"
+                         align="center"
+                         sx={{
+                           mt: 2,
+                           color: 'white',
+                           fontFamily: "'Poppins', sans-serif",
+                           fontWeight: '900',
+                           textTransform: 'uppercase',
+                           textShadow: '2px 2px 8px rgba(0, 0, 0, 0.5), -1px -1px 0 rgba(0, 0, 0, 0.7), 1px -1px 0 rgba(0, 0, 0, 0.7), -1px 1px 0 rgba(0, 0, 0, 0.7), 1px 1px 0 rgba(0, 0, 0, 0.7)',
+                           width: '100%',
+                           letterSpacing: '0.5px',
+                           wordBreak: 'break-word',
+                         }}
+                       >
         Bienvenido a WiChat_es1c
       </Typography>
 
