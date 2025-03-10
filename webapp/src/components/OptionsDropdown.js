@@ -11,6 +11,11 @@ const OptionsDropdown = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Elimina el token almacenado en el navegador
+    navigate('/'); // Redirige al usuario a la pantalla de login
+  };
+
   return (
     <>
       {/* Botón flotante para abrir/cerrar el menú */}
@@ -30,7 +35,7 @@ const OptionsDropdown = () => {
         <MenuIcon />
       </IconButton>
 
-      {/* Menú desplegable con animación */}
+      {/* Menú desplegable */}
       {isOpen && (
         <Paper
           elevation={5}
@@ -51,7 +56,6 @@ const OptionsDropdown = () => {
             opacity: 1,
           }}
         >
-          {/* Título del menú */}
           <Typography
             variant="h6"
             align="center"
@@ -99,21 +103,22 @@ const OptionsDropdown = () => {
             >
               FAQ
             </Button>
+            {/* Botón de Logout */}
             <Button
               variant="contained"
-              disabled={true} // Desactivando el botón
+              onClick={handleLogout}
               sx={{
-                mb: 1,
+                mt: 2,
                 width: '80%',
                 padding: '10px',
                 borderRadius: 2,
                 textTransform: 'none',
-                bgcolor: '#007bff',
-                '&:hover': { bgcolor: '#0056b3', transform: 'scale(1.05)' },
+                bgcolor: '#d32f2f',
+                '&:hover': { bgcolor: '#b71c1c', transform: 'scale(1.05)' },
                 transition: 'transform 0.2s ease-in-out',
               }}
             >
-              Botón 3
+              Cerrar sesión
             </Button>
           </Box>
         </Paper>

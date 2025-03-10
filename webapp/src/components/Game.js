@@ -79,6 +79,36 @@ const Game = () => {
 
     const question = questions[currentQuestionIndex];
 
+    const saveScore = async (finalScore) => {
+        try {
+            const token = localStorage.getItem('token'); // Obtener el token del localStorage
+            
+            if (!token) {
+                console.error("No se encontró el token");
+                return;
+            }
+
+            const wrong = 10 - finalScore
+
+            const response = await axios.post(
+                `${endpoint}/api/save-score`,
+                {correct: finalScore, wrong: wrong},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Enviar el token JWT en el encabezado
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+
+            if (response.status === 200) {
+                console.log("Puntuación guardada correctamente:", response.data);
+            }
+        } catch (error) {
+            console.error("Error al guardar la puntuación:", error);
+        }
+    }
+
     const handleSelect = (option) => {
         setSelected(option);
         const isCorrect = option === question.correctAnswer;
