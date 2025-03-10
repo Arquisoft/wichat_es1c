@@ -51,6 +51,13 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
+/* 🔹 **Logout - Elimina la cookie de sesión y el token**
+app.post('/api/logout', (req, res) => {
+  res.clearCookie('token', { httpOnly: true, sameSite: 'Strict' });
+  return res.status(200).json({ message: 'Sesión cerrada correctamente' });
+});
+ */
+
 // 🔹 **Registro - Redirige al UserService**
 app.post('/api/register', async (req, res) => {
   try {
