@@ -6,11 +6,13 @@ const swaggerUi = require('swagger-ui-express');
 const fs = require("fs");
 const YAML = require('yaml');
 
+// 🔹 Importamos los routers de cada servicio
+const chatbotRoutes = require('../llmservice/chatbot');
+
 const app = express();
 const port = process.env.GATEWAY_PORT || 8000;
 
-// URLs de los microservicios
-const llmServiceUrl = process.env.LLM_SERVICE_URL || 'http://localhost:8003';
+// 🔹 URLs de los microservicios
 const authServiceUrl = process.env.AUTH_SERVICE_URL || 'http://localhost:8002';
 const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
 const gameServiceUrl = process.env.GAME_SERVICE_URL || 'http://localhost:8010';
@@ -18,22 +20,25 @@ const gameServiceUrl = process.env.GAME_SERVICE_URL || 'http://localhost:8010';
 app.use(cors({
     origin: "http://localhost:3000",
     credentials: true 
-  }));
+}));
 app.use(express.json());
 
 const metricsMiddleware = promBundle({ includeMethod: true });
 app.use(metricsMiddleware);
 
-// 🔹 **Health Check** para saber si el API Gateway está funcionando
+// 🔹 **Health Check**
 app.get('/health', (req, res) => {
   res.json({ status: 'OK' });
 });
+
+// 🔹 **Montamos el router de LLMService**
+app.use('/api/chatbot', chatbotRoutes());
 
 // 🔹 **Login - Redirige al UserService**
 app.post('/api/login', async (req, res) => {
   try {
     const authResponse = await axios.post(
-      `${userServiceUrl}/api/login`, // Corregido: debe llamar a userservice
+      `${userServiceUrl}/api/login`,
       req.body,
       { withCredentials: true } 
     );
@@ -49,28 +54,12 @@ app.post('/api/login', async (req, res) => {
 // 🔹 **Registro - Redirige al UserService**
 app.post('/api/register', async (req, res) => {
   try {
-    const userResponse = await axios.post(
-      `${userServiceUrl}/api/register`, // Corregido: debe llamar a userservice
-      req.body
-    );
+    const userResponse = await axios.post(`${userServiceUrl}/api/register`, req.body);
     res.json(userResponse.data);
   } catch (error) {
     console.error("❌ Error en /api/register:", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({
       error: error.response?.data?.message || 'Error al registrar usuario'
-    });
-  }
-});
-
-// 🔹 **Chatbot - Redirige al LLM Service**
-app.post('/api/chatbot', async (req, res) => {
-  try {
-    const llmResponse = await axios.post(`${llmServiceUrl}/ask`, req.body);
-    res.json(llmResponse.data);
-  } catch (error) {
-    console.error("❌ Error en /api/chatbot:", error.response?.data || error.message);
-    res.status(error.response?.status || 500).json({
-      error: error.response?.data?.message || 'Error en el chatbot'
     });
   }
 });
@@ -88,7 +77,6 @@ app.get('/api/generate-question', async (req, res) => {
   }
 });
 
-// 🔹 **Generación de preguntas - Redirige a GameService**
 app.get('/api/generate-questions', async (req, res) => {
   try {
     const questionGenerated = await axios.get(`${gameServiceUrl}/generateQuestions`);
@@ -101,19 +89,19 @@ app.get('/api/generate-questions', async (req, res) => {
   }
 });
 
-app.post('/api/save-score', async (req, res) =>{
+app.post('/api/save-score', async (req, res) => {
   try {
     const token = req.headers['authorization'];
     const headers = {
-      'Authorization': token,  // Añadimos el token en los headers de la solicitud al GameService
+      'Authorization': token,  
       'Content-Type': 'application/json'
     };
-    const saveScored = await axios.post(`${gameServiceUrl}/saveScore`, req.body, {headers});
+    const saveScored = await axios.post(`${gameServiceUrl}/saveScore`, req.body, { headers });
     res.json(saveScored.data);
   } catch (error) {
     console.error("❌ Error en /api/save-score:", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({
-      error: error.response?.data?.message || 'Error al guardar resultrados'
+      error: error.response?.data?.message || 'Error al guardar resultados'
     });
   }
 });
