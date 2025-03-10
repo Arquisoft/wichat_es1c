@@ -2,9 +2,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 const axios = require("axios");
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
 
 const Question = require("./models/question-model.js");
 const Template = require("./models/template-model.js");
+const Score = require("./models/score-model.js");
 
 const data = require("./data/questions-templates.json");
 
@@ -252,6 +254,36 @@ app.get('/add-test', async (req, res) => {
 app.get('/generateQuestions', async (req, res) => {
     const questions = await generateQuestions()
     res.json(questions)
+});
+
+app.post('/saveScore', async (req, res) => {
+    
+    // Verificar si el usuario está autenticado
+    const token = req.headers.authorization?.split(" ")[1]; // Obtener el token del encabezado
+    if (!token) {
+        return res.status(401).json({ message: "No se proporcionó un token de autenticación" });
+    }
+
+    try {
+        const decoded = jwt.verify(token, "secretKey");
+        const email = decoded.email
+        // Buscar o crear la puntuación del usuario
+        let scoreEntry = await Score.findOne({ email });
+        if (scoreEntry) {
+            // Si ya existe, actualizamos la puntuación
+            scoreEntry.correct += req.body.correct
+            scoreEntry.wrong += req.body.wrong
+            await scoreEntry.save();
+        } else {
+            // Si no existe, creamos un nuevo registro
+            scoreEntry = new Score({ email, correct: req.body.correct, wrong: req.body.wrong });
+            await scoreEntry.save();
+        }
+
+        res.status(200).json({ message: "Puntuación guardada correctamente", score: scoreEntry });
+    } catch (error) {
+        res.status(500).json({ message: "Error al guardar la puntuación", error });
+    }
 });
 
 

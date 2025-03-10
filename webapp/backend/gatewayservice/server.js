@@ -101,6 +101,23 @@ app.get('/api/generate-questions', async (req, res) => {
   }
 });
 
+app.post('/api/save-score', async (req, res) =>{
+  try {
+    const token = req.headers['authorization'];
+    const headers = {
+      'Authorization': token,  // Añadimos el token en los headers de la solicitud al GameService
+      'Content-Type': 'application/json'
+    };
+    const saveScored = await axios.post(`${gameServiceUrl}/saveScore`, req.body, {headers});
+    res.json(saveScored.data);
+  } catch (error) {
+    console.error("❌ Error en /api/save-score:", error.response?.data || error.message);
+    res.status(error.response?.status || 500).json({
+      error: error.response?.data?.message || 'Error al guardar resultrados'
+    });
+  }
+});
+
 // 🔹 **Carga de OpenAPI Docs (Swagger)**
 const openapiPath = './openapi.yaml';
 if (fs.existsSync(openapiPath)) {
