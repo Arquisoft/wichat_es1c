@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Button, Snackbar, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import '../Login.css';
+import '../Register.css';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -40,7 +40,8 @@ const Register = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs" sx={{ mt: 4 }}>
+    <Container component="main" maxWidth="xs" sx={{ mt: 4 }} className="register-container">
+      <img src="/LogoWichat.png" alt="Logo Wichat" className="register-logo" /> {/* Imagen añadida */}
       <Typography variant="h5" align="center">
         Registro
       </Typography>

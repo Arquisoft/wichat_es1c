@@ -7,24 +7,18 @@ ifndef::imagesdir[:imagesdir: ../images]
 |===
 |Term |Definition
 
-|React
-|React is a javascript library for the development of user interfaces on a single page.
-
 |Risks
 |Risks are something bad that could happen but has not yet happened.
 
 |Technical Debt
 |Debt acquired by consciously or unconsciously making the wrong design decisions.
 
-|Arc42
-|Arc42 is a template for architecture communication and documentation.
+|LLM
+|A large language model is a type of machine learning model designed for natural language processing tasks such as language generation.
 
-|Express
-|Express is a framework for node.js applications.
+|Skateholders
+|Person who affects, is affected or can contribute to the system and its architecture
 
-|MongoDB
-|MongoDB is an open source, document-oriented, NoSQL database system.
-
-|Github
-|GitHub is a forge for hosting projects using the Git version control system.
+|Wikidata
+|Wikidata is a free and open knowledge base that can be read and edited by both humans and machines.
 |===
