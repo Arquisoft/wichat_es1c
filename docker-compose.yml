@@ -5,7 +5,7 @@ services:
     profiles: ["dev", "prod"]
     build: 
       context: ./webapp
-      dockerfile: ./webapp/backend/authservice/Dockerfile
+      dockerfile: ./backend/authservice/Dockerfile
     ports:
       - "8002:8002"
     networks:
@@ -23,7 +23,7 @@ services:
     profiles: ["dev", "prod"]
     build: 
       context: ./webapp
-      dockerfile: ./webapp/backend/userservice/Dockerfile
+      dockerfile: ./backend/userservice/Dockerfile
     ports:
       - "8001:8001"
     networks:
@@ -40,7 +40,7 @@ services:
     profiles: ["dev", "prod"]
     build: 
       context: ./webapp
-      dockerfile: ./webapp/backend/gameservice/Dockerfile
+      dockerfile: ./backend/gameservice/Dockerfile
     ports:
       - "8010:8010"
     networks:
@@ -57,7 +57,7 @@ services:
     profiles: ["dev", "prod"]
     build: 
       context: ./webapp
-      dockerfile: ./webapp/backend/llmservice/Dockerfile
+      dockerfile: ./backend/llmservice/Dockerfile
     ports:
       - "8003:8003"
     networks:
@@ -72,12 +72,12 @@ services:
     profiles: ["dev", "prod"]
     build: 
       context: ./webapp
-      dockerfile: ./webapp/backend/gatewayservice/Dockerfile
+      dockerfile: ./backend/gatewayservice/Dockerfile
     depends_on:
-       - authservice:
-       - userservice:
-       - llmservice:
-       - gameservice:
+       - authservice
+       - userservice
+       - llmservice
+       - gameservice
     ports:
       - "8000:8000"
     networks:
@@ -97,7 +97,7 @@ services:
     profiles: ["dev", "prod"]
     build: 
       context: ./webapp
-      dockerfile: ./webapp/Dockerfile
+      dockerfile: ./Dockerfile
     depends_on:
       - gatewayservice
     ports:
