@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Container, Typography, Grid, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Chatbot from './Chatbot';
+import '../Game.css';
 
 const endpoint = "http://localhost:8000";
 
@@ -57,7 +58,22 @@ const Game = () => {
     }, [currentQuestionIndex, questions]);
 
     if (questions.length === 0) {
-        return <Typography variant="h6" style={{ textAlign: "center", marginTop: "20px" }}>Cargando preguntas...</Typography>;
+        return       <Typography
+                                 component="h1"
+                                 variant="h5"
+                                 align="center"
+                                 sx={{
+                                   mt: 2,
+                                   color: 'white',
+                                   fontFamily: "'Poppins', sans-serif",
+                                   fontWeight: '900',
+                                   textTransform: 'uppercase',
+                                   textShadow: '2px 2px 8px rgba(0, 0, 0, 0.5), -1px -1px 0 rgba(0, 0, 0, 0.7), 1px -1px 0 rgba(0, 0, 0, 0.7), -1px 1px 0 rgba(0, 0, 0, 0.7), 1px 1px 0 rgba(0, 0, 0, 0.7)',
+                                   width: '100%',
+                                   letterSpacing: '0.5px',
+                                   wordBreak: 'break-word',
+                                 }}
+                               >Cargando preguntas...</Typography>;
     }
 
     // ✅ Verificar que el índice es válido antes de acceder a `questions[currentQuestionIndex]`
@@ -139,7 +155,7 @@ const Game = () => {
     };
 
     return (
-        <Container maxWidth="xs" style={{ marginTop: "20px", textAlign: "center" }}>
+        <Container maxWidth="xs" className="game-container" style={{ marginTop: "20px", textAlign: "center" } }>
             <Typography variant="h5" style={{ marginBottom: "10px" }}>{question.title}</Typography>
             <img
                 src={question.image}
@@ -155,6 +171,7 @@ const Game = () => {
                             variant="contained"
                             fullWidth
                             color={selected === option ? "secondary" : "primary"}
+                            className="game-button"
                             style={{
                                 backgroundColor:
                                     option === correctAnswer ? '#4caf50' :
@@ -184,6 +201,7 @@ const Game = () => {
             <Button
                 variant="contained"
                 color="primary"
+                className="back-home-button"
                 style={{
                     marginTop: "40px",
                     padding: "12px 24px",
