@@ -9,23 +9,35 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
 function App() {
-  const location = useLocation();  
+  const location = useLocation();
 
   useEffect(() => {
     const currentPath = location.pathname;
 
+    // Arreglo de fondos posibles
+    const backgrounds = [
+      '/FondoWichat.png',
+      '/FondoWichat_2.png',
+      '/FondoWichat_3.png',
+      '/FondoWichat_4.png',
+    ];
+
+    // Función para seleccionar un fondo aleatorio
+    const randomBackground = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+
+    // Cambiar el fondo basado en la ruta actual, pero usando un fondo aleatorio
     if (currentPath === '/') {
-      document.body.style.backgroundImage = 'url(/FondoWichat.png)';
+      document.body.style.backgroundImage = `url(${randomBackground})`;
     } else if (currentPath === '/register') {
-      document.body.style.backgroundImage = 'url(/FondoWichat_2.png)';
-    } 
-    else if (currentPath === '/home') {
-      document.body.style.backgroundImage = 'url(/FondoWichat_4.png)';
-    } 
-    else {
-      document.body.style.backgroundImage = 'url(/FondoWichat_3.png)';  
+      document.body.style.backgroundImage = `url(${randomBackground})`;
+    } else if (currentPath === '/home') {
+      document.body.style.backgroundImage = `url(${randomBackground})`;
+    } else if (currentPath === '/game') {
+      document.body.style.backgroundImage = `url(${randomBackground})`;
+    } else {
+      document.body.style.backgroundImage = `url(${randomBackground})`;
     }
-  }, [location]); 
+  }, [location]); // Se ejecuta cada vez que cambia la ruta
 
   return (
     <Container component="main" maxWidth="lg">
