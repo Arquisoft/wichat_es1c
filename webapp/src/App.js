@@ -31,21 +31,21 @@ function App() {
   return (
     <Container component="main" maxWidth="lg">
       <CssBaseline />
-      <Typography 
-        component="h1" 
-        variant="h3" 
-        align="center" 
-        sx={{ 
-          mt: 2, 
-          color: 'white', 
-          fontFamily: "'Poppins', sans-serif", 
-          fontWeight: '900', 
-          textTransform: 'uppercase', 
-          textShadow: '2px 2px 8px rgba(0, 0, 0, 0.5), -1px -1px 0 rgba(0, 0, 0, 0.7), 1px -1px 0 rgba(0, 0, 0, 0.7), -1px 1px 0 rgba(0, 0, 0, 0.7), 1px 1px 0 rgba(0, 0, 0, 0.7)', // Simula el contorno negro
-          width: '100%',  
-          letterSpacing: '0.5px',  
-          wordBreak: 'break-word',  
-        }} 
+      <Typography
+        component="h1"
+        variant="h3"
+        align="center"
+        sx={{
+          mt: 2,
+          color: 'white',
+          fontFamily: "'Poppins', sans-serif",
+          fontWeight: '900',
+          textTransform: 'uppercase',
+          textShadow: '2px 2px 8px rgba(0, 0, 0, 0.5), -1px -1px 0 rgba(0, 0, 0, 0.7), 1px -1px 0 rgba(0, 0, 0, 0.7), -1px 1px 0 rgba(0, 0, 0, 0.7), 1px 1px 0 rgba(0, 0, 0, 0.7)',
+          width: '100%',
+          letterSpacing: '0.5px',
+          wordBreak: 'break-word',
+        }}
       >
         Welcome to the 2025 edition of the Software Architecture course
       </Typography>
@@ -57,9 +57,9 @@ function App() {
         <Route path="/ranking" element={<Ranking />} />
       </Routes>
 
-      {window.location.pathname !== '/home' && (
+      {location.pathname !== '/home' && location.pathname !== '/game' && (
         <Typography component="div" align="center" sx={{ mt: 2 }}>
-          {window.location.pathname === '/' ? (
+          {location.pathname === '/' ? (
             <Link to="/register" variant="body2" component="button" style={{ color: 'white' }}>
               Don't have an account? Register here.
             </Link>
