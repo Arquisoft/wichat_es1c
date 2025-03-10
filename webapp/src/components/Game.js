@@ -131,6 +131,12 @@ const Game = () => {
             setIncorrectAnswer('');
             setCorrectAnswer('');
             setCurrentQuestionIndex(prevIndex => prevIndex + 1);
+
+            if (currentQuestionIndex >= questions.length - 1) {
+                const finalScore = score + (option === question.correctAnswer ? 1 : 0);
+                saveScore(finalScore)
+                // alert(`Juego terminado. Puntuación final: ${finalScore}/10`);
+            } 
         }, 2500);
     };
 
