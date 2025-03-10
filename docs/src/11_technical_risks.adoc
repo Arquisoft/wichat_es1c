@@ -3,10 +3,18 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-technical-risks]]
 == Risks and Technical Debts
 Risks and problems may occur during project development.
+
+=== Risks
 [options="header",cols="1,1,1,1"]
 |===
 | Type | Name | Description | Priority
 | Risk | Time | The time we have for the development of the project as we have limited time for the deliveries and we have more subjects to do while we are working on the project. | Medium
 | Risk | Github | Github is a version control tool in which if we do a bad management we could lose some functionality when it comes to manage the conflicts occurred. | Low
+|===
+
+=== Technical Debt
+[options="header",cols="1,1,1,1"]
+|===
+| Type | Name | Description | Priority
 | Technical Debt | React | React is a new technology for almost everyone in the group, so we should help each other to learn how to use it, as well as watch some tutorials to understand it better. | High
 |===
