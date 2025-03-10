@@ -47,8 +47,23 @@ const FAQ = () => {
     };
 
     return (
-        <Container maxWidth="md" style={{ marginTop: "30px", textAlign: "center" }}>
-            <Typography variant="h4" style={{ marginBottom: "20px" }}>Preguntas Frecuentes</Typography>
+        <Container maxWidth="md" className="faq-container" style={{ marginTop: "30px", textAlign: "center" }}>
+           <Typography
+                   component="h1"
+                   variant="h5"
+                   align="center"
+                   sx={{
+                     mt: 2,
+                     color: 'white',
+                     fontFamily: "'Poppins', sans-serif",
+                     fontWeight: '900',
+                     textTransform: 'uppercase',
+                     textShadow: '2px 2px 8px rgba(0, 0, 0, 0.5), -1px -1px 0 rgba(0, 0, 0, 0.7), 1px -1px 0 rgba(0, 0, 0, 0.7), -1px 1px 0 rgba(0, 0, 0, 0.7), 1px 1px 0 rgba(0, 0, 0, 0.7)',
+                     width: '100%',
+                     letterSpacing: '0.5px',
+                     wordBreak: 'break-word',
+                   }}
+                 >Preguntas Frecuentes</Typography>
             {faqs.map((faq, index) => (
                 <Accordion
                     key={index}
