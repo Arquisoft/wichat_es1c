@@ -26,7 +26,9 @@ const endpoint = 'https://query.wikidata.org/sparql';
 // ✅ Conectar a MongoDB Atlas
 async function connectDB() {
     try {
-        await mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
+        await mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
+        .then(() => {return Template.deleteMany({})})
+        .then(() => {return Template.insertMany(data)});;
         console.log("✅ Conectado a MongoDB Atlas en GameService");
     } catch (error) {
         console.error("❌ Error al conectar a MongoDB Atlas:", error);
