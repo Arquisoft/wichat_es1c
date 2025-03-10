@@ -436,14 +436,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1><span class="image"><img src="./images/arc42-logo.png" alt="arc42"></span> wichat_es1c</h1>
-<div class="details">
-<span id="revnumber">version 8.2 EN,</span>
-<span id="revdate">January 2023</span>
-<br><span id="revremark">(based upon AsciiDoc version)</span>
-</div>
+<h1><span class="image"><img src="./images/Wichat1.png" alt="arc42"></span> wichat_es1c</h1>
 <div id="toc" class="toc">
-<div id="toctitle">Table of Contents</div>
+<div id="toctitle">table of contents</div>
 <ul class="sectlevel1">
 <li><a href="#_introduction_and_goals">1. Introduction and Goals</a>
 <ul class="sectlevel2">
@@ -519,7 +514,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_quality_scenarios">10.2. Quality Scenarios</a></li>
 </ul>
 </li>
-<li><a href="#section-technical-risks">11. Risks and Technical Debts</a></li>
+<li><a href="#section-technical-risks">11. Risks and Technical Debts</a>
+<ul class="sectlevel2">
+<li><a href="#_risks">11.1. Risks</a></li>
+<li><a href="#_technical_debts">11.2. Technical Debts</a></li>
+</ul>
+</li>
 <li><a href="#section-glossary">12. Glossary</a></li>
 </ul>
 </div>
@@ -536,40 +536,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 	.arc42help {display:none;}
 }
 </style>
-<div class="paragraph">
-<p><strong>About arc42</strong></p>
-</div>
-<div class="paragraph lead">
-<p>arc42, the template for documentation of software and system architecture.</p>
-</div>
-<div class="paragraph">
-<p>Template Version 8.2 EN. (based upon AsciiDoc version), January 2023</p>
-</div>
-<div class="paragraph">
-<p>Created, maintained and &#169; by Dr. Peter Hruschka, Dr. Gernot Starke and contributors.
-See <a href="https://arc42.org" class="bare">https://arc42.org</a>.</p>
-</div>
-<hr>
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>This version of the template contains some help and explanations.
-It is used for familiarization with arc42 and the understanding of the concepts.
-For documentation of your own system you use better the <em>plain</em> version.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -813,9 +779,19 @@ For documentation of your own system you use better the <em>plain</em> version.<
 <td class="tableblock halign-center valign-top"><p class="tableblock">Expects a stable and attractive web solution that increases user engagement and provides an entertaining and interactive gaming experience.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Final Users</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">People who are going to use the application.</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">The final users are expected to interact with the system, provide input on usability, and report any issues or improvements related to user experience.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">ChattySW (Development Company)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Internal development team at ChattySW</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Deliver a robust and interactive application that integrates AI-driven hints for the game. Ensure availability, performance, and security. Maintain clear communication with RTVE and align with project deadlines.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">System Administrator</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">IT team responsible for system maintenance</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Ensure system uptime, security, and performance. Manage deployments, monitor server load, and provide technical support.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Regular User (Player)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">People who register and play the game</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Engage with the game by answering image-based questions and using the conversational hint system. Provide feedback on usability and user experience.</p></td>
 </tr>
 </tbody>
 </table>
@@ -841,16 +817,16 @@ For documentation of your own system you use better the <em>plain</em> version.<
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">React</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">We are going to use React for the frontend development of the web application.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FrontEnd</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The system shall have at least one frontend for user interaction.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Node.js Express</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">We are going to use the Node.js Express framework for the backend development of the application.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Question Generation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Questions should be generated automatically from wikidata.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MongoDB</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">We are going to use the MongoDB database for user management.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User Management</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The system shall have a user management system that allows for login, registration, andhistorical consultation.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">LLM</p></td>
@@ -2047,66 +2023,10 @@ on this list.</p>
 </div>
 <div class="sect2">
 <h3 id="_key_architectural_decisions">9.2. Key Architectural Decisions</h3>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top"><strong>Decision</strong></th>
-<th class="tableblock halign-left valign-top"><strong>Rationale</strong></th>
-<th class="tableblock halign-left valign-top"><strong>Impact</strong></th>
-<th class="tableblock halign-left valign-top"><strong>Alternatives Considered</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Use of <strong>Node.js with Express Backend</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Provides more control over business logic and authentication, supports complex operations</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Requires dedicated hosting and server management but allows better scalability and flexibility</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Serverless Functions (Netlify, AWS Lambda), FastAPI</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MongoDB Atlas as Database</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Flexible NoSQL solution, managed service, easy integration with backend</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Requires proper indexing and connection pooling to optimize performance</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Firebase Firestore, PostgreSQL</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>JWT for Authentication</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Stateless authentication method, easy to integrate with Node.js</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Token expiration must be managed properly, security risks if improperly implemented</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OAuth2, Firebase Authentication</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>React with TypeScript for Frontend</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Strong typing improves maintainability, React provides a modular and scalable UI</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Slightly more initial setup compared to plain JavaScript</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">React with JavaScript, Vue.js</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Integration with Wikidata</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enables automatic question generation using structured knowledge sources</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Requires SPARQL queries, handling API rate limits</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Custom dataset, Wikipedia API</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Deployment on Netlify (Frontend) and Render/AWS (Backend)</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Simplifies CI/CD for the frontend and provides scalable backend hosting</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Backend requires manual configuration and maintenance</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Vercel, Heroku</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Event-Driven Architecture using MongoDB Change Streams</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Allows real-time updates without polling, optimizing performance</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Requires additional monitoring and handling of real-time events</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Periodic polling from the frontend, WebSockets</p></td>
-</tr>
-</tbody>
-</table>
+<div class="paragraph">
+<p>An up-to-date list of all architecture decisions taken can be found in this link:
+<a href="https://github.com/Arquisoft/wichat_es1c/wiki" class="bare">https://github.com/Arquisoft/wichat_es1c/wiki</a></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_motivation_4">9.3. Motivation</h3>
@@ -2240,24 +2160,39 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The application must protect sensitive data with encryption and two-factor authentication.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Security</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A user logs in and must enter a code sent to their email to access their account.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">El sistema debe estar disponible 24/7 con un tiempo de inactividad mínimo.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alta Disponibilidad</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Los usuarios pueden acceder al sistema en cualquier momento sin interrupciones.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The application should work offline and sync data when a connection is available.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Adaptability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A user fills out a form offline and the data syncs automatically when online.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">La arquitectura debe permitir la adición de más servidores sin interrumpir el servicio.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Escalabilidad</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Durante las horas pico, el sistema distribuye el tráfico entre múltiples servidores sin degradar el rendimiento.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The user interface must be accessible to visually impaired users, supporting screen readers.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Usability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A visually impaired user navigates the app with a screen reader.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">La aplicación debe garantizar la protección de los datos de los usuarios, especialmente durante el registro y acceso.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Seguridad</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Las credenciales y datos personales de los usuarios están cifrados y almacenados de forma segura para evitar accesos no autorizados.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The application should have redundant servers ensuring 99% uptime.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Availability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A user tries to access the app during maintenance and can use a backup version.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">El tiempo de respuesta para mostrar una pregunta y sus opciones debe ser menor a 2 segundos.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rendimiento</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Un concursante solicita una nueva pregunta y el sistema la presenta casi instantáneamente.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Las preguntas deben generarse correctamente a partir de los datos de Wikidata sin errores.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integración con Wikidata</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">El sistema extrae información de Wikidata para generar preguntas de manera precisa y sin inconsistencias.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">El chatbot debe proporcionar pistas relevantes y coherentes basadas en la API de LLM.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Precisión de Pistas</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cuando un usuario solicita una pista, el chatbot la genera correctamente utilizando la API de LLM.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">La interfaz de usuario debe ser intuitiva, con instrucciones claras sobre cómo participar y obtener pistas.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Usabilidad</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Un nuevo usuario puede navegar en la aplicación sin instrucciones previas y entender cómo interactuar con el juego.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2271,16 +2206,16 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 <div class="paragraph">
 <p>Risks and problems may occur during project development.</p>
 </div>
+<div class="sect2">
+<h3 id="_risks">11.1. Risks</h3>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
+<col style="width: 50%;">
 <col style="width: 25%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Type</th>
 <th class="tableblock halign-left valign-top">Name</th>
 <th class="tableblock halign-left valign-top">Description</th>
 <th class="tableblock halign-left valign-top">Priority</th>
@@ -2288,26 +2223,43 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Risk</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Time</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The time we have for the development of the project as we have limited time for the deliveries and we have more subjects to do while we are working on the project.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The available time for the project is limited due to each dev in the team having other subjects and projects to work on.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Medium</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Risk</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Github</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version Control (GitHub)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Github is a version control tool in which if we do a bad management we could lose some functionality when it comes to manage the conflicts occurred.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Low</p></td>
 </tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_technical_debts">11.2. Technical Debts</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 50%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Technical Debt</p></td>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">React</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">React is a new technology for almost everyone in the group, so we should help each other to learn how to use it, as well as watch some tutorials to understand it better.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">React is a new technology for almost everyone in the team, so they should help each other to learn how to use it, as well as watch some tutorials to understand it better.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
 </tr>
 </tbody>
 </table>
 <div style="page-break-after: always;"></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -2326,10 +2278,6 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>React</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>React is a javascript library for the development of user interfaces on a single page.</em></p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Risks</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Risks are something bad that could happen but has not yet happened.</em></p></td>
 </tr>
@@ -2338,30 +2286,39 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Debt acquired by consciously or unconsciously making the wrong design decisions.</em></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Arc42</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Arc42 is a template for architecture communication and documentation.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>LLM</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>A large language model is a type of machine learning model designed for natural language processing tasks such as language generation.</em></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Express</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Express is a framework for node.js applications.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Skateholders</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Person who affects, is affected or can contribute to the system and its architecture</em></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>MongoDB</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>MongoDB is an open source, document-oriented, NoSQL database system.</em></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Github</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>GitHub is a forge for hosting projects using the Git version control system.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Wikidata</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Wikidata is a free and open knowledge base that can be read and edited by both humans and machines.</em></p></td>
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p><strong>About arc42</strong></p>
+</div>
+<div class="paragraph lead">
+<p>arc42, the template for documentation of software and system architecture.</p>
+</div>
+<div class="paragraph">
+<p>Template Version 8.2 EN. (based upon AsciiDoc version), January 2023</p>
+</div>
+<div class="paragraph">
+<p>Created, maintained and &#169; by Dr. Peter Hruschka, Dr. Gernot Starke and contributors.
+See <a href="https://arc42.org" class="bare">https://arc42.org</a>.</p>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2025-02-15 15:51:38 +0100
+Last updated 2025-03-10 12:26:50 +0100
 </div>
 </div>
 </body>
