@@ -139,7 +139,12 @@ const Chatbot = () => {
               color="primary"
               onClick={handleAsk}
               disabled={loading}
-              sx={{ ml: 1 }}
+              sx={{
+                ml: 1,
+                fontSize: '1.2rem',  // Aumenta el tamaño del texto
+                padding: '10px 20px', // Aumenta el padding (espaciado interno)
+                minWidth: '150px',  // Establece un ancho mínimo para el botón
+              }}
             >
               {loading ? <CircularProgress size={20} color="inherit" /> : 'Enviar'}
             </Button>

@@ -24,7 +24,7 @@ const OptionsDropdown = () => {
           color: 'white',
           '&:hover': { bgcolor: 'primary.dark' },
           zIndex: 1000,
-          transition: 'background-color 0.3s ease',
+          transition: 'background-color 0.4s ease',
         }}
       >
         <MenuIcon />
