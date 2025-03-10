@@ -85,7 +85,7 @@ const OptionsDropdown = () => {
             </Button>
             <Button
               variant="contained"
-              disabled={true} // Desactivando el botón
+              onClick={() => navigate('/faq')}
               sx={{
                 mb: 1,
                 width: '80%',
@@ -97,7 +97,7 @@ const OptionsDropdown = () => {
                 transition: 'transform 0.2s ease-in-out',
               }}
             >
-              Botón 2
+              FAQ
             </Button>
             <Button
               variant="contained"

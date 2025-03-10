@@ -18,36 +18,31 @@ const Game = () => {
     const navigate = useNavigate(); // Usamos useNavigate para la navegación
 
     useEffect(() => {
-        // Cargar preguntas desde localStorage o hacer solicitud si no están disponibles
-        const storedQuestions = localStorage.getItem("questions");
-        if (storedQuestions) {
-            setQuestions(JSON.parse(storedQuestions));
-        } else {
-            generateQuestions((newQuestions) => {
-                setQuestions(newQuestions);
-                localStorage.setItem("questions", JSON.stringify(newQuestions)); // Guardar en localStorage
-            });
-        }
+        // Cargar preguntas al iniciar el componente
+        generateQuestions((newQuestions) => {
+            setQuestions(newQuestions);
+        });
     }, []);
 
     const generateQuestions = async (setQuestions) => {
-        axios.get(endpoint + '/api/generate-questions', {
-            withCredentials: true  // 🔥 Importante para enviar cookies o credenciales
-        })
-            .then((response) => {
-                const formattedQuestions = response.data.map(data => {
-                    const [title, imageUrl] = data.title.split("|");
-                    const answers = data.allAnswers.split(",");
-                    return {
-                        title,
-                        image: imageUrl,
-                        correctAnswer: data.correctAnswer,
-                        options: answers
-                    };
-                });
-                setQuestions(formattedQuestions);
-            })
-            .catch((error) => console.error("Error al obtener preguntas", error));
+        try {
+            const response = await axios.get(endpoint + '/api/generate-questions', {
+                withCredentials: true  // 🔥 Importante para enviar cookies o credenciales
+            });
+            const formattedQuestions = response.data.map(data => {
+                const [title, imageUrl] = data.title.split("|");
+                const answers = data.allAnswers.split(",");
+                return {
+                    title,
+                    image: imageUrl,
+                    correctAnswer: data.correctAnswer,
+                    options: answers
+                };
+            });
+            setQuestions(formattedQuestions);
+        } catch (error) {
+            console.error("Error al obtener preguntas", error);
+        }
     };
 
     useEffect(() => {

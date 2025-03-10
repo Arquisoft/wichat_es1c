@@ -4,6 +4,7 @@ import Login from './components/Login.js';
 import Register from './components/Register.js';
 import Home from './components/Home.js';
 import Game from './components/Game.js';
+import FAQ from './components/Faq.js';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -65,9 +66,10 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
         <Route path="/game" element={<Game />} />
+        <Route path="/faq" element={<FAQ />} />
       </Routes>
 
-      {location.pathname !== '/home' && location.pathname !== '/game' && (
+      {location.pathname !== '/home' && location.pathname !== '/game' && location.pathname !== '/faq' && (
         <Typography component="div" align="center" sx={{ mt: 2 }}>
           {location.pathname === '/' ? (
             <Link to="/register" variant="body2" component="button" style={{ color: 'white' }}>
