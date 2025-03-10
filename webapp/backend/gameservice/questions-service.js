@@ -286,6 +286,11 @@ app.post('/saveScore', async (req, res) => {
     }
 });
 
+app.get('/ranking', async (req, res) => {
+    const ranking = await Score.find()
+    res.json(ranking)
+});
+
 
 connectDB().then(() => {
     const server = app.listen(port, () => {

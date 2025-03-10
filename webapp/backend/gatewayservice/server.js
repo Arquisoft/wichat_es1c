@@ -118,6 +118,18 @@ app.post('/api/save-score', async (req, res) =>{
   }
 });
 
+app.get('/api/ranking', async (req, res) => {
+  try {
+    const ranking = await axios.get(`${gameServiceUrl}/ranking`);
+    res.json(ranking.data);
+  } catch (error) {
+    console.error("❌ Error en /api/ranking", error.response?.data || error.message);
+    res.status(error.response?.status || 500).json({
+      error: error.response?.data?.message || 'Error al cargar el ranking'
+    });
+  }
+});
+
 // 🔹 **Carga de OpenAPI Docs (Swagger)**
 const openapiPath = './openapi.yaml';
 if (fs.existsSync(openapiPath)) {

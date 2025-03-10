@@ -4,6 +4,7 @@ import Login from './components/Login.js';
 import Register from './components/Register.js';
 import Home from './components/Home.js';
 import Game from './components/Game.js';
+import Ranking from './components/Ranking.js'
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -53,6 +54,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
         <Route path="/game" element={<Game />} />
+        <Route path="/ranking" element={<Ranking />} />
       </Routes>
 
       {window.location.pathname !== '/home' && (
