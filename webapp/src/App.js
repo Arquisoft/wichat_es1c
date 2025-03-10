@@ -5,6 +5,7 @@ import Register from './components/Register.js';
 import Home from './components/Home.js';
 import Game from './components/Game.js';
 import FAQ from './components/Faq.js';
+import Ranking from './components/Ranking.js'
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -67,6 +68,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/game" element={<Game />} />
         <Route path="/faq" element={<FAQ />} />
+        <Route path="/ranking" element={<Ranking />} />
       </Routes>
 
       {location.pathname !== '/home' && location.pathname !== '/game' && location.pathname !== '/faq' && (
