@@ -38,7 +38,7 @@ module.exports = function () {
     }
   }
 
-  router.post('/chatbot', async (req, res) => {
+  router.post('/', async (req, res) => {
     try {
       if (!req.body.question || !req.body.model) {
         return res.status(400).json({ error: 'Faltan campos requeridos (question, model)' });

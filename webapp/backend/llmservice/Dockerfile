@@ -7,6 +7,6 @@ COPY . .
 
 RUN npm install
 
-EXPOSE 8010
+EXPOSE 8003
 
-CMD ["node", "question-service.js"]
+CMD ["node", "chatbot.js"]

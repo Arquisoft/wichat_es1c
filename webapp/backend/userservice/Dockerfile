@@ -7,6 +7,6 @@ COPY . .
 
 RUN npm install
 
-EXPOSE 8010
+EXPOSE 8001
 
-CMD ["node", "question-service.js"]
+CMD ["node", "userservice.js"]
