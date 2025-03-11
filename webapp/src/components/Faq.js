@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Accordion, AccordionSummary, AccordionDetails, Typography, Container, Button } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate } from 'react-router-dom';
 
 const FAQ = () => {
     const navigate = useNavigate(); // hook para la navegación
+    const [expanded, setExpanded] = useState(false); // Estado para controlar la pregunta expandida
 
     const faqs = [
         {
@@ -41,6 +42,10 @@ const FAQ = () => {
         navigate('/home'); // Navegar a la página de inicio
     };
 
+    const handleChange = (panel) => (event, isExpanded) => {
+        setExpanded(isExpanded ? panel : false); // Si se expande un panel, actualizar el estado
+    };
+
     return (
         <Container maxWidth="md" className="faq-container" style={{ marginTop: "30px", textAlign: "center" }}>
            <Typography
@@ -60,7 +65,12 @@ const FAQ = () => {
                    }}
                  >Preguntas Frecuentes</Typography>
             {faqs.map((faq, index) => (
-                <Accordion key={index} style={{ marginBottom: "10px" }}>
+                <Accordion
+                    key={index}
+                    expanded={expanded === `panel${index}`} // Se despliega solo el panel seleccionado
+                    onChange={handleChange(`panel${index}`)} // Cambiar el estado cuando se expande o colapsa
+                    style={{ marginBottom: "10px" }}
+                >
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls={`panel${index}a-content`}
