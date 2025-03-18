@@ -58,7 +58,8 @@ function App() {
           fontFamily: "'Poppins', sans-serif",
           fontWeight: '900',
           textTransform: 'uppercase',
-          textShadow: '2px 2px 8px rgba(0, 0, 0, 0.5), -1px -1px 0 rgba(0, 0, 0, 0.7), 1px -1px 0 rgba(0, 0, 0, 0.7), -1px 1px 0 rgba(0, 0, 0, 0.7), 1px 1px 0 rgba(0, 0, 0, 0.7)',
+          textShadow: '2px 2px 8px rgba(0, 0, 0, 0.5), -1px -1px 0 rgba(0, 0, 0, 0.7), 1px -1px 0 rgba(0, 0, 0, 0.7), '
+              + '-1px 1px 0 rgba(0, 0, 0, 0.7), 1px 1px 0 rgba(0, 0, 0, 0.7)',
           width: '100%',
           letterSpacing: '0.5px',
           wordBreak: 'break-word',
@@ -74,7 +75,8 @@ function App() {
         <Route path="/ranking" element={<Ranking />} />
       </Routes>
 
-      {location.pathname !== '/home' && location.pathname !== '/game' && location.pathname !== '/faq' && (
+      {location.pathname !== '/home' && location.pathname !== '/game' && location.pathname !== '/faq'
+        && location.pathname !== '/ranking' && (
         <Typography component="div" align="center" sx={{ mt: 2 }}>
           {location.pathname === '/' ? (
             <Link to="/register" variant="body2" component="button" style={{ color: 'white' }}>
