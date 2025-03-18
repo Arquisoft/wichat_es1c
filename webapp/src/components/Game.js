@@ -79,12 +79,24 @@ const Game = () => {
     // ✅ Verificar que el índice es válido antes de acceder a `questions[currentQuestionIndex]`
     if (currentQuestionIndex >= questions.length) {
         return (
-            <Container maxWidth="xs" style={{ marginTop: "20px", textAlign: "center" }}>
+            <Container
+                maxWidth="xs"
+                style={{
+                    marginTop: "20px",
+                    textAlign: "center",
+                    backgroundColor: "#f9f9f9", // Fondo de color claro
+                    borderRadius: "16px", // Bordes redondeados
+                    padding: "20px", // Espaciado interno
+                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)", // Sombra para dar profundidad
+                    width: "300px", // Ancho fijo más estrecho
+                    height: "145px", // Altura fija más compacta
+                }}
+                >
                 <Typography variant="h6">¡Juego terminado!</Typography>
                 <Typography variant="h5">Puntuación: {score}</Typography>
-                <Button 
-                    variant="contained" 
-                    color="primary" 
+                <Button
+                    variant="contained"
+                    color="primary"
                     onClick={() => navigate('/home')}
                 >
                     Volver a Inicio
@@ -204,31 +216,33 @@ const Game = () => {
                 </Typography>
             )}
 
-            <Button
-                variant="contained"
-                color="primary"
-                className="back-home-button"
-                style={{
-                    marginTop: "40px",
-                    padding: "12px 24px",
-                    borderRadius: "8px",
-                    fontSize: "16px",
-                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-                    textTransform: "none",
-                    transition: "transform 0.3s ease, background-color 0.3s ease",
-                }}
-                onClick={handleGoHome}
-                onMouseEnter={(e) => {
-                    e.target.style.transform = "scale(1.1)";
-                    e.target.style.backgroundColor = "#3b82f6";
-                }}
-                onMouseLeave={(e) => {
-                    e.target.style.transform = "scale(1)";
-                    e.target.style.backgroundColor = "#1976d2";
-                }}
+        <Button
+            variant="contained"
+            className="back-home-button"
+            style={{
+                marginTop: "40px",
+                padding: "12px 24px",
+                borderRadius: "8px",
+                fontSize: "16px",
+                backgroundColor: "#f44336", // Rojo inicial
+                color: "#fff", // Texto blanco
+                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+                textTransform: "none",
+                transition: "transform 0.3s ease, background-color 0.3s ease",
+            }}
+            onClick={handleGoHome}
+            onMouseEnter={(e) => {
+                e.target.style.transform = "scale(1.1)";
+                e.target.style.backgroundColor = "#e53935"; // Rojo más oscuro al pasar el cursor
+            }}
+            onMouseLeave={(e) => {
+                e.target.style.transform = "scale(1)";
+                e.target.style.backgroundColor = "#f44336"; // Rojo inicial
+            }}
             >
-                Volver a Inicio
-            </Button>
+            Volver a Inicio
+        </Button>
+
 
             <Chatbot />
         </Container>
