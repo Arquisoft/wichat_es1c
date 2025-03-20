@@ -1,17 +1,18 @@
-# Usa una imagen base de Node.js
-FROM node:20
+FROM node:22
 
-# Establece el directorio de trabajo en el contenedor
+COPY . /app
 WORKDIR /app
 
-# Copia todos los archivos del proyecto al contenedor
-COPY . .
+#Install the dependencies
+RUN npm install --omit=dev
 
-# Instala todas las dependencias
-RUN npm ci
+ARG API_URI="http://localhost:8000"
+ENV REACT_APP_API_ENDPOINT=$API_URI
 
-# Expone los puertos usados por los microservicios y el frontend
-EXPOSE 3000 8000 8001 8002 8003 8010
+#Create an optimized version of the webapp
+RUN npm run build
+RUN npm install -g serve --production
 
-# Comando para ejecutar la aplicación completa con `concurrently`
-CMD ["npm", "run", "dev"]
+#Execute npm run prod to run the server
+CMD [ "npm", "run", "prod" ]
+#CMD ["npm", "start"]
