@@ -14,4 +14,4 @@ RUN npm install
 COPY . .
 
 # Define the command to run your app
-CMD ["node", "auth.js"]
+CMD ["node", "userservice.js"]
