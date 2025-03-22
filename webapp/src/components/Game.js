@@ -117,10 +117,11 @@ const Game = () => {
             }
 
             const wrong = 10 - finalScore
+            const correct = finalScore
 
             const response = await axios.post(
                 `${endpoint}/api/save-score`,
-                {correct: finalScore, wrong: wrong},
+                {correct: correct, wrong: wrong},
                 {
                     headers: {
                         Authorization: `Bearer ${token}`, // Enviar el token JWT en el encabezado

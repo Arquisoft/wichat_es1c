@@ -266,19 +266,11 @@ app.post('/saveScore', async (req, res) => {
 
     try {
         const decoded = jwt.verify(token, "secretKey");
-        const email = decoded.email
-        // Buscar o crear la puntuación del usuario
-        let scoreEntry = await Score.findOne({ email });
-        if (scoreEntry) {
-            // Si ya existe, actualizamos la puntuación
-            scoreEntry.correct += req.body.correct
-            scoreEntry.wrong += req.body.wrong
-            await scoreEntry.save();
-        } else {
-            // Si no existe, creamos un nuevo registro
-            scoreEntry = new Score({ email, correct: req.body.correct, wrong: req.body.wrong });
-            await scoreEntry.save();
-        }
+        const email = decoded.email;
+
+        // Crear una nueva entrada para cada partida
+        const scoreEntry = new Score({ email, correct: req.body.correct, wrong: req.body.wrong });
+        await scoreEntry.save();
 
         res.status(200).json({ message: "Puntuación guardada correctamente", score: scoreEntry });
     } catch (error) {
