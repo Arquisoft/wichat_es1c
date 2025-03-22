@@ -89,6 +89,22 @@ const OptionsDropdown = () => {
             </Button>
             <Button
               variant="contained"
+              onClick={() => navigate('/ranking')}
+              sx={{
+                mb: 1,
+                width: '80%',
+                padding: '10px',
+                borderRadius: 2,
+                textTransform: 'none',
+                bgcolor: '#007bff',
+                '&:hover': { bgcolor: '#0056b3', transform: 'scale(1.05)' },
+                transition: 'transform 0.2s ease-in-out',
+              }}
+            >
+              Ranking
+            </Button>
+            <Button
+              variant="contained"
               onClick={() => navigate('/faq')}
               sx={{
                 mb: 1,
