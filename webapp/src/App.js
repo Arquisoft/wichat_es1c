@@ -14,7 +14,7 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
-    const currentPath = location.pathname;
+    // const currentPath = location.pathname;
 
     // Arreglo de fondos posibles
     const backgrounds = [

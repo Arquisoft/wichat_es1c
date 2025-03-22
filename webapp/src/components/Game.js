@@ -16,6 +16,7 @@ const Game = () => {
     const [correctAnswerAnimation, setCorrectAnswerAnimation] = useState(false);
     const [incorrectAnswer, setIncorrectAnswer] = useState('');
     const [correctAnswer, setCorrectAnswer] = useState('');
+    const [startTime, setStartTime] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -42,6 +43,7 @@ const Game = () => {
                 });
 
                 setQuestions(formattedQuestions);
+                setStartTime(Date.now()); // Registrar el tiempo de inicio
             } catch (error) {
                 console.error("Error al obtener preguntas", error);
             }
@@ -107,7 +109,7 @@ const Game = () => {
 
     const question = questions[currentQuestionIndex];
 
-    const saveScore = async (finalScore) => {
+    const saveScore = async (finalScore, finalTime) => {
         try {
             const token = localStorage.getItem('token'); // Obtener el token del localStorage
             
@@ -116,12 +118,12 @@ const Game = () => {
                 return;
             }
 
-            const wrong = 10 - finalScore
-            const correct = finalScore
+            const wrong = 10 - finalScore;
+            const correct = finalScore;
 
             const response = await axios.post(
                 `${endpoint}/api/save-score`,
-                {correct: correct, wrong: wrong},
+                { correct: correct, wrong: wrong, totalTime: finalTime },
                 {
                     headers: {
                         Authorization: `Bearer ${token}`, // Enviar el token JWT en el encabezado
@@ -136,7 +138,7 @@ const Game = () => {
         } catch (error) {
             console.error("Error al guardar la puntuación:", error);
         }
-    }
+    };
 
     const handleSelect = (option) => {
         setSelected(option);
@@ -163,8 +165,10 @@ const Game = () => {
 
             if (currentQuestionIndex >= questions.length - 1) {
                 const finalScore = score + (option === question.correctAnswer ? 1 : 0);
-                saveScore(finalScore)
-                // alert(`Juego terminado. Puntuación final: ${finalScore}/10`);
+                const endTime = Date.now();
+                const finalTime = (endTime - startTime) / 1000; // Tiempo total en segundos
+                console.log(`Tiempo total: ${finalTime} segundos`);
+                saveScore(finalScore, finalTime);
             } 
         }, 2500);
     };

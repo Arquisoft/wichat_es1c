@@ -269,7 +269,13 @@ app.post('/saveScore', async (req, res) => {
         const email = decoded.email;
 
         // Crear una nueva entrada para cada partida
-        const scoreEntry = new Score({ email, correct: req.body.correct, wrong: req.body.wrong });
+        const scoreEntry = new Score({
+            email,
+            correct: req.body.correct,
+            wrong: req.body.wrong,
+            totalTime: req.body.totalTime, // Asegurarse de guardar totalTime
+            timestamp: new Date() // Agregar la fecha y hora actual
+        });
         await scoreEntry.save();
 
         res.status(200).json({ message: "Puntuación guardada correctamente", score: scoreEntry });
