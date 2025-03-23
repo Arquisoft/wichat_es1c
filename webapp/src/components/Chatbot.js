@@ -1,158 +1,67 @@
-// src/components/Chatbot.js
-import React, { useState } from 'react';
+import React from 'react';
+import ChatBot from 'react-chatbotify';
 import axios from 'axios';
-import { Box, Button, TextField, Typography, IconButton, Paper, CircularProgress } from '@mui/material';
-import ChatIcon from '@mui/icons-material/Chat';
-import CloseIcon from '@mui/icons-material/Close';
 
-const Chatbot = () => {
-  const [open, setOpen] = useState(false);
-  const [question, setQuestion] = useState('');
-  const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  const toggleChat = () => {
-    setOpen(!open);
-  };
-
-  const handleAsk = async () => {
-    if (!question.trim()) return;
-
-    setLoading(true);
-    const newMessages = [...messages, { text: question, sender: 'user' }];
-    setMessages(newMessages);
-    setQuestion('');
-
+const GameChatbot = () => {
+  const fetchGeminiResponse = async (userInput, answer, streamMessage) => {
     try {
-      const apiKey = process.env.REACT_APP_GEMINI_API_KEY || 'AIzaSyCjkcwRHgwuhMoc0N4hJB_bgud9NV2fv-0';
-      const model = 'gemini';
+      const systemMessage = `
+        Eres un asistente experto en banderas. El país correcto es "${answer}".
+        NO digas el nombre directamente. Da pistas útiles sobre su cultura, historia, geografía o colores de la bandera.
+        Responde siempre en español, de forma clara y amigable.
+      `;
 
-      const res = await axios.post('/api/chatbot', {
-        question,
-        model,
-        apiKey,
+      const response = await axios.post('/api/chatbot', {
+        question: userInput,
+        model: 'gemini',
+        systemMessage
       });
 
-      const botResponse = res.data.answer || 'No se recibió una respuesta.';
-      setMessages([...newMessages, { text: botResponse, sender: 'bot' }]);
-    } catch (err) {
-      setMessages([...newMessages, { text: 'Error al obtener respuesta.', sender: 'bot' }]);
-    } finally {
-      setLoading(false);
+      const reply = response.data.answer || 'No tengo una pista para eso.';
+      streamMessage(reply);
+    } catch (error) {
+      console.error('Error al obtener respuesta del chatbot:', error);
+      streamMessage('Hubo un error al obtener la pista.');
+    }
+  };
+
+  const flow = {
+    start: {
+      message: '¡Hola! Soy tu asistente de banderas. ¿Necesitas una pista sobre alguna bandera? 🤔',
+      path: 'await_user_input'
+    },
+    await_user_input: {
+      message: async ({ userInput, streamMessage }) => {
+        try {
+          const answerResponse = await axios.get('/api/current-answer');
+
+          const answer = answerResponse.data?.answer;
+
+          if (!answer) {
+            throw new Error('No se pudo obtener la respuesta correcta.');
+          }
+
+          await fetchGeminiResponse(userInput, answer, streamMessage);
+        } catch (err) {
+          console.error('❌ Error al obtener el contexto:', err);
+          streamMessage('No se pudo obtener el contexto del juego.');
+        }
+      },
+      path: 'await_user_input'
     }
   };
 
   return (
-    <>
-      {/* Botón flotante para abrir/cerrar el chatbot */}
-      <IconButton
-        onClick={toggleChat}
-        sx={{
-          position: 'fixed',
-          bottom: 20,
-          right: 20,
-          bgcolor: 'primary.main',
-          color: 'white',
-          '&:hover': { bgcolor: 'primary.dark' },
-          zIndex: 1000,
-        }}
-      >
-        <ChatIcon />
-      </IconButton>
-
-      {/* Ventana del chat desplegable */}
-      {open && (
-        <Paper
-          elevation={5}
-          sx={{
-            position: 'fixed',
-            bottom: 80,
-            right: 20,
-            width: 300,
-            maxHeight: 400,
-            display: 'flex',
-            flexDirection: 'column',
-            p: 2,
-            borderRadius: 2,
-            bgcolor: 'background.paper',
-            boxShadow: 3,
-            zIndex: 1000,
-          }}
-        >
-          <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
-            <Typography variant="h6">Chatbot</Typography>
-            <IconButton size="small" onClick={toggleChat}>
-              <CloseIcon />
-            </IconButton>
-          </Box>
-
-          {/* Mensajes del chatbot */}
-          <Box
-            sx={{
-              flexGrow: 1,
-              overflowY: 'auto',
-              maxHeight: 250,
-              mb: 1,
-              p: 1,
-              border: '1px solid #ddd',
-              borderRadius: 1,
-              bgcolor: '#f9f9f9',
-            }}
-          >
-            {messages.length === 0 ? (
-              <Typography variant="body2" color="textSecondary" align="center">
-                Pregunta lo que quieras...
-              </Typography>
-            ) : (
-              messages.map((msg, index) => (
-                <Typography
-                  key={index}
-                  sx={{
-                    textAlign: msg.sender === 'user' ? 'right' : 'left',
-                    bgcolor: msg.sender === 'user' ? '#007bff' : '#f1f1f1',
-                    color: msg.sender === 'user' ? 'white' : 'black',
-                    borderRadius: 1,
-                    p: 1,
-                    mb: 1,
-                    maxWidth: '80%',
-                    display: 'inline-block',
-                  }}
-                >
-                  {msg.text}
-                </Typography>
-              ))
-            )}
-          </Box>
-
-          {/* Input y botón de enviar */}
-          <Box display="flex">
-            <TextField
-              fullWidth
-              variant="outlined"
-              size="small"
-              placeholder="Escribe tu pregunta..."
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleAsk}
-              disabled={loading}
-              sx={{
-                ml: 1,
-                fontSize: '1.2rem',  // Aumenta el tamaño del texto
-                padding: '10px 20px', // Aumenta el padding (espaciado interno)
-                minWidth: '150px',  // Establece un ancho mínimo para el botón
-              }}
-            >
-              {loading ? <CircularProgress size={20} color="inherit" /> : 'Enviar'}
-            </Button>
-          </Box>
-        </Paper>
-      )}
-    </>
+    <ChatBot
+      flow={flow}
+      theme="light"
+      title="Asistente de Banderas"
+      subtitle="¿Necesitas una pista? ¡Pregúntame!"
+      assistantIcon="https://cdn-icons-png.flaticon.com/512/4712/4712109.png"
+      userInputPlaceholder="Escribe tu pregunta sobre la bandera..."
+      style={{ bottom: 20, right: 20, zIndex: 1000 }}
+    />
   );
 };
 
-export default Chatbot;
+export default GameChatbot;

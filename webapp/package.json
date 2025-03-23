@@ -22,6 +22,7 @@
     "mongodb": "^6.14.2",
     "mongoose": "^7.6.3",
     "react": "^18.2.0",
+    "react-chatbotify": "^2.0.0-beta.32",
     "react-dom": "^18.2.0",
     "react-router-dom": "^7.2.0",
     "react-scripts": "5.0.1",

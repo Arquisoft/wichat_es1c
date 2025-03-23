@@ -125,6 +125,21 @@ app.get('/api/ranking', async (req, res) => {
   }
 });
 
+app.get('/api/current-answer', async (req, res) => {
+  try {
+    const response = await axios.get(`${gameServiceUrl}/current-answer`);
+    res.json(response.data);
+  } catch (error) {
+    console.error("❌ Error en /api/current-answer:", error.response?.data || error.message);
+    res.status(error.response?.status || 500).json({
+      error: error.response?.data?.message || 'Error al obtener la respuesta actual'
+    });
+  }
+});
+
+
+
+
 // 🔹 **Carga de OpenAPI Docs (Swagger)**
 const openapiPath = './openapi.yaml';
 if (fs.existsSync(openapiPath)) {
