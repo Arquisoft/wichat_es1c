@@ -1,0 +1,119 @@
+services:
+  authservice:
+    container_name: authservice-wichat_es1c
+    image: ghcr.io/arquisoft/wichat_es1c/authservice:latest
+    profiles: ["dev", "prod"]
+    build: ./webapp/backend/authservice
+    ports:
+      - "8002:8002"
+    networks:
+      - mynetwork
+    environment:
+      MONGODB_URI: mongodb+srv://fFFH8ALCgMl58vdLNovG:y122LzFpRq4LgpHfNRlJ@wichat.sz10z.mongodb.net/wichat-db
+
+  userservice:
+    container_name: userservice-wichat_es1c
+    image: ghcr.io/arquisoft/wichat_es1c/userservice:latest
+    profiles: ["dev", "prod"]
+    build: ./webapp/backend/userservice
+    ports:
+      - "8001:8001"
+    networks:
+      - mynetwork
+    environment:
+      MONGODB_URI: mongodb+srv://fFFH8ALCgMl58vdLNovG:y122LzFpRq4LgpHfNRlJ@wichat.sz10z.mongodb.net/wichat-db
+
+  gameservice:
+    container_name: gmaeservice-wichat_es1c
+    image: ghcr.io/arquisoft/wichat_es1c/gameservice:latest
+    profiles: ["dev", "prod"]
+    build: ./webapp/backend/gameservice
+    ports:
+      - "8010:8010"
+    networks:
+      - mynetwork
+    environment:
+      MONGODB_URI: mongodb+srv://fFFH8ALCgMl58vdLNovG:y122LzFpRq4LgpHfNRlJ@wichat.sz10z.mongodb.net/wichat-db
+
+  llmservice:
+    container_name: llmservice-wichat_es1c
+    image: ghcr.io/arquisoft/wichat_es1c/llmservice:latest
+    profiles: ["dev", "prod"]
+    build: 
+      context: ./webapp/backend/llmservice
+    ports:
+      - "8003:8003"
+    networks:
+      - mynetwork
+
+  gatewayservice:
+    container_name: gatewayservice-wichat_es1c
+    image: ghcr.io/arquisoft/wichat_es1c/gatewayservice:latest
+    profiles: ["dev", "prod"]
+    build: ./gatewayservice
+    depends_on:
+      - userservice
+      - authservice
+      - llmservice
+      - gameservice
+    ports:
+      - "8000:8000"
+    networks:
+      - mynetwork
+    environment:
+      AUTH_SERVICE_URL: http://authservice:8002
+      USER_SERVICE_URL: http://userservice:8001
+      LLM_SERVICE_URL: http://llmservice:8003
+      GAME_SERVICE_URL: http://gameservice:8010
+
+  webapp:
+    container_name: webapp-wichat_es1c
+    image: ghcr.io/arquisoft/wichat_es1c/webapp:latest
+    profiles: ["dev", "prod"]
+    build: ./webapp
+    depends_on:
+      - gatewayservice
+    ports:
+      - "3000:3000"
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus-wichat_es1c
+    profiles: ["dev"]
+    networks:
+      - mynetwork
+    volumes:
+      - ./gatewayservice/monitoring/prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    depends_on: 
+      - gatewayservice
+      
+  grafana:
+    image: grafana/grafana
+    container_name: grafana-wichat_es1c
+    profiles: ["dev"]
+    networks:
+      - mynetwork
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./gatewayservice/monitoring/grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SERVER_HTTP_PORT=9091
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    ports:
+      - "9091:9091"
+    depends_on: 
+      - prometheus
+
+
+volumes:
+  prometheus_data: 
+  grafana_data: 
+
+networks:
+  mynetwork:
+    driver: bridge

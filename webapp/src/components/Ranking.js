@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Container, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress, Alert } from "@mui/material";
+import OptionsDropdown from './OptionsDropdown'; // Importamos el componente del chatbot flotante
 
 const endpoint = "http://localhost:8000"
 
@@ -60,6 +61,10 @@ const Ranking = () => {
           </Table>
         </TableContainer>
       )}
+
+      {/* Se muestra el componente OptionsDropdown */}
+      <OptionsDropdown />
+
     </Container>
   );
 };
