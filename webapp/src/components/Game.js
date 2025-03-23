@@ -170,7 +170,7 @@ const Game = () => {
                 console.log(`Tiempo total: ${finalTime} segundos`);
                 saveScore(finalScore, finalTime);
             } 
-        }, 2500);
+        }, 1750);
     };
 
     const handleGoHome = () => {
