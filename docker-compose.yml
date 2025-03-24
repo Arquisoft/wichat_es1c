@@ -3,59 +3,81 @@ services:
     container_name: authservice-wichat_es1c
     image: ghcr.io/arquisoft/wichat_es1c/authservice:latest
     profiles: ["dev", "prod"]
-    build: ./webapp/backend/authservice
+    build: 
+      context: ./webapp
+      dockerfile: ./backend/authservice/Dockerfile
     ports:
       - "8002:8002"
     networks:
       - mynetwork
     environment:
       MONGODB_URI: mongodb+srv://fFFH8ALCgMl58vdLNovG:y122LzFpRq4LgpHfNRlJ@wichat.sz10z.mongodb.net/wichat-db
+    volumes:
+      - ./webapp:/app
+      - /app/node_modules
+  
 
   userservice:
     container_name: userservice-wichat_es1c
     image: ghcr.io/arquisoft/wichat_es1c/userservice:latest
     profiles: ["dev", "prod"]
-    build: ./webapp/backend/userservice
+    build: 
+      context: ./webapp
+      dockerfile: ./backend/userservice/Dockerfile
     ports:
       - "8001:8001"
     networks:
       - mynetwork
     environment:
       MONGODB_URI: mongodb+srv://fFFH8ALCgMl58vdLNovG:y122LzFpRq4LgpHfNRlJ@wichat.sz10z.mongodb.net/wichat-db
+    volumes:
+      - ./webapp:/app
+      - /app/node_modules
 
   gameservice:
-    container_name: gmaeservice-wichat_es1c
+    container_name: gameservice-wichat_es1c
     image: ghcr.io/arquisoft/wichat_es1c/gameservice:latest
     profiles: ["dev", "prod"]
-    build: ./webapp/backend/gameservice
+    build: 
+      context: ./webapp
+      dockerfile: ./backend/gameservice/Dockerfile
     ports:
       - "8010:8010"
     networks:
       - mynetwork
     environment:
       MONGODB_URI: mongodb+srv://fFFH8ALCgMl58vdLNovG:y122LzFpRq4LgpHfNRlJ@wichat.sz10z.mongodb.net/wichat-db
+    volumes:
+      - ./webapp:/app
+      - /app/node_modules
 
   llmservice:
     container_name: llmservice-wichat_es1c
     image: ghcr.io/arquisoft/wichat_es1c/llmservice:latest
     profiles: ["dev", "prod"]
     build: 
-      context: ./webapp/backend/llmservice
+      context: ./webapp
+      dockerfile: ./backend/llmservice/Dockerfile
     ports:
       - "8003:8003"
     networks:
       - mynetwork
+    volumes:
+      - ./webapp:/app
+      - /app/node_modules
 
   gatewayservice:
     container_name: gatewayservice-wichat_es1c
     image: ghcr.io/arquisoft/wichat_es1c/gatewayservice:latest
     profiles: ["dev", "prod"]
-    build: ./gatewayservice
+    build: 
+      context: ./webapp
+      dockerfile: ./backend/gatewayservice/Dockerfile
     depends_on:
-      - userservice
-      - authservice
-      - llmservice
-      - gameservice
+       - authservice
+       - userservice
+       - llmservice
+       - gameservice
     ports:
       - "8000:8000"
     networks:
@@ -65,16 +87,28 @@ services:
       USER_SERVICE_URL: http://userservice:8001
       LLM_SERVICE_URL: http://llmservice:8003
       GAME_SERVICE_URL: http://gameservice:8010
+    volumes:
+      - ./webapp:/app
+      - /app/node_modules
 
   webapp:
     container_name: webapp-wichat_es1c
     image: ghcr.io/arquisoft/wichat_es1c/webapp:latest
     profiles: ["dev", "prod"]
-    build: ./webapp
+    build: 
+      context: ./webapp
+      dockerfile: ./Dockerfile
     depends_on:
       - gatewayservice
     ports:
       - "3000:3000"
+    networks:
+      - mynetwork
+    environment:
+      REACT_APP_API_URL: http://localhost:3000
+    volumes:
+      - ./webapp:/app
+      - /app/node_modules
 
   prometheus:
     image: prom/prometheus
@@ -83,13 +117,13 @@ services:
     networks:
       - mynetwork
     volumes:
-      - ./gatewayservice/monitoring/prometheus:/etc/prometheus
+      - ./webapp/backend/gatewayservice/monitoring/prometheus:/etc/prometheus
       - prometheus_data:/prometheus
     ports:
       - "9090:9090"
-    depends_on: 
+    depends_on:
       - gatewayservice
-      
+
   grafana:
     image: grafana/grafana
     container_name: grafana-wichat_es1c
@@ -98,7 +132,7 @@ services:
       - mynetwork
     volumes:
       - grafana_data:/var/lib/grafana
-      - ./gatewayservice/monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ./webapp/backend/gatewayservice/monitoring/grafana/provisioning:/etc/grafana/provisioning
     environment:
       - GF_SERVER_HTTP_PORT=9091
       - GF_AUTH_DISABLE_LOGIN_FORM=true
@@ -106,13 +140,12 @@ services:
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
     ports:
       - "9091:9091"
-    depends_on: 
+    depends_on:
       - prometheus
 
-
 volumes:
-  prometheus_data: 
-  grafana_data: 
+  prometheus_data:
+  grafana_data:
 
 networks:
   mynetwork:

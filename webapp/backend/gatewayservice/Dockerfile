@@ -5,7 +5,7 @@ FROM node:20
 WORKDIR /app
 
 # Copia los archivos de la aplicación
-COPY package*.json ./
+COPY ../../package*.json ./
 COPY . .
 
 # Instala dependencias
