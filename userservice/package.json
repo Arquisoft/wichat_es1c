@@ -1,0 +1,33 @@
+{
+    "name": "userservice",
+    "version": "1.0.0",
+    "description": "User service, in charge of handling users in the application",
+    "main": "service.js",
+    "scripts": {
+        "start": "node userservice.js",
+        "test": "jest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/arquisoft/wichat_0.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/arquisoft/wichat_0/issues"
+    },
+    "homepage": "https://github.com/arquisoft/wichat_0#readme",
+    "dependencies": {
+        "bcrypt": "^5.1.1",
+        "bcryptjs": "^3.0.2",
+        "cors": "^2.8.5",
+        "express": "^4.21.2",
+        "jsonwebtoken": "^9.0.2",
+        "mongoose": "^8.9.3"
+    },
+    "devDependencies": {
+        "jest": "^29.7.0",
+        "mongodb-memory-server": "^10.1.3",
+        "supertest": "^7.0.0"
+    }
+}

@@ -5,6 +5,8 @@ import { Box, Button, TextField, Typography, IconButton, Paper, CircularProgress
 import ChatIcon from '@mui/icons-material/Chat';
 import CloseIcon from '@mui/icons-material/Close';
 
+const endpoint = "http://localhost:8000";
+
 const Chatbot = () => {
   const [open, setOpen] = useState(false);
   const [question, setQuestion] = useState('');
@@ -27,7 +29,7 @@ const Chatbot = () => {
       const apiKey = process.env.REACT_APP_GEMINI_API_KEY || 'AIzaSyCjkcwRHgwuhMoc0N4hJB_bgud9NV2fv-0';
       const model = 'gemini';
 
-      const res = await axios.post('/api/chatbot', {
+      const res = await axios.post(`${endpoint}/llm/ask`, {
         question,
         model,
         apiKey,
