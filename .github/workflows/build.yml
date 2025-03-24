@@ -32,7 +32,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           npx sonar-scanner \
-            -Dsonar.organization=arquisoft \
-            -Dsonar.projectKey=Arquisoft_wichat_es1c \
-            -Dsonar.sources=src \
-            -Dsonar.host.url=https://sonarcloud.io
+            -sonar.organization=arquisoft \
+            -sonar.projectKey=Arquisoft_wichat_es1c \
+            -sonar.sources=src \
+            -sonar.host.url=https://sonarcloud.io
