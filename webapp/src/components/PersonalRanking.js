@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Container, Typography, List, ListItem, ListItemText, CircularProgress, Alert, Paper, Pagination } from "@mui/material";
-import { jwtDecode } from "jwt-decode";
+import jwtDecode from 'jwt-decode';
 import { format } from "date-fns";  // Importa la librería para formatear fechas
 
 const endpoint = "http://localhost:8000";

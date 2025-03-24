@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Typography } from '@mui/material';
-import { jwtDecode } from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
 import Chatbot from './Chatbot';
 import OptionsDropdown from './OptionsDropdown';
 import PersonalRanking from "./PersonalRanking";
+
 
 const Home = () => {
   const [userName, setUserName] = useState('');

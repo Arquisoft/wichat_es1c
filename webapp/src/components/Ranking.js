@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Container, Typography, List, ListItem, ListItemText, CircularProgress, Alert, Paper, Pagination } from "@mui/material";
-import OptionsDropdown from './OptionsDropdown';
 
 const endpoint = "http://localhost:8000";
 
