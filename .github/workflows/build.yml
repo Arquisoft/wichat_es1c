@@ -1,38 +1,29 @@
-name: SonarCloud Analysis
-
+name: Build
 on:
   push:
     branches:
-      - main    
+      - master
   pull_request:
-    branches:
-      - main
-
+    types: [opened, synchronize, reopened]
 jobs:
-  sonarcloud:
-    name: SonarCloud Scan
+  unit-tests:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run SonarCloud Scan
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          npx sonar-scanner \
-            -sonar.organization=arquisoft \
-            -sonar.projectKey=Arquisoft_wichat_es1c \
-            -sonar.sources=src \
-            -sonar.host.url=https://sonarcloud.io
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 22
+    - run: npm --prefix users/authservice ci
+    - run: npm --prefix users/userservice ci
+    - run: npm --prefix llmservice ci
+    - run: npm --prefix gatewayservice ci
+    - run: npm --prefix webapp ci
+    - run: npm --prefix users/authservice test -- --coverage
+    - run: npm --prefix users/userservice test -- --coverage
+    - run: npm --prefix llmservice test -- --coverage
+    - run: npm --prefix gatewayservice test -- --coverage
+    - run: npm --prefix webapp test -- --coverage
+    - name: Analyze with SonarQube
+      uses: SonarSource/sonarqube-scan-action@master
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
