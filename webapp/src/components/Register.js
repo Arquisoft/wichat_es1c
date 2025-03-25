@@ -44,9 +44,23 @@ const Register = () => {
   return (
     <Container component="main" maxWidth="xs" sx={{ mt: 4 }} className="register-container">
       <img src="/LogoWichat.png" alt="Logo Wichat" className="register-logo" /> {/* Imagen añadida */}
-      <Typography variant="h5" align="center">
-        Registro
-      </Typography>
+      <Typography
+  variant="h5"
+  align="center"
+  sx={{
+      fontFamily: "Arial Black",
+      fontSize: "27px",
+      letterSpacing: "0.6px",
+      wordSpacing: "1px",
+      color: "#000000",
+      fontWeight: 400,
+      fontStyle: "normal",
+      fontVariant: "normal",
+      textTransform: "uppercase",
+  }}
+>
+  Registro
+</Typography>
       <TextField
         margin="normal"
         fullWidth

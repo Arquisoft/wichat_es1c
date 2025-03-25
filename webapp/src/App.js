@@ -19,9 +19,6 @@ function App() {
     // Arreglo de fondos posibles
     const backgrounds = [
       '/FondoWichat.png',
-      '/FondoWichat_2.png',
-      '/FondoWichat_3.png',
-      '/FondoWichat_4.png',
     ];
 
     // Seleccionar un fondo aleatorio
