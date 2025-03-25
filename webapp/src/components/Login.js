@@ -4,6 +4,8 @@ import { Container, Typography, TextField, Button, Snackbar } from '@mui/materia
 import { useNavigate } from 'react-router-dom';
 import '../Login.css';
 
+const endpoint = "http://localhost:8000";
+
 axios.defaults.withCredentials = true; // Habilita cookies con credenciales
 
 const Login = () => {
@@ -15,7 +17,7 @@ const Login = () => {
 
   const loginUser = async () => {
     try {
-      const response = await axios.post('/api/login', { email, password });
+      const response = await axios.post(`${endpoint}/api/login`, { email, password });
       const { token } = response.data;
 
       if (!token) {

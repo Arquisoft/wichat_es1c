@@ -4,6 +4,8 @@ import { Container, Typography, TextField, Button, Snackbar, Link } from '@mui/m
 import { useNavigate } from 'react-router-dom';
 import '../Register.css';
 
+const endpoint = "http://localhost:8000";
+
 const Register = () => {
   const navigate = useNavigate();
   const [name, setName] = useState('');
@@ -16,7 +18,7 @@ const Register = () => {
   const registerUser = async () => {
     try {
       const response = await axios.post(
-        '/api/register',
+        `${endpoint}/api/register`,
         { name, email, password },
         { withCredentials: true }
       );
