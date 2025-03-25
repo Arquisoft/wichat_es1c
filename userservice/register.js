@@ -2,7 +2,7 @@ module.exports = function({ jwt, bcrypt, express, ObjectId }) {
   const router = express.Router();
 
   router.post('/register', async (req, res) => {
-    console.log("🔹 Recibiendo solicitud de registro:", req.body);
+    // console.log("🔹 Recibiendo solicitud de registro:", req.body);
 
     const { name, email, password } = req.body;
     if (!name || !email || !password) {
