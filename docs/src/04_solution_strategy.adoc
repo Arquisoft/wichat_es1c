@@ -19,12 +19,12 @@ The system follows a *frontend + dedicated backend architecture*, where all busi
 
 . *Business Logic Layer (Backend - Node.js & Express)*
 ** Manages question generation, answer validation, and data storage.
-** Connects to Wikidata to retrieve questions and answers.
+** Connects to Wikidata to retrieve questions and answers, storing them in the database.
 ** Handles user authentication with JWT, generating and validating tokens.
 
 . *Data Layer (MongoDB Atlas)*
 ** Stores information about users, generated questions, and game statistics.
-** Optimized for flexible storage and efficient queries.
+** Optimized for flexible storage and efficient queries, prioritizing performance.
 
 === Architectural Patterns
 
@@ -36,6 +36,7 @@ The system follows a *frontend + dedicated backend architecture*, where all busi
 
 - *Façade:* Centralizes calls to MongoDB Atlas and Wikidata within the backend API.
 - *Observer:* MongoDB allows real-time subscriptions to data changes.
+- *Producer-Consumer:* Generate questions periodically for the game service to fetch and use, optimizing performance.
 - *Lazy Loading:* Loads data progressively to optimize frontend performance.
 
 === Decisions for Achieving Quality Goals
