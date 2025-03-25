@@ -99,124 +99,32 @@ async function getTemplateByIndex(index)
  */
 async function getTemplateByCategory(category)
 {
-    const template = await Template.aggregate([
+    const template = await Template.aggregate(
+    [
         { $match: { category: category } },
         { $sample: { size: 1 } }
     ]);
     return template[0] || null;
 }
 
-// ✅ Enviar consulta SPARQL a Wikidata
-async function sendQuery(template) {
-    try {
-        const settings = {
-            headers: { Accept: 'application/sparql-results+json' },
-            params: { query: template.query }
-        };
-        const data = await axios.get(endpoint, settings);
-        return data;
-    } catch (error) {
-        console.error("❌ Error al enviar la consulta SPARQL:", error);
-        return null;
-    }
-}
-
-/**
- * Aux. function to generate random IDs.
- * @param {int} length Length of the original array 
- * @param {int} count Number of random IDs to generate
- * @returns {Array} Array containing the random IDs
- */
-function genRandomIDs(length, count)
-{
-    let arr = Array.from({length: length}, (v, k) => k);
-
-    for ( let i = arr.length - 1; i > 0; i-- )
-    {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-
-    return arr.slice(0,count);
-}
-
-
-/**
- * Aux. function to shuffle an array.
- * @param {Array} array Array to shuffle 
- * @returns {Array} Shuffled array
- */
-function shuffleArray(array)
-{
-    for ( let i = array.length - 1; i > 0; i-- )
-    {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
-
-
-/**
- * Given a full array of results and a question template, generates a question.
- * 
- * The returned question contains a title with the flag of the correct country
- * and a list of 4 shuffled answers - 1 correct and 3 incorrect.
- * @param {Array} results Array of Wikidata query results
- * @param {JSON} template Question template
- * @returns {JSON} Question data object
- */
-async function generateQuestion(results, template)
-{
-    // Get 4 random answers - 1 correct and 3 incorrect
-    const randomIDs = genRandomIDs(results.length, NUMBER_OF_WRONG_ANSWERS + 1);
-        const correctID = randomIDs[0];           // Correct answer ID
-        const incorrectIDs = randomIDs.slice(1);  // Incorrect answers IDs
-
-    // Answers
-    const correctAnswer = results[correctID];
-    const incorrectAnswers = incorrectIDs.map(id => results[id]);
-
-    // Shuffle answers
-    const answers = shuffleArray([correctAnswer, ...incorrectAnswers]);
-
-    // Compound returned JSON object
-    const title = template.question.replace('*', correctAnswer.flag);
-    const newQuestion = Question(
-    {
-        title: title,
-        correctAnswer: correctAnswer.country,
-        allAnswers: answers.map(ans => ans.country).join(',')
-    });
-
-    await newQuestion.save();
-    return newQuestion;
-}
-
 /**
  * Generate the full list of questions to be displayed in a game.
+ * @param {String} category If specified, only returns questions of that category,
+ *                          otherwise, return questions of a random category
  * @returns {Array} List of generated questions
  */
-async function generateQuestions()
+async function generateQuestions(category)
 {
     const questions = [];
 
     for ( let i = 0; i < NUMBER_OF_QUESTIONS; i++ )
     {
-        // Get a random template - Can paremeterize this for game modes
-        const template = await getTemplate(0);
-
-        // Send query and generate question
-        const data = await sendQuery(template);
-        const results = data.data.results.bindings.map(binding => {
-            return {
-                country: binding.pLabel.value,
-                flag: binding.img.value
-            }
-        });
-        const newQuestion = await generateQuestion(results, template);
-
-        // Add question to the result list
+        // Get a random template of the specified category
+        // Undefined 'category' param returns a random template
+        const template = getTemplate(category);
+        
+        // Get question from DB and add it to the result list
+        let newQuestion = await Question.findOne({ category : template });
         questions.push(newQuestion);
     }
 
@@ -229,8 +137,10 @@ app.get('/test', (req, res) => {
 });
 
 
-app.get('/add-test', async (req, res) => {
-    try {
+app.get('/add-test', async (req, res) =>
+{
+    try
+    {
         const template = await getTemplate();
         const data = await sendQuery(template);
 
@@ -245,13 +155,16 @@ app.get('/add-test', async (req, res) => {
 
         const newQuestion = await generateQuestion(results, template);
         res.json(newQuestion);
-    } catch (error) {
+    }
+    catch (error)
+    {
         console.error("❌ Error al generar la pregunta:", error);
         res.status(500).json({ error: "Error interno en el servicio de preguntas." });
     }
 });
 
-app.get('/generateQuestions', async (req, res) => {
+app.get('/generateQuestions', async (req, res) =>
+{
     const questions = await generateQuestions()
     res.json(questions)
 });

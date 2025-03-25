@@ -1,13 +1,15 @@
-const expres = require('express');
+const express = require('express');
 const cron = require('node-cron');
 const axios = require('axios');
 const mongoose = require('mongoose');
 const fs = require('fs');
 const { Question } = require('../models/question-model');
-const { generateQuestion, timeout } = require('../questions-service');
+const { genRandomIDs, shuffleArray } = require("../../util");
 
 const app = express();
-const PORT = process.env.PORT || 9081;
+const PORT = process.env.PORT || 9083;
+
+// ----------------------------------------------------------------------------
 
 // Wikidata endpoint
 const endpoint = 'https://query.wikidata.org/sparql';
@@ -21,6 +23,42 @@ const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/questions
 mongoose.connect(mongoUri)
     .then(() => { console.log("Connected to MongoDB"); })
     .catch(err => { console.error("Error connecting to MongoDB", err); });
+
+/**
+ * Given a full array of results and a question template, generates a question.
+ * 
+ * The returned question contains a title with the flag of the correct country
+ * and a list of 4 shuffled answers - 1 correct and 3 incorrect.
+ * @param {Array} results Array of Wikidata query results
+ * @param {JSON} template Question template
+ * @returns {JSON} Question data object
+ */
+async function generateQuestion(results, template)
+{
+    // Get 4 random answers - 1 correct and 3 incorrect
+    const randomIDs = genRandomIDs(results.length, NUMBER_OF_WRONG_ANSWERS + 1);
+        const correctID = randomIDs[0];           // Correct answer ID
+        const incorrectIDs = randomIDs.slice(1);  // Incorrect answers IDs
+
+    // Answers
+    const correctAnswer = results[correctID];
+    const incorrectAnswers = incorrectIDs.map(id => results[id]);
+
+    // Shuffle answers
+    const answers = shuffleArray([correctAnswer, ...incorrectAnswers]);
+
+    // Compound returned JSON object
+    const title = template.question.replace('*', correctAnswer.img);
+    const newQuestion = Question(
+    {
+        title: title,
+        correctAnswer: correctAnswer.label,
+        allAnswers: answers.map(ans => ans.country).join(',')
+    });
+
+    await newQuestion.save();
+    return newQuestion;
+}
 
 // Fetch and store questions in MongoDB
 async function fetchQuestions()
