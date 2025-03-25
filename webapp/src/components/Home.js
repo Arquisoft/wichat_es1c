@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Container, Typography } from '@mui/material';
 import jwtDecode from 'jwt-decode';
 import Chatbot from './Chatbot';
-import OptionsDropdown from './OptionsDropdown'; // Mantén el componente OptionsDropdown
-import PersonalRanking from './PersonalRanking';
+import OptionsDropdown from './OptionsDropdown';
+import PersonalRanking from "./PersonalRanking";
 
 const Home = () => {
   const [userName, setUserName] = useState('');
@@ -15,14 +15,13 @@ const Home = () => {
       try {
         const decodedToken = jwtDecode(token);
 
-        // Verifica qué claves existen en el objeto decodificado
         const extractedName =
           decodedToken.name ||
           decodedToken.user?.name ||
           decodedToken.username ||
-          decodedToken.preferred_username || // Algunos sistemas usan esto
-          decodedToken.given_name || // Puede estar separado como "nombre"
-          decodedToken.email?.split('@')[0] || // Si no hay nombre, usa parte del email
+          decodedToken.preferred_username ||
+          decodedToken.given_name ||
+          decodedToken.email?.split('@')[0] ||
           '';
 
         setUserName(extractedName);
@@ -34,9 +33,8 @@ const Home = () => {
 
   return (
     <>
-      <OptionsDropdown /> {/* Coloca el OptionsDropdown al principio */}
-
-      <Container component="main" maxWidth="md" sx={{ mt: 8 }}>
+      <OptionsDropdown />
+      <Container component="main" maxWidth="md">
         <Typography
           component="h1"
           variant="h3"
