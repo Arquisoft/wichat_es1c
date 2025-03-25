@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Container, Typography } from '@mui/material';
 import jwtDecode from 'jwt-decode';
 import Chatbot from './Chatbot';
-import OptionsDropdown from './OptionsDropdown';
-import PersonalRanking from "./PersonalRanking";
-
+import OptionsDropdown from './OptionsDropdown'; // Mantén el componente OptionsDropdown
+import PersonalRanking from './PersonalRanking';
 
 const Home = () => {
   const [userName, setUserName] = useState('');
@@ -34,46 +33,49 @@ const Home = () => {
   }, []);
 
   return (
-    <Container component="main" maxWidth="md">
-      <Typography
-        component="h1"
-        variant="h3"
-        align="center"
-        sx={{
-          mt: 2,
-          color: 'white',
-          fontFamily: "'Poppins', sans-serif",
-          fontWeight: '900',
-          textTransform: 'uppercase',
-          textShadow: '2px 2px 8px rgba(0, 0, 0, 0.5), -1px -1px 0 rgba(0, 0, 0, 0.7), 1px -1px 0 rgba(0, 0, 0, 0.7), -1px 1px 0 rgba(0, 0, 0, 0.7), 1px 1px 0 rgba(0, 0, 0, 0.7)',
-          width: '100%',
-          letterSpacing: '0.5px',
-          wordBreak: 'break-word',
-        }}
-      >
-        Bienvenido a WiChat_es1c
-      </Typography>
+    <>
+      <OptionsDropdown /> {/* Coloca el OptionsDropdown al principio */}
 
-      {userName && (
+      <Container component="main" maxWidth="md" sx={{ mt: 8 }}>
         <Typography
-          component="h2"
-          variant="h5"
+          component="h1"
+          variant="h3"
           align="center"
           sx={{
             mt: 2,
             color: 'white',
             fontFamily: "'Poppins', sans-serif",
-            fontWeight: '700',
+            fontWeight: '900',
+            textTransform: 'uppercase',
+            textShadow: '2px 2px 8px rgba(0, 0, 0, 0.5), -1px -1px 0 rgba(0, 0, 0, 0.7), 1px -1px 0 rgba(0, 0, 0, 0.7), -1px 1px 0 rgba(0, 0, 0, 0.7), 1px 1px 0 rgba(0, 0, 0, 0.7)',
+            width: '100%',
+            letterSpacing: '0.5px',
+            wordBreak: 'break-word',
           }}
         >
-          Usuario logueado como: {userName}
+          Bienvenido a WiChat_es1c
         </Typography>
-      )}
 
-      <PersonalRanking />
-      <OptionsDropdown />
-      <Chatbot />
-    </Container>
+        {userName && (
+          <Typography
+            component="h2"
+            variant="h5"
+            align="center"
+            sx={{
+              mt: 2,
+              color: 'white',
+              fontFamily: "'Poppins', sans-serif",
+              fontWeight: '700',
+            }}
+          >
+            Usuario logueado como: {userName}
+          </Typography>
+        )}
+
+        <PersonalRanking />
+        <Chatbot />
+      </Container>
+    </>
   );
 };
 
