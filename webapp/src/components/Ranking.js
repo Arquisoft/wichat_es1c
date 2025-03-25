@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   Container,
   Typography,
   List,
   ListItem,
-  ListItemText,
   CircularProgress,
   Alert,
   Paper,
   Pagination,
+  Button,
 } from "@mui/material";
 import { format } from "date-fns";
 
@@ -20,7 +21,8 @@ const Ranking = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 10;
+  const rowsPerPage = 5;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRanking = async () => {
@@ -84,12 +86,16 @@ const Ranking = () => {
                 : "Fecha inválida";
 
               return (
-                <ListItem key={index} sx={{ borderBottom: "1px solid #e0e0e0" }}>
-                  <ListItemText
-                    primary={`${index + 1 + (currentPage - 1) * rowsPerPage}. Correctas: ${game.correct} | Falladas: ${game.wrong} | Total: ${game.correct + game.wrong}`}
-                    secondary={`Fecha: ${formattedDate}`}
-                    sx={{ color: "#333", fontWeight: "500", letterSpacing: "0.5px" }}
-                  />
+                <ListItem key={index} sx={{ borderBottom: "1px solid #e0e0e0", display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+                  <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+                    {`${index + 1 + (currentPage - 1) * rowsPerPage}. Email: ${game.email}`}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "#333" }}>
+                    Correctas: {game.correct} | Falladas: {game.wrong} | Tiempo: {game.totalTime.toFixed(2)} segundos
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    Fecha: {formattedDate}
+                  </Typography>
                 </ListItem>
               );
             })}
@@ -109,6 +115,15 @@ const Ranking = () => {
           </Typography>
         )
       )}
+
+      <Button
+        variant="contained"
+        color="primary"
+        sx={{ mt: 3, display: "block", mx: "auto" }}
+        onClick={() => navigate("/home")}
+      >
+        Volver a Home
+      </Button>
     </Container>
   );
 };

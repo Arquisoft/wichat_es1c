@@ -124,7 +124,15 @@ app.post('/api/save-score', async (req, res) => {
 app.get('/api/ranking', async (req, res) => {
   try {
     const ranking = await axios.get(`${gameServiceUrl}/ranking`);
-    res.json(ranking.data);
+    
+    const sortedRanking = ranking.data.sort((a, b) => {
+      if (a.correct === b.correct) {
+        return a.totalTime - b.totalTime;
+      }
+      return b.correct - a.correct;
+    });
+
+    res.json(sortedRanking);
   } catch (error) {
     console.error("❌ Error en /api/ranking", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({
