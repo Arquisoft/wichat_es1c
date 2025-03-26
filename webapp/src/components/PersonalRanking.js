@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Container, Typography, List, ListItem, ListItemText, CircularProgress, Alert, Paper, Pagination } from "@mui/material";
+import { Container, Typography, List, ListItem, CircularProgress, Alert, Paper, Pagination } from "@mui/material";
 import jwtDecode from 'jwt-decode';
 import { format } from "date-fns";  // Importa la librería para formatear fechas
 
@@ -84,15 +84,13 @@ const PersonalRanking = () => {
                 : "Fecha inválida";
 
               return (
-                <ListItem key={index} sx={{ borderBottom: "1px solid #e0e0e0" }}>
-                  <ListItemText
-                    primary={`${
-                      // Aquí ajustamos el índice para que no se reinicie en cada página
-                      index + 1 + (currentPage - 1) * gamesPerPage
-                    }. Correctas: ${game.correct} | Falladas: ${game.wrong} | Total: ${game.correct + game.wrong}`}
-                    secondary={`Fecha: ${formattedDate}`}
-                    sx={{ color: "#333", fontWeight: "500", letterSpacing: "0.5px" }}
-                  />
+                <ListItem key={index} sx={{ borderBottom: "1px solid #e0e0e0", display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+                  <Typography variant="body2" sx={{ color: "#333" }}>
+                    {`${index + 1 + (currentPage - 1) * gamesPerPage}. Correctas: ${game.correct} | Falladas: ${game.wrong} | Tiempo: ${game.totalTime.toFixed(2)} segundos`}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    Fecha: {formattedDate}
+                  </Typography>
                 </ListItem>
               );
             })}
