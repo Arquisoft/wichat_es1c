@@ -141,6 +141,24 @@ app.get('/api/ranking', async (req, res) => {
   }
 });
 
+app.get('/api/user-stats', async (req, res) => {
+  try {
+    const token = req.headers['authorization']; // Obtener el token del encabezado
+    const headers = {
+      'Authorization': token, // Pasar el token al servicio de juegos
+    };
+
+    // Llamar al servicio de juegos para obtener los puntajes del usuario
+    const userStatsResponse = await axios.get(`${gameServiceUrl}/user-stats`, { headers });
+    res.json(userStatsResponse.data); // Devolver los datos obtenidos
+  } catch (error) {
+    console.error("❌ Error en /api/user-stats:", error.response?.data || error.message);
+    res.status(error.response?.status || 500).json({
+      error: error.response?.data?.message || 'Error al obtener las estadísticas del usuario',
+    });
+  }
+});
+
 // 🔹 **Carga de OpenAPI Docs (Swagger)**
 const openapiPath = './openapi.yaml';
 if (fs.existsSync(openapiPath)) {
