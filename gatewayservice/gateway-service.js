@@ -124,11 +124,37 @@ app.post('/api/save-score', async (req, res) => {
 app.get('/api/ranking', async (req, res) => {
   try {
     const ranking = await axios.get(`${gameServiceUrl}/ranking`);
-    res.json(ranking.data);
+    
+    const sortedRanking = ranking.data.sort((a, b) => {
+      if (a.correct === b.correct) {
+        return a.totalTime - b.totalTime;
+      }
+      return b.correct - a.correct;
+    });
+
+    res.json(sortedRanking);
   } catch (error) {
     console.error("❌ Error en /api/ranking", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({
       error: error.response?.data?.message || 'Error al cargar el ranking'
+    });
+  }
+});
+
+app.get('/api/user-stats', async (req, res) => {
+  try {
+    const token = req.headers['authorization']; // Obtener el token del encabezado
+    const headers = {
+      'Authorization': token, // Pasar el token al servicio de juegos
+    };
+
+    // Llamar al servicio de juegos para obtener los puntajes del usuario
+    const userStatsResponse = await axios.get(`${gameServiceUrl}/user-stats`, { headers });
+    res.json(userStatsResponse.data); // Devolver los datos obtenidos
+  } catch (error) {
+    console.error("❌ Error en /api/user-stats:", error.response?.data || error.message);
+    res.status(error.response?.status || 500).json({
+      error: error.response?.data?.message || 'Error al obtener las estadísticas del usuario',
     });
   }
 });

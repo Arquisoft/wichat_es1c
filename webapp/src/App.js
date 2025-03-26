@@ -5,6 +5,7 @@ import Register from './components/Register.js';
 import Home from './components/Home.js';
 import Game from './components/Game.js';
 import FAQ from './components/Faq.js';
+import UserAccount from './components/UserAccount.js';
 import Ranking from './components/Ranking.js';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
@@ -70,10 +71,11 @@ function App() {
         <Route path="/game" element={<Game />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/ranking" element={<Ranking />} />
+        <Route path="/user-account" element={<UserAccount />} />
       </Routes>
 
       {location.pathname !== '/home' && location.pathname !== '/game' && location.pathname !== '/faq'
-        && location.pathname !== '/ranking' && (
+        && location.pathname !== '/ranking' && location.pathname !== '/user-account' && (
         <Typography component="div" align="center" sx={{ mt: 2 }}>
           {location.pathname === '/' ? (
             <Link to="/register" variant="body2" component="button" style={{ color: 'white' }}>
