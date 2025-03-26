@@ -32,82 +32,72 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}> {/* Aplicar el tema en toda la aplicación */}
-      <Container
-        component="main"
-        maxWidth="sm"
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh',
-          textAlign: 'center',
-          backgroundColor: 'rgba(0, 0, 0, 0)',
-          boxShadow: '0px 4px 20px rgba(0,0,0,0)', 
-          padding: 3,
+      <div
+        style={{
+          height: '100vh',
+          overflowY: 'auto', // Permitir desplazamiento vertical
+          overflowX: 'hidden', // Deshabilitar desplazamiento horizontal
+          width: '100vw', // Asegurar que ocupe todo el ancho de la ventana
         }}
       >
-
-        <CssBaseline />
-        <Typography
-          component="h1"
-          variant="h3"
-          align="center"
+        <Container
+          component="main"
+          maxWidth="sm"
           sx={{
-            mt: 2,
-            color: 'white',
-            fontFamily: "'Poppins', sans-serif",
-            fontWeight: '900',
-            textTransform: 'uppercase',
-            textShadow: '2px 2px 8px rgba(0, 0, 0, 0.5), -1px -1px 0 rgba(0, 0, 0, 0.7), 1px -1px 0 rgba(0, 0, 0, 0.7), '
-            + '-1px 1px 0 rgba(0, 0, 0, 0.7), 1px 1px 0 rgba(0, 0, 0, 0.7)',
-            width: '100%',
-            letterSpacing: '0.5px',
-            wordBreak: 'break-word',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '100vh',
+            textAlign: 'center',
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            boxShadow: '0px 4px 20px rgba(0,0,0,0)', 
+            padding: 3,
           }}
         >
-          {/* Texto para la página */}
 
-        </Typography>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/game" element={<Game />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/ranking" element={<Ranking />} />
-        </Routes>
+          <CssBaseline />
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/game" element={<Game />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/ranking" element={<Ranking />} />
+            <Route path="/user-account" element={<UserAccount />} />
+          </Routes>
 
-        {/* Botón de cambio de modo */}
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => setDarkMode(!darkMode)} 
-          sx={{
-            position: 'fixed',
-            bottom: 20,
-            left: 20,
-            zIndex: 1000,
-          }}
-        >
-          {darkMode ? 'Modo Oscuro' : 'Modo Claro'} {/* Cambiar el texto según el modo */}
-        </Button>
+          {/* Botón de cambio de modo */}
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => setDarkMode(!darkMode)} 
+            sx={{
+              position: 'fixed',
+              bottom: 20,
+              left: 20,
+              zIndex: 1000,
+            }}
+          >
+            {darkMode ? 'Modo Oscuro' : 'Modo Claro'} {/* Cambiar el texto según el modo */}
+          </Button>
 
-        {location.pathname !== '/home' && location.pathname !== '/game' && location.pathname !== '/faq'
-          && location.pathname !== '/ranking' && (
-          <Typography component="div" align="center" sx={{ mt: 2 }}>
-            {location.pathname === '/' ? (
-              <Link to="/register" variant="body2" component="button" style={{ color: 'white' }}>
-                ¿No tienes una cuenta? Regístrate aquí.
-              </Link>
-            ) : (
-              <Link to="/" variant="body2" component="button" style={{ color: 'white' }}>
-                ¿Ya tienes una cuenta? Inicia sesión aquí.
-              </Link>
-            )}
-          </Typography>
-        )}
-      </Container>
+          {location.pathname !== '/home' && location.pathname !== '/game' && location.pathname !== '/faq' && location.pathname !== '/user-account'
+            && location.pathname !== '/ranking' && (
+            <Typography component="div" align="center" sx={{ mt: 2 }}>
+              {location.pathname === '/' ? (
+                <Link to="/register" variant="body2" component="button" style={{ color: 'white' }}>
+                  ¿No tienes una cuenta? Regístrate aquí.
+                </Link>
+              ) : (
+                <Link to="/" variant="body2" component="button" style={{ color: 'white' }}>
+                  ¿Ya tienes una cuenta? Inicia sesión aquí.
+                </Link>
+              )}
+            </Typography>
+          )}
+        </Container>
+      </div>
     </ThemeProvider>
   );
 }

@@ -13,6 +13,7 @@ import {
   Button,
 } from "@mui/material";
 import { format } from "date-fns";
+import OptionsDropdown from './OptionsDropdown';
 
 const endpoint = "http://localhost:8000";
 
@@ -48,6 +49,8 @@ const Ranking = () => {
   };
 
   return (
+            <>
+                <OptionsDropdown />  
     <Container
       sx={{
         mt: 5,
@@ -125,6 +128,7 @@ const Ranking = () => {
         Volver a Home
       </Button>
     </Container>
+    </>
   );
 };
 
