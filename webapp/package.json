@@ -12,15 +12,17 @@
     "@testing-library/user-event": "^14.5.2",
     "axios": "^1.7.9",
     "date-fns": "^4.1.0",
+    "framer-motion": "^12.6.2",
+    "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
     "react-chatbotify": "^2.0.0-beta.32",
     "react-dom": "^18.2.0",
     "react-router-dom": "^7.4.0",
     "react-scripts": "5.0.1",
     "react-simple-typewriter": "^5.0.1",
+    "recharts": "^2.15.1",
     "swagger-ui-express": "^5.0.1",
-    "web-vitals": "^3.5.1",
-    "jwt-decode": "^3.1.2"
+    "web-vitals": "^3.5.1"
   },
   "scripts": {
     "start": "react-scripts start",

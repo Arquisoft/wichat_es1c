@@ -199,29 +199,40 @@ async function generateQuestion(results, template)
 
 /**
  * Generate the full list of questions to be displayed in a game.
+ * Ensures no duplicate questions based on the correctAnswer.
  * @returns {Array} List of generated questions
  */
-async function generateQuestions()
-{
+async function generateQuestions() {
     const questions = [];
+    const usedCorrectAnswers = new Set(); // Set to track used correct answers
 
-    for ( let i = 0; i < NUMBER_OF_QUESTIONS; i++ )
-    {
-        // Get a random template - Can paremeterize this for game modes
-        const template = await getTemplate(0);
+    while (questions.length < NUMBER_OF_QUESTIONS) {
+        // Get a random template
+        const template = await getTemplate();
 
         // Send query and generate question
         const data = await sendQuery(template);
-        const results = data.data.results.bindings.map(binding => {
-            return {
-                country: binding.pLabel.value,
-                flag: binding.img.value
-            }
-        });
+        if (!data || !data.data || !data.data.results || !data.data.results.bindings.length) {
+            console.error("❌ No se encontraron datos en Wikidata para el template.");
+            continue;
+        }
+
+        const results = data.data.results.bindings.map(binding => ({
+            country: binding.pLabel.value,
+            flag: binding.img.value
+        }));
+
+        // Generate the question
         const newQuestion = await generateQuestion(results, template);
 
-        // Add question to the result list
+        // Check if the correctAnswer has already been used
+        if (usedCorrectAnswers.has(newQuestion.correctAnswer)) {
+            continue; // Skip if the correctAnswer has already been used
+        }
+
+        // Add question to the result list and mark the correctAnswer as used
         questions.push(newQuestion);
+        usedCorrectAnswers.add(newQuestion.correctAnswer);
     }
 
     return questions;
