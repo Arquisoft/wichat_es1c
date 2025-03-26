@@ -31,6 +31,33 @@ function App() {
   }, [location, darkMode]); // Asegúrate de actualizar cuando cambie darkMode
 
   return (
+    <>
+    <div className="context">
+    </div>
+    <div className="area">
+      <ul className="circles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
     <ThemeProvider theme={theme}> {/* Aplicar el tema en toda la aplicación */}
       <div
         style={{
@@ -99,6 +126,7 @@ function App() {
         </Container>
       </div>
     </ThemeProvider>
+    </>
   );
 }
 
