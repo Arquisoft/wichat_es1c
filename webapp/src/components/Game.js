@@ -249,7 +249,8 @@ const Game = () => {
         </Button>
 
 
-            <Chatbot />
+        <Chatbot currentAnswer={question.correctAnswer} />
+
         </Container>
     );
 };

@@ -2,20 +2,23 @@ import React from 'react';
 import ChatBot from 'react-chatbotify';
 import axios from 'axios';
 
-const GameChatbot = () => {
-  const fetchGeminiResponse = async (userInput, answer, streamMessage) => {
+const GameChatbot = ({ currentAnswer }) => {
+  const fetchGeminiResponse = async (userInput, streamMessage) => {
     try {
       const systemMessage = `
-        Eres un asistente experto en banderas. El país correcto es "${answer}".
+        Eres un asistente experto en banderas. El país correcto es "${currentAnswer}".
         NO digas el nombre directamente. Da pistas útiles sobre su cultura, historia, geografía o colores de la bandera.
         Responde siempre en español, de forma clara y amigable.
       `;
 
-      const response = await axios.post('/api/chatbot', {
+      const response = await axios.post('http://localhost:8000/api/chatbot', {
         question: userInput,
         model: 'gemini',
         systemMessage
       });
+      
+      console.log("➡️ Enviando país al chatbot:", response);
+      console.log("➡️ Enviando país al chatbot:", currentAnswer);
 
       const reply = response.data.answer || 'No tengo una pista para eso.';
       streamMessage(reply);
@@ -32,20 +35,12 @@ const GameChatbot = () => {
     },
     await_user_input: {
       message: async ({ userInput, streamMessage }) => {
-        try {
-          const answerResponse = await axios.get('/api/current-answer');
-
-          const answer = answerResponse.data?.answer;
-
-          if (!answer) {
-            throw new Error('No se pudo obtener la respuesta correcta.');
-          }
-
-          await fetchGeminiResponse(userInput, answer, streamMessage);
-        } catch (err) {
-          console.error('❌ Error al obtener el contexto:', err);
-          streamMessage('No se pudo obtener el contexto del juego.');
+        if (!currentAnswer) {
+          streamMessage('⚠️ No tengo información sobre la bandera actual.');
+          return;
         }
+
+        await fetchGeminiResponse(userInput, streamMessage);
       },
       path: 'await_user_input'
     }

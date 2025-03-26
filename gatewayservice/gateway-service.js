@@ -30,15 +30,12 @@ app.get('/health', (req, res) => {
 });
 
 // 🔹 **Montamos el router de LLMService**
-app.use('/llm/ask', async(req, res) => {
+app.post('/api/chatbot', async (req, res) => {
   try {
-    const ranking = await axios.post(`${llmServiceUrl}/ask`, req.body);
-    res.json(ranking.data);
+    const response = await axios.post(`${llmServiceUrl}/`, req.body);
+    res.json(response.data);
   } catch (error) {
-    console.error("❌ Error en /llm/ask", error.response?.data || error.message);
-    res.status(error.response?.status || 500).json({
-      error: error.response?.data?.message || 'Error al preguntar al llm'
-    });
+    res.status(500).json({ error: 'Error al contactar con el LLM Service' });
   }
 });
 
@@ -132,6 +129,17 @@ app.get('/api/ranking', async (req, res) => {
     });
   }
 });
+
+
+app.get('/api/current-answer', async (req, res) => {
+  try {
+    const response = await axios.get(`${gameServiceUrl}/current-answer`);
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener la respuesta actual' });
+  }
+});
+
 
 // 🔹 **Carga de OpenAPI Docs (Swagger)**
 const openapiPath = './openapi.yaml';
