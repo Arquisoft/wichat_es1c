@@ -4,7 +4,8 @@ import { Container, Typography, Box, Button } from '@mui/material';
 import OptionsDropdown from './OptionsDropdown';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { motion } from 'framer-motion';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const endpoint = "http://localhost:8000";
 
@@ -14,16 +15,17 @@ const UserAccount = () => {
     const [totalGames, setTotalGames] = useState(0);
     const [correctAnswers, setCorrectAnswers] = useState(0);
     const [wrongAnswers, setWrongAnswers] = useState(0);
+    const [totalQuestions, setTotalQuestions] = useState(0);
+    const [accuracy, setAccuracy] = useState(0);
+    const [lastTenGames, setLastTenGames] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-
         const token = localStorage.getItem('token');
 
         if (token) {
             try {
                 const decodedToken = jwtDecode(token);
-
                 const extractedName =
                     decodedToken.name ||
                     decodedToken.user?.name ||
@@ -32,135 +34,129 @@ const UserAccount = () => {
                     decodedToken.given_name ||
                     decodedToken.email?.split('@')[0] ||
                     '';
-
                 setUserName(extractedName);
                 setUserEmail(decodedToken.email);
             } catch (error) {
                 console.error('Error al decodificar el token.');
             }
         }
+    }, []);
 
+    useEffect(() => {
+        if (!userEmail) return;
+    
         const fetchUserStats = async () => {
             try {
-                let response = await axios.get(`${endpoint}/api/ranking`);
-                response = response.filter((game) => game.email === userEmail); 
-                
-                // response.data es una colección de estadísticas del usuario
-                const stats = response.data;
+                const response = await axios.get(`${endpoint}/api/ranking`);
+                console.log('Datos de la API:', response.data);
+                const userStats = response.data.filter((game) => game.email === userEmail);
+    
+                const totalCorrectAnswers = userStats.reduce((sum, stat) => sum + parseInt(stat.correct || 0, 10), 0);
+                const totalWrongAnswers = userStats.reduce((sum, stat) => sum + parseInt(stat.wrong || 0, 10), 0);
+    
+                setTotalGames(userStats.length);
+                setCorrectAnswers(totalCorrectAnswers);
+                setWrongAnswers(totalWrongAnswers);
+                setTotalQuestions(totalCorrectAnswers + totalWrongAnswers);
+    
+                const totalQuestions = totalCorrectAnswers + totalWrongAnswers;
+                const calculatedAccuracy = totalQuestions > 0 ? (totalCorrectAnswers / totalQuestions) * 100 : 0;
+                setAccuracy(calculatedAccuracy.toFixed(2));
 
-                // Calcular el total de respuestas correctas e incorrectas
-                const totalCorrectAnswers = stats.reduce((sum, stat) => sum + (stat.correctAnswers || 0), 0);
-                const totalWrongAnswers = stats.reduce((sum, stat) => sum + (stat.wrongAnswers || 0), 0);
-
-                setTotalGames(stats.length); // Número total de juegos = longitud de la colección
-                setCorrectAnswers(totalCorrectAnswers); // Total de respuestas correctas
-                setWrongAnswers(totalWrongAnswers); // Total de respuestas incorrectas
+                // Ordenar de más antiguo a más nuevo
+                const sortedRanking = userStats.sort((a, b) => {
+                    const dateA = new Date(a.timestamp * 1000 || a.timestamp); // Convertir timestamp a fecha
+                    const dateB = new Date(b.timestamp * 1000 || b.timestamp);
+                    return dateA - dateB; // Orden ascendente
+                });
+    
+                // Tomamos las últimas 10 partidas
+                const lastTen = sortedRanking.slice(-10).map((game, index) => {
+                    const gameTotalQuestions = parseInt(game.correct || 0, 10) + parseInt(game.wrong || 0, 10);
+                    const accuracy = gameTotalQuestions > 0 ? (parseInt(game.correct || 0, 10) / gameTotalQuestions) * 100 : 0;
+                    return {
+                        name: `Partida ${index + 1}`,
+                        accuracy: accuracy.toFixed(2)
+                    };
+                });
+    
+                setLastTenGames(lastTen);
             } catch (error) {
                 console.error('Error al obtener las estadísticas del usuario:', error);
             }
         };
-
+    
         fetchUserStats();
-
-    }, []);
+    }, [userEmail]);
+    
 
     return (
         <>
             <OptionsDropdown />
             <Container component="main" maxWidth="md">
                 {userName && userEmail && (
-                    <Box
-                        sx={{
-                            mt: 4,
-                            p: 3,
-                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                            borderRadius: '8px',
-                            boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
-                            textAlign: 'center',
-                        }}
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
                     >
-                        <Typography
-                            component="h2"
-                            variant="h5"
-                            sx={{
+                        <motion.div whileHover={{ scale: 1.03 }} transition={{ duration: 0.3 }}>
+                            <Box sx={{
+                                mt: 4,
+                                p: 3,
+                                background: 'linear-gradient(135deg, #1e3c72, #2a5298)',
+                                borderRadius: '16px',
+                                boxShadow: '0 8px 20px rgba(0, 0, 0, 0.4)',
+                                textAlign: 'center',
                                 color: 'white',
-                                fontFamily: "'Poppins', sans-serif",
-                                fontWeight: '700',
-                                mb: 2,
-                            }}
-                        >
-                            Datos personales del usuario
+                                fontFamily: "'Montserrat', sans-serif",
+                                border: '2px solid transparent',
+                                backgroundClip: 'padding-box',
+                                position: 'relative',
+                                overflow: 'hidden',
+                            }}>
+                                <Typography component="h2" variant="h5" sx={{
+                                    fontWeight: '700',
+                                    mb: 2,
+                                    letterSpacing: '1px',
+                                    textTransform: 'uppercase',
+                                }}>
+                                    Datos del Usuario
+                                </Typography>
+                                <Typography variant="body1">Usuario: {userName}</Typography>
+                                <Typography variant="body1">Correo: {userEmail}</Typography>
+                                <Typography variant="body1">Total de partidas jugadas: {totalGames}</Typography>
+                                <Typography variant="body1">Preguntas acertadas: {correctAnswers}</Typography>
+                                <Typography variant="body1">Preguntas falladas: {wrongAnswers}</Typography>
+                                <Typography variant="body1">Total de preguntas: {totalQuestions}</Typography>
+                                <Typography variant="body1" sx={{ fontWeight: '600', color: accuracy >= 50 ? '#4CAF50' : '#F44336' }}>
+                                    Porcentaje de aciertos: {accuracy}%
+                                </Typography>
+                            </Box>
+                        </motion.div>
+                    </motion.div>
+                )}
+                {lastTenGames.length > 0 && (
+                    <Box mt={4} sx={{ background: 'white', padding: 2, borderRadius: '12px', boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)' }}>
+                        <Typography variant="h6" align="center" gutterBottom>
+                            Progresión de porcentaje de aciertos en las últimas 10 partidas
                         </Typography>
-                        <Typography
-                            component="p"
-                            variant="body1"
-                            sx={{
-                                color: 'white',
-                                fontFamily: "'Poppins', sans-serif",
-                                fontWeight: '400',
-                                mt: 1,
-                            }}
-                        >
-                            Usuario: {userName}
-                        </Typography>
-                        <Typography
-                            component="p"
-                            variant="body1"
-                            sx={{
-                                color: 'white',
-                                fontFamily: "'Poppins', sans-serif",
-                                fontWeight: '400',
-                                mt: 1,
-                            }}
-                        >
-                            Correo: {userEmail}
-                        </Typography>
-                        <Typography
-                            component="p"
-                            variant="body1"
-                            sx={{
-                                color: 'white',
-                                fontFamily: "'Poppins', sans-serif",
-                                fontWeight: '400',
-                                mt: 1,
-                            }}
-                        >
-                            Total de partidas jugadas: {totalGames}
-                        </Typography>
-                        <Typography
-                            component="p"
-                            variant="body1"
-                            sx={{
-                                color: 'white',
-                                fontFamily: "'Poppins', sans-serif",
-                                fontWeight: '400',
-                                mt: 1,
-                            }}
-                        >
-                            Preguntas acertadas: {correctAnswers}
-                        </Typography>
-                        <Typography
-                            component="p"
-                            variant="body1"
-                            sx={{
-                                color: 'white',
-                                fontFamily: "'Poppins', sans-serif",
-                                fontWeight: '400',
-                                mt: 1,
-                            }}
-                        >
-                            Preguntas falladas: {wrongAnswers}
-                        </Typography>
+                        <ResponsiveContainer width="100%" height={300}>
+                            <LineChart data={lastTenGames}>
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="name" />
+                                <YAxis domain={[0, 100]} />
+                                <Tooltip />
+                                <Line type="monotone" dataKey="accuracy" stroke="#4CAF50" strokeWidth={2} />
+                            </LineChart>
+                        </ResponsiveContainer>
                     </Box>
                 )}
-                <Button
-                    variant="contained"
-                    color="primary"
-                    sx={{ mt: 3, display: "block", mx: "auto" }}
-                    onClick={() => navigate("/home")}
-                >
-                    Volver a Home
-                </Button>
+                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                    <Button variant="contained" color="primary" sx={{ mt: 3, display: "block", mx: "auto", fontWeight: 'bold', transition: '0.3s', boxShadow: '0 4px 10px rgba(255, 255, 255, 0.3)' }} onClick={() => navigate("/home")}>
+                        Volver a Home
+                    </Button>
+                </motion.div>
             </Container>
         </>
     );
