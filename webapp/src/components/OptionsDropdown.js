@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 
@@ -50,6 +49,17 @@ const TopNavbar = () => {
             }}
           >
             Ranking
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => navigate('/user-account')}
+            sx={{
+              bgcolor: '#007bff',
+              '&:hover': { bgcolor: '#0056b3' },
+              textTransform: 'none',
+            }}
+          >
+            Mi cuenta
           </Button>
           <Button
             variant="contained"

@@ -5,6 +5,7 @@ import Register from './components/Register.js';
 import Home from './components/Home.js';
 import Game from './components/Game.js';
 import FAQ from './components/Faq.js';
+import UserAccount from './components/UserAccount.js';
 import Ranking from './components/Ranking.js';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
@@ -46,6 +47,7 @@ function App() {
           padding: 3,
         }}
       >
+
         <CssBaseline />
         <Typography
           component="h1"
@@ -65,6 +67,7 @@ function App() {
           }}
         >
           {/* Texto para la página */}
+
         </Typography>
         <Routes>
           <Route path="/" element={<Login />} />
