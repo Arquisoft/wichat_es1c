@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Container, Typography, Grid, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Chatbot from './Chatbot';
+import Timer from './Timer';
 import '../Game.css';
 
 const endpoint = "http://localhost:8000";
@@ -17,6 +18,7 @@ const Game = () => {
     const [incorrectAnswer, setIncorrectAnswer] = useState('');
     const [correctAnswer, setCorrectAnswer] = useState('');
     const [startTime, setStartTime] = useState(null);
+    const [timerKey, setTimerKey] = useState(0);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -162,6 +164,7 @@ const Game = () => {
             setIncorrectAnswer('');
             setCorrectAnswer('');
             setCurrentQuestionIndex(prevIndex => prevIndex + 1);
+            setTimerKey(prevKey => prevKey + 1);
 
             if (currentQuestionIndex >= questions.length - 1) {
                 const finalScore = score + (option === question.correctAnswer ? 1 : 0);
@@ -177,8 +180,32 @@ const Game = () => {
         navigate('/home');
     };
 
+    const handleTimeOut = () => {
+        /*
+        setIncorrectAnswer(question.correctAnswer); // Marcar como incorrecta
+        setTimeout(() => {
+            setSelected('');
+            setResult('');
+            setCorrectAnswerAnimation(false);
+            setIncorrectAnswer('');
+            setCorrectAnswer('');
+            setCurrentQuestionIndex(prevIndex => prevIndex + 1);
+            setTimerKey(prevKey => prevKey + 1);
+
+            if (currentQuestionIndex >= questions.length - 1) {
+                const endTime = Date.now();
+                const finalTime = (endTime - startTime) / 1000; // Tiempo total en segundos
+                console.log(`Tiempo total: ${finalTime} segundos`);
+                saveScore(score, finalTime);
+            } 
+        }, 1750);
+        */
+       handleSelect(false)
+    };
+
     return (
         <Container maxWidth="xs" className="game-container" style={{ marginTop: "20px", textAlign: "center" } }>
+            <Timer key={timerKey} onTimeOut={handleTimeOut} duration={60} />
             <Typography variant="h5" style={{ marginBottom: "10px" }}>{question.title}</Typography>
             <img
                 src={question.image}
