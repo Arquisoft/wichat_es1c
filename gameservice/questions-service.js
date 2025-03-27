@@ -228,29 +228,6 @@ app.get('/test', (req, res) => {
     res.json({ status: 'OK' });
 });
 
-
-app.get('/add-test', async (req, res) => {
-    try {
-        const template = await getTemplate();
-        const data = await sendQuery(template);
-
-        if (!data || !data.data || !data.data.results || !data.data.results.bindings.length) {
-            return res.status(500).json({ error: "No se encontraron datos en Wikidata." });
-        }
-
-        const results = data.data.results.bindings.map(binding => ({
-            country: binding.countryLabel.value,
-            flag: binding.flag_img.value
-        }));
-
-        const newQuestion = await generateQuestion(results, template);
-        res.json(newQuestion);
-    } catch (error) {
-        console.error("❌ Error al generar la pregunta:", error);
-        res.status(500).json({ error: "Error interno en el servicio de preguntas." });
-    }
-});
-
 app.get('/generateQuestions', async (req, res) => {
     const questions = await generateQuestions()
     res.json(questions)

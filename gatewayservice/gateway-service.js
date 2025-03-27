@@ -77,27 +77,13 @@ app.post('/api/register', async (req, res) => {
 });
 
 // 🔹 **Generación de preguntas - Redirige a GameService**
-app.get('/api/generate-question', async (req, res) => {
-  try {
-    const questionGenerated = await axios.get(`${gameServiceUrl}/add-test`);
-    res.json(questionGenerated.data);
-  } catch (error) {
-    console.error("❌ Error en /api/generate-question:", error.response?.data || error.message);
-    res.status(error.response?.status || 500).json({
-      error: error.response?.data?.message || 'Error al generar pregunta'
-    });
-  }
-});
-
 app.get('/api/generate-questions', async (req, res) => {
   try {
     const questionGenerated = await axios.get(`${gameServiceUrl}/generateQuestions`);
     res.json(questionGenerated.data);
   } catch (error) {
-    console.error("❌ Error en /api/generate-questions:", error.response?.data || error.message);
-    res.status(error.response?.status || 500).json({
-      error: error.response?.data?.message || 'Error al generar pregunta'
-    });
+    console.log("Error");
+    res.status(500).json({ error: 'Error al contactar con el Game Service' });;
   }
 });
 
@@ -134,35 +120,6 @@ app.get('/api/ranking', async (req, res) => {
     console.error("❌ Error en /api/ranking", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({
       error: error.response?.data?.message || 'Error al cargar el ranking'
-    });
-  }
-});
-
-app.get('/api/current-answer', async (req, res) => {
-  try {
-    const response = await axios.get(`${gameServiceUrl}/current-answer`);
-    res.json(response.data);
-  } catch (error) {
-    res.status(500).json({ error: 'Error al obtener la respuesta actual' });
-  }
-});
-
-
-
-app.get('/api/user-stats', async (req, res) => {
-  try {
-    const token = req.headers['authorization']; // Obtener el token del encabezado
-    const headers = {
-      'Authorization': token, // Pasar el token al servicio de juegos
-    };
-
-    // Llamar al servicio de juegos para obtener los puntajes del usuario
-    const userStatsResponse = await axios.get(`${gameServiceUrl}/user-stats`, { headers });
-    res.json(userStatsResponse.data); // Devolver los datos obtenidos
-  } catch (error) {
-    console.error("❌ Error en /api/user-stats:", error.response?.data || error.message);
-    res.status(error.response?.status || 500).json({
-      error: error.response?.data?.message || 'Error al obtener las estadísticas del usuario',
     });
   }
 });
