@@ -12,6 +12,7 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles'; 
 import Button from '@mui/material/Button';
+import './App.css';
 
 function App() {
   const location = useLocation();
@@ -31,6 +32,8 @@ function App() {
   }, [location, darkMode]); // Asegúrate de actualizar cuando cambie darkMode
 
   return (
+    
+
     <ThemeProvider theme={theme}> {/* Aplicar el tema en toda la aplicación */}
       <div
         style={{
@@ -40,6 +43,31 @@ function App() {
           width: '100vw', // Asegurar que ocupe todo el ancho de la ventana
         }}
       >
+
+<div className="area">
+      <ul className="circles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
         <Container
           component="main"
           maxWidth="sm"
@@ -55,6 +83,8 @@ function App() {
             padding: 3,
           }}
         >
+
+          
 
           <CssBaseline />
           <Routes>

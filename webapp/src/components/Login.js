@@ -42,32 +42,7 @@ const Login = () => {
 
   return (
     <>
-      <div className="context">
-      </div>
-      <div className="area">
-        <ul className="circles">
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
-      </div>
+ 
       
       <Container component="main" maxWidth="xs" className="login-container">
         <img src="/LogoWichat.gif" alt="Logo Wichat" className="login-logo" />

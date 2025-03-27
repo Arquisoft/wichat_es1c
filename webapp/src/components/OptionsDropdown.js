@@ -1,8 +1,9 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom'; // Importa useLocation
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 
 const TopNavbar = () => {
   const navigate = useNavigate();
+  const location = useLocation(); // Obtén la rauta actual
 
   const handleLogout = () => {
     localStorage.removeItem('token'); 
@@ -11,22 +12,19 @@ const TopNavbar = () => {
 
   return (
     <AppBar
-      position="sticky"
+      position="fixed" // Cambiado de "sticky" a "fixed"
       sx={{
         bgcolor: 'primary.main',
         boxShadow: 3,
-        top: 0, 
-        zIndex: 1100,
-        width: '250%',
+        top: 0,
+        zIndex: 1100, // Asegura que esté por encima de otros elementos
+        width: '100%', // Ajusta el ancho al 100% de la ventana
         margin: 0,
-        padding: 0, 
-        background: 'linear-gradient(to left, #8f94fb, #4e54c8)', 
+        padding: 0,
+        background: 'linear-gradient(to left, #8f94fb, #4e54c8)',
       }}
     >
-      <Toolbar sx={{ 
-        width: '100%' 
-
-      }}> {/* Esto asegura que Toolbar ocupe todo el ancho */}
+      <Toolbar sx={{ width: '100%' }}>
         <Typography
           variant="h6"
           align="left"
@@ -47,26 +45,33 @@ const TopNavbar = () => {
         </Typography>
 
         <Box sx={{ display: 'flex', gap: 2 }}>
-        <Button
-            variant="contained"
-            onClick={() => navigate('/home')}
-            sx={{
-              bgcolor: '#007bff',
-              '&:hover': { bgcolor: '#0056b3' },
-              fontFamily: "Arial Black",
-              fontSize: "12px",
-              letterSpacing: "0.6px",
-              wordSpacing: "1px",
-              color: "#f9f9f9",
-              fontWeight: 400,
-              fontStyle: "normal",
-              fontVariant: "normal",
-              textTransform: "uppercase",
-              background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))' 
-            }}
-          >
-            Inicio
-          </Button>
+          {/* Renderiza el botón de Inicio solo si no estás en /home */}
+          {location.pathname !== '/home' && (
+            <Button
+              variant="contained"
+              onClick={() => navigate('/home')}
+              sx={{
+                bgcolor: '#007bff',
+                '&:hover': { 
+                  bgcolor: '#0056b3',
+                  transform: 'scale(1.1)',
+                },
+                transition: 'transform 0.2s ease-in-out, background-color 0.2s ease-in-out',
+                fontFamily: "Arial Black",
+                fontSize: "12px",
+                letterSpacing: "0.6px",
+                wordSpacing: "1px",
+                color: "#f9f9f9",
+                fontWeight: 400,
+                fontStyle: "normal",
+                fontVariant: "normal",
+                textTransform: "uppercase",
+                background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))' 
+              }}
+            >
+              Inicio
+            </Button>
+          )}
           <Button
             variant="contained"
             onClick={() => navigate('/game')}
