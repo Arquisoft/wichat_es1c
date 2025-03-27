@@ -15,6 +15,8 @@ const port = process.env.GAME_SERVICE_PORT || 8010;
 const NUMBER_OF_WRONG_ANSWERS = 3;
 const NUMBER_OF_QUESTIONS = 10
 
+let currentAnswer = null; 
+
 app.use(cors({
     origin: "http://localhost:3000",
     credentials: true  
@@ -189,6 +191,8 @@ async function generateQuestion(results, template)
         allAnswers: answers.map(ans => ans.country).join(',')
     });
 
+    currentAnswer = correctAnswer.country;
+
     await newQuestion.save();
     return newQuestion;
 }
@@ -296,10 +300,18 @@ app.post('/saveScore', async (req, res) => {
 });
 
 app.get('/ranking', async (req, res) => {
-    const ranking = await Score.find()
+    const ranking = await Score.find()  
     res.json(ranking)
 });
 
+
+app.get('/current-answer', (req, res) => {
+    if (currentAnswer) {
+        res.json({ answer: currentAnswer });
+    } else {
+        res.status(404).json({ error: "No hay una respuesta activa." });
+    }
+});
 
 connectDB().then(() => {
     const server = app.listen(port, () => {

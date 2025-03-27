@@ -15,6 +15,7 @@
     "framer-motion": "^12.6.2",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
+    "react-chatbotify": "^2.0.0-beta.32",
     "react-dom": "^18.2.0",
     "react-router-dom": "^7.4.0",
     "react-scripts": "5.0.1",
