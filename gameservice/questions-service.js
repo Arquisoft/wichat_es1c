@@ -15,8 +15,6 @@ const port = process.env.GAME_SERVICE_PORT || 8010;
 const NUMBER_OF_WRONG_ANSWERS = 3;
 const NUMBER_OF_QUESTIONS = 10
 
-let currentAnswer = null; 
-
 app.use(cors({
     origin: "http://localhost:3000",
     credentials: true  
@@ -191,48 +189,35 @@ async function generateQuestion(results, template)
         allAnswers: answers.map(ans => ans.country).join(',')
     });
 
-    currentAnswer = correctAnswer.country;
-
     await newQuestion.save();
     return newQuestion;
 }
 
 /**
  * Generate the full list of questions to be displayed in a game.
- * Ensures no duplicate questions based on the correctAnswer.
  * @returns {Array} List of generated questions
  */
-async function generateQuestions() {
+async function generateQuestions()
+{
     const questions = [];
-    const usedCorrectAnswers = new Set(); // Set to track used correct answers
 
-    while (questions.length < NUMBER_OF_QUESTIONS) {
-        // Get a random template
-        const template = await getTemplate();
+    for ( let i = 0; i < NUMBER_OF_QUESTIONS; i++ )
+    {
+        // Get a random template - Can paremeterize this for game modes
+        const template = await getTemplate(0);
 
         // Send query and generate question
         const data = await sendQuery(template);
-        if (!data || !data.data || !data.data.results || !data.data.results.bindings.length) {
-            console.error("❌ No se encontraron datos en Wikidata para el template.");
-            continue;
-        }
-
-        const results = data.data.results.bindings.map(binding => ({
-            country: binding.pLabel.value,
-            flag: binding.img.value
-        }));
-
-        // Generate the question
+        const results = data.data.results.bindings.map(binding => {
+            return {
+                country: binding.pLabel.value,
+                flag: binding.img.value
+            }
+        });
         const newQuestion = await generateQuestion(results, template);
 
-        // Check if the correctAnswer has already been used
-        if (usedCorrectAnswers.has(newQuestion.correctAnswer)) {
-            continue; // Skip if the correctAnswer has already been used
-        }
-
-        // Add question to the result list and mark the correctAnswer as used
+        // Add question to the result list
         questions.push(newQuestion);
-        usedCorrectAnswers.add(newQuestion.correctAnswer);
     }
 
     return questions;
@@ -300,18 +285,10 @@ app.post('/saveScore', async (req, res) => {
 });
 
 app.get('/ranking', async (req, res) => {
-    const ranking = await Score.find()  
+    const ranking = await Score.find()
     res.json(ranking)
 });
 
-
-app.get('/current-answer', (req, res) => {
-    if (currentAnswer) {
-        res.json({ answer: currentAnswer });
-    } else {
-        res.status(404).json({ error: "No hay una respuesta activa." });
-    }
-});
 
 connectDB().then(() => {
     const server = app.listen(port, () => {
