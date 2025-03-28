@@ -71,15 +71,18 @@ const UserAccount = () => {
                 });
     
                 // Tomamos las últimas 10 partidas
-                const lastTen = sortedRanking.slice(-10).map((game, index) => {
+                const lastTen = sortedRanking.slice(-10).map((game) => {
                     const gameTotalQuestions = parseInt(game.correct || 0, 10) + parseInt(game.wrong || 0, 10);
                     const accuracy = gameTotalQuestions > 0 ? (parseInt(game.correct || 0, 10) / gameTotalQuestions) * 100 : 0;
                     return {
-                        name: `Partida ${index + 1}`,
+                        timestamp: new Date(game.timestamp * 1000 || game.timestamp).toLocaleString(), // Fecha y hora
+                        correct: parseInt(game.correct || 0, 10),
+                        wrong: parseInt(game.wrong || 0, 10),
+                        totalQuestions: gameTotalQuestions,
                         accuracy: accuracy.toFixed(2)
                     };
                 });
-    
+
                 setLastTenGames(lastTen);
             } catch (error) {
                 console.error('Error al obtener las estadísticas del usuario:', error);
@@ -139,14 +142,39 @@ const UserAccount = () => {
                 {lastTenGames.length > 0 && (
                     <Box mt={4} sx={{ background: 'white', padding: 2, borderRadius: '12px', boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)' }}>
                         <Typography variant="h6" align="center" gutterBottom>
-                            Progresión de porcentaje de aciertos en las últimas 10 partidas
+                            Resultados últimas 10 partidas
                         </Typography>
                         <ResponsiveContainer width="100%" height={300}>
                             <LineChart data={lastTenGames}>
                                 <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="name" />
+                                <XAxis tick={false} /> {/* Ocultamos los nombres en el eje X */}
                                 <YAxis domain={[0, 100]} />
-                                <Tooltip />
+                                <Tooltip
+                                    content={({ payload }) => {
+                                        if (payload && payload.length) {
+                                            const { timestamp, correct, wrong, totalQuestions, accuracy } = payload[0].payload;
+                                            return (
+                                                <Box sx={{
+                                                    backgroundColor: 'white',
+                                                    padding: '8px',
+                                                    borderRadius: '8px',
+                                                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
+                                                    fontSize: '12px',
+                                                    color: 'black',
+                                                }}>
+                                                    <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                                                        Fecha y hora: {timestamp}
+                                                    </Typography>
+                                                    <Typography variant="body2">Aciertos: {correct}</Typography>
+                                                    <Typography variant="body2">Fallos: {wrong}</Typography>
+                                                    <Typography variant="body2">Total preguntas: {totalQuestions}</Typography>
+                                                    <Typography variant="body2">Porcentaje: {accuracy}%</Typography>
+                                                </Box>
+                                            );
+                                        }
+                                        return null;
+                                    }}
+                                />
                                 <Line type="monotone" dataKey="accuracy" stroke="#4CAF50" strokeWidth={2} />
                             </LineChart>
                         </ResponsiveContainer>

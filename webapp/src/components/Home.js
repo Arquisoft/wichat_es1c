@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Typography } from '@mui/material';
 import jwtDecode from 'jwt-decode';
-import Chatbot from './Chatbot';
 import OptionsDropdown from './OptionsDropdown';
 import PersonalRanking from "./PersonalRanking";
 
@@ -35,43 +34,44 @@ const Home = () => {
     <>
       <OptionsDropdown />
       <Container component="main" maxWidth="md">
-        <Typography
-          component="h1"
-          variant="h3"
-          align="center"
-          sx={{
-            mt: 2,
-            color: 'white',
-            fontFamily: "'Poppins', sans-serif",
-            fontWeight: '900',
-            textTransform: 'uppercase',
-            textShadow: '2px 2px 8px rgba(0, 0, 0, 0.5), -1px -1px 0 rgba(0, 0, 0, 0.7), 1px -1px 0 rgba(0, 0, 0, 0.7), -1px 1px 0 rgba(0, 0, 0, 0.7), 1px 1px 0 rgba(0, 0, 0, 0.7)',
-            width: '100%',
-            letterSpacing: '0.5px',
-            wordBreak: 'break-word',
-          }}
-        >
-          Bienvenido a WiChat_es1c
-        </Typography>
-
         {userName && (
-          <Typography
-            component="h2"
-            variant="h5"
-            align="center"
+          <Container
             sx={{
-              mt: 2,
-              color: 'white',
-              fontFamily: "'Poppins', sans-serif",
-              fontWeight: '700',
+              mt: 4,
+              p: 3,
+              bgcolor: 'rgba(255, 255, 255, 0.1)',
+              borderRadius: '12px',
+              boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.2)',
+              textAlign: 'center',
             }}
           >
-            Usuario logueado como: {userName}
-          </Typography>
+            <Typography
+              component="h2"
+              variant="h4"
+              sx={{
+                color: '#ffffff',
+                fontFamily: "'Poppins', sans-serif",
+                fontWeight: '700',
+                mb: 1,
+              }}
+            >
+              ¡Bienvenido de nuevo, {userName}!
+            </Typography>
+            <Typography
+              component="p"
+              variant="body1"
+              sx={{
+                color: '#d1d1d1',
+                fontFamily: "'Poppins', sans-serif",
+                fontWeight: '400',
+              }}
+            >
+              Nos alegra verte de nuevo. Explora tus rankings y disfruta de la experiencia de WiChat.
+            </Typography>
+          </Container>
         )}
 
         <PersonalRanking />
-        <Chatbot />
       </Container>
     </>
   );
