@@ -9,6 +9,8 @@ const TopNavbar = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/');
+    localStorage.removeItem('token');
+    navigate('/');
   };
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -71,6 +73,7 @@ const TopNavbar = () => {
                 fontStyle: "normal",
                 fontVariant: "normal",
                 textTransform: "uppercase",
+                background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))',
                 background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))',
               }}
             >
