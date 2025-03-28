@@ -68,14 +68,14 @@ The diagram portrays an overview of the distrubution of each element in the infr
 
 Quality and/or Performance Features::
 
-This design has been made taking in consideration potential performance and availability issues. Accessing data from the Wikidata servers, as well as the LLM, will ensure that their failure won't be fatal to the entire app. On the other hand, hosting the database in the same server as the game will help in reducing response time when accessing the database.
+This design has been made taking in consideration potential performance and availability issues. Accessing data from the Wikidata servers, as well as the LLM, will ensure that their failure won't be fatal to the entire app. On the other hand, scheduling a secondary task to generate questions and answers will ensure that said questions are fully loaded before starting a game. This will also help with the performance of the app, as it will not be necessary to wait for the generation of questions during the game.
 
 Mapping of Building Blocks to Infrastructure::
 
 [options="header",cols="1,2"]
 |===
 | Device/Node        | Deployed Artifacts
-| WIChat server      | Game app - Frontend (React), Backend (node.js), database (MongoDB)
+| WIChat server      | Game app (Frontend: React, Backend: node.js), Question generation service
 | Wikidata server    | Wikidata API to fetch data via SPARQL queries to dynamically generate questions
 | OpenLLM server     | Open LLM (AI) designed to give hints during the game
 |===
