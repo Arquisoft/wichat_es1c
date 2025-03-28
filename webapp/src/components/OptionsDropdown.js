@@ -1,24 +1,33 @@
-import { useNavigate, useLocation } from 'react-router-dom'; // Importa useLocation
-import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
+import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { AppBar, Toolbar, Typography, Button, Box, Menu, MenuItem, Fade } from '@mui/material';
 
 const TopNavbar = () => {
   const navigate = useNavigate();
-  const location = useLocation(); // Obtén la rauta actual
+  const location = useLocation();
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); 
-    navigate('/'); 
+    localStorage.removeItem('token');
+    navigate('/');
+  };
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
   };
 
   return (
     <AppBar
-      position="fixed" // Cambiado de "sticky" a "fixed"
+      position="fixed"
       sx={{
         bgcolor: 'primary.main',
         boxShadow: 3,
         top: 0,
-        zIndex: 1100, // Asegura que esté por encima de otros elementos
-        width: '100%', // Ajusta el ancho al 100% de la ventana
+        zIndex: 1100,
+        width: '100%',
         margin: 0,
         padding: 0,
         background: 'linear-gradient(to left, #8f94fb, #4e54c8)',
@@ -45,17 +54,13 @@ const TopNavbar = () => {
         </Typography>
 
         <Box sx={{ display: 'flex', gap: 2 }}>
-          {/* Renderiza el botón de Inicio solo si no estás en /home */}
           {location.pathname !== '/home' && (
             <Button
               variant="contained"
               onClick={() => navigate('/home')}
               sx={{
                 bgcolor: '#007bff',
-                '&:hover': { 
-                  bgcolor: '#0056b3',
-                  transform: 'scale(1.1)',
-                },
+                '&:hover': { bgcolor: '#0056b3', transform: 'scale(1.1)' },
                 transition: 'transform 0.2s ease-in-out, background-color 0.2s ease-in-out',
                 fontFamily: "Arial Black",
                 fontSize: "12px",
@@ -66,7 +71,7 @@ const TopNavbar = () => {
                 fontStyle: "normal",
                 fontVariant: "normal",
                 textTransform: "uppercase",
-                background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))' 
+                background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))',
               }}
             >
               Inicio
@@ -87,7 +92,7 @@ const TopNavbar = () => {
               fontStyle: "normal",
               fontVariant: "normal",
               textTransform: "uppercase",
-              background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))' 
+              background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))',
             }}
           >
             Juego
@@ -107,7 +112,7 @@ const TopNavbar = () => {
               fontStyle: "normal",
               fontVariant: "normal",
               textTransform: "uppercase",
-              background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))' 
+              background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))',
             }}
           >
             Ranking
@@ -127,17 +132,18 @@ const TopNavbar = () => {
               fontStyle: "normal",
               fontVariant: "normal",
               textTransform: "uppercase",
-              background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))' 
+              background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))',
             }}
           >
             Mi cuenta
           </Button>
           <Button
             variant="contained"
-            onClick={() => navigate('/faq')}
+            onClick={handleMenuOpen}
             sx={{
               bgcolor: '#007bff',
-              '&:hover': { bgcolor: '#0056b3' },
+              '&:hover': { bgcolor: '#0056b3', transform: 'scale(1.05)' },
+              transition: 'transform 0.2s ease-in-out, background-color 0.2s ease-in-out',
               fontFamily: "Arial Black",
               fontSize: "12px",
               letterSpacing: "0.6px",
@@ -147,11 +153,36 @@ const TopNavbar = () => {
               fontStyle: "normal",
               fontVariant: "normal",
               textTransform: "uppercase",
-              background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))' 
+              background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))',
             }}
           >
-            FAQ
+            HELP
           </Button>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+            TransitionComponent={Fade} // Añadimos animación de desvanecimiento
+            sx={{
+              '& .MuiPaper-root': {
+                bgcolor: '#2c2c2c',
+                color: '#f9f9f9',
+                boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.2)',
+                borderRadius: '8px',
+                padding: '8px',
+              },
+            }}
+          >
+            <MenuItem
+              onClick={() => { handleMenuClose(); navigate('/faq'); }}
+              sx={{
+                '&:hover': { bgcolor: '#444', color: '#fff' },
+                transition: 'background-color 0.2s ease-in-out',
+              }}
+            >
+              FAQ
+            </MenuItem>
+          </Menu>
           <Button
             variant="contained"
             onClick={handleLogout}
@@ -167,7 +198,7 @@ const TopNavbar = () => {
               fontStyle: "normal",
               fontVariant: "normal",
               textTransform: "uppercase",
-              background: 'linear-gradient(to right,rgb(209, 0, 0),rgb(96, 19, 19))' 
+              background: 'linear-gradient(to right,rgb(209, 0, 0),rgb(96, 19, 19))',
             }}
           >
             Cerrar sesión
