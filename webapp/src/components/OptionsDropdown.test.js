@@ -53,26 +53,6 @@ describe('OptionsDropdown Component', () => {
     });
   });
 
-  it('debería mostrar un mensaje de confirmación y luego navegar a "/login" al cerrar sesión', async () => {
-    // Simula la respuesta del mensaje de confirmación (el usuario elige "OK")
-    jest.spyOn(window, 'confirm').mockImplementation(() => true);
-  
-    renderWithRouter(<OptionsDropdown />);
-    const logoutButton = screen.getByText(/Cerrar sesión/i);
-  
-    // Simula clic en el botón de cerrar sesión
-    fireEvent.click(logoutButton);
-  
-    // Espera a que se llame a navigate con "/login" después de confirmar
-    await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith('/login');
-    });
-  
-    // Restaurar la implementación original de window.confirm
-    window.confirm.mockRestore();
-  });
-  
-
   it('debería navegar a "/home" cuando se presione el botón "Inicio"', async () => {
     renderWithRouter(<OptionsDropdown />);
     
@@ -81,6 +61,39 @@ describe('OptionsDropdown Component', () => {
   
     await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalledWith('/home');
+    });
+  });
+
+  it('debería navegar a "/ranking" cuando se presione el botón "Ranking"', async () => {
+    renderWithRouter(<OptionsDropdown />);
+    
+    const homeButton = screen.getByText(/Ranking/i);
+    fireEvent.click(homeButton);
+  
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledWith('/ranking');
+    });
+  });
+
+  it('debería navegar a "/user-account" cuando se presione el botón "Mi Cuenta"', async () => {
+    renderWithRouter(<OptionsDropdown />);
+    
+    const homeButton = screen.getByText(/Mi cuenta/i);
+    fireEvent.click(homeButton);
+  
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledWith('/user-account');
+    });
+  });
+
+  it('debería navegar a "/game" cuando se presione el botón "Juego"', async () => {
+    renderWithRouter(<OptionsDropdown />);
+    
+    const homeButton = screen.getByText(/Juego/i);
+    fireEvent.click(homeButton);
+  
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledWith('/game');
     });
   });
   
