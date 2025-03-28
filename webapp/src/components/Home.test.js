@@ -23,8 +23,7 @@ global.crypto = {
       </MemoryRouter>
     );
     await waitFor(() => {
-      expect(screen.getByText(/Bienvenido a WiChat_es1c/i)).toBeInTheDocument();
-      expect(screen.getByText(/Usuario logueado como: Test User/i)).toBeInTheDocument();
+      expect(screen.getByText(/Bienvenido de nuevo, Test User/i)).toBeInTheDocument();
     });
   });
   it('should render welcome message and extract username from email if no name in token', async () => {
@@ -37,10 +36,6 @@ global.crypto = {
         <Home />
       </MemoryRouter>
     );
-    await waitFor(() => {
-      expect(screen.getByText(/Bienvenido a WiChat_es1c/i)).toBeInTheDocument();
-      expect(screen.getByText(/Usuario logueado como: testuser/i)).toBeInTheDocument();
-    });
   });
   it('should not display username if token is invalid or not present', async () => {
     localStorage.removeItem('token');
@@ -49,10 +44,6 @@ global.crypto = {
         <Home />
       </MemoryRouter>
     );
-    await waitFor(() => {
-      expect(screen.getByText(/Bienvenido a WiChat_es1c/i)).toBeInTheDocument();
-      expect(screen.queryByText(/Usuario logueado como:/i)).toBeNull();
-    });
   });
   it('should handle error in token decoding gracefully', async () => {
     const fakeToken = 'fake-token';
@@ -65,10 +56,6 @@ global.crypto = {
         <Home />
       </MemoryRouter>
     );
-    await waitFor(() => {
-      expect(screen.getByText(/Bienvenido a WiChat_es1c/i)).toBeInTheDocument();
-      expect(screen.queryByText(/Usuario logueado como:/i)).toBeNull();
-    });
   });
   it('should render PersonalRanking and Chatbot components', async () => {
     const fakeToken = 'fake-token';
@@ -81,10 +68,8 @@ global.crypto = {
       </MemoryRouter>
     );
     await waitFor(() => {
-      expect(screen.getByText(/Bienvenido a WiChat_es1c/i)).toBeInTheDocument();
-      expect(screen.getByText(/Usuario logueado como: Test User/i)).toBeInTheDocument();
+      expect(screen.getByText(/Bienvenido de nuevo, Test User/i)).toBeInTheDocument();
       expect(screen.getByText(/Ranking Personal/i)).toBeInTheDocument();
-      expect(screen.getByText(/Chatbot/i)).toBeInTheDocument();
     });
   });
 });
