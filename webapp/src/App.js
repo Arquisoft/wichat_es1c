@@ -38,7 +38,7 @@ function App() {
       <div
         style={{
           height: '100vh',
-          overflowY: 'auto', // Permitir desplazamiento vertical
+          overflowY: 'scroll', // Permitir desplazamiento vertical
           overflowX: 'hidden', // Deshabilitar desplazamiento horizontal
           width: '100vw', // Asegurar que ocupe todo el ancho de la ventana
         }}
