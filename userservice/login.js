@@ -2,7 +2,7 @@ module.exports = function({ jwt, bcrypt, express, ObjectId }) {
   const router = express.Router();
 
   router.post('/login', async (req, res) => {
-    console.log("🔹 Request recibida en Login:", req.body);
+    // console.log("🔹 Request recibida en Login:", req.body);
 
     const { email, password } = req.body;
     if (!email || !password) {
