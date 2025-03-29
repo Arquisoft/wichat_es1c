@@ -21,4 +21,21 @@ defineFeature(feature, (test) => {
   beforeEach(async () => {
     await page.reload({ waitUntil: 'networkidle0' });
   });
+
+  test('The user navigates to the register page from login', ({ given, when, then }) => {
+    given('The user is on the login page', async () => {
+      await page.waitForSelector('.login-container', { visible: true }); 
+      await expect(page).toMatchElement('h5', { text: 'Login' });
+    });
+
+    when('The user clicks on the register link', async () => {
+      await page.waitForSelector('a[href="/register"]', { visible: true }); 
+      await page.click('a[href="/register"]');
+    });
+
+    then('The user should be redirected to the register page', async () => {
+      await page.waitForSelector('.register-container', { visible: true }); 
+      await expect(page).toMatchElement('h5', { text: 'Registro' });
+    });
+  });
 });
