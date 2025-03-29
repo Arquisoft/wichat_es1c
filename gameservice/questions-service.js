@@ -117,10 +117,13 @@ async function generateQuestions()
     {
         // Get a random template of the specified category
         // 'undefined' category returns a random template
-        const template = getTemplate(category);
+        const template = getTemplate(0);
         
         // Get question from DB and add it to the result list
-        let newQuestion = await Question.findOne({ category : template });
+        let newQuestion = await Question.aggregate([
+            { $match: { category: template.category } },
+            { $sample: { size: 1 } },
+        ]);
         questions.push(newQuestion);
     }
 

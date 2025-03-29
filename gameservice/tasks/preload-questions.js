@@ -48,7 +48,7 @@ async function generateQuestion(results, template)
 
     // Compound returned JSON object
     const title = template.question.replace('*', correctAnswer.img);
-    const newQuestion = Question(
+    const newQuestion = new Question(
     {
         title: title,
         correctAnswer: correctAnswer.label,
@@ -92,13 +92,16 @@ async function fetchQuestions()
             for (let i = 0; i < Math.min(50, results.length); i++)
             {
                 const question = await generateQuestion(results, template);
+                question.category = template.category;
                 allQuestions.push(question);
+
+                console.log(`[DEBUG] Question generated: ${question}`);
             }
         }
         catch (error)
         {
             // Note : Alternatively, log errors to a log file (Winston/Pino?)
-            console.error( `Error fetching ${template.category} questions: ${err}` );
+            console.error( `Error fetching ${template.category} questions: ${error}` );
         }
     }
 
