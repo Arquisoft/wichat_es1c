@@ -120,16 +120,27 @@ async function generateQuestions()
         const template = getTemplate(0);
         
         // Get question from DB and add it to the result list
-        let newQuestion = await Question.aggregate([
+        let found = await Question.aggregate([
             { $match: { category: template.category } },
             { $sample: { size: 1 } },
         ]);
+
+        if (found.length == 0)
+            throw new Error("No se han encontrado preguntas");
+        
+        let newQuestion = found[0];
+
+        if (!found.title || !found.correctAnswer || !found.allAnswers)
+        {
+            console.error("Pregunta incompleta:", found);
+            continue; // Skip this question
+        }
+
         questions.push(newQuestion);
     }
 
     return questions;
 }
-
 
 app.get('/test', (req, res) => {
     res.json({ status: 'OK' });
@@ -159,8 +170,16 @@ app.get('/add-test', async (req, res) => {
 });
 
 app.get('/generateQuestions', async (req, res) => {
-    const questions = await generateQuestions()
-    res.json(questions)
+    try
+    {
+        const questions = await generateQuestions();
+        res.json(questions);
+    }
+    catch (error)
+    {
+        console.error("❌ Error in /generateQuestions:", error);
+        res.status(500).json({ error: "Error interno en el servicio de preguntas." });
+    }
 });
 
 app.post('/saveScore', async (req, res) => {
