@@ -1,52 +1,41 @@
 const puppeteer = require('puppeteer');
-const { defineFeature, loadFeature }=require('jest-cucumber');
-const setDefaultOptions = require('expect-puppeteer').setDefaultOptions
+const { defineFeature, loadFeature } = require('jest-cucumber');
+const setDefaultOptions = require('expect-puppeteer').setDefaultOptions;
 const feature = loadFeature('./features/register-form.feature');
 
 let page;
 let browser;
 
-defineFeature(feature, test => {
-  
+defineFeature(feature, (test) => {
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
-      ? await puppeteer.launch({headless: "new", args: ['--no-sandbox', '--disable-setuid-sandbox']})
+      ? await puppeteer.launch({ headless: 'new', args: ['--no-sandbox', '--disable-setuid-sandbox'] })
       : await puppeteer.launch({ headless: false, slowMo: 100 });
     page = await browser.newPage();
-    //Way of setting up the timeout
-    setDefaultOptions({ timeout: 10000 })
+    
+    setDefaultOptions({ timeout: 10000 });
 
-    await page
-      .goto("http://localhost:3000", {
-        waitUntil: "networkidle0",
-      })
-      .catch(() => {});
+    await page.goto('http://localhost:3000', { waitUntil: 'networkidle0' }).catch(() => {});
   });
 
-  test('The user is not registered in the site', ({given,when,then}) => {
-    
-    let username;
-    let password;
+  beforeEach(async () => {
+    await page.reload({ waitUntil: 'networkidle0' });
+  });
 
-    given('An unregistered user', async () => {
-      username = "pablo"
-      password = "pabloasw"
-      await expect(page).toClick("button", { text: "Don't have an account? Register here." });
+  test('The user navigates to the register page from login', ({ given, when, then }) => {
+    given('The user is on the login page', async () => {
+      await page.waitForSelector('.login-container', { visible: true }); 
+      await expect(page).toMatchElement('h5', { text: 'Login' });
     });
 
-    when('I fill the data in the form and press submit', async () => {
-      await expect(page).toFill('input[name="username"]', username);
-      await expect(page).toFill('input[name="password"]', password);
-      await expect(page).toClick('button', { text: 'Add User' })
+    when('The user clicks on the register link', async () => {
+      await page.waitForSelector('a[href="/register"]', { visible: true }); 
+      await page.click('a[href="/register"]');
     });
 
-    then('A confirmation message should be shown in the screen', async () => {
-        await expect(page).toMatchElement("div", { text: "User added successfully" });
+    then('The user should be redirected to the register page', async () => {
+      await page.waitForSelector('.register-container', { visible: true }); 
+      await expect(page).toMatchElement('h5', { text: 'Registro' });
     });
-  })
-
-  afterAll(async ()=>{
-    browser.close()
-  })
-
+  });
 });
