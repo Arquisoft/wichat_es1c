@@ -19,6 +19,11 @@ defineFeature(feature, test => {
     await page.goto('http://localhost:3000', { waitUntil: 'networkidle0' }).catch(() => {});
   });
 
+  beforeEach(async () => {
+    await page.reload({ waitUntil: 'networkidle0' });
+  });
+  
+
   test('The user is not registered in the site', ({ given, when, then }) => {
     let email, password;
 
@@ -47,4 +52,28 @@ defineFeature(feature, test => {
   afterAll(async () => {
     await browser.close();
   });
+
+  test('The user is registered in the site and is redirected to /home', ({ given, when, then }) => {
+    let email, password;
+    given('A registered user', async () => {
+      email = 'test@test2';
+      password = 'test';
+    });
+    when('I fill the data in the login form and press submit', async () => {
+      await page.waitForSelector('input[type="email"]', { visible: true });
+      await page.type('input[type="email"]', email);
+      
+      await page.waitForSelector('input[type="password"]', { visible: true });
+      await page.type('input[type="password"]', password);
+  
+      await page.waitForSelector('button.login-button', { visible: true });
+      await page.click('button.login-button');
+    });
+    then('I should be redirected to the /home page', async () => {
+      await page.waitForNavigation({ waitUntil: 'networkidle0' });
+      const currentUrl = await page.url();
+      expect(currentUrl).toBe('http://localhost:3000/home');
+    });
+  });
 });
+
