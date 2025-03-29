@@ -130,9 +130,9 @@ async function generateQuestions()
         
         let newQuestion = found[0];
 
-        if (!found.title || !found.correctAnswer || !found.allAnswers)
+        if (!newQuestion.title || !newQuestion.correctAnswer || !newQuestion.allAnswers)
         {
-            console.error("Pregunta incompleta:", found);
+            console.error("Pregunta incompleta:", newQuestion);
             continue; // Skip this question
         }
 
