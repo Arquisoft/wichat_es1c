@@ -22,7 +22,7 @@ const FAQ = () => {
             answer: "Verás un mensaje que indica si tu respuesta fue correcta o incorrecta.",
         },
         {
-            question: "¿Dónde puedo ver mis puntuaciones?",
+            question: "¿Dónde puedo ver mi puntuacion?",
             answer: "La puntuación se muestra al final de cada ronda.",
         },
         {
