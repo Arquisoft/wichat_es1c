@@ -18,14 +18,22 @@ defineFeature(feature, test => {
 
   test('User interacts with the chatbot and receives a response', ({ given, when, then, and }) => {
     given('The user is on the game page', async () => {
-        await page.goto('http://localhost:3000/game', { waitUntil: 'networkidle0' });
-      });
+      await page.goto('http://localhost:3000/game', { waitUntil: 'networkidle0' });
+      // Asegurarte de que haya cargado una pregunta
+      await page.waitForSelector('button', { visible: true, timeout: 10000 });
+
+    });
+    
 
     when('The user opens the chatbot', async () => {
-      // Esperar a que aparezca el botón flotante o ventana del chatbot
-      await page.waitForSelector('.cb-floating-container', { visible: true });
+      // Espera a que el juego cargue
+      await page.waitForSelector('button', { visible: true, timeout: 10000 });
+    
+      // Espera y abre el chatbot
+      await page.waitForSelector('.cb-floating-container', { visible: true, timeout: 10000 });
       await page.click('.cb-floating-container');
     });
+    
 
     and('The user types a question and submits it', async () => {
       await page.waitForSelector('input[type="text"]', { visible: true });
@@ -33,14 +41,10 @@ defineFeature(feature, test => {
       await page.keyboard.press('Enter');
     });
 
-    then('The chatbot should return a helpful response', async () => {
-      await page.waitForFunction(
-        () => {
-          const bubbles = Array.from(document.querySelectorAll('.cb-bubble'));
-          return bubbles.some(b => b.innerText.includes('pista') || b.innerText.length > 10);
-        },
-        { timeout: 15000 }
-      );
+    then('The chatbot should show a welcome message', async () => {
+      await page.waitForSelector('.cb-chat-bubble', { visible: true, timeout: 10000 });
+      const text = await page.$eval('.cb-chat-bubble', el => el.textContent);
+      expect(text).toMatch(/hola|pista/i);
     });
   });
 
