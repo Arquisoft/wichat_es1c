@@ -42,7 +42,7 @@ defineFeature(feature, (test) => {
       
 
       await page.type('[data-testid="nombre-input"]', 'Test E2E');
-      await page.type('[data-testid="email-input"]', 'e2e@e2e');
+      await page.type('[data-testid="email-input"]', 'e2e2@e2e');
       await page.type('[data-testid="pass-input"]', 'testpassword');
 
       const registerButton = await page.$x("//button[contains(., 'Registrarse')]");
