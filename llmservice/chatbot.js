@@ -80,6 +80,9 @@ app.post('/', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`🤖 LLM Service escuchando en http://localhost:${port}`);
-});
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`🤖 LLM Service escuchando en http://localhost:${port}`);
+  });
+}
+module.exports = app;
