@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AuthProvider } from './context/AuthContext';
-import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Login from './components/Login.js';
 import Register from './components/Register.js';
 import Home from './components/Home.js';
@@ -75,8 +75,12 @@ function App() {
           >
             <CssBaseline />
             <Routes>
+              {/* Rutas públicas */}
               <Route path="/" element={<Login />} />
+              <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+
+              {/* Rutas protegidas */}
               <Route
                 path="/home"
                 element={
@@ -93,9 +97,30 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              <Route path="/faq" element={<FAQ />} />
-              <Route path="/ranking" element={<Ranking />} />
-              <Route path="/user-account" element={<UserAccount />} />
+              <Route
+                path="/faq"
+                element={
+                  <ProtectedRoute>
+                    <FAQ />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/ranking"
+                element={
+                  <ProtectedRoute>
+                    <Ranking />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/user-account"
+                element={
+                  <ProtectedRoute>
+                    <UserAccount />
+                  </ProtectedRoute>
+                }
+              />
             </Routes>
 
             {/* Botón de cambio de modo */}
@@ -117,17 +142,13 @@ function App() {
               && location.pathname !== '/ranking' && (
               <Typography component="div" align="center" sx={{ mt: 2 }}>
                 {location.pathname === '/' ? (
-                  <Link to="/register" style={{ textDecoration: 'none' }}>
-                    <Typography variant="body2" color="white">
-                      ¿No tienes una cuenta? Regístrate aquí.
-                    </Typography>
-                  </Link>
+                  <Typography variant="body2" color="white">
+                    ¿No tienes una cuenta? <a href="/register" style={{ textDecoration: 'none', color: 'white' }}>Regístrate aquí.</a>
+                  </Typography>
                 ) : (
-                  <Link to="/" style={{ textDecoration: 'none' }}>
-                    <Typography variant="body2" color="white">
-                      ¿Ya tienes una cuenta? Inicia sesión aquí.
-                    </Typography>
-                  </Link>
+                  <Typography variant="body2" color="white">
+                    ¿Ya tienes una cuenta? <a href="/" style={{ textDecoration: 'none', color: 'white' }}>Inicia sesión aquí.</a>
+                  </Typography>
                 )}
               </Typography>
             )}
