@@ -65,7 +65,7 @@ async function getTemplate(param)
         return await getTemplateByCategory(param);
 
     // No match -> Throw error
-    throw new TypeError("Invalid parameter type. Expected int or string.");
+    throw new TypeError("Invalid parameter type (expected int or string)");
 }
 
 /**
@@ -138,6 +138,9 @@ async function generateQuestions()
 
         questions.push(newQuestion);
     }
+
+    if (questions.length < NUMBER_OF_QUESTIONS)
+        throw new Error("No se han encontrado preguntas suficientes");
 
     return questions;
 }
