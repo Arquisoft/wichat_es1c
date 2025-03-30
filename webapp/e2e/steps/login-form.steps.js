@@ -48,5 +48,11 @@ defineFeature(feature, test => {
       await expect(page).toMatchElement('.MuiSnackbar-root', { text: 'Error al iniciar sesión' });
     });
   });
+
+  afterAll(async () => {
+    await browser.close();
+  });
 });
+
+
   

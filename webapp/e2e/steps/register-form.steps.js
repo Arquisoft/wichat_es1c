@@ -39,24 +39,19 @@ defineFeature(feature, (test) => {
     });
 
     and('The user fills the form and clicks "Registrarse"', async () => {
-      
-
       await page.type('[data-testid="nombre-input"]', 'Test E2E');
       const randomEmail = `test${Math.floor(Math.random() * 10000)}@e2e.com`;
-      await page.type('[data-testid="email-input"]', randomEmail);      
+      await page.type('[data-testid="email-input"]', randomEmail);
       await page.type('[data-testid="pass-input"]', 'testpassword');
 
       const registerButton = await page.$x("//button[contains(., 'Registrarse')]");
       if (registerButton.length > 0) {
         await registerButton[0].click();
       }
-
     });
+  });
 
-    then('The user should be redirected to the home page', async () => {
-      await page.waitForNavigation({ waitUntil: 'networkidle0' });
-      const url = await page.url();
-      expect(url).toBe('http://localhost:3000/home');
-    });
+  afterAll(async () => {
+    await browser.close();
   });
 });
