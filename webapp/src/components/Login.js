@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
+import { Container, Typography, TextField, Button, Snackbar, IconButton, InputAdornment } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import '../Login.css';
 
@@ -12,6 +13,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar contraseña
   const [error, setError] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
@@ -38,12 +40,8 @@ const Login = () => {
     setError('');
   };
 
-  
-
   return (
     <>
- 
-      
       <Container component="main" maxWidth="xs" className="login-container">
         <img src="/LogoWichat.gif" alt="Logo Wichat" className="login-logo" />
         <Typography
@@ -76,9 +74,23 @@ const Login = () => {
           margin="normal"
           fullWidth
           label="Contraseña"
-          type="password"
+          type={showPassword ? 'text' : 'password'} // Cambia el tipo de input según el estado
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  onMouseDown={() => setShowPassword(true)} // Muestra la contraseña al mantener pulsado
+                  onMouseUp={() => setShowPassword(false)} // Oculta la contraseña al soltar
+                  onMouseLeave={() => setShowPassword(false)} // Asegura que se oculte si el cursor sale del botón
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
         <Button variant="contained" color="primary" fullWidth className="login-button" onClick={loginUser}>
           Login
