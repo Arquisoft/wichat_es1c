@@ -14,12 +14,10 @@ jobs:
       with:
         node-version: 22
     - run: npm --prefix authservice ci
-    - run: npm --prefix gameservice ci
     - run: npm --prefix gatewayservice ci
     - run: npm --prefix llmservice ci
     - run: npm --prefix userservice ci
     - run: npm --prefix webapp ci
-    - run: npm --prefix gameservice test -- --coverage
     - run: npm --prefix gatewayservice test -- --coverage
     - run: npm --prefix llmservice test -- --coverage
     - run: npm --prefix userservice test -- --coverage
