@@ -10,9 +10,9 @@ defineFeature(feature, (test) => {
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch({ headless: 'new', args: ['--no-sandbox', '--disable-setuid-sandbox'] })
-      : await puppeteer.launch({ headless: false, slowMo: 100 });
+      : await puppeteer.launch({ headless: false, slowMo: 0 });
+
     page = await browser.newPage();
-    
     setDefaultOptions({ timeout: 10000 });
 
     await page.goto('http://localhost:3000', { waitUntil: 'networkidle0' }).catch(() => {});
@@ -22,20 +22,40 @@ defineFeature(feature, (test) => {
     await page.reload({ waitUntil: 'networkidle0' });
   });
 
-  test('The user navigates to the register page from login', ({ given, when, then }) => {
+  test('The user navigates to the register page and completes registration', ({ given, when, then, and }) => {
     given('The user is on the login page', async () => {
-      await page.waitForSelector('.login-container', { visible: true }); 
+      await page.waitForSelector('.login-container', { visible: true });
       await expect(page).toMatchElement('h5', { text: 'Login' });
     });
 
     when('The user clicks on the register link', async () => {
-      await page.waitForSelector('a[href="/register"]', { visible: true }); 
+      await page.waitForSelector('a[href="/register"]', { visible: true });
       await page.click('a[href="/register"]');
     });
 
     then('The user should be redirected to the register page', async () => {
-      await page.waitForSelector('.register-container', { visible: true }); 
+      await page.waitForSelector('.register-container', { visible: true });
       await expect(page).toMatchElement('h5', { text: 'Registro' });
+    });
+
+    and('The user fills the form and clicks "Registrarse"', async () => {
+      
+
+      await page.type('[data-testid="nombre-input"]', 'Test E2E');
+      await page.type('[data-testid="email-input"]', 'e2e@e2e');
+      await page.type('[data-testid="pass-input"]', 'testpassword');
+
+      const registerButton = await page.$x("//button[contains(., 'Registrarse')]");
+      if (registerButton.length > 0) {
+        await registerButton[0].click();
+      }
+
+    });
+
+    then('The user should be redirected to the home page', async () => {
+      await page.waitForNavigation({ waitUntil: 'networkidle0' });
+      const url = await page.url();
+      expect(url).toBe('http://localhost:3000/home');
     });
   });
 });
