@@ -91,6 +91,7 @@ const Register = () => {
           Registro
         </Typography>
         <TextField
+        inputProps={{ 'data-testid': 'nombre-input' }}
           margin="normal"
           fullWidth
           label="Nombre"
@@ -98,6 +99,7 @@ const Register = () => {
           onChange={(e) => setName(e.target.value)}
         />
         <TextField
+        inputProps={{ 'data-testid': 'email-input' }}
           margin="normal"
           fullWidth
           label="Email"
@@ -106,6 +108,7 @@ const Register = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
         <TextField
+        inputProps={{ 'data-testid': 'pass-input' }}
           margin="normal"
           fullWidth
           label="Contraseña"
