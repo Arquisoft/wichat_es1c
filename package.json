@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "react-router-dom": "^6.30.0"
-  },
-  "devDependencies": {
-    "start-server-and-test": "^2.0.11"
-  }
-}

@@ -57,7 +57,6 @@ const TopNavbar = () => {
         </Typography>
 
         <Box sx={{ display: 'flex', gap: 2 }}>
-          {location.pathname !== '/home' && (
             <Button
               variant="contained"
               onClick={() => navigate('/home')}
@@ -80,7 +79,6 @@ const TopNavbar = () => {
             >
               Inicio
             </Button>
-          )}
           <Button
             variant="contained"
             onClick={() => navigate('/game')}
