@@ -11,7 +11,7 @@ let name = `e2e`
 
 defineFeature(feature, test => {
   beforeAll(async () => {
-    browser = await puppeteer.launch({ headless: false, slowMo: 0 });
+    browser = await puppeteer.launch({ headless: "new", args: ['--no-sandbox', '--disable-setuid-sandbox']});
     page = await browser.newPage();
     setDefaultOptions({ timeout: 10000 });
 
