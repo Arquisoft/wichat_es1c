@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button, Box, Menu, MenuItem, Fade } from '@mui/material';
 
 
 const TopNavbar = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -73,7 +72,6 @@ const TopNavbar = () => {
                 fontStyle: "normal",
                 fontVariant: "normal",
                 textTransform: "uppercase",
-                background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))',
                 background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))',
               }}
             >
