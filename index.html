@@ -1248,6 +1248,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li>
 <p><strong>Lazy Loading:</strong> Loads data progressively to optimize frontend performance.</p>
 </li>
+<li>
+<p><strong>Producer-Consumer:</strong> A programmed auxiliar process runs to generate questions and answers, storing them in the database for the game service to use.</p>
+</li>
 </ul>
 </div>
 </div>
@@ -1600,13 +1603,13 @@ You will mainly capture scenarios in your documentation to communicate your arch
 <p><strong>Logging in:</strong> The user logs into the application. If they don&#8217;t have  an account created, it will be necessary to sign up.</p>
 </li>
 <li>
-<p><strong>Starting the game: </strong> Once logged in, the user will start a new game, choosing a mode among all the options.</p>
+<p><strong>Starting the game: </strong> Once logged in, the user will start a new game.</p>
 </li>
 <li>
 <p><strong>Answering the questions: </strong> For each question, the four ellegible answers will be generated. Once per question, its info (question, image and possible answers) will be presented to the user via the GUI, and it will wait for their input. After the user inputs their answer, the score will be increased (or not) accordingly to the choosen answer.</p>
 </li>
 <li>
-<p><strong>Ending the game:</strong> Once all the questions have been answered, the GUI will display the final score of the game. Then, the user will have the opportunity to upload this score to the leaderboard. In any case, a shortened ranking of the highest scores will be shown afterwards.</p>
+<p><strong>Ending the game:</strong> Once all the questions have been answered, the GUI will display the final score of the game.</p>
 </li>
 </ul>
 </div>
@@ -1725,7 +1728,7 @@ when your infrastructure is more complex.</p>
 </dd>
 <dt class="hdlist1">Quality and/or Performance Features</dt>
 <dd>
-<p>This design has been made taking in consideration potential performance and availability issues. Accessing data from the Wikidata servers, as well as the LLM, will ensure that their failure won&#8217;t be fatal to the entire app. On the other hand, hosting the database in the same server as the game will help in reducing response time when accessing the database.</p>
+<p>This design has been made taking in consideration potential performance and availability issues. Accessing data from the Wikidata servers, as well as the LLM, will ensure that their failure won&#8217;t be fatal to the entire app. On the other hand, scheduling a secondary task to generate questions and answers will ensure that said questions are fully loaded before starting a game. This will also help with the performance of the app, as it will not be necessary to wait for the generation of questions during the game.</p>
 </dd>
 <dt class="hdlist1">Mapping of Building Blocks to Infrastructure</dt>
 </dl>
@@ -1744,7 +1747,7 @@ when your infrastructure is more complex.</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">WIChat server</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Game app - Frontend (React), Backend (node.js), database (MongoDB)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Game app (Frontend: React, Backend: node.js), Question generation service</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Wikidata server</p></td>
@@ -1916,7 +1919,7 @@ on this list.</p>
 <p><strong>User:</strong> An individual interacting with the application, capable of handling multiple concurrent sessions.</p>
 </li>
 <li>
-<p><strong>Game:</strong> A feature allowing users to engage in individual or multiplayer challenges with different formats.</p>
+<p><strong>Game:</strong> A feature allowing users to engage in individual challenges with different formats.</p>
 </li>
 <li>
 <p><strong>Stats:</strong> A section displaying user performance, including total games, accuracy, and average scores.</p>
@@ -1942,10 +1945,10 @@ on this list.</p>
 <p><strong>Intuitive Design:</strong> A clear and accessible interface for easy navigation.</p>
 </li>
 <li>
-<p><strong>Multilingual Support:</strong> Available in multiple languages, with English as the default.</p>
+<p><strong>Accessibility Features:</strong> Visual aids such as icons and colors to improve understanding.</p>
 </li>
 <li>
-<p><strong>Accessibility Features:</strong> Visual aids such as icons and colors to improve understanding.</p>
+<p><strong>Attractive design:</strong> A beautiful and visually appealing app design.</p>
 </li>
 </ul>
 </div>
@@ -1971,9 +1974,6 @@ on this list.</p>
 <ul>
 <li>
 <p><strong>Access Control:</strong> Restriction of certain sections to authenticated users.</p>
-</li>
-<li>
-<p><strong>Password Security:</strong> Minimum 8-character passwords with letters, numbers, and special characters.</p>
 </li>
 <li>
 <p><strong>Data Protection:</strong> Encrypted credentials to prevent unauthorized access.</p>
@@ -2318,7 +2318,7 @@ See <a href="https://arc42.org" class="bare">https://arc42.org</a>.</p>
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2025-03-10 12:26:50 +0100
+Last updated 2025-03-31 03:30:27 +0200
 </div>
 </div>
 </body>
