@@ -10,7 +10,8 @@ const Question = require("./models/question-model.js");
 const Template = require("./models/template-model.js");
 const Score = require("./models/score-model.js");
 
-const data = require("./data/questions-templates.json");
+const path = require("path");
+const data = require(path.resolve(__dirname, "./data/questions-templates.json"));
 
 const app = express();
 const port = process.env.GAME_SERVICE_PORT || 8010;
