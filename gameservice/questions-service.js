@@ -17,8 +17,6 @@ const port = process.env.GAME_SERVICE_PORT || 8010;
 const NUMBER_OF_WRONG_ANSWERS = 3;
 const NUMBER_OF_QUESTIONS = 10
 
-const templatesPath = "./data/questions-templates.json";
-const templates = JSON.parse(fs.readFileSync(templatesPath, "utf8"));
 const endpoint = 'https://query.wikidata.org/sparql';
 
 app.use(cors({
@@ -229,7 +227,7 @@ async function fetchQuestions()
     let allQuestions = [];
 
     // Fetch 50 questions for each template
-    for (const template of templates)
+    for (const template of data)
     {
         console.log(`[DEBUG] Fetching questions for: ${template.type}`);
         
