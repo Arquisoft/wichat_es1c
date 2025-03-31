@@ -10,7 +10,7 @@ const Question = require("./models/question-model.js");
 const Template = require("./models/template-model.js");
 const Score = require("./models/score-model.js");
 
-const data = require("./data/questions-templates.json");
+//const data = require("./data/questions-templates.json");
 
 const app = express();
 const port = process.env.GAME_SERVICE_PORT || 8010;
@@ -42,7 +42,7 @@ async function connectDB() {
     try {
         await mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
         .then(() => {return Template.deleteMany({})})
-        .then(() => {return Template.insertMany(data)});;
+        .then(() => {return Template.insertMany(templates)});;
         console.log("✅ Conectado a MongoDB Atlas en GameService");
     } catch (error) {
         console.error("❌ Error al conectar a MongoDB Atlas:", error);
