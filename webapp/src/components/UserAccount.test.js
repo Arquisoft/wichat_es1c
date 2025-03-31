@@ -14,7 +14,6 @@ global.ResizeObserver = class {
   disconnect() {}
 };
 
-
 describe('UserAccount Component', () => {
   beforeEach(() => {
     localStorage.setItem('token', 'mocked_token');
@@ -74,8 +73,8 @@ describe('UserAccount Component', () => {
 
     expect(await screen.findByText('Usuario: Test User')).toBeInTheDocument();
     expect(await screen.findByText('Correo: test@example.com')).toBeInTheDocument();
-
   });
+
   test('decodes token and sets user name and email', async () => {
     render(
         <MemoryRouter>
@@ -85,9 +84,9 @@ describe('UserAccount Component', () => {
 
     expect(await screen.findByText('Usuario: Test User')).toBeInTheDocument();
     expect(await screen.findByText('Correo: test@example.com')).toBeInTheDocument();
-});
+  });
 
-test('handles invalid token gracefully', async () => {
+  test('handles invalid token gracefully', async () => {
     localStorage.setItem('token', 'invalid_token');
     jwtDecode.mockImplementation(() => {
         throw new Error('Invalid token');
@@ -99,11 +98,11 @@ test('handles invalid token gracefully', async () => {
         </MemoryRouter>
     );
 
-    expect(await screen.findByText('Usuario:')).not.toBeInTheDocument();
-    expect(await screen.findByText('Correo:')).not.toBeInTheDocument();
-});
+    expect(screen.queryByText('Usuario:')).not.toBeInTheDocument();
+    expect(screen.queryByText('Correo:')).not.toBeInTheDocument();
+  });
 
-test('renders the chart when last 10 games exist', async () => {
+  test('renders the chart when last 10 games exist', async () => {
     axios.get.mockResolvedValue({
         data: [
             { email: 'test@example.com', correct: 6, wrong: 4, timestamp: 1672531200 },
@@ -119,9 +118,9 @@ test('renders the chart when last 10 games exist', async () => {
     await waitFor(() => {
         expect(screen.getByText('Resultados últimas 10 partidas')).toBeInTheDocument();
     });
-});
+  });
 
-test('does not render the chart when no game data is available', async () => {
+  test('does not render the chart when no game data is available', async () => {
     axios.get.mockResolvedValue({ data: [] });
 
     render(
@@ -132,6 +131,5 @@ test('does not render the chart when no game data is available', async () => {
     await waitFor(() => {
         expect(screen.queryByText('Resultados últimas 10 partidas')).not.toBeInTheDocument();
     });
-});
-
+  });
 });
