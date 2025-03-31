@@ -17,7 +17,7 @@ const port = process.env.GAME_SERVICE_PORT || 8010;
 const NUMBER_OF_WRONG_ANSWERS = 3;
 const NUMBER_OF_QUESTIONS = 10
 
-const templatesPath = "./data/questions-templates.json";
+//const templatesPath = "./data/questions-templates.json";
 const templates = [
     {
         "question": "¿De dónde es esta bandera?|*",
