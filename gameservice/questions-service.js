@@ -10,14 +10,22 @@ const Question = require("./models/question-model.js");
 const Template = require("./models/template-model.js");
 const Score = require("./models/score-model.js");
 
-const path = require("path");
-const data = require(path.resolve(__dirname, "./data/questions-templates.json"));
+const data = require("./data/questions-templates.json");
 
 const app = express();
 const port = process.env.GAME_SERVICE_PORT || 8010;
 const NUMBER_OF_WRONG_ANSWERS = 3;
 const NUMBER_OF_QUESTIONS = 10
 
+const templatesPath = "./data/questions-templates.json";
+const templates = [
+    {
+        "question": "¿De dónde es esta bandera?|*",
+        "query": "SELECT ?label ?img WHERE { ?p wdt:P31 wd:Q6256. ?p wdt:P41 ?img. ?p rdfs:label ?label. FILTER(LANG(?label) = \"es\") } LIMIT 50",
+        "type" : "Banderas",
+        "category": "Geografía"
+    }
+]
 const endpoint = 'https://query.wikidata.org/sparql';
 
 app.use(cors({
@@ -228,7 +236,7 @@ async function fetchQuestions()
     let allQuestions = [];
 
     // Fetch 50 questions for each template
-    for (const template of data)
+    for (const template of templates)
     {
         console.log(`[DEBUG] Fetching questions for: ${template.type}`);
         
