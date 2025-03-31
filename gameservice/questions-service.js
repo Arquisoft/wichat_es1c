@@ -17,7 +17,7 @@ const port = process.env.GAME_SERVICE_PORT || 8010;
 const NUMBER_OF_WRONG_ANSWERS = 3;
 const NUMBER_OF_QUESTIONS = 10
 
-const templatesPath = "./data/questions-templates.json";
+const templatesPath = "./gameservice/data/questions-templates.json";
 const templates = JSON.parse(fs.readFileSync(templatesPath, "utf8"));
 const endpoint = 'https://query.wikidata.org/sparql';
 
@@ -28,7 +28,7 @@ app.use(cors({
 app.use(express.json());
 
 
-const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://fFFH8ALCgMl58vdLNovG:y122LzFpRq4LgpHfNRlJ@wichat.sz10z.mongodb.net/wichat-db';
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/questionsDb';
 
 // ✅ Conectar a MongoDB Atlas
 async function connectDB() {
@@ -161,7 +161,7 @@ async function generateQuestions()
         
         // Get question from DB and add it to the result list
         let found = await Question.aggregate([
-            { $match: { category: template.category } },
+            { $match: { category: 'Geografía' } },
             { $sample: { size: 1 } },
         ]);
 
