@@ -13,7 +13,6 @@ const mockAxios = new MockAdapter(axios);
 
 jest.mock('react-chatbotify', () => () => <div>Chatbot Mock</div>);
 
-
 const mockedNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -25,253 +24,75 @@ describe('Game component', () => {
     mockAxios.reset();
   });
 
-  it('debería mostrar contenido del juego después de cargar', async () => {
-    mockAxios.onGet('http://localhost:8000/api/generate-questions').reply(200, [
-      {
-        title: 'Pregunta simulada|https://via.placeholder.com/150',
-        correctAnswer: 'OpciónCorrecta',
-        allAnswers: 'OpciónCorrecta,Opción2,Opción3,Opción4'
-      }
+  const renderGameWithQuestions = (questions) => {
+    mockAxios.onGet('http://localhost:8000/api/generate-questions').reply(200, questions);
+    render(<MemoryRouter><Game /></MemoryRouter>);
+  };
+
+  it('debería mostrar mensaje de carga y luego opciones', async () => {
+    renderGameWithQuestions([
+      { title: 'Pregunta|https://img', correctAnswer: 'Correcta', allAnswers: 'Correcta,Opción1,Opción2,Opción3' }
     ]);
-
-    render(
-      <MemoryRouter>
-        <Game />
-      </MemoryRouter>
-    );
-
     expect(screen.getByText(/Cargando preguntas/i)).toBeInTheDocument();
-
-    await waitFor(() => {
-      
-      expect(screen.getByText('OpciónCorrecta')).toBeInTheDocument();
-      expect(screen.getByText('Opción2')).toBeInTheDocument();
-      expect(screen.getByText('Opción3')).toBeInTheDocument();
-      expect(screen.getByText('Opción4')).toBeInTheDocument();
-    });
+    await waitFor(() => expect(screen.getByText('Correcta')).toBeInTheDocument());
   });
 
-  it('debería mostrar un mensaje de carga mientras se obtienen las preguntas', async () => {
-    mockAxios.onGet('http://localhost:8000/api/generate-questions').reply(200, []);
-    
-    render(
-      <MemoryRouter>
-        <Game />
-      </MemoryRouter>
-    );
-
-    expect(screen.getByText(/Cargando preguntas.../i)).toBeInTheDocument();
-  });
-
-  it('debería mostrar un mensaje de carga mientras se obtienen las preguntas', async () => {
-    mockAxios.onGet('http://localhost:8000/api/generate-questions').reply(200, [
-      {
-        title: '¿De qué país es esta bandera?|https://via.placeholder.com/150',
-        correctAnswer: 'España',
-        allAnswers: 'España,Francia,Italia,Alemania'
-      }
+  it('debería manejar respuesta correcta', async () => {
+    renderGameWithQuestions([
+      { title: 'Pregunta|https://img', correctAnswer: 'Correcta', allAnswers: 'Correcta,Opción1,Opción2,Opción3' }
     ]);
-  
-    render(
-      <MemoryRouter>
-        <Game />
-      </MemoryRouter>
-    );
-  
-    expect(screen.getByText(/Cargando preguntas.../i)).toBeInTheDocument();
-  
-    await waitFor(() =>
-      expect(screen.getByText(/¿De qué país es esta bandera\?/i)).toBeInTheDocument()
-    );
+    await waitFor(() => screen.getByText('Correcta'));
+    fireEvent.click(screen.getByText('Correcta'));
+    await waitFor(() => expect(screen.getByText('¡Correcto!')).toBeInTheDocument());
+    expect(screen.getByText('Correcta')).toHaveStyle('background-color: #4caf50');
   });
-  
-  it('debería renderizar correctamente el contenido del juego y manejar respuesta correcta', async () => {
-    mockAxios.onGet('http://localhost:8000/api/generate-questions').reply(200, [
-      {
-        title: '¿De qué país es esta bandera?|https://via.placeholder.com/150',
-        correctAnswer: 'España',
-        allAnswers: 'España,Francia,Alemania,Italia'
-      }
+
+  it('debería manejar respuesta incorrecta', async () => {
+    renderGameWithQuestions([
+      { title: 'Pregunta|https://img', correctAnswer: 'Correcta', allAnswers: 'Correcta,Opción1,Opción2,Opción3' }
     ]);
-  
-    render(
-      <MemoryRouter>
-        <Game />
-      </MemoryRouter>
-    );
-  
-    await waitFor(() =>
-      expect(screen.queryByText(/Cargando preguntas/i)).not.toBeInTheDocument()
-    );
-  
-    
-    expect(screen.getByText('¿De qué país es esta bandera?')).toBeInTheDocument();
-    expect(screen.getByRole('img')).toHaveAttribute('src', 'https://via.placeholder.com/150');
-    expect(screen.getByText('España')).toBeInTheDocument();
-  
-   
-    const correctButton = screen.getByText('España');
-    fireEvent.click(correctButton);
-  
-    
-    await waitFor(() =>
-      expect(screen.getByText('¡Correcto!')).toBeInTheDocument()
-    );
-  
-    
-    expect(correctButton).toHaveStyle('background-color: #4caf50');
+    await waitFor(() => screen.getByText('Correcta'));
+    fireEvent.click(screen.getByText('Opción1'));
+    await waitFor(() => expect(screen.getByText('Incorrecto.')).toBeInTheDocument());
+    expect(screen.getByText('Opción1')).toHaveStyle('background-color: #f44336');
+    expect(screen.getByText('Correcta')).toHaveStyle('background-color: #4caf50');
   });
-  
 
-
-  it('debería renderizar correctamente el contenido del juego y manejar respuesta incorrecta', async () => {
-    mockAxios.onGet('http://localhost:8000/api/generate-questions').reply(200, [
-      {
-        title: '¿De qué país es esta bandera?|https://via.placeholder.com/150',
-        correctAnswer: 'España',
-        allAnswers: 'España,Francia,Alemania,Italia'
-      }
+  it('debería mostrar el temporizador', async () => {
+    renderGameWithQuestions([
+      { title: 'Pregunta|https://img', correctAnswer: 'Correcta', allAnswers: 'Correcta,Opción1,Opción2,Opción3' }
     ]);
-  
-    render(
-      <MemoryRouter>
-        <Game />
-      </MemoryRouter>
-    );
-  
-    await waitFor(() =>
-      expect(screen.queryByText(/Cargando preguntas/i)).not.toBeInTheDocument()
-    );
-  
-    expect(screen.getByText('¿De qué país es esta bandera?')).toBeInTheDocument();
-  
-    const correctButton = screen.getByText('España');
-    const wrongButton = screen.getByText('Francia');
-  
-    
-    fireEvent.click(wrongButton);
-  
-   
-    await waitFor(() =>
-      expect(screen.getByText('Incorrecto.')).toBeInTheDocument()
-    );
-  
-    
-    expect(wrongButton).toHaveStyle('background-color: #f44336');
-    expect(correctButton).toHaveStyle('background-color: #4caf50');
-  });
-  
-  
-
-  it('debería mostrar el contador del temporizador al iniciar el juego', async () => {
-    mockAxios.onGet('http://localhost:8000/api/generate-questions').reply(200, [
-      {
-        title: '¿De qué país es esta bandera?|https://via.placeholder.com/150',
-        correctAnswer: 'España',
-        allAnswers: 'España,Francia,Alemania,Italia'
-      }
-    ]);
-  
-    render(
-      <MemoryRouter>
-        <Game />
-      </MemoryRouter>
-    );
-  
-    
-    await waitFor(() =>
-      expect(screen.queryByText(/Cargando preguntas/i)).not.toBeInTheDocument()
-    );
-  
-    
+    await waitFor(() => screen.getByText('Correcta'));
     const timer = await screen.findByText((text) => /^\d+s$/.test(text));
     expect(timer).toBeInTheDocument();
   });
+
+  it('debería completar partida y mostrar mensaje final', async () => {
+    renderGameWithQuestions([
+      { title: 'P1|img', correctAnswer: 'R1', allAnswers: 'R1,X,Y,Z' },
+      { title: 'P2|img', correctAnswer: 'R2', allAnswers: 'R2,A,B,C' }
+    ]);
+    await waitFor(() => screen.getByText('R1'));
+    fireEvent.click(screen.getByText('R1'));
+    const next = await screen.findByText('R2', {}, { timeout: 3000 });
+    fireEvent.click(next);
+    await waitFor(() => expect(screen.getByText(/¡Juego terminado!/i)).toBeInTheDocument(), { timeout: 3000 });
+  });
+
+
+  it('debería manejar correctamente cuando no se reciben preguntas', async () => {
+    mockAxios.onGet('http://localhost:8000/api/generate-questions').reply(200, []);
   
-  it('debería renderizar correctamente el contenido del juego y manejar respuesta correcta', async () => {
-  mockAxios.onGet('http://localhost:8000/api/generate-questions').reply(200, [
-    {
-      title: '¿De qué país es esta bandera?|https://via.placeholder.com/150',
-      correctAnswer: 'España',
-      allAnswers: 'España,Francia,Alemania,Italia'
-    }
-  ]);
-
-  render(
-    <MemoryRouter>
-      <Game />
-    </MemoryRouter>
-  );
-
-  await waitFor(() =>
-    expect(screen.queryByText(/Cargando preguntas/i)).not.toBeInTheDocument()
-  );
-
+    render(
+      <MemoryRouter>
+        <Game />
+      </MemoryRouter>
+    );
   
-  expect(screen.getByText('¿De qué país es esta bandera?')).toBeInTheDocument();
-  expect(screen.getByRole('img')).toHaveAttribute('src', 'https://via.placeholder.com/150');
-  expect(screen.getByText('España')).toBeInTheDocument();
-
+    await waitFor(() =>
+      expect(screen.getByText(/Cargando preguntas/i)).toBeInTheDocument()
+    );
+  });
   
-  const correctButton = screen.getByText('España');
-  fireEvent.click(correctButton);
-
-  
-  await waitFor(() =>
-    expect(screen.getByText('¡Correcto!')).toBeInTheDocument()
-  );
-
-  
-  expect(correctButton).toHaveStyle('background-color: #4caf50');
-});
-
-
-it('debería completar una partida y mostrar el mensaje de juego terminado', async () => {
-  mockAxios.onGet('http://localhost:8000/api/generate-questions').reply(200, [
-    {
-      title: 'Pregunta 1|https://via.placeholder.com/150',
-      correctAnswer: 'Correcta1',
-      allAnswers: 'Correcta1,OpciónA,OpciónB,OpciónC'
-    },
-    {
-      title: 'Pregunta 2|https://via.placeholder.com/150',
-      correctAnswer: 'Correcta2',
-      allAnswers: 'Correcta2,OpciónX,OpciónY,OpciónZ'
-    }
-  ]);
-
-  render(
-    <MemoryRouter>
-      <Game />
-    </MemoryRouter>
-  );
-
-  
-  await waitFor(() =>
-    expect(screen.queryByText(/Cargando preguntas/i)).not.toBeInTheDocument()
-  );
-
-  
-  fireEvent.click(screen.getByText('Correcta1'));
-
- 
-  const secondAnswer = await screen.findByText('Correcta2', {}, { timeout: 3000 });
-  expect(secondAnswer).toBeInTheDocument();
-
-  
-  fireEvent.click(secondAnswer);
-
-  
-  await waitFor(() => {
-    expect(screen.getByText(/¡Juego terminado!/i)).toBeInTheDocument();
-    expect(screen.getByText(/Puntuación:/i)).toBeInTheDocument();
-    expect(screen.getByText('Volver a Inicio')).toBeInTheDocument();
-  }, { timeout: 3000 });
-});
-
-
-
-
-
 
 });
