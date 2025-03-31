@@ -7,7 +7,6 @@ let page;
 let browser;
 let email = `test@test2`;
 let password = 'test';
-let userName = 'test';
 
 defineFeature(feature, test => {
   beforeAll(async () => {
@@ -57,7 +56,7 @@ defineFeature(feature, test => {
 
     then('The home page should display a personalized welcome message including the user\'s name', async () => {
       const welcomeMessage = await page.$eval('h2', el => el.textContent);  
-      expect(welcomeMessage).toContain(`¡Bienvenido de nuevo, ${userName}!`);
+      expect(welcomeMessage).toContain('¡Bienvenido de nuevo, test!');
     });
   });
 

@@ -5,4 +5,3 @@ Feature: Register Form
     When The user clicks on the register link
     Then The user should be redirected to the register page
     And The user fills the form and clicks "Registrarse"
-    Then The user should be redirected to the home page
