@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Container, Typography, Grid, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Chatbot from './Chatbot';
+import Timer from './Timer';
 import '../Game.css';
 
 const endpoint = "http://localhost:8000";
@@ -16,6 +17,8 @@ const Game = () => {
     const [correctAnswerAnimation, setCorrectAnswerAnimation] = useState(false);
     const [incorrectAnswer, setIncorrectAnswer] = useState('');
     const [correctAnswer, setCorrectAnswer] = useState('');
+    const [startTime, setStartTime] = useState(null);
+    const [timerKey, setTimerKey] = useState(0);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -42,6 +45,7 @@ const Game = () => {
                 });
 
                 setQuestions(formattedQuestions);
+                setStartTime(Date.now()); // Registrar el tiempo de inicio
             } catch (error) {
                 console.error("Error al obtener preguntas", error);
             }
@@ -79,12 +83,24 @@ const Game = () => {
     // ✅ Verificar que el índice es válido antes de acceder a `questions[currentQuestionIndex]`
     if (currentQuestionIndex >= questions.length) {
         return (
-            <Container maxWidth="xs" style={{ marginTop: "20px", textAlign: "center" }}>
+            <Container
+                maxWidth="xs"
+                style={{
+                    marginTop: "20px",
+                    textAlign: "center",
+                    backgroundColor: "#f9f9f9", // Fondo de color claro
+                    borderRadius: "16px", // Bordes redondeados
+                    padding: "20px", // Espaciado interno
+                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)", // Sombra para dar profundidad
+                    width: "300px", // Ancho fijo más estrecho
+                    height: "145px", // Altura fija más compacta
+                }}
+                >
                 <Typography variant="h6">¡Juego terminado!</Typography>
                 <Typography variant="h5">Puntuación: {score}</Typography>
-                <Button 
-                    variant="contained" 
-                    color="primary" 
+                <Button
+                    variant="contained"
+                    color="primary"
                     onClick={() => navigate('/home')}
                 >
                     Volver a Inicio
@@ -95,7 +111,7 @@ const Game = () => {
 
     const question = questions[currentQuestionIndex];
 
-    const saveScore = async (finalScore) => {
+    const saveScore = async (finalScore, finalTime) => {
         try {
             const token = localStorage.getItem('token'); // Obtener el token del localStorage
             
@@ -104,11 +120,12 @@ const Game = () => {
                 return;
             }
 
-            const wrong = 10 - finalScore
+            const wrong = 10 - finalScore;
+            const correct = finalScore;
 
             const response = await axios.post(
                 `${endpoint}/api/save-score`,
-                {correct: finalScore, wrong: wrong},
+                { correct: correct, wrong: wrong, totalTime: finalTime },
                 {
                     headers: {
                         Authorization: `Bearer ${token}`, // Enviar el token JWT en el encabezado
@@ -123,7 +140,7 @@ const Game = () => {
         } catch (error) {
             console.error("Error al guardar la puntuación:", error);
         }
-    }
+    };
 
     const handleSelect = (option) => {
         setSelected(option);
@@ -147,21 +164,48 @@ const Game = () => {
             setIncorrectAnswer('');
             setCorrectAnswer('');
             setCurrentQuestionIndex(prevIndex => prevIndex + 1);
+            setTimerKey(prevKey => prevKey + 1);
 
             if (currentQuestionIndex >= questions.length - 1) {
                 const finalScore = score + (option === question.correctAnswer ? 1 : 0);
-                saveScore(finalScore)
-                // alert(`Juego terminado. Puntuación final: ${finalScore}/10`);
+                const endTime = Date.now();
+                const finalTime = (endTime - startTime) / 1000; // Tiempo total en segundos
+                console.log(`Tiempo total: ${finalTime} segundos`);
+                saveScore(finalScore, finalTime);
             } 
-        }, 2500);
+        }, 1750);
     };
 
     const handleGoHome = () => {
         navigate('/home');
     };
 
+    const handleTimeOut = () => {
+        /*
+        setIncorrectAnswer(question.correctAnswer); // Marcar como incorrecta
+        setTimeout(() => {
+            setSelected('');
+            setResult('');
+            setCorrectAnswerAnimation(false);
+            setIncorrectAnswer('');
+            setCorrectAnswer('');
+            setCurrentQuestionIndex(prevIndex => prevIndex + 1);
+            setTimerKey(prevKey => prevKey + 1);
+
+            if (currentQuestionIndex >= questions.length - 1) {
+                const endTime = Date.now();
+                const finalTime = (endTime - startTime) / 1000; // Tiempo total en segundos
+                console.log(`Tiempo total: ${finalTime} segundos`);
+                saveScore(score, finalTime);
+            } 
+        }, 1750);
+        */
+       handleSelect(false)
+    };
+
     return (
         <Container maxWidth="xs" className="game-container" style={{ marginTop: "20px", textAlign: "center" } }>
+            <Timer key={timerKey} onTimeOut={handleTimeOut} duration={60} />
             <Typography variant="h5" style={{ marginBottom: "10px" }}>{question.title}</Typography>
             <img
                 src={question.image}
@@ -204,33 +248,36 @@ const Game = () => {
                 </Typography>
             )}
 
-            <Button
-                variant="contained"
-                color="primary"
-                className="back-home-button"
-                style={{
-                    marginTop: "40px",
-                    padding: "12px 24px",
-                    borderRadius: "8px",
-                    fontSize: "16px",
-                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-                    textTransform: "none",
-                    transition: "transform 0.3s ease, background-color 0.3s ease",
-                }}
-                onClick={handleGoHome}
-                onMouseEnter={(e) => {
-                    e.target.style.transform = "scale(1.1)";
-                    e.target.style.backgroundColor = "#3b82f6";
-                }}
-                onMouseLeave={(e) => {
-                    e.target.style.transform = "scale(1)";
-                    e.target.style.backgroundColor = "#1976d2";
-                }}
+        <Button
+            variant="contained"
+            className="back-home-button"
+            style={{
+                marginTop: "40px",
+                padding: "12px 24px",
+                borderRadius: "8px",
+                fontSize: "16px",
+                backgroundColor: "#f44336", // Rojo inicial
+                color: "#fff", // Texto blanco
+                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+                textTransform: "none",
+                transition: "transform 0.3s ease, background-color 0.3s ease",
+            }}
+            onClick={handleGoHome}
+            onMouseEnter={(e) => {
+                e.target.style.transform = "scale(1.1)";
+                e.target.style.backgroundColor = "#e53935"; // Rojo más oscuro al pasar el cursor
+            }}
+            onMouseLeave={(e) => {
+                e.target.style.transform = "scale(1)";
+                e.target.style.backgroundColor = "#f44336"; // Rojo inicial
+            }}
             >
-                Volver a Inicio
-            </Button>
+            Volver a Inicio
+        </Button>
 
-            <Chatbot />
+
+        <Chatbot currentAnswer={question.correctAnswer} />
+
         </Container>
     );
 };

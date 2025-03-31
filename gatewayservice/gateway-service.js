@@ -1,102 +1,142 @@
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
-const promBundle = require('express-prom-bundle');
-//libraries required for OpenAPI-Swagger
-const swaggerUi = require('swagger-ui-express'); 
-const fs = require("fs")
-const YAML = require('yaml')
+const promBundle = require('express-prom-bundle'); 
+const swaggerUi = require('swagger-ui-express');
+const fs = require("fs");
+const YAML = require('yaml');
 
 const app = express();
-const port = 8000;
+const port = process.env.GATEWAY_PORT || 8000;
 
+// 🔹 URLs de los microservicios
 const llmServiceUrl = process.env.LLM_SERVICE_URL || 'http://localhost:8003';
 const authServiceUrl = process.env.AUTH_SERVICE_URL || 'http://localhost:8002';
 const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
-const questionServiceUrl = process.env.QUESTION_SERVICE_URL || 'http://localhost:8010';
+const gameServiceUrl = process.env.GAME_SERVICE_URL || 'http://localhost:8010';
 
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true 
+}));
 app.use(express.json());
 
-//Prometheus configuration
-const metricsMiddleware = promBundle({includeMethod: true});
+const metricsMiddleware = promBundle({ includeMethod: true });
 app.use(metricsMiddleware);
 
-// Health check endpoint
+// 🔹 **Health Check**
 app.get('/health', (req, res) => {
   res.json({ status: 'OK' });
 });
 
-app.post('/login', async (req, res) => {
+// 🔹 **Montamos el router de LLMService**
+app.post('/api/chatbot', async (req, res) => {
   try {
-    // Forward the login request to the authentication service
-    const authResponse = await axios.post(authServiceUrl+'/login', req.body);
+    const response = await axios.post(`${llmServiceUrl}/`, req.body);
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al contactar con el LLM Service' });
+  }
+});
+
+// 🔹 **Login - Redirige al UserService**
+app.post('/api/login', async (req, res) => {
+  try {
+    const authResponse = await axios.post(
+      `${userServiceUrl}/api/login`,
+      req.body,
+      { withCredentials: true } 
+    );
     res.json(authResponse.data);
   } catch (error) {
-    res.status(error.response.status).json({ error: error.response.data.error });
+    console.error("❌ Error en /api/login:", error.response?.data || error.message);
+    res.status(error.response?.status || 500).json({
+      error: error.response?.data?.message || 'Error en el login'
+    });
   }
 });
 
-app.post('/adduser', async (req, res) => {
+/* 🔹 **Logout - Elimina la cookie de sesión y el token**
+app.post('/api/logout', (req, res) => {
+  res.clearCookie('token', { httpOnly: true, sameSite: 'Strict' });
+  return res.status(200).json({ message: 'Sesión cerrada correctamente' });
+});
+ */
+
+// 🔹 **Registro - Redirige al UserService**
+app.post('/api/register', async (req, res) => {
   try {
-    // Forward the add user request to the user service
-    const userResponse = await axios.post(userServiceUrl+'/adduser', req.body);
+    const userResponse = await axios.post(`${userServiceUrl}/api/register`, req.body);
     res.json(userResponse.data);
   } catch (error) {
-    res.status(error.response.status).json({ error: error.response.data.error });
+    console.error("❌ Error en /api/register:", error.response?.data || error.message);
+    res.status(error.response?.status || 500).json({
+      error: error.response?.data?.message || 'Error al registrar usuario'
+    });
   }
 });
 
-app.post('/askllm', async (req, res) => {
+// 🔹 **Generación de preguntas - Redirige a GameService**
+app.get('/api/generate-questions', async (req, res) => {
   try {
-    // Forward the add user request to the user service
-    const llmResponse = await axios.post(llmServiceUrl+'/ask', req.body);
-    res.json(llmResponse.data);
+    const questionGenerated = await axios.get(`${gameServiceUrl}/generateQuestions`);
+    res.json(questionGenerated.data);
   } catch (error) {
-    res.status(error.response.status).json({ error: error.response.data.error });
+    console.log("Error");
+    res.status(500).json({ error: 'Error al contactar con el Game Service' });;
   }
 });
 
-app.get('/generate-question', async (req, res) =>{
+app.post('/api/save-score', async (req, res) => {
   try {
-    const questionGenerated = await axios.get(questionServiceUrl + '/add-test')
-    console.log('test')
-    res.json(questionGenerated.data)
+    const token = req.headers['authorization'];
+    const headers = {
+      'Authorization': token,  
+      'Content-Type': 'application/json'
+    };
+    const saveScored = await axios.post(`${gameServiceUrl}/saveScore`, req.body, { headers });
+    res.json(saveScored.data);
   } catch (error) {
-    res.status(error.response.status).json({ error: error.response.data.error });
+    console.error("❌ Error en /api/save-score:", error.response?.data || error.message);
+    res.status(error.response?.status || 500).json({
+      error: error.response?.data?.message || 'Error al guardar resultados'
+    });
   }
-})
+});
 
-app.get('/generateQuestions', async (req, res) =>{
+app.get('/api/ranking', async (req, res) => {
   try {
-    const questionGenerated = await axios.get(questionServiceUrl + '/generateQuestions')
-    console.log('test')
-    res.json(questionGenerated.data)
-  } catch (error) {
-    res.status(error.response.status).json({ error: error.response.data.error });
-  }
-})
+    const ranking = await axios.get(`${gameServiceUrl}/ranking`);
+    
+    const sortedRanking = ranking.data.sort((a, b) => {
+      if (a.correct === b.correct) {
+        return a.totalTime - b.totalTime;
+      }
+      return b.correct - a.correct;
+    });
 
-// Read the OpenAPI YAML file synchronously
-openapiPath='./openapi.yaml'
+    res.json(sortedRanking);
+  } catch (error) {
+    console.error("❌ Error en /api/ranking", error.response?.data || error.message);
+    res.status(error.response?.status || 500).json({
+      error: error.response?.data?.message || 'Error al cargar el ranking'
+    });
+  }
+});
+
+// 🔹 **Carga de OpenAPI Docs (Swagger)**
+const openapiPath = './openapi.yaml';
 if (fs.existsSync(openapiPath)) {
   const file = fs.readFileSync(openapiPath, 'utf8');
-
-  // Parse the YAML content into a JavaScript object representing the Swagger document
   const swaggerDocument = YAML.parse(file);
-
-  // Serve the Swagger UI documentation at the '/api-doc' endpoint
-  // This middleware serves the Swagger UI files and sets up the Swagger UI page
-  // It takes the parsed Swagger document as input
   app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 } else {
-  console.log("Not configuring OpenAPI. Configuration file not present.")
+  console.log("⚠️ No se encontró la configuración de OpenAPI (openapi.yaml).");
 }
 
-
-// Start the gateway service
+// 🔹 **Iniciar API Gateway**
 const server = app.listen(port, () => {
-  console.log(`Gateway Service listening at http://localhost:${port}`);
+  console.log(`🚀 API Gateway corriendo en: http://localhost:${port}`);
 });
 
-module.exports = server
+module.exports = server;

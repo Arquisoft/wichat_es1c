@@ -1,6 +1,8 @@
-Feature: Registering a new user
+Feature: Register Form
 
-Scenario: The user is not registered in the site
-  Given An unregistered user
-  When I fill the data in the form and press submit
-  Then A confirmation message should be shown in the screen
+  Scenario: The user navigates to the register page and completes registration
+    Given The user is on the login page
+    When The user clicks on the register link
+    Then The user should be redirected to the register page
+    And The user fills the form and clicks "Registrarse"
+    Then The user should be redirected to the home page

@@ -1,130 +1,214 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { IconButton, Paper, Box, Typography, Button } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { AppBar, Toolbar, Typography, Button, Box, Menu, MenuItem, Fade } from '@mui/material';
 
-const OptionsDropdown = () => {
-  const [isOpen, setIsOpen] = useState(false);
+
+const TopNavbar = () => {
   const navigate = useNavigate();
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+  const location = useLocation();
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Elimina el token almacenado en el navegador
-    navigate('/'); // Redirige al usuario a la pantalla de login
+    localStorage.removeItem('token');
+    navigate('/');
+    localStorage.removeItem('token');
+    navigate('/');
+  };
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
   };
 
   return (
-    <>
-      {/* Botón flotante para abrir/cerrar el menú */}
-      <IconButton
-        onClick={toggleMenu}
-        sx={{
-          position: 'fixed',
-          top: 20,
-          left: 20,
-          bgcolor: 'primary.main',
-          color: 'white',
-          '&:hover': { bgcolor: 'primary.dark' },
-          zIndex: 1000,
-          transition: 'background-color 0.4s ease',
-        }}
-      >
-        <MenuIcon />
-      </IconButton>
-
-      {/* Menú desplegable */}
-      {isOpen && (
-        <Paper
-          elevation={5}
+    <AppBar
+      position="fixed"
+      sx={{
+        bgcolor: 'primary.main',
+        boxShadow: 3,
+        top: 0,
+        zIndex: 1100,
+        width: '100%',
+        margin: 0,
+        padding: 0,
+        background: 'linear-gradient(to left, #8f94fb, #4e54c8)',
+      }}
+    >
+      <Toolbar sx={{ width: '100%' }}>
+        <Typography
+          variant="h6"
+          align="left"
           sx={{
-            position: 'fixed',
-            top: 80,
-            left: 20,
-            width: 220,
-            display: 'flex',
-            flexDirection: 'column',
-            p: 2,
-            borderRadius: 2,
-            bgcolor: 'linear-gradient(145deg, #6a1b9a, #8e24aa)',
-            boxShadow: 10,
-            zIndex: 1000,
-            minHeight: 100,
-            transition: 'all 0.3s ease-in-out',
-            opacity: 1,
+            flexGrow: 1,
+            fontFamily: "Arial Black",
+            fontSize: "20px",
+            letterSpacing: "0.6px",
+            wordSpacing: "1px",
+            color: "#f9f9f9",
+            fontWeight: 400,
+            fontStyle: "normal",
+            fontVariant: "normal",
+            textTransform: "uppercase",
           }}
         >
-          <Typography
-            variant="h6"
-            align="center"
-            sx={{
-              mb: 2,
-              color: 'black',
-              fontWeight: 'bold',
-              letterSpacing: 1,
-              animation: 'fadeIn 0.5s ease-out',
-            }}
-          >
-            Menú de Opciones
-          </Typography>
+          Menú de Opciones
+        </Typography>
 
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', gap: 2 }}>
             <Button
               variant="contained"
-              onClick={() => navigate('/game')}
+              onClick={() => navigate('/home')}
               sx={{
-                mb: 1,
-                width: '80%',
-                padding: '10px',
-                borderRadius: 2,
-                textTransform: 'none',
                 bgcolor: '#007bff',
-                '&:hover': { bgcolor: '#0056b3', transform: 'scale(1.05)' },
-                transition: 'transform 0.2s ease-in-out',
+                '&:hover': { bgcolor: '#0056b3', transform: 'scale(1.1)' },
+                transition: 'transform 0.2s ease-in-out, background-color 0.2s ease-in-out',
+                fontFamily: "Arial Black",
+                fontSize: "12px",
+                letterSpacing: "0.6px",
+                wordSpacing: "1px",
+                color: "#f9f9f9",
+                fontWeight: 400,
+                fontStyle: "normal",
+                fontVariant: "normal",
+                textTransform: "uppercase",
+                background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))',
+                background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))',
               }}
             >
-              Juego
+              Inicio
             </Button>
-            <Button
-              variant="contained"
-              onClick={() => navigate('/faq')}
+          <Button
+            variant="contained"
+            onClick={() => navigate('/game')}
+            sx={{
+              bgcolor: '#007bff',
+              '&:hover': { bgcolor: '#0056b3' },
+              fontFamily: "Arial Black",
+              fontSize: "12px",
+              letterSpacing: "0.6px",
+              wordSpacing: "1px",
+              color: "#f9f9f9",
+              fontWeight: 400,
+              fontStyle: "normal",
+              fontVariant: "normal",
+              textTransform: "uppercase",
+              background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))',
+            }}
+          >
+            Juego
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => navigate('/ranking')}
+            sx={{
+              bgcolor: '#007bff',
+              '&:hover': { bgcolor: '#0056b3' },
+              fontFamily: "Arial Black",
+              fontSize: "12px",
+              letterSpacing: "0.6px",
+              wordSpacing: "1px",
+              color: "#f9f9f9",
+              fontWeight: 400,
+              fontStyle: "normal",
+              fontVariant: "normal",
+              textTransform: "uppercase",
+              background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))',
+            }}
+          >
+            Ranking
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => navigate('/user-account')}
+            sx={{
+              bgcolor: '#007bff',
+              '&:hover': { bgcolor: '#0056b3' },
+              fontFamily: "Arial Black",
+              fontSize: "12px",
+              letterSpacing: "0.6px",
+              wordSpacing: "1px",
+              color: "#f9f9f9",
+              fontWeight: 400,
+              fontStyle: "normal",
+              fontVariant: "normal",
+              textTransform: "uppercase",
+              background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))',
+            }}
+          >
+            Mi cuenta
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleMenuOpen}
+            sx={{
+              bgcolor: '#007bff',
+              '&:hover': { bgcolor: '#0056b3', transform: 'scale(1.05)' },
+              transition: 'transform 0.2s ease-in-out, background-color 0.2s ease-in-out',
+              fontFamily: "Arial Black",
+              fontSize: "12px",
+              letterSpacing: "0.6px",
+              wordSpacing: "1px",
+              color: "#f9f9f9",
+              fontWeight: 400,
+              fontStyle: "normal",
+              fontVariant: "normal",
+              textTransform: "uppercase",
+              background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))',
+            }}
+          >
+            HELP
+          </Button>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+            TransitionComponent={Fade} // Añadimos animación de desvanecimiento
+            sx={{
+              '& .MuiPaper-root': {
+                bgcolor: '#2c2c2c',
+                color: '#f9f9f9',
+                boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.2)',
+                borderRadius: '8px',
+                padding: '8px',
+              },
+            }}
+          >
+            <MenuItem
+              onClick={() => { handleMenuClose(); navigate('/faq'); }}
               sx={{
-                mb: 1,
-                width: '80%',
-                padding: '10px',
-                borderRadius: 2,
-                textTransform: 'none',
-                bgcolor: '#007bff',
-                '&:hover': { bgcolor: '#0056b3', transform: 'scale(1.05)' },
-                transition: 'transform 0.2s ease-in-out',
+                '&:hover': { bgcolor: '#444', color: '#fff' },
+                transition: 'background-color 0.2s ease-in-out',
               }}
             >
               FAQ
-            </Button>
-            {/* Botón de Logout */}
-            <Button
-              variant="contained"
-              onClick={handleLogout}
-              sx={{
-                mt: 2,
-                width: '80%',
-                padding: '10px',
-                borderRadius: 2,
-                textTransform: 'none',
-                bgcolor: '#d32f2f',
-                '&:hover': { bgcolor: '#b71c1c', transform: 'scale(1.05)' },
-                transition: 'transform 0.2s ease-in-out',
-              }}
-            >
-              Cerrar sesión
-            </Button>
-          </Box>
-        </Paper>
-      )}
-    </>
+            </MenuItem>
+          </Menu>
+          <Button
+            variant="contained"
+            onClick={handleLogout}
+            sx={{
+              bgcolor: '#d32f2f',
+              '&:hover': { bgcolor: '#b71c1c' },
+              fontFamily: "Arial Black",
+              fontSize: "12px",
+              letterSpacing: "0.6px",
+              wordSpacing: "1px",
+              color: "#f9f9f9",
+              fontWeight: 400,
+              fontStyle: "normal",
+              fontVariant: "normal",
+              textTransform: "uppercase",
+              background: 'linear-gradient(to right,rgb(209, 0, 0),rgb(96, 19, 19))',
+            }}
+          >
+            Cerrar sesión
+          </Button>
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 };
 
-export default OptionsDropdown;
+export default TopNavbar;

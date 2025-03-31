@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Accordion, AccordionSummary, AccordionDetails, Typography, Container, Button } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate } from 'react-router-dom';
+import OptionsDropdown from './OptionsDropdown';
 
 const FAQ = () => {
     const navigate = useNavigate(); // hook para la navegación
@@ -21,7 +22,7 @@ const FAQ = () => {
             answer: "Verás un mensaje que indica si tu respuesta fue correcta o incorrecta.",
         },
         {
-            question: "¿Dónde puedo ver mis puntuaciones?",
+            question: "¿Dónde puedo ver mi puntuacion?",
             answer: "La puntuación se muestra al final de cada ronda.",
         },
         {
@@ -47,6 +48,8 @@ const FAQ = () => {
     };
 
     return (
+        <>
+            <OptionsDropdown />  
         <Container maxWidth="md" className="faq-container" style={{ marginTop: "30px", textAlign: "center" }}>
            <Typography
                    component="h1"
@@ -109,6 +112,7 @@ const FAQ = () => {
                 Volver a Inicio
             </Button>
         </Container>
+        </>
     );
 };
 
