@@ -6,7 +6,7 @@ WORKDIR /app
 #Install the dependencies
 RUN npm install --omit=dev
 
-ARG API_URI="http://20.117.120.78:8000"
+ARG API_URI="http://20.77.50.1:8000"
 ENV REACT_APP_API_ENDPOINT=$API_URI
 
 #Create an optimized version of the webapp
