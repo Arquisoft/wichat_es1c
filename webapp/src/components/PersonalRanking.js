@@ -4,7 +4,7 @@ import { Container, Typography, List, ListItem, CircularProgress, Alert, Paper, 
 import jwtDecode from 'jwt-decode';
 import { format } from "date-fns";  // Importa la librería para formatear fechas
 
-const endpoint = "http://localhost:8000";
+const endpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
 const PersonalRanking = () => {
   const [userGames, setUserGames] = useState([]);
