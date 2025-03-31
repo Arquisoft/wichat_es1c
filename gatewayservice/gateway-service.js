@@ -15,17 +15,10 @@ const authServiceUrl = process.env.AUTH_SERVICE_URL || 'http://localhost:8002';
 const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
 const gameServiceUrl = process.env.GAME_SERVICE_URL || 'http://localhost:8010';
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
-  }
-  
-  next();
-});
+app.use(cors({
+    origin: "http://20.117.120.78:3000",
+    credentials: true 
+}));
 app.use(express.json());
 
 const metricsMiddleware = promBundle({ includeMethod: true });
@@ -51,7 +44,8 @@ app.post('/api/login', async (req, res) => {
   try {
     const authResponse = await axios.post(
       `${userServiceUrl}/api/login`,
-      req.body
+      req.body,
+      { withCredentials: true } 
     );
     res.json(authResponse.data);
   } catch (error) {

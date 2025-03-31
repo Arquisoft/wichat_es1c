@@ -7,6 +7,8 @@ import '../Login.css';
 
 const endpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
+axios.defaults.withCredentials = true; // Habilita cookies con credenciales
+
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
