@@ -6,7 +6,7 @@ import Chatbot from './Chatbot';
 import Timer from './Timer';
 import '../Game.css';
 
-const endpoint = "http://localhost:8000";
+const endpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
 const Game = () => {
     const [selected, setSelected] = useState('');
