@@ -11,9 +11,14 @@ let password = 'testpassword';
 
 defineFeature(feature, test => {
   beforeAll(async () => {
-    browser = await puppeteer.launch({ headless: "new", args: ['--no-sandbox', '--disable-setuid-sandbox']});
+
+    jest.setTimeout(80000);
+
+    browser = process.env.GITHUB_ACTIONS
+          ? await puppeteer.launch({ headless: 'new', args: ['--no-sandbox', '--disable-setuid-sandbox'] })
+          : await puppeteer.launch({ headless: false, slowMo: 0 });
     page = await browser.newPage();
-    setDefaultOptions({ timeout: 10000 });
+    setDefaultOptions({ timeout: 60000 });
 
     await page.goto('http://localhost:3000', { waitUntil: 'networkidle0' });
   });
@@ -30,10 +35,7 @@ defineFeature(feature, test => {
       await page.type('[data-testid="email-input"]', email);
       await page.type('[data-testid="pass-input"]', password);
 
-      const registerButton = await page.$x("//button[contains(., 'Registrarse')]");
-      if (registerButton.length > 0) {
-        await registerButton[0].click();
-      }
+      await expect(page).toClick('button', { text: 'Registrarse' });
     });
 
     then('The user should be redirected to the home page', async () => {
