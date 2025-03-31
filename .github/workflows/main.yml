@@ -1,0 +1,16 @@
+name: Check Permissions
+on: workflow_dispatch
+
+jobs:
+  check-permissions:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+    - name: Check GITHUB_TOKEN Permissions
+      run: |
+        echo "Checking permissions..."
+        curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+             -H "Accept: application/vnd.github.v3+json" \
+             https://api.github.com/user/packages
