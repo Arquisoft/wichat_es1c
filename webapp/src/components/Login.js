@@ -5,7 +5,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import '../Login.css';
 
-const endpoint = "http://localhost:8000";
+const endpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
 axios.defaults.withCredentials = true; // Habilita cookies con credenciales
 
