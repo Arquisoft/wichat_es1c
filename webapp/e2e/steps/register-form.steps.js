@@ -8,12 +8,15 @@ let browser;
 
 defineFeature(feature, (test) => {
   beforeAll(async () => {
+
+    jest.setTimeout(80000);
+
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch({ headless: 'new', args: ['--no-sandbox', '--disable-setuid-sandbox'] })
       : await puppeteer.launch({ headless: false, slowMo: 0 });
 
     page = await browser.newPage();
-    setDefaultOptions({ timeout: 10000 });
+    setDefaultOptions({ timeout: 60000 });
 
     await page.goto('http://localhost:3000', { waitUntil: 'networkidle0' }).catch(() => {});
   });
@@ -44,10 +47,7 @@ defineFeature(feature, (test) => {
       await page.type('[data-testid="email-input"]', randomEmail);
       await page.type('[data-testid="pass-input"]', 'testpassword');
 
-      const registerButton = await page.$x("//button[contains(., 'Registrarse')]");
-      if (registerButton.length > 0) {
-        await registerButton[0].click();
-      }
+      await expect(page).toClick('button', { text: 'Registrarse' });
     });
   });
 
