@@ -35,10 +35,7 @@ defineFeature(feature, test => {
       await page.type('[data-testid="email-input"]', email);
       await page.type('[data-testid="pass-input"]', password);
 
-      const registerButton = await page.$x("//button[contains(., 'Registrarse')]");
-      if (registerButton.length > 0) {
-        await registerButton[0].click();
-      }
+      await expect(page).toClick('button', { text: 'Registrarse' });
     });
 
     then('The user should be redirected to the home page', async () => {

@@ -47,10 +47,7 @@ defineFeature(feature, (test) => {
       await page.type('[data-testid="email-input"]', randomEmail);
       await page.type('[data-testid="pass-input"]', 'testpassword');
 
-      const registerButton = await page.$x("//button[contains(., 'Registrarse')]");
-      if (registerButton.length > 0) {
-        await registerButton[0].click();
-      }
+      await expect(page).toClick('button', { text: 'Registrarse' });
     });
   });
 
