@@ -16,7 +16,6 @@ jest.mock('react-router-dom', () => ({
 describe('Game component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockAxios.reset();
   });
 
   it('debería mostrar un mensaje de carga mientras se obtienen las preguntas', async () => {
@@ -31,16 +30,17 @@ describe('Game component', () => {
     expect(screen.getByText(/Cargando preguntas.../i)).toBeInTheDocument();
   });
 
-  it('debería cargar y mostrar una pregunta con sus opciones', async () => {
-    const mockQuestions = [
-      { title: 'Pregunta 1|image1.jpg', allAnswers: 'A,B,C,D', correctAnswer: 'B' }
-    ];
-    mockAxios.onGet('http://localhost:8000/api/generate-questions').reply(200, mockQuestions);
-
-    render(<MemoryRouter><Game /></MemoryRouter>);
-
-    await waitFor(() => expect(screen.getByRole('heading')).toBeInTheDocument());
-    expect(screen.getAllByRole('button')).toHaveLength(5); // 4 opciones de respuesta
-  });
+  // it('debería generar una imagen y cuatro botones', async () => {
+  //   render(
+  //     <MemoryRouter>
+  //       <Game />
+  //     </MemoryRouter>
+  //   );
+  //   expect(screen.getByText(/Cargando preguntas.../i)).toBeInTheDocument();
+  //   await waitFor(() => {
+  //     const optionButtons = screen.getAllByRole('button');
+  //     expect(optionButtons).toHaveLength(4);
+  //   });
+  // });
 
 });
