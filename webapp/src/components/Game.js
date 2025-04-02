@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Typography, Grid, Button } from '@mui/material';
+import { Container, Typography, Grid, Button, TextField, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Chatbot from './Chatbot';
 import Timer from './Timer';
@@ -9,6 +9,10 @@ import '../Game.css';
 const endpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
 const Game = () => {
+    const [showOptions, setShowOptions] = useState(true); // Estado para mostrar las opciones
+    const [questionType, setQuestionType] = useState('Geografía'); // Tipo de preguntas
+    const [responseTime, setResponseTime] = useState(60); // Tiempo máximo de respuesta
+
     const [selected, setSelected] = useState('');
     const [result, setResult] = useState('');
     const [questions, setQuestions] = useState([]);
@@ -22,37 +26,40 @@ const Game = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchQuestions = async () => {
-            try {
-                const response = await axios.get(`${endpoint}/api/generate-questions`, {
-                    withCredentials: true  
-                });
-                
-                if (response.data.length === 0) {
-                    console.error("No se recibieron preguntas del servidor.");
-                    return;
+        if (!showOptions) {
+            const fetchQuestions = async () => {
+                try {
+                    const response = await axios.get(`${endpoint}/api/generate-questions`, {
+                        params: { type: questionType },
+                        withCredentials: true  
+                    });
+                    
+                    if (response.data.length === 0) {
+                        console.error("No se recibieron preguntas del servidor.");
+                        return;
+                    }
+
+                    const formattedQuestions = response.data.map(data => {
+                        const [title, imageUrl] = data.title.split("|");
+                        const answers = data.allAnswers.split(",");
+                        return {
+                            title,
+                            image: imageUrl,
+                            correctAnswer: data.correctAnswer,
+                            options: answers
+                        };
+                    });
+
+                    setQuestions(formattedQuestions);
+                    setStartTime(Date.now()); // Registrar el tiempo de inicio
+                } catch (error) {
+                    console.error("Error al obtener preguntas", error);
                 }
+            };
 
-                const formattedQuestions = response.data.map(data => {
-                    const [title, imageUrl] = data.title.split("|");
-                    const answers = data.allAnswers.split(",");
-                    return {
-                        title,
-                        image: imageUrl,
-                        correctAnswer: data.correctAnswer,
-                        options: answers
-                    };
-                });
-
-                setQuestions(formattedQuestions);
-                setStartTime(Date.now()); // Registrar el tiempo de inicio
-            } catch (error) {
-                console.error("Error al obtener preguntas", error);
-            }
-        };
-
-        fetchQuestions();
-    }, []);
+            fetchQuestions();
+        }
+    }, [showOptions, questionType]);
 
     useEffect(() => {
         if (questions.length > 0 && currentQuestionIndex < questions.length - 1) {
@@ -61,23 +68,79 @@ const Game = () => {
         }
     }, [currentQuestionIndex, questions]);
 
+    if (showOptions) {
+        // Mostrar la vista de configuración
+        return (
+            <Container maxWidth="xs" style={{ marginTop: '20px', textAlign: 'center' }}>
+                <Typography variant="h4" style={{ marginBottom: '20px' }}>
+                    Configuración del Juego
+                </Typography>
+                <Grid container spacing={3}>
+                    {/* Selección del tipo de preguntas */}
+                    <Grid item xs={12}>
+                        <TextField
+                            select
+                            label="Tipo de Preguntas"
+                            value={questionType}
+                            onChange={(e) => setQuestionType(e.target.value)}
+                            fullWidth
+                        >
+                            <MenuItem value="Geografía">Geografía</MenuItem>
+                            <MenuItem value="Matemáticas">Matemáticas</MenuItem>
+                            <MenuItem value="Ciencia">Ciencia</MenuItem>
+                            <MenuItem value="Historia">Historia</MenuItem>
+                        </TextField>
+                    </Grid>
+
+                    {/* Selección del tiempo máximo de respuesta */}
+                    <Grid item xs={12}>
+                        <TextField
+                            type="number"
+                            label="Tiempo por Pregunta (segundos)"
+                            value={responseTime}
+                            onChange={(e) => setResponseTime(Number(e.target.value))}
+                            fullWidth
+                            inputProps={{ min: 10, max: 300 }}
+                        />
+                    </Grid>
+
+                    {/* Botón para iniciar el juego */}
+                    <Grid item xs={12}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                            onClick={() => setShowOptions(false)} // Ocultar opciones y comenzar el juego
+                        >
+                            Iniciar Juego
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Container>
+        );
+    }
+
     if (questions.length === 0) {
-        return       <Typography
-                                 component="h1"
-                                 variant="h5"
-                                 align="center"
-                                 sx={{
-                                   mt: 2,
-                                   color: 'white',
-                                   fontFamily: "'Poppins', sans-serif",
-                                   fontWeight: '900',
-                                   textTransform: 'uppercase',
-                                   textShadow: '2px 2px 8px rgba(0, 0, 0, 0.5), -1px -1px 0 rgba(0, 0, 0, 0.7), 1px -1px 0 rgba(0, 0, 0, 0.7), -1px 1px 0 rgba(0, 0, 0, 0.7), 1px 1px 0 rgba(0, 0, 0, 0.7)',
-                                   width: '100%',
-                                   letterSpacing: '0.5px',
-                                   wordBreak: 'break-word',
-                                 }}
-                               >Cargando preguntas...</Typography>;
+        return (
+            <Typography
+                component="h1"
+                variant="h5"
+                align="center"
+                sx={{
+                    mt: 2,
+                    color: 'white',
+                    fontFamily: "'Poppins', sans-serif",
+                    fontWeight: '900',
+                    textTransform: 'uppercase',
+                    textShadow: '2px 2px 8px rgba(0, 0, 0, 0.5), -1px -1px 0 rgba(0, 0, 0, 0.7), 1px -1px 0 rgba(0, 0, 0, 0.7), -1px 1px 0 rgba(0, 0, 0, 0.7), 1px 1px 0 rgba(0, 0, 0, 0.7)',
+                    width: '100%',
+                    letterSpacing: '0.5px',
+                    wordBreak: 'break-word',
+                }}
+            >
+                Cargando preguntas...
+            </Typography>
+        );
     }
 
     // ✅ Verificar que el índice es válido antes de acceder a `questions[currentQuestionIndex]`
@@ -204,8 +267,8 @@ const Game = () => {
     };
 
     return (
-        <Container maxWidth="xs" className="game-container" style={{ marginTop: "20px", textAlign: "center" } }>
-            <Timer key={timerKey} onTimeOut={handleTimeOut} duration={60} />
+        <Container maxWidth="xs" className="game-container" style={{ marginTop: "20px", textAlign: "center" }}>
+            <Timer key={timerKey} onTimeOut={handleTimeOut} duration={responseTime} /> {/* Usar tiempo configurado */}
             <Typography variant="h5" style={{ marginBottom: "10px" }}>{question.title}</Typography>
             <img
                 src={question.image}
