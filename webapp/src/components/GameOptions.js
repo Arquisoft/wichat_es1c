@@ -1,78 +1,121 @@
 import React, { useState } from 'react';
-import { Container, Typography, Grid, Button, TextField, MenuItem, Box } from '@mui/material';
+import { Container, Typography, Grid, Button, MenuItem, Box, Card, CardContent, Slider, FormControl, InputLabel, Select } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Settings } from '@mui/icons-material';
 
 const GameOptions = () => {
-    const [questionType, setQuestionType] = useState('general'); // Tipo de preguntas
-    const [responseTime, setResponseTime] = useState(60); // Tiempo máximo de respuesta
+    const [questionType, setQuestionType] = useState('general');
+    const [responseTime, setResponseTime] = useState(60);
     const navigate = useNavigate();
 
     const handleStartGame = () => {
-        // Redirige al componente Game con las opciones seleccionadas
         navigate('/game', { state: { questionType, responseTime } });
     };
 
+    const handleGoBack = () => {
+        navigate('/');
+    };
+
     return (
-        <Container maxWidth="xs" sx={{ mt: 4, textAlign: 'center' }}>
-            <Typography variant="h4" sx={{ mb: 3, fontWeight: 'bold' }}>
-                Configuración del Juego
-            </Typography>
-            <Box component="form" noValidate autoComplete="off">
-                <Grid container spacing={3}>
-                    {/* Selección del tipo de preguntas */}
-                    <Grid item xs={12}>
-                        <TextField
-                            select
-                            label="Tipo de Preguntas"
-                            value={questionType}
-                            onChange={(e) => setQuestionType(e.target.value)}
-                            fullWidth
-                            required
-                            aria-label="Tipo de Preguntas"
-                            helperText="Selecciona el tipo de preguntas que deseas."
-                        >
-                            <MenuItem value="general">General</MenuItem>
-                            <MenuItem value="math">Matemáticas</MenuItem>
-                            <MenuItem value="science">Ciencia</MenuItem>
-                            <MenuItem value="history">Historia</MenuItem>
-                        </TextField>
-                    </Grid>
+        <Container maxWidth="sm" sx={{ mt: 5, textAlign: 'center' }}>
+            <motion.div 
+                initial={{ opacity: 0, y: -20 }} 
+                animate={{ opacity: 1, y: 0 }} 
+                transition={{ duration: 0.6 }}
+            >
+                <Typography variant="h3" sx={{ mb: 3, fontWeight: 'bold', color: '#1976d2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Settings sx={{ mr: 1 }} /> Configuración del Juego
+                </Typography>
+            </motion.div>
+            <Card elevation={8} sx={{ borderRadius: 3, overflow: 'hidden', p: 2, background: 'linear-gradient(135deg, #42a5f5, #1e88e5)', color: 'white' }}>
+                <CardContent>
+                    <Box component="form" noValidate autoComplete="off">
+                        <Grid container spacing={3}>
+                            {/* Selección del tipo de preguntas */}
+                            <Grid item xs={12}>
+                                <motion.div whileHover={{ scale: 1.05 }}>
+                                    <FormControl fullWidth>
+                                        <InputLabel sx={{ color: 'white' }}>Tipo de Preguntas</InputLabel>
+                                        <Select
+                                            value={questionType}
+                                            onChange={(e) => setQuestionType(e.target.value)}
+                                            fullWidth
+                                            sx={{ backgroundColor: 'white', borderRadius: 2 }}
+                                        >
+                                            <MenuItem value="general">General</MenuItem>
+                                            <MenuItem value="flags">Banderas de Paises</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </motion.div>
+                            </Grid>
 
-                    {/* Selección del tiempo máximo de respuesta */}
-                    <Grid item xs={12}>
-                        <TextField
-                            type="number"
-                            label="Tiempo por Pregunta (segundos)"
-                            value={responseTime}
-                            onChange={(e) => setResponseTime(Number(e.target.value))}
-                            fullWidth
-                            required
-                            inputProps={{ min: 10, max: 300 }}
-                            aria-label="Tiempo por Pregunta"
-                            helperText="Tiempo máximo para cada pregunta (10-300 segundos)."
-                        />
-                    </Grid>
+                            {/* Selección del tiempo máximo de respuesta */}
+                            <Grid item xs={12}>
+                                <motion.div whileHover={{ scale: 1.05 }}>
+                                    <Typography gutterBottom>Tiempo por Pregunta: {responseTime} segundos</Typography>
+                                    <Slider
+                                        value={responseTime}
+                                        onChange={(e, newValue) => setResponseTime(newValue)}
+                                        min={10}
+                                        max={300}
+                                        step={10}
+                                        marks
+                                        valueLabelDisplay="auto"
+                                        sx={{ color: 'white' }}
+                                    />
+                                </motion.div>
+                            </Grid>
 
-                    {/* Botón para iniciar el juego */}
-                    <Grid item xs={12}>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            fullWidth
-                            onClick={handleStartGame}
-                            sx={{
-                                fontWeight: 'bold',
-                                py: 1.5,
-                                '&:hover': {
-                                    backgroundColor: '#0056b3', // Color de hover más atractivo
-                                },
-                            }}
-                        >
-                            Iniciar Juego
-                        </Button>
-                    </Grid>
-                </Grid>
-            </Box>
+                            {/* Botones */}
+                            <Grid item xs={12}>
+                                <motion.div whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.05 }}>
+                                    <Button
+                                        variant="contained"
+                                        fullWidth
+                                        onClick={handleStartGame}
+                                        sx={{
+                                            fontWeight: 'bold',
+                                            py: 1.5,
+                                            borderRadius: 2,
+                                            backgroundColor: 'white',
+                                            color: '#1976d2',
+                                            '&:hover': {
+                                                backgroundColor: '#e3f2fd',
+                                            },
+                                        }}
+                                    >
+                                        Iniciar Juego
+                                    </Button>
+                                </motion.div>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <motion.div whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.05 }}>
+                                    // boton para volver al menu principal
+                                    <Button
+                                        variant="outlined"
+                                        fullWidth
+                                        onClick={handleGoBack}
+                                        sx={{
+                                            fontWeight: 'bold',
+                                            py: 1.5,
+                                            borderRadius: 2,
+                                            color: 'white',
+                                            borderColor: 'white',
+                                            '&:hover': {
+                                                backgroundColor: '#1e88e5',
+                                                borderColor: 'white'
+                                            },
+                                        }}
+                                    >
+                                        Volver al Menú Principal
+                                    </Button>
+                                </motion.div>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                </CardContent>
+            </Card>
         </Container>
     );
 };
