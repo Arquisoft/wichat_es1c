@@ -159,28 +159,37 @@ async function getTemplateByCategory(category)
 async function generateQuestions()
 {
     const questions = [];
+    const selectedQuestions = new Set(); // Usamos un Set para almacenar las preguntas seleccionadas
 
     for ( let i = 0; i < NUMBER_OF_QUESTIONS; i++ )
     {
         // Get a random template of the specified category
-        // 'undefined' category returns a random template
-        const template = getTemplate(0);
+        const template = await getTemplate(0);
         
         // Get question from DB and add it to the result list
         let found = await Question.aggregate([
-            { $match: { category: 'Geografía' } },
+            { $match: { category: 'Geografía' } }, 
             { $sample: { size: 1 } },
         ]);
 
         if (found.length == 0)
             throw new Error("No se han encontrado preguntas");
-        
+
         let newQuestion = found[0];
+
+        // comprobación de si esta pregunta ya ha sido seleccionada
+        if (selectedQuestions.has(newQuestion.correctAnswer.toString())) {
+            i--; // Si la pregunta ya ha sido seleccionada, decrementa `i` para intentar obtener otra pregunta
+            continue;
+        }
+
+        // Marcar la pregunta como seleccionada
+        selectedQuestions.add(newQuestion.correctAnswer.toString());
 
         if (!newQuestion.title || !newQuestion.correctAnswer || !newQuestion.allAnswers)
         {
             console.error("Pregunta incompleta:", newQuestion);
-            continue; // Skip this question
+            continue;
         }
 
         questions.push(newQuestion);
@@ -191,6 +200,7 @@ async function generateQuestions()
 
     return questions;
 }
+
 
 /**
  * Given a full array of results and a question template, generates a question.
