@@ -180,11 +180,6 @@ const UserAccount = () => {
                         </ResponsiveContainer>
                     </Box>
                 )}
-                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                    <Button variant="contained" color="primary" sx={{ mt: 3, display: "block", mx: "auto", fontWeight: 'bold', transition: '0.3s', boxShadow: '0 4px 10px rgba(255, 255, 255, 0.3)' }} onClick={() => navigate("/home")}>
-                        Volver a Home
-                    </Button>
-                </motion.div>
             </Container>
         </>
     );
