@@ -44,21 +44,26 @@ const UserAccount = () => {
 
     useEffect(() => {
         if (!userEmail) return;
-    
+
         const fetchUserStats = async () => {
             try {
                 const response = await axios.get(`${endpoint}/api/ranking`);
                 console.log('Datos de la API:', response.data);
                 const userStats = response.data.filter((game) => game.email === userEmail);
-    
+
+                if (userStats.length === 0) {
+                    // Si no hay datos, solo mostramos nombre y correo del usuario
+                    return;
+                }
+
                 const totalCorrectAnswers = userStats.reduce((sum, stat) => sum + parseInt(stat.correct || 0, 10), 0);
                 const totalWrongAnswers = userStats.reduce((sum, stat) => sum + parseInt(stat.wrong || 0, 10), 0);
-    
+
                 setTotalGames(userStats.length);
                 setCorrectAnswers(totalCorrectAnswers);
                 setWrongAnswers(totalWrongAnswers);
                 setTotalQuestions(totalCorrectAnswers + totalWrongAnswers);
-    
+
                 const totalQuestions = totalCorrectAnswers + totalWrongAnswers;
                 const calculatedAccuracy = totalQuestions > 0 ? (totalCorrectAnswers / totalQuestions) * 100 : 0;
                 setAccuracy(calculatedAccuracy.toFixed(2));
@@ -69,7 +74,7 @@ const UserAccount = () => {
                     const dateB = new Date(b.timestamp * 1000 || b.timestamp);
                     return dateA - dateB; // Orden ascendente
                 });
-    
+
                 // Tomamos las últimas 10 partidas
                 const lastTen = sortedRanking.slice(-10).map((game) => {
                     const gameTotalQuestions = parseInt(game.correct || 0, 10) + parseInt(game.wrong || 0, 10);
@@ -88,10 +93,9 @@ const UserAccount = () => {
                 console.error('Error al obtener las estadísticas del usuario:', error);
             }
         };
-    
+
         fetchUserStats();
     }, [userEmail]);
-    
 
     return (
         <>
@@ -128,13 +132,19 @@ const UserAccount = () => {
                                 </Typography>
                                 <Typography variant="body1">Usuario: {userName}</Typography>
                                 <Typography variant="body1">Correo: {userEmail}</Typography>
-                                <Typography variant="body1">Total de partidas jugadas: {totalGames}</Typography>
-                                <Typography variant="body1">Preguntas acertadas: {correctAnswers}</Typography>
-                                <Typography variant="body1">Preguntas falladas: {wrongAnswers}</Typography>
-                                <Typography variant="body1">Total de preguntas: {totalQuestions}</Typography>
-                                <Typography variant="body1" sx={{ fontWeight: '600', color: accuracy >= 50 ? '#4CAF50' : '#F44336' }}>
-                                    Porcentaje de aciertos: {accuracy}%
-                                </Typography>
+
+                                {/* Solo mostramos las estadísticas si existen */}
+                                {totalGames > 0 && (
+                                    <>
+                                        <Typography variant="body1">Total de partidas jugadas: {totalGames}</Typography>
+                                        <Typography variant="body1">Preguntas acertadas: {correctAnswers}</Typography>
+                                        <Typography variant="body1">Preguntas falladas: {wrongAnswers}</Typography>
+                                        <Typography variant="body1">Total de preguntas: {totalQuestions}</Typography>
+                                        <Typography variant="body1" sx={{ fontWeight: '600', color: accuracy >= 50 ? '#4CAF50' : '#F44336' }}>
+                                            Porcentaje de aciertos: {accuracy}%
+                                        </Typography>
+                                    </>
+                                )}
                             </Box>
                         </motion.div>
                     </motion.div>
