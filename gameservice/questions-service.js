@@ -149,41 +149,56 @@ async function getTemplateByCategory(category)
  * Generate the full list of questions to be displayed in a game.
  * @returns {Array} List of generated questions
  */
-async function generateQuestions()
-{
+async function generateQuestions() {
+    const selectedQuestions = new Set();
     const questions = [];
 
-    for ( let i = 0; i < NUMBER_OF_QUESTIONS; i++ )
-    {
-        // Get a random template of the specified category
-        // 'undefined' category returns a random template
-        const template = getTemplate(0);
-        
-        // Get question from DB and add it to the result list
-        let found = await Question.aggregate([
-            { $match: { category: 'Geografía' } },
-            { $sample: { size: 1 } },
-        ]);
+    // Obtener más preguntas de las necesarias para evitar duplicados
+    let foundQuestions = await Question.aggregate([
+        { $match: { category: 'Geografía' } },
+        { $sample: { size: NUMBER_OF_QUESTIONS * 2 } } // Se obtiene más del doble
+    ]);
 
-        if (found.length == 0)
-            throw new Error("No se han encontrado preguntas");
-        
-        let newQuestion = found[0];
+    if (foundQuestions.length === 0) 
+        throw new Error("No se han encontrado preguntas");
 
-        if (!newQuestion.title || !newQuestion.correctAnswer || !newQuestion.allAnswers)
-        {
+    let index = 0;
+    while (questions.length < NUMBER_OF_QUESTIONS) {
+        if (index >= foundQuestions.length) {
+            // Si ya se revisaron todas las preguntas, empezar a permitir repeticiones
+            foundQuestions = await Question.aggregate([
+                { $match: { category: 'Geografía' } },
+                { $sample: { size: NUMBER_OF_QUESTIONS } } // Pedimos más preguntas
+            ]);
+            index = 0;
+        }
+
+        const newQuestion = foundQuestions[index++];
+        
+        // Validar que la pregunta es completa
+        if (!newQuestion.title || !newQuestion.correctAnswer || !newQuestion.allAnswers) {
             console.error("Pregunta incompleta:", newQuestion);
-            continue; // Skip this question
+            continue;
+        }
+
+        // Verificar duplicados
+        if (!selectedQuestions.has(newQuestion.correctAnswer.toString())) {
+            selectedQuestions.add(newQuestion.correctAnswer.toString());
+        } else if (selectedQuestions.size >= foundQuestions.length) {
+            // Si ya agotamos las preguntas únicas, empezamos a repetir
+            console.warn("Se están repitiendo preguntas debido a falta de opciones únicas.");
+        } else {
+            continue; // Evitar agregar preguntas repetidas mientras haya opciones únicas
         }
 
         questions.push(newQuestion);
     }
 
-    if (questions.length < NUMBER_OF_QUESTIONS)
-        throw new Error("No se han encontrado preguntas suficientes");
-
     return questions;
 }
+
+
+
 
 /**
  * Given a full array of results and a question template, generates a question.
