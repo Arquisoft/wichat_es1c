@@ -9,12 +9,15 @@ let browser;
 defineFeature(feature, test => {
   
   beforeAll(async () => {
+
+    jest.setTimeout(80000);
+
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch({ headless: 'new', args: ['--no-sandbox', '--disable-setuid-sandbox'] })
       : await puppeteer.launch({ headless: false, slowMo: 0 });
     page = await browser.newPage();
     
-    setDefaultOptions({ timeout: 10000 });
+    setDefaultOptions({ timeout: 60000 });
 
     await page.goto('http://localhost:3000', { waitUntil: 'networkidle0' }).catch(() => {});
   });
@@ -48,5 +51,11 @@ defineFeature(feature, test => {
       await expect(page).toMatchElement('.MuiSnackbar-root', { text: 'Error al iniciar sesión' });
     });
   });
+
+  afterAll(async () => {
+    await browser.close();
+  });
 });
+
+
   

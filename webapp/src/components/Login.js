@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext'; // Importar el contexto de autenticación
 import '../Login.css';
 
-const endpoint = "http://localhost:8000";
+const endpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
 axios.defaults.withCredentials = true; // Habilita cookies con credenciales
 

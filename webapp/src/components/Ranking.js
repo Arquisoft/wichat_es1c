@@ -15,7 +15,7 @@ import {
 import { format } from "date-fns";
 import OptionsDropdown from './OptionsDropdown';
 
-const endpoint = "http://localhost:8000";
+const endpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
 const Ranking = () => {
   const [ranking, setRanking] = useState([]);

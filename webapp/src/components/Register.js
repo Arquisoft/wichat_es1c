@@ -4,7 +4,7 @@ import { Container, Typography, TextField, Button, Snackbar, Link } from '@mui/m
 import { useNavigate } from 'react-router-dom';
 import '../Register.css';
 
-const endpoint = "http://localhost:8000";
+const endpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
 const Register = () => {
   const navigate = useNavigate();

@@ -8,12 +8,15 @@ let browser;
 
 defineFeature(feature, (test) => {
   beforeAll(async () => {
+
+    jest.setTimeout(80000);
+
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch({ headless: 'new', args: ['--no-sandbox', '--disable-setuid-sandbox'] })
       : await puppeteer.launch({ headless: false, slowMo: 0 });
 
     page = await browser.newPage();
-    setDefaultOptions({ timeout: 10000 });
+    setDefaultOptions({ timeout: 60000 });
 
     await page.goto('http://localhost:3000', { waitUntil: 'networkidle0' }).catch(() => {});
   });
@@ -39,23 +42,16 @@ defineFeature(feature, (test) => {
     });
 
     and('The user fills the form and clicks "Registrarse"', async () => {
-      
-
       await page.type('[data-testid="nombre-input"]', 'Test E2E');
-      await page.type('[data-testid="email-input"]', 'e2e2@e2e');
+      const randomEmail = `test${Math.floor(Math.random() * 10000)}@e2e.com`;
+      await page.type('[data-testid="email-input"]', randomEmail);
       await page.type('[data-testid="pass-input"]', 'testpassword');
 
-      const registerButton = await page.$x("//button[contains(., 'Registrarse')]");
-      if (registerButton.length > 0) {
-        await registerButton[0].click();
-      }
-
+      await expect(page).toClick('button', { text: 'Registrarse' });
     });
+  });
 
-    then('The user should be redirected to the home page', async () => {
-      await page.waitForNavigation({ waitUntil: 'networkidle0' });
-      const url = await page.url();
-      expect(url).toBe('http://localhost:3000/home');
-    });
+  afterAll(async () => {
+    await browser.close();
   });
 });

@@ -7,7 +7,7 @@ import axios from "axios";
 import { motion } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-const endpoint = "http://localhost:8000";
+const endpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
 const UserAccount = () => {
     const [userName, setUserName] = useState('');
@@ -180,11 +180,6 @@ const UserAccount = () => {
                         </ResponsiveContainer>
                     </Box>
                 )}
-                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                    <Button variant="contained" color="primary" sx={{ mt: 3, display: "block", mx: "auto", fontWeight: 'bold', transition: '0.3s', boxShadow: '0 4px 10px rgba(255, 255, 255, 0.3)' }} onClick={() => navigate("/home")}>
-                        Volver a Home
-                    </Button>
-                </motion.div>
             </Container>
         </>
     );
