@@ -54,6 +54,7 @@ const Login = () => {
       <Container component="main" maxWidth="xs" className="login-container">
         <img src="/LogoWichat.gif" alt="Logo Wichat" className="login-logo" />
         <Typography
+          data-testid="login-title"
           variant="h5"
           align="center"
           sx={{
@@ -90,6 +91,7 @@ const Login = () => {
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
+                  data-testid="toggle-password"
                   onMouseDown={() => setShowPassword(true)}
                   onMouseUp={() => setShowPassword(false)}
                   onMouseLeave={() => setShowPassword(false)}

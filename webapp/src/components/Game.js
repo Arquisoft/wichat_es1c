@@ -209,17 +209,23 @@ const Game = () => {
         setSelected(option);
         const isCorrect = option === question.correctAnswer;
         setResult(isCorrect ? "¡Correcto!" : "Incorrecto.");
-        
+    
+        // Reproducir el sonido correspondiente
+        const correctSound = new Audio(process.env.PUBLIC_URL + "/sounds/correct_answer.mp3");
+        const wrongSound = new Audio(process.env.PUBLIC_URL + "/sounds/wrong_answer.mp3");
+    
         if (isCorrect) {
+            correctSound.play();
             setScore(prevScore => prevScore + 1);
             setCorrectAnswerAnimation(true);
             setCorrectAnswer(option);
             setIncorrectAnswer('');
         } else {
+            wrongSound.play();
             setIncorrectAnswer(option);
             setCorrectAnswer(question.correctAnswer);
         }
-
+    
         setTimeout(() => {
             setSelected('');
             setResult('');
@@ -228,16 +234,15 @@ const Game = () => {
             setCorrectAnswer('');
             setCurrentQuestionIndex(prevIndex => prevIndex + 1);
             setTimerKey(prevKey => prevKey + 1);
-
+    
             if (currentQuestionIndex >= questions.length - 1) {
                 const finalScore = score + (option === question.correctAnswer ? 1 : 0);
                 const endTime = Date.now();
-                const finalTime = (endTime - startTime) / 1000; // Tiempo total en segundos
-                console.log(`Tiempo total: ${finalTime} segundos`);
+                const finalTime = (endTime - startTime) / 1000;
                 saveScore(finalScore, finalTime);
-            } 
+            }
         }, 1750);
-    };
+    };    
 
     const handleGoHome = () => {
         navigate('/home');
