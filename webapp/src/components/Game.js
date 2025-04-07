@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Typography, Grid, Button, TextField, MenuItem } from '@mui/material';
+import { Container, Typography, Grid, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Chatbot from './Chatbot';
 import Timer from './Timer';
+import GameOptions from './GameOptions'; // Importar el nuevo componente
 import '../Game.css';
 
 const endpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
@@ -69,54 +70,15 @@ const Game = () => {
     }, [currentQuestionIndex, questions]);
 
     if (showOptions) {
-        // Mostrar la vista de configuración
+        // Usar el componente GameOptions para la configuración
         return (
-            <Container maxWidth="xs" style={{ marginTop: '20px', textAlign: 'center' }}>
-                <Typography variant="h4" style={{ marginBottom: '20px' }}>
-                    Configuración del Juego
-                </Typography>
-                <Grid container spacing={3}>
-                    {/* Selección del tipo de preguntas */}
-                    <Grid item xs={12}>
-                        <TextField
-                            select
-                            label="Tipo de Preguntas"
-                            value={questionType}
-                            onChange={(e) => setQuestionType(e.target.value)}
-                            fullWidth
-                        >
-                            <MenuItem value="Geografía">Geografía</MenuItem>
-                            <MenuItem value="Matemáticas">Matemáticas</MenuItem>
-                            <MenuItem value="Ciencia">Ciencia</MenuItem>
-                            <MenuItem value="Historia">Historia</MenuItem>
-                        </TextField>
-                    </Grid>
-
-                    {/* Selección del tiempo máximo de respuesta */}
-                    <Grid item xs={12}>
-                        <TextField
-                            type="number"
-                            label="Tiempo por Pregunta (segundos)"
-                            value={responseTime}
-                            onChange={(e) => setResponseTime(Number(e.target.value))}
-                            fullWidth
-                            inputProps={{ min: 10, max: 300 }}
-                        />
-                    </Grid>
-
-                    {/* Botón para iniciar el juego */}
-                    <Grid item xs={12}>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            fullWidth
-                            onClick={() => setShowOptions(false)} // Ocultar opciones y comenzar el juego
-                        >
-                            Iniciar Juego
-                        </Button>
-                    </Grid>
-                </Grid>
-            </Container>
+            <GameOptions
+                questionType={questionType}
+                setQuestionType={setQuestionType}
+                responseTime={responseTime}
+                setResponseTime={setResponseTime}
+                onStartGame={() => setShowOptions(false)} // Ocultar opciones y comenzar el juego
+            />
         );
     }
 
