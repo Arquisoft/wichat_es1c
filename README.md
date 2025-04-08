@@ -14,7 +14,6 @@
  | Daniel Alberto Alonso Fernández    | [@uo283794](https://github.com/uo283794)|
  | David Álvarez Cabezas    | [@davidalvarezcabezas](https://github.com/davidalvarezcabezas)|
  | Alejandro Fernández García    | [@alejandrofdzgarcia](https://github.com/alejandrofdzgarcia)|
- | Emilio García Fernández    | [@AggroTheShark](https://github.com/AggroTheShark)|
  | Mario García Prieto    | [@mario5garciap](https://github.com/mario5garciap)|
  
  <p float="left">
