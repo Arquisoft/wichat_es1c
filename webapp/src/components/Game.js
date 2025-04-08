@@ -70,14 +70,13 @@ const Game = () => {
     }, [currentQuestionIndex, questions]);
 
     if (showOptions) {
-        // Usar el componente GameOptions para la configuración
         return (
             <GameOptions
                 questionType={questionType}
                 setQuestionType={setQuestionType}
                 responseTime={responseTime}
                 setResponseTime={setResponseTime}
-                onStartGame={() => setShowOptions(false)} // Ocultar opciones y comenzar el juego
+                onStartGame={() => setShowOptions(false)}
             />
         );
     }
@@ -235,7 +234,20 @@ const Game = () => {
 
     return (
         <Container maxWidth="xs" className="game-container" style={{ marginTop: "20px", textAlign: "center" }}>
-            <Timer key={timerKey} onTimeOut={handleTimeOut} duration={responseTime} /> {/* Usar tiempo configurado */}
+            <Timer key={timerKey} onTimeOut={handleTimeOut} duration={responseTime} />
+
+            {/* Contador de preguntas */}
+            <Typography
+                variant="h6"
+                style={{
+                    marginBottom: "10px",
+                    fontWeight: "bold",
+                    color: "#1976d2",
+                }}
+            >
+                Pregunta {currentQuestionIndex + 1} de {questions.length}
+            </Typography>
+
             <Typography variant="h5" style={{ marginBottom: "10px" }}>{question.title}</Typography>
             <img
                 src={question.image}
@@ -278,36 +290,34 @@ const Game = () => {
                 </Typography>
             )}
 
-        <Button
-            variant="contained"
-            className="back-home-button"
-            style={{
-                marginTop: "40px",
-                padding: "12px 24px",
-                borderRadius: "8px",
-                fontSize: "16px",
-                backgroundColor: "#f44336", // Rojo inicial
-                color: "#fff", // Texto blanco
-                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-                textTransform: "none",
-                transition: "transform 0.3s ease, background-color 0.3s ease",
-            }}
-            onClick={handleGoHome}
-            onMouseEnter={(e) => {
-                e.target.style.transform = "scale(1.1)";
-                e.target.style.backgroundColor = "#e53935"; // Rojo más oscuro al pasar el cursor
-            }}
-            onMouseLeave={(e) => {
-                e.target.style.transform = "scale(1)";
-                e.target.style.backgroundColor = "#f44336"; // Rojo inicial
-            }}
+            <Button
+                variant="contained"
+                className="back-home-button"
+                style={{
+                    marginTop: "40px",
+                    padding: "12px 24px",
+                    borderRadius: "8px",
+                    fontSize: "16px",
+                    backgroundColor: "#f44336", // Rojo inicial
+                    color: "#fff", // Texto blanco
+                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+                    textTransform: "none",
+                    transition: "transform 0.3s ease, background-color 0.3s ease",
+                }}
+                onClick={handleGoHome}
+                onMouseEnter={(e) => {
+                    e.target.style.transform = "scale(1.1)";
+                    e.target.style.backgroundColor = "#e53935"; // Rojo más oscuro al pasar el cursor
+                }}
+                onMouseLeave={(e) => {
+                    e.target.style.transform = "scale(1)";
+                    e.target.style.backgroundColor = "#f44336"; // Rojo inicial
+                }}
             >
-            Volver a Inicio
-        </Button>
+                Volver a Inicio
+            </Button>
 
-
-        <Chatbot currentAnswer={question.correctAnswer} />
-
+            <Chatbot currentAnswer={question.correctAnswer} />
         </Container>
     );
 };
