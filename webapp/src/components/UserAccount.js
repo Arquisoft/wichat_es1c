@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import jwtDecode from 'jwt-decode';
-import { Container, Typography, Box, Button } from '@mui/material';
+import { Container, Typography, Box } from '@mui/material';
 import OptionsDropdown from './OptionsDropdown';
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { motion } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
@@ -18,7 +17,6 @@ const UserAccount = () => {
     const [totalQuestions, setTotalQuestions] = useState(0);
     const [accuracy, setAccuracy] = useState(0);
     const [lastTenGames, setLastTenGames] = useState([]);
-    const navigate = useNavigate();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
