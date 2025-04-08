@@ -21,7 +21,8 @@ import {
   Container,
   CircularProgress,
   Alert,
-  Pagination
+  Pagination,
+  Box
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { format } from "date-fns"; 
@@ -33,10 +34,11 @@ const PersonalRanking = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [userEmail, setUserEmail] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);  // Página actual
-  const [gamesPerPage] = useState(5);  // Elementos por página (5 resultados por página)
-  const [selectedGame, setSelectedGame] = useState(null); // Partida seleccionada
-  const [dialogOpen, setDialogOpen] = useState(false); // Estado del diálogo
+  const [currentPage, setCurrentPage] = useState(1);
+  const [gamesPerPage] = useState(5);
+  const [selectedGame, setSelectedGame] = useState(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [expandedAccordion, setExpandedAccordion] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -72,26 +74,26 @@ const PersonalRanking = () => {
     }
   }, [userEmail]);
 
-  // Calcular los índices de los juegos que se deben mostrar según la página
   const indexOfLastGame = currentPage * gamesPerPage;
   const indexOfFirstGame = indexOfLastGame - gamesPerPage;
   const currentGames = userGames.slice(indexOfFirstGame, indexOfLastGame);
 
-  // Cambiar la página actual
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
 
-  // Abrir el diálogo con los detalles de la partida seleccionada
   const handleRowClick = (game) => {
     setSelectedGame(game);
     setDialogOpen(true);
   };
 
-  // Cerrar el diálogo
   const handleCloseDialog = () => {
     setDialogOpen(false);
     setSelectedGame(null);
+  };
+
+  const handleAccordionChange = (index) => (event, isExpanded) => {
+    setExpandedAccordion(isExpanded ? index : null);
   };
 
   return (
@@ -124,7 +126,7 @@ const PersonalRanking = () => {
               <TableBody>
                 {currentGames.map((game, index) => {
                   const gameTimestamp = game.timestamp;
-                  const gameDate = new Date(gameTimestamp * 1000 || gameTimestamp);  // Usar el timestamp
+                  const gameDate = new Date(gameTimestamp * 1000 || gameTimestamp);
                   const isValidDate = !isNaN(gameDate.getTime());
                   const formattedDate = isValidDate
                     ? format(gameDate, "dd/MM/yyyy HH:mm:ss")
@@ -133,7 +135,7 @@ const PersonalRanking = () => {
                   return (
                     <TableRow
                       key={index}
-                      onClick={() => handleRowClick(game)} // Añadir evento onClick
+                      onClick={() => handleRowClick(game)}
                       sx={{
                         backgroundColor: "#f9f9f9",
                         "&:hover": { backgroundColor: "#f1f1f1", cursor: "pointer" },
@@ -152,7 +154,6 @@ const PersonalRanking = () => {
               </TableBody>
             </Table>
           </TableContainer>
-          {/* Paginación */}
           <Pagination
             count={Math.ceil(userGames.length / gamesPerPage)}
             page={currentPage}
@@ -168,45 +169,98 @@ const PersonalRanking = () => {
         )
       )}
 
-      {/* Diálogo para mostrar detalles de la partida */}
-      <Dialog open={dialogOpen} onClose={handleCloseDialog}>
+      <Dialog
+        open={dialogOpen}
+        onClose={handleCloseDialog}
+        maxWidth="sm"
+        fullWidth
+        sx={{
+          "& .MuiPaper-root": {
+            borderRadius: "16px",
+            maxWidth: "500px",
+          },
+        }}
+      >
         <DialogTitle
           sx={{
             backgroundColor: "#1976d2",
             color: "#ffffff",
             textAlign: "center",
-            fontWeight: "bold"
+            fontWeight: "bold",
+            borderTopLeftRadius: "16px",
+            borderTopRightRadius: "16px",
           }}
         >
           Detalles de la partida
         </DialogTitle>
-        <DialogContent dividers>
+        <DialogContent
+          dividers
+          sx={{
+            borderBottomLeftRadius: "16px",
+            borderBottomRightRadius: "16px",
+          }}
+        >
           {selectedGame && (() => {
             const questions = selectedGame.question.split("¬");
             const correctAnswers = selectedGame.correctAnswer.split("¬");
             const givenAnswers = selectedGame.givenAnswer.split("¬");
 
             return questions.map((q, index) => (
-              <Accordion key={index}>
+              <Accordion
+                key={index}
+                expanded={expandedAccordion === index}
+                onChange={handleAccordionChange(index)}
+                sx={{
+                  borderRadius: "12px",
+                  marginBottom: "8px",
+                  "&:before": {
+                    display: "none",
+                  },
+                }}
+              >
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Typography fontWeight="bold">
                     Pregunta {index + 1}: {q}
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <Typography><strong>Pregunta:</strong> {q}</Typography>
-                  <Typography><strong>Respuesta Correcta:</strong> {correctAnswers[index]}</Typography>
-                  <Typography><strong>Respuesta Dada:</strong> {givenAnswers[index]}</Typography>
+                  <Box display="flex" justifyContent="space-between" alignItems="center">
+                    <Typography
+                      sx={{
+                        fontWeight: "bold",
+                        color: "#4caf50",
+                        border: "2px solid #4caf50",
+                        borderRadius: "8px",
+                        padding: "4px 8px",
+                        backgroundColor: "#e8f5e9",
+                      }}
+                    >
+                      Respuesta Correcta: {correctAnswers[index]}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontWeight: "bold",
+                        color: givenAnswers[index] === correctAnswers[index] ? "#4caf50" : "#f44336",
+                        border: `2px solid ${givenAnswers[index] === correctAnswers[index] ? "#4caf50" : "#f44336"}`,
+                        borderRadius: "8px",
+                        padding: "4px 8px",
+                        backgroundColor: givenAnswers[index] === correctAnswers[index] ? "#e8f5e9" : "#ffebee",
+                      }}
+                    >
+                      Respuesta Dada: {givenAnswers[index]}
+                    </Typography>
+                  </Box>
                 </AccordionDetails>
               </Accordion>
             ));
           })()}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary">Cerrar</Button>
+          <Button onClick={handleCloseDialog} color="primary">
+            Cerrar
+          </Button>
         </DialogActions>
       </Dialog>
-
     </Container>
   );
 };

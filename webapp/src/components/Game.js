@@ -147,13 +147,25 @@ const Game = () => {
                 return;
             }
 
+            // Verificar que los valores no estén vacíos
+            if (!questionsTitles || !correctAnswers || !givenAnswers) {
+                console.error("Faltan datos para guardar la puntuación");
+                return;
+            }
+
             const wrong = 10 - finalScore;
             const correct = finalScore;
 
             const response = await axios.post(
                 `${endpoint}/api/save-score`,
-                { correct: correct, wrong: wrong, totalTime: finalTime, question: questionsTitles, 
-                    correctAnswer: correctAnswers, givenAnswer: givenAnswers },
+                { 
+                    correct: correct, 
+                    wrong: wrong, 
+                    totalTime: finalTime, 
+                    question: questionsTitles, 
+                    correctAnswer: correctAnswers, 
+                    givenAnswer: givenAnswers 
+                },
                 {
                     headers: {
                         Authorization: `Bearer ${token}`, // Enviar el token JWT en el encabezado
@@ -217,8 +229,6 @@ const Game = () => {
     };
 
     const handleTimeOut = () => {
-        /*
-        setIncorrectAnswer(question.correctAnswer); // Marcar como incorrecta
         setTimeout(() => {
             setSelected('');
             setResult('');
@@ -233,10 +243,8 @@ const Game = () => {
                 const finalTime = (endTime - startTime) / 1000; // Tiempo total en segundos
                 console.log(`Tiempo total: ${finalTime} segundos`);
                 saveScore(score, finalTime);
-            } 
+            }
         }, 1750);
-        */
-       handleSelect(false)
     };
 
     return (
