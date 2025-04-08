@@ -11,7 +11,7 @@
  
  | 🧑‍💼 Name           | GitHub username |
  |-----------------|------------------|
- | Daniel Alberto Alonso Fernández    | [@uo283794](https://github.com/uo283794)|
+ | Daniel Alberto Alonso Fernández    | [@DalonfeUO](https://github.com/DalonfeUO)|
  | David Álvarez Cabezas    | [@davidalvarezcabezas](https://github.com/davidalvarezcabezas)|
  | Alejandro Fernández García    | [@alejandrofdzgarcia](https://github.com/alejandrofdzgarcia)|
  | Mario García Prieto    | [@mario5garciap](https://github.com/mario5garciap)|
