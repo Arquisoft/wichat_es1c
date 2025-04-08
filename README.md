@@ -4,7 +4,7 @@
  [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wichat_es1c&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wichat_es1c)
  [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wichat_es1c&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wichat_es1c)
  [![CodeScene general](https://codescene.io/images/analyzed-by-codescene-badge.svg)](https://codescene.io/projects/65367)
-
+[![CodeScene Average Code Health](https://codescene.io/projects/65367/status-badges/average-code-health)](https://codescene.io/projects/65367)
 
  ## 👨‍💻 Developers
  
