@@ -24,6 +24,9 @@ const Game = () => {
     const [correctAnswer, setCorrectAnswer] = useState('');
     const [startTime, setStartTime] = useState(null);
     const [timerKey, setTimerKey] = useState(0);
+    const [questionsTitles, setQuestionsTitles] = useState('');
+    const [correctAnswers, setCorrectAnswers] = useState('');
+    const [givenAnswers, setGivenAnswers] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -149,7 +152,8 @@ const Game = () => {
 
             const response = await axios.post(
                 `${endpoint}/api/save-score`,
-                { correct: correct, wrong: wrong, totalTime: finalTime },
+                { correct: correct, wrong: wrong, totalTime: finalTime, question: questionsTitles, 
+                    correctAnswer: correctAnswers, givenAnswer: givenAnswers },
                 {
                     headers: {
                         Authorization: `Bearer ${token}`, // Enviar el token JWT en el encabezado
@@ -170,11 +174,14 @@ const Game = () => {
         setSelected(option);
         const isCorrect = option === question.correctAnswer;
         setResult(isCorrect ? "¡Correcto!" : "Incorrecto.");
-    
-        // Reproducir el sonido correspondiente
+
+        setQuestionsTitles((prev) => prev ? `${prev}¬${question.title}` : question.title);
+        setCorrectAnswers((prev) => prev ? `${prev}¬${question.correctAnswer}` : question.correctAnswer);
+        setGivenAnswers((prev) => prev ? `${prev}¬${option}` : option);
+
         const correctSound = new Audio(process.env.PUBLIC_URL + "/sounds/correct_answer.mp3");
         const wrongSound = new Audio(process.env.PUBLIC_URL + "/sounds/wrong_answer.mp3");
-    
+
         if (isCorrect) {
             correctSound.play();
             setScore(prevScore => prevScore + 1);
@@ -186,7 +193,7 @@ const Game = () => {
             setIncorrectAnswer(option);
             setCorrectAnswer(question.correctAnswer);
         }
-    
+
         setTimeout(() => {
             setSelected('');
             setResult('');
@@ -195,7 +202,7 @@ const Game = () => {
             setCorrectAnswer('');
             setCurrentQuestionIndex(prevIndex => prevIndex + 1);
             setTimerKey(prevKey => prevKey + 1);
-    
+
             if (currentQuestionIndex >= questions.length - 1) {
                 const finalScore = score + (option === question.correctAnswer ? 1 : 0);
                 const endTime = Date.now();
@@ -203,7 +210,7 @@ const Game = () => {
                 saveScore(finalScore, finalTime);
             }
         }, 1750);
-    };    
+    };
 
     const handleGoHome = () => {
         navigate('/home');
