@@ -143,11 +143,11 @@ function App() {
               <Typography component="div" align="center" sx={{ mt: 2 }}>
                 {location.pathname === '/' ? (
                   <Typography variant="body2" color="white">
-                    ¿No tienes una cuenta? <a href="/register" style={{ textDecoration: 'none', color: 'white' }}>Regístrate aquí.</a>
+                    <a href="/register" style={{ textDecoration: 'none', color: 'white' }}>¿No tienes una cuenta? Regístrate aquí.</a>
                   </Typography>
                 ) : (
                   <Typography variant="body2" color="white">
-                    ¿Ya tienes una cuenta? <a href="/" style={{ textDecoration: 'none', color: 'white' }}>Inicia sesión aquí.</a>
+                    <a href="/" style={{ textDecoration: 'none', color: 'white' }}>¿Ya tienes una cuenta? Inicia sesión aquí.</a>
                   </Typography>
                 )}
               </Typography>
