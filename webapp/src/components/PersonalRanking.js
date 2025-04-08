@@ -1,8 +1,30 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Container, Typography, CircularProgress, Alert, Paper, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import jwtDecode from 'jwt-decode';
-import { format } from "date-fns";  // Importa la librería para formatear fechas
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TableCell,
+  TableRow,
+  Table,
+  TableBody,
+  TableHead,
+  TableContainer,
+  Paper,
+  Container,
+  CircularProgress,
+  Alert,
+  Pagination
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { format } from "date-fns"; 
 
 const endpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
@@ -13,6 +35,8 @@ const PersonalRanking = () => {
   const [userEmail, setUserEmail] = useState("");
   const [currentPage, setCurrentPage] = useState(1);  // Página actual
   const [gamesPerPage] = useState(5);  // Elementos por página (5 resultados por página)
+  const [selectedGame, setSelectedGame] = useState(null); // Partida seleccionada
+  const [dialogOpen, setDialogOpen] = useState(false); // Estado del diálogo
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -58,6 +82,18 @@ const PersonalRanking = () => {
     setCurrentPage(value);
   };
 
+  // Abrir el diálogo con los detalles de la partida seleccionada
+  const handleRowClick = (game) => {
+    setSelectedGame(game);
+    setDialogOpen(true);
+  };
+
+  // Cerrar el diálogo
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+    setSelectedGame(null);
+  };
+
   return (
     <Container sx={{ mt: 5, p: 4, backgroundColor: "#f7f7f7", borderRadius: "12px", maxWidth: "600px", boxShadow: 3 }}>
       <Typography variant="h4" align="center" sx={{ color: "#333", fontWeight: "bold", mb: 3 }}>
@@ -97,9 +133,10 @@ const PersonalRanking = () => {
                   return (
                     <TableRow
                       key={index}
+                      onClick={() => handleRowClick(game)} // Añadir evento onClick
                       sx={{
                         backgroundColor: "#f9f9f9",
-                        "&:hover": { backgroundColor: "#f1f1f1" },
+                        "&:hover": { backgroundColor: "#f1f1f1", cursor: "pointer" },
                         boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.1)",
                         borderRadius: "8px",
                       }}
@@ -130,6 +167,46 @@ const PersonalRanking = () => {
           </Typography>
         )
       )}
+
+      {/* Diálogo para mostrar detalles de la partida */}
+      <Dialog open={dialogOpen} onClose={handleCloseDialog}>
+        <DialogTitle
+          sx={{
+            backgroundColor: "#1976d2",
+            color: "#ffffff",
+            textAlign: "center",
+            fontWeight: "bold"
+          }}
+        >
+          Detalles de la partida
+        </DialogTitle>
+        <DialogContent dividers>
+          {selectedGame && (() => {
+            const questions = selectedGame.question.split("¬");
+            const correctAnswers = selectedGame.correctAnswer.split("¬");
+            const givenAnswers = selectedGame.givenAnswer.split("¬");
+
+            return questions.map((q, index) => (
+              <Accordion key={index}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography fontWeight="bold">
+                    Pregunta {index + 1}: {q}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography><strong>Pregunta:</strong> {q}</Typography>
+                  <Typography><strong>Respuesta Correcta:</strong> {correctAnswers[index]}</Typography>
+                  <Typography><strong>Respuesta Dada:</strong> {givenAnswers[index]}</Typography>
+                </AccordionDetails>
+              </Accordion>
+            ));
+          })()}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="primary">Cerrar</Button>
+        </DialogActions>
+      </Dialog>
+
     </Container>
   );
 };
