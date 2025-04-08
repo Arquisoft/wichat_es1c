@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Container, Typography, List, ListItem, CircularProgress, Alert, Paper, Pagination } from "@mui/material";
+import { Container, Typography, CircularProgress, Alert, Paper, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import jwtDecode from 'jwt-decode';
 import { format } from "date-fns";  // Importa la librería para formatear fechas
 
@@ -74,27 +74,47 @@ const PersonalRanking = () => {
 
       {!loading && !error && userGames.length > 0 ? (
         <Paper elevation={3} sx={{ borderRadius: "8px", overflow: "hidden", backgroundColor: "#ffffff" }}>
-          <List sx={{ backgroundColor: "#fafafa", borderRadius: "8px" }}>
-            {currentGames.map((game, index) => {
-              const gameTimestamp = game.timestamp;
-              const gameDate = new Date(gameTimestamp * 1000 || gameTimestamp);  // Usar el timestamp
-              const isValidDate = !isNaN(gameDate.getTime());
-              const formattedDate = isValidDate
-                ? format(gameDate, "dd/MM/yyyy HH:mm:ss")
-                : "Fecha inválida";
+          <TableContainer>
+            <Table sx={{ minWidth: 400, borderCollapse: "separate", borderSpacing: "0 5px" }}>
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ fontWeight: "bold", color: "#555", backgroundColor: "#f0f0f0", borderTopLeftRadius: "8px", borderBottomLeftRadius: "8px", fontSize: "0.9rem", py: 1 }}>#</TableCell>
+                  <TableCell sx={{ fontWeight: "bold", color: "#555", backgroundColor: "#f0f0f0", fontSize: "0.9rem", py: 1 }}>Correctas</TableCell>
+                  <TableCell sx={{ fontWeight: "bold", color: "#555", backgroundColor: "#f0f0f0", fontSize: "0.9rem", py: 1 }}>Falladas</TableCell>
+                  <TableCell sx={{ fontWeight: "bold", color: "#555", backgroundColor: "#f0f0f0", fontSize: "0.9rem", py: 1 }}>Tiempo (s)</TableCell>
+                  <TableCell sx={{ fontWeight: "bold", color: "#555", backgroundColor: "#f0f0f0", borderTopRightRadius: "8px", borderBottomRightRadius: "8px", fontSize: "0.9rem", py: 1 }}>Fecha</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {currentGames.map((game, index) => {
+                  const gameTimestamp = game.timestamp;
+                  const gameDate = new Date(gameTimestamp * 1000 || gameTimestamp);  // Usar el timestamp
+                  const isValidDate = !isNaN(gameDate.getTime());
+                  const formattedDate = isValidDate
+                    ? format(gameDate, "dd/MM/yyyy HH:mm:ss")
+                    : "Fecha inválida";
 
-              return (
-                <ListItem key={index} sx={{ borderBottom: "1px solid #e0e0e0", display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-                  <Typography variant="body2" sx={{ color: "#333" }}>
-                    {`${index + 1 + (currentPage - 1) * gamesPerPage}. Correctas: ${game.correct} | Falladas: ${game.wrong} | Tiempo: ${game.totalTime.toFixed(2)} segundos`}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    Fecha: {formattedDate}
-                  </Typography>
-                </ListItem>
-              );
-            })}
-          </List>
+                  return (
+                    <TableRow
+                      key={index}
+                      sx={{
+                        backgroundColor: "#f9f9f9",
+                        "&:hover": { backgroundColor: "#f1f1f1" },
+                        boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.1)",
+                        borderRadius: "8px",
+                      }}
+                    >
+                      <TableCell sx={{ fontWeight: "bold", color: "#333", fontSize: "0.85rem", py: 0.5 }}>{index + 1 + (currentPage - 1) * gamesPerPage}</TableCell>
+                      <TableCell sx={{ color: "#4caf50", fontWeight: "bold", fontSize: "0.85rem", py: 0.5 }}>{game.correct}</TableCell>
+                      <TableCell sx={{ color: "#f44336", fontWeight: "bold", fontSize: "0.85rem", py: 0.5 }}>{game.wrong}</TableCell>
+                      <TableCell sx={{ color: "#333", fontSize: "0.85rem", py: 0.5 }}>{game.totalTime.toFixed(2)}</TableCell>
+                      <TableCell sx={{ color: "#555", fontStyle: "italic", fontSize: "0.85rem", py: 0.5 }}>{formattedDate}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
           {/* Paginación */}
           <Pagination
             count={Math.ceil(userGames.length / gamesPerPage)}
