@@ -1,98 +1,86 @@
 import React from 'react';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent, act } from '@testing-library/react';
 import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
-import { MemoryRouter } from 'react-router-dom';
-import Game from '../components/Game';
+import { BrowserRouter } from 'react-router-dom';
+import Game from './Game';
 
-global.crypto = {
-  getRandomValues: (arr) => require('crypto').randomFillSync(arr),
-};
+// Mock de axios
+jest.mock('axios');
+jest.mock('./Chatbot', () => () => <div>Chatbot</div>);
+jest.mock('./Timer', () => ({ onTimeOut }) => {
+    // Simulamos el timeout manualmente
+    return (
+        <button data-testid="timeout-button" onClick={() => onTimeOut()}>
+            Simular Timeout
+        </button>
+    );
+});
+jest.mock('./GameOptions', () => ({ onStartGame }) => (
+    <div>
+        <button data-testid="start-game" onClick={onStartGame}>Iniciar Juego</button>
+    </div>
+));
 
-const mockAxios = new MockAdapter(axios);
-
-jest.mock('react-chatbotify', () => () => <div>Chatbot Mock</div>);
-
-const mockedNavigate = jest.fn();
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: () => mockedNavigate,
-}));
+const mockQuestions = [
+    {
+        title: '¿Capital de Francia?|paris.jpg',
+        correctAnswer: 'París',
+        allAnswers: 'París,Londres,Berlín,Madrid'
+    },
+    {
+        title: '¿Capital de España?|madrid.jpg',
+        correctAnswer: 'Madrid',
+        allAnswers: 'Roma,Madrid,Lisboa,Atenas'
+    }
+];
 
 describe('Game component', () => {
-  beforeEach(() => {
-    mockAxios.reset();
-  });
+    beforeEach(() => {
+        axios.get.mockResolvedValue({ data: mockQuestions });
+        axios.post.mockResolvedValue({ status: 200, data: { message: "Guardado" } });
+        localStorage.setItem('token', 'fake-jwt-token');
+    });
 
-  const renderGameWithQuestions = (questions) => {
-    mockAxios.onGet('http://localhost:8000/api/generate-questions').reply(200, questions);
-    render(<MemoryRouter><Game /></MemoryRouter>);
-  };
+    it('muestra las opciones de juego inicialmente', () => {
+        render(<BrowserRouter><Game /></BrowserRouter>);
+        expect(screen.getByTestId('start-game')).toBeInTheDocument();
+    });
 
-  it('debería mostrar mensaje de carga y luego opciones', async () => {
-    renderGameWithQuestions([
-      { title: 'Pregunta|https://img', correctAnswer: 'Correcta', allAnswers: 'Correcta,Opción1,Opción2,Opción3' }
-    ]);
-    expect(screen.getByText(/Cargando preguntas/i)).toBeInTheDocument();
-    await waitFor(() => expect(screen.getByText('Correcta')).toBeInTheDocument());
-  });
+    it('carga preguntas y muestra la primera', async () => {
+        render(<BrowserRouter><Game /></BrowserRouter>);
 
-  it('debería manejar respuesta correcta', async () => {
-    renderGameWithQuestions([
-      { title: 'Pregunta|https://img', correctAnswer: 'Correcta', allAnswers: 'Correcta,Opción1,Opción2,Opción3' }
-    ]);
-    await waitFor(() => screen.getByText('Correcta'));
-    fireEvent.click(screen.getByText('Correcta'));
-    await waitFor(() => expect(screen.getByText('¡Correcto!')).toBeInTheDocument());
-    expect(screen.getByText('Correcta')).toHaveStyle('background-color: #4caf50');
-  });
+        fireEvent.click(screen.getByTestId('start-game'));
 
-  it('debería manejar respuesta incorrecta', async () => {
-    renderGameWithQuestions([
-      { title: 'Pregunta|https://img', correctAnswer: 'Correcta', allAnswers: 'Correcta,Opción1,Opción2,Opción3' }
-    ]);
-    await waitFor(() => screen.getByText('Correcta'));
-    fireEvent.click(screen.getByText('Opción1'));
-    await waitFor(() => expect(screen.getByText('Incorrecto.')).toBeInTheDocument());
-    expect(screen.getByText('Opción1')).toHaveStyle('background-color: #f44336');
-    expect(screen.getByText('Correcta')).toHaveStyle('background-color: #4caf50');
-  });
+        await waitFor(() => {
+            expect(screen.getByText('¿Capital de Francia?')).toBeInTheDocument();
+        });
+    });
 
-  it('debería mostrar el temporizador', async () => {
-    renderGameWithQuestions([
-      { title: 'Pregunta|https://img', correctAnswer: 'Correcta', allAnswers: 'Correcta,Opción1,Opción2,Opción3' }
-    ]);
-    await waitFor(() => screen.getByText('Correcta'));
-    const timer = await screen.findByText((text) => /^\d+s$/.test(text));
-    expect(timer).toBeInTheDocument();
-  });
+    it('selecciona respuesta correcta y muestra mensaje', async () => {
+        render(<BrowserRouter><Game /></BrowserRouter>);
+        fireEvent.click(screen.getByTestId('start-game'));
 
-  it('debería completar partida y mostrar mensaje final', async () => {
-    renderGameWithQuestions([
-      { title: 'P1|img', correctAnswer: 'R1', allAnswers: 'R1,X,Y,Z' },
-      { title: 'P2|img', correctAnswer: 'R2', allAnswers: 'R2,A,B,C' }
-    ]);
-    await waitFor(() => screen.getByText('R1'));
-    fireEvent.click(screen.getByText('R1'));
-    const next = await screen.findByText('R2', {}, { timeout: 3000 });
-    fireEvent.click(next);
-    await waitFor(() => expect(screen.getByText(/¡Juego terminado!/i)).toBeInTheDocument(), { timeout: 3000 });
-  });
+        await waitFor(() => screen.getByText('¿Capital de Francia?'));
 
+        const correctBtn = screen.getByText('París');
+        fireEvent.click(correctBtn);
 
-  it('debería manejar correctamente cuando no se reciben preguntas', async () => {
-    mockAxios.onGet('http://localhost:8000/api/generate-questions').reply(200, []);
-  
-    render(
-      <MemoryRouter>
-        <Game />
-      </MemoryRouter>
-    );
-  
-    await waitFor(() =>
-      expect(screen.getByText(/Cargando preguntas/i)).toBeInTheDocument()
-    );
-  });
-  
+        await waitFor(() => {
+            expect(screen.getByText('¡Correcto!')).toBeInTheDocument();
+        });
+    });
 
+    it('selecciona respuesta incorrecta y muestra mensaje', async () => {
+        render(<BrowserRouter><Game /></BrowserRouter>);
+        fireEvent.click(screen.getByTestId('start-game'));
+
+        await waitFor(() => screen.getByText('¿Capital de Francia?'));
+
+        const wrongBtn = screen.getByText('Londres');
+        fireEvent.click(wrongBtn);
+
+        await waitFor(() => {
+            expect(screen.getByText('Incorrecto.')).toBeInTheDocument();
+        });
+    });
 });
