@@ -39,6 +39,8 @@ const PersonalRanking = () => {
   const [selectedGame, setSelectedGame] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [expandedAccordion, setExpandedAccordion] = useState(null);
+  const [currentQuestionPage, setCurrentQuestionPage] = useState(1);
+  const questionsPerPage = 5;
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -94,6 +96,10 @@ const PersonalRanking = () => {
 
   const handleAccordionChange = (index) => (event, isExpanded) => {
     setExpandedAccordion(isExpanded ? index : null);
+  };
+
+  const handleQuestionPageChange = (event, value) => {
+    setCurrentQuestionPage(value);
   };
 
   return (
@@ -205,54 +211,123 @@ const PersonalRanking = () => {
             const correctAnswers = selectedGame.correctAnswer.split("¬");
             const givenAnswers = selectedGame.givenAnswer.split("¬");
 
-            return questions.map((q, index) => (
-              <Accordion
-                key={index}
-                expanded={expandedAccordion === index}
-                onChange={handleAccordionChange(index)}
-                sx={{
-                  borderRadius: "12px",
-                  marginBottom: "8px",
-                  "&:before": {
-                    display: "none",
-                  },
-                }}
-              >
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography fontWeight="bold">
-                    Pregunta {index + 1}: {q}
+            const correctCount = givenAnswers.filter((answer, index) => answer === correctAnswers[index]).length;
+            const wrongCount = givenAnswers.length - correctCount;
+            const totalTime = selectedGame.totalTime.toFixed(2);
+
+            const indexOfLastQuestion = currentQuestionPage * questionsPerPage;
+            const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
+            const currentQuestions = questions.slice(indexOfFirstQuestion, indexOfLastQuestion);
+            const currentCorrectAnswers = correctAnswers.slice(indexOfFirstQuestion, indexOfLastQuestion);
+            const currentGivenAnswers = givenAnswers.slice(indexOfFirstQuestion, indexOfLastQuestion);
+
+            return (
+              <>
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  sx={{
+                    marginBottom: "16px",
+                    padding: "8px",
+                    backgroundColor: "#f7f7f7",
+                    borderRadius: "8px",
+                    boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.1)",
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontWeight: "bold",
+                      color: "#4caf50",
+                      border: "2px solid #4caf50",
+                      borderRadius: "8px",
+                      padding: "4px 8px",
+                      backgroundColor: "#e8f5e9",
+                    }}
+                  >
+                    Correctas: {correctCount}
                   </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Box display="flex" justifyContent="space-between" alignItems="center">
-                    <Typography
-                      sx={{
-                        fontWeight: "bold",
-                        color: "#4caf50",
-                        border: "2px solid #4caf50",
-                        borderRadius: "8px",
-                        padding: "4px 8px",
-                        backgroundColor: "#e8f5e9",
-                      }}
-                    >
-                      Respuesta Correcta: {correctAnswers[index]}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontWeight: "bold",
-                        color: givenAnswers[index] === correctAnswers[index] ? "#4caf50" : "#f44336",
-                        border: `2px solid ${givenAnswers[index] === correctAnswers[index] ? "#4caf50" : "#f44336"}`,
-                        borderRadius: "8px",
-                        padding: "4px 8px",
-                        backgroundColor: givenAnswers[index] === correctAnswers[index] ? "#e8f5e9" : "#ffebee",
-                      }}
-                    >
-                      Respuesta Dada: {givenAnswers[index]}
-                    </Typography>
-                  </Box>
-                </AccordionDetails>
-              </Accordion>
-            ));
+                  <Typography
+                    sx={{
+                      fontWeight: "bold",
+                      color: "#333",
+                      border: "2px solid #333",
+                      borderRadius: "8px",
+                      padding: "4px 8px",
+                      backgroundColor: "#f0f0f0",
+                    }}
+                  >
+                    Tiempo: {totalTime} s
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontWeight: "bold",
+                      color: "#f44336",
+                      border: "2px solid #f44336",
+                      borderRadius: "8px",
+                      padding: "4px 8px",
+                      backgroundColor: "#ffebee",
+                    }}
+                  >
+                    Falladas: {wrongCount}
+                  </Typography>
+                </Box>
+                {currentQuestions.map((q, index) => (
+                  <Accordion
+                    key={index}
+                    expanded={expandedAccordion === index}
+                    onChange={handleAccordionChange(index)}
+                    sx={{
+                      borderRadius: "12px",
+                      marginBottom: "8px",
+                      "&:before": {
+                        display: "none",
+                      },
+                    }}
+                  >
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                      <Typography fontWeight="bold">
+                        Pregunta {indexOfFirstQuestion + index + 1}: {q}
+                      </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Box display="flex" justifyContent="space-between" alignItems="center">
+                        <Typography
+                          sx={{
+                            fontWeight: "bold",
+                            color: "#4caf50",
+                            border: "2px solid #4caf50",
+                            borderRadius: "8px",
+                            padding: "4px 8px",
+                            backgroundColor: "#e8f5e9",
+                          }}
+                        >
+                          Respuesta Correcta: {currentCorrectAnswers[index]}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            fontWeight: "bold",
+                            color: currentGivenAnswers[index] === currentCorrectAnswers[index] ? "#4caf50" : "#f44336",
+                            border: '2px solid ${currentGivenAnswers[index] === currentCorrectAnswers[index] ? "#4caf50" : "#f44336"}', // Corrección aquí
+                            borderRadius: "8px",
+                            padding: "4px 8px",
+                            backgroundColor: currentGivenAnswers[index] === currentCorrectAnswers[index] ? "#e8f5e9" : "#ffebee",
+                          }}
+                        >
+                          Respuesta Dada: {currentGivenAnswers[index]}
+                        </Typography>
+                      </Box>
+                    </AccordionDetails>
+                  </Accordion>
+                ))}
+                <Pagination
+                  count={Math.ceil(questions.length / questionsPerPage)}
+                  page={currentQuestionPage}
+                  onChange={handleQuestionPageChange}
+                  sx={{ display: "flex", justifyContent: "center", mt: 3 }}
+                />
+              </>
+            );
           })()}
         </DialogContent>
         <DialogActions>
