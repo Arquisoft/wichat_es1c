@@ -107,11 +107,11 @@ const Ranking = () => {
                   <TableCell align="center" sx={{ fontWeight: "bold", width: "25%", backgroundColor: "#f0f0f0", color: "#333", py: 1 }}>
                     Fecha
                   </TableCell>
-                  <TableCell align="center" sx={{ fontWeight: "bold", width: "20%", backgroundColor: "#f0f0f0", color: "#4caf50", py: 1 }}>
+                  <TableCell align="center" sx={{ fontWeight: "bold", width: "20%", backgroundColor: "#f0f0f0", color: "#333", py: 1 }}>
                     Aciertos
                   </TableCell>
                   <TableCell align="center" sx={{ fontWeight: "bold", width: "20%", backgroundColor: "#f0f0f0", color: "#333", py: 1 }}>
-                    Tiempo
+                    Tiempo (segundos)
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -137,7 +137,7 @@ const Ranking = () => {
                       <TableCell align="center" sx={{ fontWeight: "bold", color: "#333", py: 0.5 }}>
                         {index + 1 + (currentPage - 1) * rowsPerPage}
                       </TableCell>
-                      <TableCell align="center" sx={{ color: "#4caf50", fontWeight: "bold", py: 0.5 }}>
+                      <TableCell align="center" sx={{ color: "#333", fontWeight: "bold", py: 0.5 }}>
                         {game.email}
                       </TableCell>
                       <TableCell align="center" sx={{ color: "#555", fontStyle: "italic", py: 0.5 }}>
