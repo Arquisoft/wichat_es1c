@@ -11,11 +11,18 @@ const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState(''); 
   const [error, setError] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [userExists, setUserExists] = useState(false); // Estado para detectar si el usuario ya está registrado
+  const [userExists, setUserExists] = useState(false);
 
   const registerUser = async () => {
+    if (password !== confirmPassword) {
+      setError('Las contraseñas no coinciden');
+      setOpenSnackbar(true);
+      return;
+    }
+
     try {
       const response = await axios.post(
         `${endpoint}/api/register`,
@@ -31,7 +38,7 @@ const Register = () => {
       setOpenSnackbar(true);
 
       if (err.response?.status === 409) {
-        setUserExists(true); // Si el usuario ya existe, activamos el estado
+        setUserExists(true);
       }
     }
   };
@@ -43,34 +50,11 @@ const Register = () => {
 
   return (
     <>
-      {/* Background animation */}
       <div className="context"></div>
       <div className="area">
-        <ul className="circles">
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
+        <ul className="circles">{Array.from({ length: 20 }, (_, i) => <li key={i}></li>)}</ul>
       </div>
 
-      {/* Main form */}
       <Container component="main" maxWidth="xs" sx={{ mt: 4 }} className="register-container">
         <img src="/LogoWichat.gif" alt="Logo Wichat" className="register-logo" />
         <Typography
@@ -91,7 +75,7 @@ const Register = () => {
           Registro
         </Typography>
         <TextField
-        inputProps={{ 'data-testid': 'nombre-input' }}
+          inputProps={{ 'data-testid': 'nombre-input' }}
           margin="normal"
           fullWidth
           label="Nombre"
@@ -99,7 +83,7 @@ const Register = () => {
           onChange={(e) => setName(e.target.value)}
         />
         <TextField
-        inputProps={{ 'data-testid': 'email-input' }}
+          inputProps={{ 'data-testid': 'email-input' }}
           margin="normal"
           fullWidth
           label="Email"
@@ -108,7 +92,7 @@ const Register = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
         <TextField
-        inputProps={{ 'data-testid': 'pass-input' }}
+          inputProps={{ 'data-testid': 'pass-input' }}
           margin="normal"
           fullWidth
           label="Contraseña"
@@ -116,11 +100,26 @@ const Register = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button variant="contained" color="primary" className="register-button" fullWidth sx={{ mt: 2 }} onClick={registerUser}>
+        <TextField
+          inputProps={{ 'data-testid': 'confirm-pass-input' }}
+          margin="normal"
+          fullWidth
+          label="Confirmar Contraseña"
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          className="register-button"
+          fullWidth
+          sx={{ mt: 2 }}
+          onClick={registerUser}
+        >
           Registrarse
         </Button>
 
-        {/* Mostrar solo el enlace a Login si el usuario ya está registrado */}
         {userExists && (
           <Typography align="center" sx={{ mt: 2 }}>
             Ya tienes una cuenta?{' '}
