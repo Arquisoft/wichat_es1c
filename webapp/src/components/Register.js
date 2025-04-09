@@ -11,7 +11,7 @@ const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState(''); 
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [userExists, setUserExists] = useState(false);
@@ -50,11 +50,34 @@ const Register = () => {
 
   return (
     <>
+      {/* Background animation */}
       <div className="context"></div>
       <div className="area">
-        <ul className="circles">{Array.from({ length: 20 }, (_, i) => <li key={i}></li>)}</ul>
+        <ul className="circles">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
       </div>
 
+      {/* Main form */}
       <Container component="main" maxWidth="xs" sx={{ mt: 4 }} className="register-container">
         <img src="/LogoWichat.gif" alt="Logo Wichat" className="register-logo" />
         <Typography
@@ -108,6 +131,12 @@ const Register = () => {
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
+          error={!!confirmPassword && password !== confirmPassword}
+          helperText={
+            !!confirmPassword && password !== confirmPassword
+              ? 'Las contraseñas no coinciden'
+              : ''
+          }
         />
         <Button
           variant="contained"
@@ -129,7 +158,12 @@ const Register = () => {
           </Typography>
         )}
 
-        <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={error} />
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+          message={error}
+        />
       </Container>
     </>
   );
