@@ -17,15 +17,8 @@ const port = process.env.GAME_SERVICE_PORT || 8010;
 const NUMBER_OF_WRONG_ANSWERS = 3;
 const NUMBER_OF_QUESTIONS = 10
 
-//const templatesPath = "./data/questions-templates.json";
-const templates = [
-    {
-        "question": "¿De dónde es esta bandera?|*",
-        "query": "SELECT ?label ?img WHERE { ?p wdt:P31 wd:Q6256. ?p wdt:P41 ?img. ?p rdfs:label ?label. FILTER(LANG(?label) = \"es\") } LIMIT 50",
-        "type" : "Banderas",
-        "category": "Geografía"
-    }
-]
+const templatesPath = "./data/questions-templates.json";
+const templates = JSON.parse(fs.readFileSync(templatesPath, 'utf8'));
 const endpoint = 'https://query.wikidata.org/sparql';
 
 app.use(cors({
@@ -342,8 +335,11 @@ app.post('/saveScore', async (req, res) => {
             email,
             correct: req.body.correct,
             wrong: req.body.wrong,
-            totalTime: req.body.totalTime, // Asegurarse de guardar totalTime
-            timestamp: new Date() // Agregar la fecha y hora actual
+            totalTime: req.body.totalTime,
+            timestamp: new Date(),
+            question: req.body.question,
+            correctAnswer: req.body.correctAnswer,
+            givenAnswer: req.body.givenAnswer
         });
         await scoreEntry.save();
 

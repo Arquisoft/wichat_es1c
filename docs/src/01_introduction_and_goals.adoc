@@ -79,10 +79,9 @@ This system is designed to improve player support through the chatbot with clues
 |===
 | Role/Name         | Contact                           | Expectations  
 | Software developers, architects and testers |  
-https://github.com/uo283794[Daniel Alberto Alonso Fernández] +  
+https://github.com/DalonfeUO[Daniel Alberto Alonso Fernández] +  
 https://github.com/davidalvarezcabezas[David Álvarez Cabezas] +  
-https://github.com/alejandrofdzgarcia[Alejandro Fernández García] +  
-https://github.com/AggroTheShark[Emilio García Fernández] +  
+https://github.com/alejandrofdzgarcia[Alejandro Fernández García] + 
 https://github.com/mario5garciap[Mario García Prieto]  
 | Collaborate effectively across all project stages, ensuring clean, maintainable code. Focus on scalability, performance, and integration with external systems. Conduct thorough testing and automation. Document and share design decisions and best practices.  
 | Client |  
