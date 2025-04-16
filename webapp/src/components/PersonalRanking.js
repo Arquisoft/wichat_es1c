@@ -272,54 +272,68 @@ const PersonalRanking = () => {
                     Falladas: {wrongCount}
                   </Typography>
                 </Box>
-                {currentQuestions.map((q, index) => (
-                  <Accordion
-                    key={index}
-                    expanded={expandedAccordion === index}
-                    onChange={handleAccordionChange(index)}
-                    sx={{
-                      borderRadius: "12px",
-                      marginBottom: "8px",
-                      "&:before": {
-                        display: "none",
-                      },
-                    }}
-                  >
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                      <Typography fontWeight="bold">
-                        Pregunta {indexOfFirstQuestion + index + 1}: {q}
-                      </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Box display="flex" justifyContent="space-between" alignItems="center">
+                {currentQuestions.map((q, index) => {
+                  const isCorrect = currentGivenAnswers[index] === currentCorrectAnswers[index];
+                  return (
+                    <Accordion
+                      key={index}
+                      expanded={expandedAccordion === index}
+                      onChange={handleAccordionChange(index)}
+                      sx={{
+                        borderRadius: "12px",
+                        marginBottom: "8px",
+                        "&:before": {
+                          display: "none",
+                        },
+                      }}
+                    >
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        sx={{
+                          backgroundColor: isCorrect ? "#e8f5e9" : "#ffebee", 
+                          borderRadius: "8px",
+                        }}
+                      >
                         <Typography
+                          fontWeight="bold"
                           sx={{
-                            fontWeight: "bold",
-                            color: "#4caf50",
-                            border: "2px solid #4caf50",
-                            borderRadius: "8px",
-                            padding: "4px 8px",
-                            backgroundColor: "#e8f5e9",
+                            color: "#000",
                           }}
                         >
-                          Respuesta Correcta: {currentCorrectAnswers[index]}
+                          Pregunta {indexOfFirstQuestion + index + 1}: {q}
                         </Typography>
-                        <Typography
-                          sx={{
-                            fontWeight: "bold",
-                            color: currentGivenAnswers[index] === currentCorrectAnswers[index] ? "#4caf50" : "#f44336",
-                            border: `2px solid ${currentGivenAnswers[index] === currentCorrectAnswers[index] ? "#4caf50" : "#f44336"}`, // Corrección aquí
-                            borderRadius: "8px",
-                            padding: "4px 8px",
-                            backgroundColor: currentGivenAnswers[index] === currentCorrectAnswers[index] ? "#e8f5e9" : "#ffebee",
-                          }}
-                        >
-                          Respuesta Dada: {currentGivenAnswers[index]}
-                        </Typography>
-                      </Box>
-                    </AccordionDetails>
-                  </Accordion>
-                ))}
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <Box display="flex" justifyContent="space-between" alignItems="center">
+                          <Typography
+                            sx={{
+                              fontWeight: "bold",
+                              color: "#4caf50",
+                              border: "2px solid #4caf50",
+                              borderRadius: "8px",
+                              padding: "4px 8px",
+                              backgroundColor: "#e8f5e9",
+                            }}
+                          >
+                            Respuesta Correcta: {currentCorrectAnswers[index]}
+                          </Typography>
+                          <Typography
+                            sx={{
+                              fontWeight: "bold",
+                              color: isCorrect ? "#4caf50" : "#f44336",
+                              border: `2px solid ${isCorrect ? "#4caf50" : "#f44336"}`,
+                              borderRadius: "8px",
+                              padding: "4px 8px",
+                              backgroundColor: isCorrect ? "#e8f5e9" : "#ffebee",
+                            }}
+                          >
+                            Respuesta Dada: {currentGivenAnswers[index]}
+                          </Typography>
+                        </Box>
+                      </AccordionDetails>
+                    </Accordion>
+                  );
+                })}
                 <Pagination
                   count={Math.ceil(questions.length / questionsPerPage)}
                   page={currentQuestionPage}
