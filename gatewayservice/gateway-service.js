@@ -97,6 +97,12 @@ app.post('/api/save-score', async (req, res) => {
     const saveScored = await axios.post(`${gameServiceUrl}/saveScore`, req.body, { headers });
     res.json(saveScored.data);
   } catch (error) {
+    if (error.response?.data?.error?.name === 'TokenExpiredError') {
+      console.error("❌ Token expirado en /api/save-score:", error.response.data);
+      return res.status(401).json({
+        error: 'El token ha expirado. Por favor, inicia sesión nuevamente.'
+      });
+    }
     console.error("❌ Error en /api/save-score:", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({
       error: error.response?.data?.message || 'Error al guardar resultados'
