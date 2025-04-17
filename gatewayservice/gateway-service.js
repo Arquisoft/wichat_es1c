@@ -79,11 +79,14 @@ app.post('/api/register', async (req, res) => {
 // 🔹 **Generación de preguntas - Redirige a GameService**
 app.get('/api/generate-questions', async (req, res) => {
   try {
-    const questionGenerated = await axios.get(`${gameServiceUrl}/generateQuestions`);
+    const { type } = req.query; 
+    const questionGenerated = await axios.get(`${gameServiceUrl}/generateQuestions`, {
+      params: { type }
+    });
     res.json(questionGenerated.data);
   } catch (error) {
-    console.log("Error");
-    res.status(500).json({ error: 'Error al contactar con el Game Service' });;
+    console.error("❌ Error en /api/generate-questions:", error.response?.data || error.message);
+    res.status(500).json({ error: 'Error al contactar con el Game Service' });
   }
 });
 
