@@ -154,10 +154,9 @@ async function generateQuestions(type) {
     const selectedQuestions = new Set();
     const questions = [];
 
-    // Si el tipo es "general", selecciona preguntas de todas las categorías
     if (type === "general") {
         let foundQuestions = await Question.aggregate([
-            { $sample: { size: NUMBER_OF_QUESTIONS * 2 } } // Selecciona preguntas aleatorias de todas las categorías
+            { $sample: { size: NUMBER_OF_QUESTIONS * 2 } } 
         ]);
 
         if (foundQuestions.length === 0) 
@@ -166,7 +165,6 @@ async function generateQuestions(type) {
         let index = 0;
         while (questions.length < NUMBER_OF_QUESTIONS) {
             if (index >= foundQuestions.length) {
-                // Si ya se revisaron todas las preguntas, obtener más
                 foundQuestions = await Question.aggregate([
                     { $sample: { size: NUMBER_OF_QUESTIONS } }
                 ]);
@@ -175,20 +173,17 @@ async function generateQuestions(type) {
 
             const newQuestion = foundQuestions[index++];
 
-            // Validar que la pregunta es completa
             if (!newQuestion.title || !newQuestion.correctAnswer || !newQuestion.allAnswers) {
                 console.error("Pregunta incompleta:", newQuestion);
                 continue;
             }
 
-            // Evitar duplicados
             if (!selectedQuestions.has(newQuestion.correctAnswer.toString())) {
                 selectedQuestions.add(newQuestion.correctAnswer.toString());
                 questions.push(newQuestion);
             }
         }
     } else {
-        // Si no es "general", selecciona preguntas de la categoría específica
         let selectedCategory = type || (await getRandomTemplate()).category;
 
         let foundQuestions = await Question.aggregate([
@@ -211,13 +206,11 @@ async function generateQuestions(type) {
 
             const newQuestion = foundQuestions[index++];
 
-            // Validar que la pregunta es completa
             if (!newQuestion.title || !newQuestion.correctAnswer || !newQuestion.allAnswers) {
                 console.error("Pregunta incompleta:", newQuestion);
                 continue;
             }
 
-            // Evitar duplicados
             if (!selectedQuestions.has(newQuestion.correctAnswer.toString())) {
                 selectedQuestions.add(newQuestion.correctAnswer.toString());
                 questions.push(newQuestion);
