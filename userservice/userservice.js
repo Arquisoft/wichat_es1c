@@ -54,7 +54,7 @@ app.post('/api/login', async (req, res) => {
 });
 
 app.post('/api/register', async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, userRole } = req.body;
 
   // Verificar si faltan campos
   if (!name || !email || !password) {
@@ -81,6 +81,7 @@ app.post('/api/register', async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      role: userRole,
     });
 
     // Guardar el nuevo usuario
