@@ -4,15 +4,15 @@ import { Container, Typography, Grid, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Chatbot from './Chatbot';
 import Timer from './Timer';
-import GameOptions from './GameOptions'; // Importar el nuevo componente
+import GameOptions from './GameOptions';
 import '../Game.css';
 
 const endpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
 const Game = () => {
-    const [showOptions, setShowOptions] = useState(true); // Estado para mostrar las opciones
-    const [questionType, setQuestionType] = useState('Geografía'); // Tipo de preguntas
-    const [responseTime, setResponseTime] = useState(60); // Tiempo máximo de respuesta
+    const [showOptions, setShowOptions] = useState(true);
+    const [questionType, setQuestionType] = useState('Geografía');
+    const [responseTime, setResponseTime] = useState(60);
 
     const [selected, setSelected] = useState('');
     const [result, setResult] = useState('');
@@ -55,7 +55,7 @@ const Game = () => {
                     });
 
                     setQuestions(formattedQuestions);
-                    setStartTime(Date.now()); // Registrar el tiempo de inicio
+                    setStartTime(Date.now());
                 } catch (error) {
                     console.error("Error al obtener preguntas", error);
                 }
@@ -107,7 +107,6 @@ const Game = () => {
         );
     }
 
-    // ✅ Verificar que el índice es válido antes de acceder a `questions[currentQuestionIndex]`
     if (currentQuestionIndex >= questions.length) {
         return (
             <Container
@@ -115,12 +114,12 @@ const Game = () => {
                 style={{
                     marginTop: "20px",
                     textAlign: "center",
-                    backgroundColor: "#f9f9f9", // Fondo de color claro
-                    borderRadius: "16px", // Bordes redondeados
-                    padding: "20px", // Espaciado interno
-                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)", // Sombra para dar profundidad
-                    width: "300px", // Ancho fijo más estrecho
-                    height: "145px", // Altura fija más compacta
+                    backgroundColor: "#f9f9f9",
+                    borderRadius: "16px",
+                    padding: "20px",
+                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                    width: "300px",
+                    height: "145px",
                 }}
                 >
                 <Typography variant="h6">¡Juego terminado!</Typography>
@@ -140,14 +139,13 @@ const Game = () => {
 
     const saveScore = async (finalScore, finalTime) => {
         try {
-            const token = localStorage.getItem('token'); // Obtener el token del localStorage
+            const token = localStorage.getItem('token');
             
             if (!token) {
                 console.error("No se encontró el token");
                 return;
             }
 
-            // Verificar que los valores no estén vacíos
             if (!questionsTitles || !correctAnswers || !givenAnswers) {
                 console.error("Faltan datos para guardar la puntuación");
                 return;
@@ -168,7 +166,7 @@ const Game = () => {
                 },
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`, // Enviar el token JWT en el encabezado
+                        Authorization: `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     }
                 }
@@ -219,7 +217,14 @@ const Game = () => {
                 const finalScore = score + (option === question.correctAnswer ? 1 : 0);
                 const endTime = Date.now();
                 const finalTime = (endTime - startTime) / 1000;
-                saveScore(finalScore, finalTime);
+
+                setQuestionsTitles(prev => prev ? `${prev}¬${question.title}` : question.title);
+                setCorrectAnswers(prev => prev ? `${prev}¬${question.correctAnswer}` : question.correctAnswer);
+                setGivenAnswers(prev => prev ? `${prev}¬${option}` : option);
+
+                setTimeout(() => {
+                    saveScore(finalScore, finalTime);
+                }, 0);
             }
         }, 1750);
     };
@@ -229,6 +234,11 @@ const Game = () => {
     };
 
     const handleTimeOut = () => {
+        setSelected('');
+        setResult('Incorrecto.');
+        setIncorrectAnswer('');
+        setCorrectAnswer(question.correctAnswer);
+
         setTimeout(() => {
             setSelected('');
             setResult('');
@@ -240,8 +250,7 @@ const Game = () => {
 
             if (currentQuestionIndex >= questions.length - 1) {
                 const endTime = Date.now();
-                const finalTime = (endTime - startTime) / 1000; // Tiempo total en segundos
-                console.log(`Tiempo total: ${finalTime} segundos`);
+                const finalTime = (endTime - startTime) / 1000;
                 saveScore(score, finalTime);
             }
         }, 1750);
@@ -251,7 +260,6 @@ const Game = () => {
         <Container maxWidth="xs" className="game-container" style={{ marginTop: "20px", textAlign: "center" }}>
             <Timer key={timerKey} onTimeOut={handleTimeOut} duration={responseTime} />
 
-            {/* Contador de preguntas */}
             <Typography
                 variant="h6"
                 style={{
@@ -313,8 +321,8 @@ const Game = () => {
                     padding: "12px 24px",
                     borderRadius: "8px",
                     fontSize: "16px",
-                    backgroundColor: "#f44336", // Rojo inicial
-                    color: "#fff", // Texto blanco
+                    backgroundColor: "#f44336",
+                    color: "#fff",
                     boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
                     textTransform: "none",
                     transition: "transform 0.3s ease, background-color 0.3s ease",
@@ -322,11 +330,11 @@ const Game = () => {
                 onClick={handleGoHome}
                 onMouseEnter={(e) => {
                     e.target.style.transform = "scale(1.1)";
-                    e.target.style.backgroundColor = "#e53935"; // Rojo más oscuro al pasar el cursor
+                    e.target.style.backgroundColor = "#e53935";
                 }}
                 onMouseLeave={(e) => {
                     e.target.style.transform = "scale(1)";
-                    e.target.style.backgroundColor = "#f44336"; // Rojo inicial
+                    e.target.style.backgroundColor = "#f44336";
                 }}
             >
                 Volver a Inicio

@@ -79,11 +79,14 @@ app.post('/api/register', async (req, res) => {
 // 🔹 **Generación de preguntas - Redirige a GameService**
 app.get('/api/generate-questions', async (req, res) => {
   try {
-    const questionGenerated = await axios.get(`${gameServiceUrl}/generateQuestions`);
+    const { type } = req.query; 
+    const questionGenerated = await axios.get(`${gameServiceUrl}/generateQuestions`, {
+      params: { type }
+    });
     res.json(questionGenerated.data);
   } catch (error) {
-    console.log("Error");
-    res.status(500).json({ error: 'Error al contactar con el Game Service' });;
+    console.error("❌ Error en /api/generate-questions:", error.response?.data || error.message);
+    res.status(500).json({ error: 'Error al contactar con el Game Service' });
   }
 });
 
@@ -126,6 +129,18 @@ app.get('/api/ranking', async (req, res) => {
     console.error("❌ Error en /api/ranking", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({
       error: error.response?.data?.message || 'Error al cargar el ranking'
+    });
+  }
+});
+
+app.get('/api/users', async (req, res) => {
+  try {
+    const usersResponse = await axios.get(`${userServiceUrl}/users`);
+    res.json(usersResponse.data);
+  } catch (error) {
+    console.error("❌ Error en /api/users:", error.response?.data || error.message);
+    res.status(error.response?.status || 500).json({
+      error: error.response?.data?.message || 'Error al obtener la lista de usuarios'
     });
   }
 });
