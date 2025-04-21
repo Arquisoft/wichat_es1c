@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Container, Typography, TextField, Button, Snackbar, IconButton, InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext'; // Importar el contexto de autenticación
 import '../Login.css';
 
 const endpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
@@ -11,13 +12,20 @@ axios.defaults.withCredentials = true; // Habilita cookies con credenciales
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth(); // Obtener la función login del contexto
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar contraseña
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const loginUser = async () => {
+    if (!email || !password) {
+      setError('Por favor, completa todos los campos');
+      setOpenSnackbar(true);
+      return;
+    }
+
     try {
       const response = await axios.post(`${endpoint}/api/login`, { email, password });
       const { token } = response.data;
@@ -27,7 +35,8 @@ const Login = () => {
       }
 
       localStorage.setItem('token', token);
-      navigate('/home');
+      login(); // Marcar al usuario como autenticado
+      navigate('/home'); // Redirigir al home
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'Error al iniciar sesión';
       setError(errorMessage);
@@ -45,6 +54,7 @@ const Login = () => {
       <Container component="main" maxWidth="xs" className="login-container">
         <img src="/LogoWichat.gif" alt="Logo Wichat" className="login-logo" />
         <Typography
+          data-testid="login-title"
           variant="h5"
           align="center"
           sx={{
@@ -74,16 +84,17 @@ const Login = () => {
           margin="normal"
           fullWidth
           label="Contraseña"
-          type={showPassword ? 'text' : 'password'} // Cambia el tipo de input según el estado
+          type={showPassword ? 'text' : 'password'}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
-                  onMouseDown={() => setShowPassword(true)} // Muestra la contraseña al mantener pulsado
-                  onMouseUp={() => setShowPassword(false)} // Oculta la contraseña al soltar
-                  onMouseLeave={() => setShowPassword(false)} // Asegura que se oculte si el cursor sale del botón
+                  data-testid="toggle-password"
+                  onMouseDown={() => setShowPassword(true)}
+                  onMouseUp={() => setShowPassword(false)}
+                  onMouseLeave={() => setShowPassword(false)}
                   edge="end"
                 >
                   {showPassword ? <VisibilityOff /> : <Visibility />}

@@ -25,6 +25,12 @@
         "query": "SELECT ?label ?img WHERE { ?p wdt:P31 wd:Q41176. ?p wdt:P18 ?img. ?p rdfs:label ?label. FILTER(LANG(?label) = \"es\") } LIMIT 50",
         "type" : "Monumentos",
         "category": "Geografía"
+    }, 
+    {
+        "question" : "¿Cuál es el nombre de este músico famoso?|*",
+        "query" : "SELECT ?label ?img WHERE { ?musician wdt:P31 wd:Q5. ?musician wdt:P106 wd:Q639669. ?musician wdt:P18 ?img. ?musician rdfs:label ?label. FILTER(LANG(?label) = \"es\") SERVICE wikibase:label { bd:serviceParam wikibase:language \"es\". } } LIMIT 50",
+        "type" : "Músicos",
+        "category" : "Arte"
     }
 
     

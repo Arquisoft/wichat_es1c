@@ -3,6 +3,21 @@
  [![Actions Status](https://github.com/arquisoft/wichat_es1c/workflows/CI%20for%20wichat_es1c/badge.svg)](https://github.com/arquisoft/wichat_es1c/actions)
  [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wichat_es1c&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wichat_es1c)
  [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wichat_es1c&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wichat_es1c)
+ [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wichat_es1c&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wichat_es1c)
+ [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wichat_es1c&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wichat_es1c)
+ [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wichat_es1c&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wichat_es1c)
+ [![CodeScene general](https://codescene.io/images/analyzed-by-codescene-badge.svg)](https://codescene.io/projects/65367)
+[![CodeScene Average Code Health](https://codescene.io/projects/65367/status-badges/average-code-health)](https://codescene.io/projects/65367)
+[![CodeScene Hotspot Code Health](https://codescene.io/projects/65367/status-badges/hotspot-code-health)](https://codescene.io/projects/65367)
+
+ ## 👨‍💻 Developers
+ 
+ | 🧑‍💼 Name           | GitHub username |
+ |-----------------|------------------|
+ | Daniel Alberto Alonso Fernández    | [@DalonfeUO](https://github.com/DalonfeUO)|
+ | David Álvarez Cabezas    | [@davidalvarezcabezas](https://github.com/davidalvarezcabezas)|
+ | Alejandro Fernández García    | [@alejandrofdzgarcia](https://github.com/alejandrofdzgarcia)|
+ | Mario García Prieto    | [@mario5garciap](https://github.com/mario5garciap)|
  
  <p float="left">
  <img src="https://blog.wildix.com/wp-content/uploads/2020/06/react-logo.jpg" height="100">
@@ -118,12 +133,3 @@
  
  Note that this action logs in the remote machine and downloads the docker-compose file from the repository and launches it. Obviously, previous actions have been executed which have uploaded the docker images to the GitHub Packages repository.
  
- ## Developers
- 
- | Name           | GitHub username |
- |-----------------|------------------|
- | Daniel Alberto Alonso Fernández    | [@uo283794](https://github.com/uo283794)|
- | David Álvarez Cabezas    | [@davidalvarezcabezas](https://github.com/davidalvarezcabezas)|
- | Alejandro Fernández García    | [@alejandrofdzgarcia](https://github.com/alejandrofdzgarcia)|
- | Emilio García Fernández    | [@AggroTheShark](https://github.com/AggroTheShark)|
- | Mario García Prieto    | [@mario5garciap](https://github.com/mario5garciap)|

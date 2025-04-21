@@ -334,8 +334,11 @@ app.post('/saveScore', async (req, res) => {
             email,
             correct: req.body.correct,
             wrong: req.body.wrong,
-            totalTime: req.body.totalTime, // Asegurarse de guardar totalTime
-            timestamp: new Date() // Agregar la fecha y hora actual
+            totalTime: req.body.totalTime,
+            timestamp: new Date(),
+            question: req.body.question,
+            correctAnswer: req.body.correctAnswer,
+            givenAnswer: req.body.givenAnswer
         });
         await scoreEntry.save();
 
