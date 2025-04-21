@@ -13,6 +13,7 @@ const Game = () => {
     const [showOptions, setShowOptions] = useState(true);
     const [questionType, setQuestionType] = useState('Geografía');
     const [responseTime, setResponseTime] = useState(60);
+    const [isDisabled, setIsDisabled] = useState(false);
 
     const [selected, setSelected] = useState('');
     const [result, setResult] = useState('');
@@ -182,6 +183,9 @@ const Game = () => {
     };
 
     const handleSelect = (option) => {
+        if (isDisabled) return;
+
+        setIsDisabled(true);
         setSelected(option);
         const isCorrect = option === question.correctAnswer;
         setResult(isCorrect ? "¡Correcto!" : "Incorrecto.");
@@ -228,6 +232,7 @@ const Game = () => {
                 setCorrectAnswer('');
                 setCurrentQuestionIndex(prevIndex => prevIndex + 1);
                 setTimerKey(prevKey => prevKey + 1);
+                setIsDisabled(false); // Habilita los botones nuevamente
             }, 1750);
         }
     };
