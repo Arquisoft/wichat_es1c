@@ -6,6 +6,7 @@ import '../Register.css';
 
 const endpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
+
 const Register = () => {
   const navigate = useNavigate();
   const [name, setName] = useState('');
@@ -128,7 +129,7 @@ const Register = () => {
           margin="normal"
           fullWidth
           label="Confirmar"
-          type="password_confirm"
+          type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           error={!!confirmPassword && password !== confirmPassword}
