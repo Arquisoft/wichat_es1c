@@ -133,16 +133,11 @@ app.get('/api/ranking', async (req, res) => {
   }
 });
 
-app.get('/api/users', async (req, res) => {
-  try {
-    const usersResponse = await axios.get(`${userServiceUrl}/users`);
-    res.json(usersResponse.data);
-  } catch (error) {
-    console.error("❌ Error en /api/users:", error.response?.data || error.message);
-    res.status(error.response?.status || 500).json({
-      error: error.response?.data?.message || 'Error al obtener la lista de usuarios'
-    });
-  }
+app.get('/api/users', (req, res) => {
+  res.json([
+    { id: 1, name: 'John Doe', email: 'john@example.com' },
+    { id: 2, name: 'Jane Doe', email: 'jane@example.com' },
+  ]);
 });
 
 // 🔹 **Carga de OpenAPI Docs (Swagger)**
