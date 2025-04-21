@@ -7,7 +7,8 @@ const Home = () => {
   const [userName, setUserName] = useState('');
 
   useEffect(() => {
-    setUserName(localStorage.getItem('userName'));
+    const storedUserName = localStorage.getItem('userName');
+    setUserName(storedUserName ? storedUserName : ''); // Fallback to an empty string if null
   }, []);
 
   return (
