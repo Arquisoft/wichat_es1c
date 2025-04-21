@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Typography } from '@mui/material';
-import jwtDecode from 'jwt-decode';
 import OptionsDropdown from './OptionsDropdown';
 import PersonalRanking from "./PersonalRanking";
 
@@ -8,26 +7,7 @@ const Home = () => {
   const [userName, setUserName] = useState('');
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-
-    if (token) {
-      try {
-        const decodedToken = jwtDecode(token);
-
-        const extractedName =
-          decodedToken.name ||
-          decodedToken.user?.name ||
-          decodedToken.username ||
-          decodedToken.preferred_username ||
-          decodedToken.given_name ||
-          decodedToken.email?.split('@')[0] ||
-          '';
-
-        setUserName(extractedName);
-      } catch (error) {
-        console.error('Error al decodificar el token.');
-      }
-    }
+    setUserName(localStorage.getItem('userName'));
   }, []);
 
   return (
