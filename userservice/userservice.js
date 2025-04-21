@@ -101,9 +101,8 @@ app.post('/api/register', async (req, res) => {
 
 app.get('/users', async (req, res) => {
   try {
-    const users = await User.find({}, { password: 0 });
-    console.log("🔹 Lista de usuarios obtenida:", users);
-    res.status(200).json(users);
+    const users = await User.find()
+    res.json(users)
   } catch (error) {
     console.error("❌ Error al obtener la lista de usuarios:", error);
     res.status(500).json({ message: "Error interno del servidor." });
