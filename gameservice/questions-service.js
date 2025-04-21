@@ -153,7 +153,6 @@ async function generateQuestions() {
 
     // Obtener más preguntas de las necesarias para evitar duplicados
     let foundQuestions = await Question.aggregate([
-        { $match: { category: 'Geografía' } },
         { $sample: { size: NUMBER_OF_QUESTIONS * 2 } } // Se obtiene más del doble
     ]);
 
@@ -165,7 +164,6 @@ async function generateQuestions() {
         if (index >= foundQuestions.length) {
             // Si ya se revisaron todas las preguntas, empezar a permitir repeticiones
             foundQuestions = await Question.aggregate([
-                { $match: { category: 'Geografía' } },
                 { $sample: { size: NUMBER_OF_QUESTIONS } } // Pedimos más preguntas
             ]);
             index = 0;
@@ -253,15 +251,22 @@ async function fetchQuestions()
             {
                 params : { query : template.query, format : "json" },
                 headers : { Accept : "application/sparql-results+json" },
-                timeout : 10000 // 10 seconds
             });
 
             // Extract questions from response
-            const results = response.data.results.bindings.map( binding =>
-            ({
-                label : binding.label?.value || "Unknown",
-                img : binding.img?.value || binding.element_img?.value || "",
+            const rawResults = response.data.results.bindings.map(binding => ({
+                label: binding.label?.value || "Unknown",
+                img: binding.img?.value || binding.element_img?.value || "",
             }));
+            
+            const uniqueResultsMap = new Map();
+            rawResults.forEach(entry => {
+                if (!uniqueResultsMap.has(entry.label)) {
+                    uniqueResultsMap.set(entry.label, entry);
+                }
+            });
+            
+            const results = Array.from(uniqueResultsMap.values());
 
             // Generate 50 questions for this template
             for (let i = 0; i < Math.min(50, results.length); i++)
@@ -281,6 +286,7 @@ async function fetchQuestions()
     }
 
     // Save all questions to MongoDB
+    await Question.deleteMany({})
     await Question.insertMany(allQuestions);
     console.log(`[DEBUG] ${allQuestions.length} questions saved successfully.`);
 }
