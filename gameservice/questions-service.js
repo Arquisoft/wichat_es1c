@@ -145,56 +145,79 @@ async function getTemplateByCategory(category)
 
 /**
  * Generate the full list of questions to be displayed in a game.
+ * @param {string} type Category of questions to generate
  * @returns {Array} List of generated questions
  */
-async function generateQuestions() {
+async function generateQuestions(type) {
     const selectedQuestions = new Set();
     const questions = [];
 
-    // Obtener más preguntas de las necesarias para evitar duplicados
-    let foundQuestions = await Question.aggregate([
-        { $sample: { size: NUMBER_OF_QUESTIONS * 2 } } // Se obtiene más del doble
-    ]);
+    if (type === "general") {
+        let foundQuestions = await Question.aggregate([
+            { $sample: { size: NUMBER_OF_QUESTIONS * 2 } } 
+        ]);
 
-    if (foundQuestions.length === 0) 
-        throw new Error("No se han encontrado preguntas");
+        if (foundQuestions.length === 0) 
+            throw new Error("No se han encontrado preguntas");
 
-    let index = 0;
-    while (questions.length < NUMBER_OF_QUESTIONS) {
-        if (index >= foundQuestions.length) {
-            // Si ya se revisaron todas las preguntas, empezar a permitir repeticiones
-            foundQuestions = await Question.aggregate([
-                { $sample: { size: NUMBER_OF_QUESTIONS } } // Pedimos más preguntas
-            ]);
-            index = 0;
+        let index = 0;
+        while (questions.length < NUMBER_OF_QUESTIONS) {
+            if (index >= foundQuestions.length) {
+                foundQuestions = await Question.aggregate([
+                    { $sample: { size: NUMBER_OF_QUESTIONS } }
+                ]);
+                index = 0;
+            }
+
+            const newQuestion = foundQuestions[index++];
+
+            if (!newQuestion.title || !newQuestion.correctAnswer || !newQuestion.allAnswers) {
+                console.error("Pregunta incompleta:", newQuestion);
+                continue;
+            }
+
+            if (!selectedQuestions.has(newQuestion.correctAnswer.toString())) {
+                selectedQuestions.add(newQuestion.correctAnswer.toString());
+                questions.push(newQuestion);
+            }
         }
+    } else {
+        let selectedCategory = type || (await getRandomTemplate()).category;
 
-        const newQuestion = foundQuestions[index++];
-        
-        // Validar que la pregunta es completa
-        if (!newQuestion.title || !newQuestion.correctAnswer || !newQuestion.allAnswers) {
-            console.error("Pregunta incompleta:", newQuestion);
-            continue;
+        let foundQuestions = await Question.aggregate([
+            { $match: { category: selectedCategory } },
+            { $sample: { size: NUMBER_OF_QUESTIONS * 2 } }
+        ]);
+
+        if (foundQuestions.length === 0) 
+            throw new Error("No se han encontrado preguntas");
+
+        let index = 0;
+        while (questions.length < NUMBER_OF_QUESTIONS) {
+            if (index >= foundQuestions.length) {
+                foundQuestions = await Question.aggregate([
+                    { $match: { category: selectedCategory } },
+                    { $sample: { size: NUMBER_OF_QUESTIONS } }
+                ]);
+                index = 0;
+            }
+
+            const newQuestion = foundQuestions[index++];
+
+            if (!newQuestion.title || !newQuestion.correctAnswer || !newQuestion.allAnswers) {
+                console.error("Pregunta incompleta:", newQuestion);
+                continue;
+            }
+
+            if (!selectedQuestions.has(newQuestion.correctAnswer.toString())) {
+                selectedQuestions.add(newQuestion.correctAnswer.toString());
+                questions.push(newQuestion);
+            }
         }
-
-        // Verificar duplicados
-        if (!selectedQuestions.has(newQuestion.correctAnswer.toString())) {
-            selectedQuestions.add(newQuestion.correctAnswer.toString());
-        } else if (selectedQuestions.size >= foundQuestions.length) {
-            // Si ya agotamos las preguntas únicas, empezamos a repetir
-            console.warn("Se están repitiendo preguntas debido a falta de opciones únicas.");
-        } else {
-            continue; // Evitar agregar preguntas repetidas mientras haya opciones únicas
-        }
-
-        questions.push(newQuestion);
     }
 
     return questions;
 }
-
-
-
 
 /**
  * Given a full array of results and a question template, generates a question.
@@ -305,13 +328,11 @@ app.get('/test', (req, res) => {
 });
 
 app.get('/generateQuestions', async (req, res) => {
-    try
-    {
-        const questions = await generateQuestions();
+    try {
+        const { type } = req.query;
+        const questions = await generateQuestions(type); 
         res.json(questions);
-    }
-    catch (error)
-    {
+    } catch (error) {
         console.error("❌ Error in /generateQuestions:", error);
         res.status(500).json({ error: "Error interno en el servicio de preguntas." });
     }

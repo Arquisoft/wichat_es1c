@@ -19,7 +19,7 @@ const Register = () => {
     try {
       const response = await axios.post(
         `${endpoint}/api/register`,
-        { name, email, password },
+        { name, email, password, userRole: 'user' },
         { withCredentials: true }
       );
       const { token } = response.data;
