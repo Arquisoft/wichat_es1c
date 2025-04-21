@@ -35,8 +35,8 @@ const UserAccount = () => {
             try {
                 const decodedToken = jwtDecode(token);
 
-                const storedName = localStorage.getItem('userName');
-                const storedEmail = localStorage.getItem('userEmail');
+                const storedName = localStorage.getItem('userName') || 'Guest';
+                const storedEmail = localStorage.getItem('userEmail') || '';
 
                 setUserName(storedName);
                 setUserEmail(storedEmail);
