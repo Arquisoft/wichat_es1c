@@ -1,14 +1,37 @@
 [
     {
         "question": "¿De dónde es esta bandera?|*",
-        "query": "SELECT ?label ?img WHERE { ?p wdt:P31 wd:Q6256. ?p wdt:P41 ?img. ?p rdfs:label ?label. FILTER(LANG(?label) = \"es\") } LIMIT 50",
+        "query": "SELECT ?label ?img WHERE { ?p wdt:P31 wd:Q6256. ?p wdt:P41 ?img. ?p rdfs:label ?label. FILTER(LANG(?label) = \"es\") } LIMIT 100",
         "type" : "Banderas",
+        "category": "Geografía"
+    },
+
+    {
+        "question": "¿De deportista es este?|*",
+        "query": "SELECT DISTINCT ?label ?img WHERE { ?deportista wdt:P31 wd:Q5; wdt:P106 wd:Q937857; wdt:P166 ?premio; wdt:P18 ?img. SERVICE wikibase:label {bd:serviceParam wikibase:language \"es,en\".?deportista rdfs:label ?label.}}LIMIT 100",
+        "type" : "Deportista",
+        "category": "Deportes"
+    },
+
+    {
+        "question": "¿De pájaro es este?|*",
+        "query": "SELECT DISTINCT ?label (SAMPLE(?img) AS ?img) WHERE { ?p wdt:P31 wd:Q16521. ?p wdt:P18 ?img. ?p wdt:P171* wd:Q5113. ?p rdfs:label ?label. FILTER(LANG(?label) = \"es\") } GROUP BY ?label LIMIT 100",
+        "type" : "Pajaros",
+        "category": "Biología"
+    },
+
+    {
+        "question": "¿De monumento es es este?|*",
+        "query": "SELECT ?label ?img WHERE { ?p wdt:P31 wd:Q41176. ?p wdt:P18 ?img. ?p rdfs:label ?label. FILTER(LANG(?label) = \"es\") } LIMIT 100",
+        "type" : "Monumentos",
         "category": "Geografía"
     }, 
     {
         "question" : "¿Cuál es el nombre de este músico famoso?|*",
-        "query" : "SELECT ?label ?img WHERE { ?musician wdt:P31 wd:Q5. ?musician wdt:P106 wd:Q639669. ?musician wdt:P18 ?img. ?musician rdfs:label ?label. FILTER(LANG(?label) = \"es\") SERVICE wikibase:label { bd:serviceParam wikibase:language \"es\". } } LIMIT 50",
+        "query" : "SELECT ?label ?img WHERE { ?musician wdt:P31 wd:Q5. ?musician wdt:P106 wd:Q639669. ?musician wdt:P18 ?img. ?musician rdfs:label ?label. FILTER(LANG(?label) = \"es\") SERVICE wikibase:label { bd:serviceParam wikibase:language \"es\". } } LIMIT 100",
         "type" : "Músicos",
         "category" : "Arte"
     }
+
+    
 ]

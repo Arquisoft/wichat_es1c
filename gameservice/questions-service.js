@@ -10,15 +10,13 @@ const Question = require("./models/question-model.js");
 const Template = require("./models/template-model.js");
 const Score = require("./models/score-model.js");
 
-//const data = require("./data/questions-templates.json");
+const data = require("./data/questions-templates.json");
 
 const app = express();
 const port = process.env.GAME_SERVICE_PORT || 8010;
 const NUMBER_OF_WRONG_ANSWERS = 3;
 const NUMBER_OF_QUESTIONS = 10
 
-const templatesPath = "./data/questions-templates.json";
-const templates = JSON.parse(fs.readFileSync(templatesPath, 'utf8'));
 const endpoint = 'https://query.wikidata.org/sparql';
 
 app.use(cors({
@@ -35,7 +33,7 @@ async function connectDB() {
     try {
         await mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
         .then(() => {return Template.deleteMany({})})
-        .then(() => {return Template.insertMany(templates)});;
+        .then(() => {return Template.insertMany(data)});;
         console.log("✅ Conectado a MongoDB Atlas en GameService");
     } catch (error) {
         console.error("❌ Error al conectar a MongoDB Atlas:", error);
@@ -265,7 +263,7 @@ async function fetchQuestions()
     let allQuestions = [];
 
     // Fetch 50 questions for each template
-    for (const template of templates)
+    for (const template of data)
     {
         console.log(`[DEBUG] Fetching questions for: ${template.type}`);
         
@@ -276,15 +274,22 @@ async function fetchQuestions()
             {
                 params : { query : template.query, format : "json" },
                 headers : { Accept : "application/sparql-results+json" },
-                timeout : 10000 // 10 seconds
             });
 
             // Extract questions from response
-            const results = response.data.results.bindings.map( binding =>
-            ({
-                label : binding.label?.value || "Unknown",
-                img : binding.img?.value || binding.element_img?.value || "",
+            const rawResults = response.data.results.bindings.map(binding => ({
+                label: binding.label?.value || "Unknown",
+                img: binding.img?.value || binding.element_img?.value || "",
             }));
+            
+            const uniqueResultsMap = new Map();
+            rawResults.forEach(entry => {
+                if (!uniqueResultsMap.has(entry.label)) {
+                    uniqueResultsMap.set(entry.label, entry);
+                }
+            });
+            
+            const results = Array.from(uniqueResultsMap.values());
 
             // Generate 50 questions for this template
             for (let i = 0; i < Math.min(50, results.length); i++)
@@ -304,14 +309,10 @@ async function fetchQuestions()
     }
 
     // Save all questions to MongoDB
-    await Question.deleteMany({}); // Remove old questions
+    await Question.deleteMany({})
     await Question.insertMany(allQuestions);
     console.log(`[DEBUG] ${allQuestions.length} questions saved successfully.`);
 }
-
-// Schedule task with node-cron
-    // Fetch questions every day at 3:00 AM
-    cron.schedule("0 3 * * *", fetchQuestions);
 
 // Add API endpoint to trigger manually
 // (Might disable this in final version)
@@ -372,6 +373,10 @@ app.get('/ranking', async (req, res) => {
     const ranking = await Score.find()
     res.json(ranking)
 });
+
+// Schedule task with node-cron
+// Fetch questions every day at 3:00 AM
+cron.schedule("0 3 * * *", fetchQuestions);
 
 
 connectDB().then(() => {
