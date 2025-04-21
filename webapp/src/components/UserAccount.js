@@ -164,7 +164,14 @@ const UserAccount = () => {
                                 {isEditing ? (
                                     <>
                                         <TextField fullWidth label="Nombre" value={editedName} onChange={(e) => setEditedName(e.target.value)} sx={{ mb: 2, background: 'white', borderRadius: '6px' }} />
-                                        <TextField fullWidth label="Correo" value={editedEmail} onChange={(e) => setEditedEmail(e.target.value)} sx={{ mb: 2, background: 'white', borderRadius: '6px' }} />
+                                        <TextField fullWidth label="Correo" value={editedEmail} InputProps={{ readOnly: true }} sx={{
+                                            mb: 2,
+                                            backgroundColor: '#d3d3d3',
+                                            borderRadius: '6px',
+                                            '& .MuiInputBase-input.Mui-disabled': {
+                                            WebkitTextFillColor: '#000',
+                                            },
+                                        }} />
                                         <TextField fullWidth label="Contraseña actual" type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} sx={{ mb: 2, background: 'white', borderRadius: '6px' }} />
                                         <TextField fullWidth label="Nueva contraseña (opcional)" type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} sx={{ mb: 2, background: 'white', borderRadius: '6px' }} />
                                         {updateError && <Typography color="error" sx={{ mb: 2 }}>{updateError}</Typography>}
