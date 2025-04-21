@@ -6,16 +6,24 @@ import '../Register.css';
 
 const endpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
+
 const Register = () => {
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [userExists, setUserExists] = useState(false); // Estado para detectar si el usuario ya está registrado
+  const [userExists, setUserExists] = useState(false);
 
   const registerUser = async () => {
+    if (password !== confirmPassword) {
+      setError('Las contraseñas no coinciden');
+      setOpenSnackbar(true);
+      return;
+    }
+
     try {
       const response = await axios.post(
         `${endpoint}/api/register`,
@@ -31,7 +39,7 @@ const Register = () => {
       setOpenSnackbar(true);
 
       if (err.response?.status === 409) {
-        setUserExists(true); // Si el usuario ya existe, activamos el estado
+        setUserExists(true);
       }
     }
   };
@@ -91,7 +99,7 @@ const Register = () => {
           Registro
         </Typography>
         <TextField
-        inputProps={{ 'data-testid': 'nombre-input' }}
+          inputProps={{ 'data-testid': 'nombre-input' }}
           margin="normal"
           fullWidth
           label="Nombre"
@@ -99,7 +107,7 @@ const Register = () => {
           onChange={(e) => setName(e.target.value)}
         />
         <TextField
-        inputProps={{ 'data-testid': 'email-input' }}
+          inputProps={{ 'data-testid': 'email-input' }}
           margin="normal"
           fullWidth
           label="Email"
@@ -108,7 +116,7 @@ const Register = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
         <TextField
-        inputProps={{ 'data-testid': 'pass-input' }}
+          inputProps={{ 'data-testid': 'pass-input' }}
           margin="normal"
           fullWidth
           label="Contraseña"
@@ -116,11 +124,32 @@ const Register = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button variant="contained" color="primary" className="register-button" fullWidth sx={{ mt: 2 }} onClick={registerUser}>
+        <TextField
+          inputProps={{ 'data-testid': 'confirm-pass-input' }}
+          margin="normal"
+          fullWidth
+          label="Confirmar"
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          error={!!confirmPassword && password !== confirmPassword}
+          helperText={
+            !!confirmPassword && password !== confirmPassword
+              ? 'Las contraseñas no coinciden'
+              : ''
+          }
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          className="register-button"
+          fullWidth
+          sx={{ mt: 2 }}
+          onClick={registerUser}
+        >
           Registrarse
         </Button>
 
-        {/* Mostrar solo el enlace a Login si el usuario ya está registrado */}
         {userExists && (
           <Typography align="center" sx={{ mt: 2 }}>
             Ya tienes una cuenta?{' '}
@@ -130,7 +159,12 @@ const Register = () => {
           </Typography>
         )}
 
-        <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={error} />
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+          message={error}
+        />
       </Container>
     </>
   );
