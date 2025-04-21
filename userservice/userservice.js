@@ -109,6 +109,29 @@ app.get('/users', async (req, res) => {
   }
 });
 
+app.put('/updateUser', async (req, res) => {
+  const { name, email, currentPassword, newPassword } = req.body;
+
+  try {
+      const user = await User.findOne({email});
+
+      if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
+
+      const isMatch = await bcrypt.compare(currentPassword, user.password);
+      if (!isMatch) return res.status(401).json({ message: 'Contraseña actual incorrecta' });
+
+      if (name) user.name = name;
+      if (newPassword) user.password = await bcrypt.hash(newPassword, 10);
+
+      await user.save();
+
+      res.json({ message: 'Usuario actualizado correctamente' });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error al actualizar el usuario' });
+  }
+});
+
 // Endpoint de verificación de servicio
 app.get('/health', (req, res) => res.json({ status: 'OK' }));
 
