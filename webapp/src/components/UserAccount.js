@@ -9,6 +9,7 @@ import axios from "axios";
 import { motion } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
+
 const endpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
 const UserAccount = () => {
@@ -152,12 +153,21 @@ const UserAccount = () => {
                         <motion.div whileHover={{ scale: 1.03 }} transition={{ duration: 0.3 }}>
                             <Box sx={{
                                 mt: 4, p: 3,
-                                background: 'linear-gradient(135deg, #1e3c72, #2a5298)',
+                                background: "linear-gradient(0deg, rgba(128,80,208,1) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,1) 100%)",
                                 borderRadius: '16px',
                                 boxShadow: '0 8px 20px rgba(0, 0, 0, 0.4)',
                                 textAlign: 'center', color: 'white'
                             }}>
-                                <Typography component="h2" variant="h5" sx={{ fontWeight: '700', mb: 2, textTransform: 'uppercase' }}>
+                                <Typography 
+                                component="h2" 
+                                variant="h5" 
+                                sx={{ 
+                                    fontWeight: '700', 
+                                    mb: 2, 
+                                    textTransform: 'uppercase', 
+                                    color: '#2e1569' 
+                                }}
+                                >
                                     Datos del Usuario
                                 </Typography>
 
@@ -182,21 +192,38 @@ const UserAccount = () => {
                                     </>
                                 ) : (
                                     <>
-                                        <Typography variant="body1">Usuario: {userName}</Typography>
-                                        <Typography variant="body1">Correo: {userEmail}</Typography>
-                                        <Button variant="outlined" startIcon={<EditIcon />} onClick={handleEdit} sx={{ mt: 2 }}>Editar Perfil</Button>
+                                <Typography variant="body1" sx={{ color: '#2e1569' }}>Usuario: {userName}</Typography>
+                                <Typography variant="body1" sx={{ color: '#2e1569' }}>Correo: {userEmail}</Typography>
+                                <Button 
+                                    variant="outlined" 
+                                    startIcon={<EditIcon />} 
+                                    onClick={handleEdit} 
+                                    sx={{ 
+                                    mt: 2, 
+                                    borderColor: '#2e1569', 
+                                    color: '#2e1569',
+                                    '&:hover': { 
+                                    borderColor: '#2e1569', 
+                                    backgroundColor: '#2e1569',
+                                    color: 'white' 
+                                    } 
+                                    }}
+                        >
+                        Editar Perfil
+                        </Button>
 
-                                        {totalGames > 0 && (
-                                            <>
-                                                <Typography variant="body1">Total de partidas jugadas: {totalGames}</Typography>
-                                                <Typography variant="body1">Preguntas acertadas: {correctAnswers}</Typography>
-                                                <Typography variant="body1">Preguntas falladas: {wrongAnswers}</Typography>
-                                                <Typography variant="body1">Total de preguntas: {totalQuestions}</Typography>
-                                                <Typography variant="body1" sx={{ fontWeight: '600', color: accuracy >= 50 ? '#4CAF50' : '#F44336' }}>
-                                                    Porcentaje de aciertos: {accuracy}%
-                                                </Typography>
-                                            </>
-                                        )}
+{totalGames > 0 && (
+    <>
+        <Typography variant="body1" sx={{ color: '#2e1569' }}>Total de partidas jugadas: {totalGames}</Typography>
+        <Typography variant="body1" sx={{ color: '#2e1569' }}>Preguntas acertadas: {correctAnswers}</Typography>
+        <Typography variant="body1" sx={{ color: '#2e1569' }}>Preguntas falladas: {wrongAnswers}</Typography>
+        <Typography variant="body1" sx={{ color: '#2e1569' }}>Total de preguntas: {totalQuestions}</Typography>
+        <Typography variant="body1" sx={{ fontWeight: '600', color: accuracy >= 50 ? '#4CAF50' : '#F44336' }}>
+            Porcentaje de aciertos: {accuracy}%
+        </Typography>
+    </>
+)}
+
                                     </>
                                 )}
                             </Box>
