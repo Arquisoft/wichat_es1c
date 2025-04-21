@@ -27,6 +27,7 @@ const Game = () => {
     const [questionsTitles, setQuestionsTitles] = useState('');
     const [correctAnswers, setCorrectAnswers] = useState('');
     const [givenAnswers, setGivenAnswers] = useState('');
+    const [gameOver, setGameOver] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -107,7 +108,7 @@ const Game = () => {
         );
     }
 
-    if (currentQuestionIndex >= questions.length) {
+    if (gameOver) {
         return (
             <Container
                 maxWidth="xs"
@@ -121,7 +122,7 @@ const Game = () => {
                     width: "300px",
                     height: "145px",
                 }}
-                >
+            >
                 <Typography variant="h6">¡Juego terminado!</Typography>
                 <Typography variant="h5">Puntuación: {score}</Typography>
                 <Button
@@ -137,7 +138,7 @@ const Game = () => {
 
     const question = questions[currentQuestionIndex];
 
-    const saveScore = async (finalScore, finalTime) => {
+    const saveScore = async (finalScore, finalTime, finalQuestionsTitles, finalCorrectAnswers, finalGivenAnswers) => {
         try {
             const token = localStorage.getItem('token');
             
@@ -146,7 +147,7 @@ const Game = () => {
                 return;
             }
 
-            if (!questionsTitles || !correctAnswers || !givenAnswers) {
+            if (!finalQuestionsTitles || !finalCorrectAnswers || !finalGivenAnswers) {
                 console.error("Faltan datos para guardar la puntuación");
                 return;
             }
@@ -160,9 +161,9 @@ const Game = () => {
                     correct: correct, 
                     wrong: wrong, 
                     totalTime: finalTime, 
-                    question: questionsTitles, 
-                    correctAnswer: correctAnswers, 
-                    givenAnswer: givenAnswers 
+                    question: finalQuestionsTitles, 
+                    correctAnswer: finalCorrectAnswers, 
+                    givenAnswer: finalGivenAnswers 
                 },
                 {
                     headers: {
@@ -185,9 +186,14 @@ const Game = () => {
         const isCorrect = option === question.correctAnswer;
         setResult(isCorrect ? "¡Correcto!" : "Incorrecto.");
 
-        setQuestionsTitles((prev) => prev ? `${prev}¬${question.title}` : question.title);
-        setCorrectAnswers((prev) => prev ? `${prev}¬${question.correctAnswer}` : question.correctAnswer);
-        setGivenAnswers((prev) => prev ? `${prev}¬${option}` : option);
+        // Actualiza los datos de la pregunta actual
+        const updatedQuestionsTitles = questionsTitles ? `${questionsTitles}¬${question.title}` : question.title;
+        const updatedCorrectAnswers = correctAnswers ? `${correctAnswers}¬${question.correctAnswer}` : question.correctAnswer;
+        const updatedGivenAnswers = givenAnswers ? `${givenAnswers}¬${option}` : option;
+
+        setQuestionsTitles(updatedQuestionsTitles);
+        setCorrectAnswers(updatedCorrectAnswers);
+        setGivenAnswers(updatedGivenAnswers);
 
         const correctSound = new Audio(process.env.PUBLIC_URL + "/sounds/correct_answer.mp3");
         const wrongSound = new Audio(process.env.PUBLIC_URL + "/sounds/wrong_answer.mp3");
@@ -204,29 +210,26 @@ const Game = () => {
             setCorrectAnswer(question.correctAnswer);
         }
 
-        setTimeout(() => {
-            setSelected('');
-            setResult('');
-            setCorrectAnswerAnimation(false);
-            setIncorrectAnswer('');
-            setCorrectAnswer('');
-            setCurrentQuestionIndex(prevIndex => prevIndex + 1);
-            setTimerKey(prevKey => prevKey + 1);
+        if (currentQuestionIndex >= questions.length - 1) {
+            const finalScore = score + (isCorrect ? 1 : 0);
+            const endTime = Date.now();
+            const finalTime = (endTime - startTime) / 1000;
 
-            if (currentQuestionIndex >= questions.length - 1) {
-                const finalScore = score + (option === question.correctAnswer ? 1 : 0);
-                const endTime = Date.now();
-                const finalTime = (endTime - startTime) / 1000;
-
-                setQuestionsTitles(prev => prev ? `${prev}¬${question.title}` : question.title);
-                setCorrectAnswers(prev => prev ? `${prev}¬${question.correctAnswer}` : question.correctAnswer);
-                setGivenAnswers(prev => prev ? `${prev}¬${option}` : option);
-
-                setTimeout(() => {
-                    saveScore(finalScore, finalTime);
-                }, 0);
-            }
-        }, 1750);
+            setTimeout(() => {
+                saveScore(finalScore, finalTime, updatedQuestionsTitles, updatedCorrectAnswers, updatedGivenAnswers);
+                setGameOver(true);
+            }, 1750);
+        } else {
+            setTimeout(() => {
+                setSelected('');
+                setResult('');
+                setCorrectAnswerAnimation(false);
+                setIncorrectAnswer('');
+                setCorrectAnswer('');
+                setCurrentQuestionIndex(prevIndex => prevIndex + 1);
+                setTimerKey(prevKey => prevKey + 1);
+            }, 1750);
+        }
     };
 
     const handleGoHome = () => {
@@ -251,7 +254,7 @@ const Game = () => {
             if (currentQuestionIndex >= questions.length - 1) {
                 const endTime = Date.now();
                 const finalTime = (endTime - startTime) / 1000;
-                saveScore(score, finalTime);
+                saveScore(score, finalTime, questionsTitles, correctAnswers, givenAnswers);
             }
         }, 1750);
     };

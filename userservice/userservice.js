@@ -101,8 +101,7 @@ app.post('/api/register', async (req, res) => {
 
 app.get('/users', async (req, res) => {
   try {
-    console.log("🔹 Obteniendo lista de usuarios...");
-    const users = await User.find({}, { password: 0 }); // Excluir el campo 'password' por seguridad
+    const users = await User.find({}, { password: 0 });
     res.status(200).json(users);
   } catch (error) {
     console.error("❌ Error al obtener la lista de usuarios:", error);
