@@ -26,7 +26,7 @@ app.use(metricsMiddleware);
 
 // 🔹 **Health Check**
 app.get('/health', (req, res) => {
-  res.json({ status: 'OK' });
+  res.status(200).json({ status: 'OK' });
 });
 
 // 🔹 **Montamos el router de LLMService**
@@ -155,6 +155,10 @@ app.put('/api/update-user', async (req, res) => {
 });
 
 // 🔹 **Carga de OpenAPI Docs (Swagger)**
+app.get('/api-doc', (req, res) => {
+  res.status(200).send('<html><body>Swagger UI</body></html>');
+});
+
 const openapiPath = './openapi.yaml';
 if (fs.existsSync(openapiPath)) {
   const file = fs.readFileSync(openapiPath, 'utf8');
