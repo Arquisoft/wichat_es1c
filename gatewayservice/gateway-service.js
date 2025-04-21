@@ -145,6 +145,15 @@ app.get('/api/users', async (req, res) => {
   }
 });
 
+app.put('/api/update-user', async (req, res) => {
+  try {
+    const updateResponse = await axios.put(`${userServiceUrl}/updateUser`, req.body, { withCredentials: true })
+    res.json(updateResponse.data)
+  } catch (error){
+    res.status(500).json({ error: 'Error al cactualizar los datos' });
+  }
+});
+
 // 🔹 **Carga de OpenAPI Docs (Swagger)**
 const openapiPath = './openapi.yaml';
 if (fs.existsSync(openapiPath)) {
