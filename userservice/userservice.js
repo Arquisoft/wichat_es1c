@@ -54,7 +54,7 @@ app.post('/api/login', async (req, res) => {
 });
 
 app.post('/api/register', async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, userRole } = req.body;
 
   // Verificar si faltan campos
   if (!name || !email || !password) {
@@ -81,6 +81,7 @@ app.post('/api/register', async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      role: userRole,
     });
 
     // Guardar el nuevo usuario
@@ -95,6 +96,16 @@ app.post('/api/register', async (req, res) => {
   } catch (error) {
     console.error("❌ Error en el registro:", error);
     return res.status(500).json({ message: "Error interno del servidor." });
+  }
+});
+
+app.get('/users', async (req, res) => {
+  try {
+    const users = await User.find()
+    res.json(users)
+  } catch (error) {
+    console.error("❌ Error al obtener la lista de usuarios:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
   }
 });
 
