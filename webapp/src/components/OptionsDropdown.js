@@ -35,8 +35,8 @@ const TopNavbar = () => {
     background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))',
   };
 
-  // Obtener el rol del usuario desde el localStorage
   const userRole = localStorage.getItem('role');
+  const showButton = userRole === 'admin';
 
   return (
     <AppBar
@@ -101,13 +101,15 @@ const TopNavbar = () => {
           >
             Mi cuenta
           </Button>
-          <Button
-            variant="contained"
-            onClick={() => navigate('/admin-menu')}
-            sx={buttonStyle}
-          >
-            Admin Menu
-          </Button>
+          {showButton && (
+            <Button
+              variant="contained"
+              onClick={() => navigate('/admin-menu')}
+              sx={buttonStyle}
+            >
+              Admin Menu
+            </Button>
+          )}
           <Button
             variant="contained"
             onClick={handleMenuOpen}

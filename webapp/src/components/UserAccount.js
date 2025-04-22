@@ -35,16 +35,12 @@ const UserAccount = () => {
         if (token) {
             try {
                 const decodedToken = jwtDecode(token);
-                const extractedName =
-                    decodedToken.name ||
-                    decodedToken.user?.name ||
-                    decodedToken.username ||
-                    decodedToken.preferred_username ||
-                    decodedToken.given_name ||
-                    decodedToken.email?.split('@')[0] ||
-                    '';
-                setUserName(extractedName);
-                setUserEmail(decodedToken.email);
+
+                const storedName = localStorage.getItem('userName') || 'Guest';
+                const storedEmail = localStorage.getItem('userEmail') || '';
+
+                setUserName(storedName);
+                setUserEmail(storedEmail);
             } catch (error) {
                 console.error('Error al decodificar el token.');
             }
