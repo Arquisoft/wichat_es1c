@@ -24,7 +24,7 @@ const AdminMenu = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`${endpoint}/api/ranking`);
+        const response = await axios.get(`${endpoint}/api/users`);
         setUsers(response.data);
       } catch (error) {
         console.error('Error al obtener los usuarios:', error);
