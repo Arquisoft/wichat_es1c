@@ -113,14 +113,15 @@ const TopNavbar = () => {
           >
             Mi cuenta
           </Button>
-          <Button
-            variant="contained"
-            onClick={() => navigate('/admin-menu')}
-            sx={buttonStyle}
-            startIcon={<AdminPanelSettingsIcon />} 
-          >
-            Admin Menu
-          </Button>
+          {showButton && (
+            <Button
+              variant="contained"
+              onClick={() => navigate('/admin-menu')}
+              sx={buttonStyle}
+            >
+              Admin Menu
+            </Button>
+          )}
           <Button
             variant="contained"
             onClick={handleMenuOpen}
