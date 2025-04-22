@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button, Box, Menu, MenuItem, Fade } from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import LogoutIcon from '@mui/icons-material/Logout';
+import PersonIcon from '@mui/icons-material/Person';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import HelpIcon from '@mui/icons-material/Help';
+
 
 const TopNavbar = () => {
   const navigate = useNavigate();
@@ -77,6 +85,7 @@ const TopNavbar = () => {
             variant="contained"
             onClick={() => navigate('/home')}
             sx={buttonStyle}
+            startIcon={<HomeIcon />} 
           >
             Inicio
           </Button>
@@ -84,6 +93,7 @@ const TopNavbar = () => {
             variant="contained"
             onClick={() => navigate('/game')}
             sx={buttonStyle}
+            startIcon={<SportsEsportsIcon />} 
           >
             Juego
           </Button>
@@ -91,6 +101,7 @@ const TopNavbar = () => {
             variant="contained"
             onClick={() => navigate('/ranking')}
             sx={buttonStyle}
+            startIcon={<EmojiEventsIcon />} 
           >
             Ranking
           </Button>
@@ -98,25 +109,43 @@ const TopNavbar = () => {
             variant="contained"
             onClick={() => navigate('/user-account')}
             sx={buttonStyle}
+            startIcon={<PersonIcon />} 
           >
             Mi cuenta
           </Button>
-          {showButton && (
-            <Button
-              variant="contained"
-              onClick={() => navigate('/admin-menu')}
-              sx={buttonStyle}
-            >
-              Admin Menu
-            </Button>
-          )}
+          <Button
+            variant="contained"
+            onClick={() => navigate('/admin-menu')}
+            sx={buttonStyle}
+            startIcon={<AdminPanelSettingsIcon />} 
+          >
+            Admin Menu
+          </Button>
           <Button
             variant="contained"
             onClick={handleMenuOpen}
             sx={buttonStyle}
+            startIcon={<HelpIcon />} 
           >
             HELP
           </Button>
+          <Button
+  variant="contained"
+  onClick={handleLogout}
+  sx={{
+    ...buttonStyle,
+    bgcolor: '#d32f2f',
+    '&:hover': { bgcolor: '#b71c1c' },
+    background: 'linear-gradient(to right,rgb(209, 0, 0),rgb(96, 19, 19))',
+    minWidth: '48px',
+    padding: '8px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}
+>
+  <LogoutIcon />
+       </Button>
         </Box>
         <Menu
           anchorEl={anchorEl}
@@ -143,18 +172,6 @@ const TopNavbar = () => {
             FAQ
           </MenuItem>
         </Menu>
-        <Button
-          variant="contained"
-          onClick={handleLogout}
-          sx={{
-            ...buttonStyle,
-            bgcolor: '#d32f2f',
-            '&:hover': { bgcolor: '#b71c1c' },
-            background: 'linear-gradient(to right,rgb(209, 0, 0),rgb(96, 19, 19))',
-          }}
-        >
-          Cerrar sesión
-        </Button>
       </Toolbar>
     </AppBar>
   );

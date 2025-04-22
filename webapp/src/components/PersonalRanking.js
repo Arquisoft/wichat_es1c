@@ -103,7 +103,19 @@ const PersonalRanking = () => {
   };
 
   return (
-    <Container sx={{ mt: 5, p: 4, backgroundColor: "#f7f7f7", borderRadius: "12px", maxWidth: "600px", boxShadow: 3 }}>
+    <Container         sx={{
+      mt: 5,
+      p: { xs: 3, sm: 4 },
+      background: "linear-gradient(0deg, rgba(128,80,208,1) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,1) 100%)",
+      borderRadius: "16px",
+      boxShadow: "0 4px 30px rgba(0, 0, 0, 0.08)",
+      border: "1px solid rgba(128, 80, 208, 0.2)",
+      backdropFilter: "blur(10px)",
+      WebkitBackdropFilter: "blur(10px)",
+      maxWidth: "100%",
+      overflowX: "auto",
+      animation: "fadeIn 0.5s ease-in-out",
+    }}>
       <Typography variant="h4" align="center" sx={{ color: "#333", fontWeight: "bold", mb: 3 }}>
         🏆 Ranking Personal 🏆
       </Typography>
