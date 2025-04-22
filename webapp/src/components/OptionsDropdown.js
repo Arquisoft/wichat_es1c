@@ -43,8 +43,8 @@ const TopNavbar = () => {
     background: 'linear-gradient(to right,rgb(50, 21, 82),rgb(35, 5, 40))',
   };
 
-  // Obtener el rol del usuario desde el localStorage
   const userRole = localStorage.getItem('role');
+  const showButton = userRole === 'admin';
 
   return (
     <AppBar

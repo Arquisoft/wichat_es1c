@@ -17,8 +17,6 @@ app.use(cors());
 app.use(express.json());
 
 app.post('/api/login', async (req, res) => {
-  // console.log("🔹 Request recibida en Login:", req.body);
-
   const { email, password } = req.body;
   if (!email || !password) {
     console.log("⚠️ Falta email o password");
@@ -45,7 +43,14 @@ app.post('/api/login', async (req, res) => {
     const token = jwt.sign({ userId: user._id, email }, process.env.JWT_SECRET || "secretKey", { expiresIn: "1h" });
 
     console.log("✅ Login exitoso para:", email);
-    return res.status(200).json({ message: "Login exitoso", token });
+
+    return res.status(200).json({ 
+      message: "Login exitoso", 
+      token, 
+      name: user.name,
+      email: email,
+      role: user.role
+    });
 
   } catch (error) {
     console.error("❌ Error en el login:", error);
@@ -106,6 +111,29 @@ app.get('/users', async (req, res) => {
   } catch (error) {
     console.error("❌ Error al obtener la lista de usuarios:", error);
     res.status(500).json({ message: "Error interno del servidor." });
+  }
+});
+
+app.put('/updateUser', async (req, res) => {
+  const { name, email, currentPassword, newPassword } = req.body;
+
+  try {
+      const user = await User.findOne({email});
+
+      if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
+
+      const isMatch = await bcrypt.compare(currentPassword, user.password);
+      if (!isMatch) return res.status(401).json({ message: 'Contraseña actual incorrecta' });
+
+      if (name) user.name = name;
+      if (newPassword) user.password = await bcrypt.hash(newPassword, 10);
+
+      await user.save();
+
+      res.json({ message: 'Usuario actualizado correctamente' });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error al actualizar el usuario' });
   }
 });
 
