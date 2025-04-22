@@ -132,21 +132,6 @@ function App() {
               />
             </Routes>
 
-            {/* Botón de cambio de modo */}
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => setDarkMode(!darkMode)} 
-              sx={{
-                position: 'fixed',
-                bottom: 20,
-                left: 20,
-                zIndex: 1000,
-              }}
-            >
-              {darkMode ? 'Modo Oscuro' : 'Modo Claro'}
-            </Button>
-
             {location.pathname !== '/home' && location.pathname !== '/game' && location.pathname !== '/faq' && location.pathname !== '/user-account'
               && location.pathname !== '/ranking' && location.pathname !== '/admin-menu' && (
               <Typography component="div" align="center" sx={{ mt: 2 }}>
