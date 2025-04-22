@@ -29,6 +29,8 @@ const AdminMenu = () => {
     severity: 'success'
   });
 
+  const showButton = false;
+
   const fetchUsers = async () => {
     try {
       const response = await axios.get(`${endpoint}/api/users`);
@@ -98,9 +100,11 @@ const AdminMenu = () => {
                       <TableCell>{user.email}</TableCell>
                       <TableCell>
                         <Button
-                          variant='contained'
-                          color='primary'
-                          onClick={() => handleDelete(user.email)}>
+                          variant="contained"
+                          color="primary"
+                          onClick={() => handleDelete(user.email)}
+                          disabled={user.role === 'admin'}
+                        >
                           Eliminar
                         </Button>
                       </TableCell>
