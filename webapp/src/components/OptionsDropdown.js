@@ -118,6 +118,7 @@ const TopNavbar = () => {
               variant="contained"
               onClick={() => navigate('/admin-menu')}
               sx={buttonStyle}
+              startIcon={<AdminPanelSettingsIcon />} 
             >
               Admin Menu
             </Button>
