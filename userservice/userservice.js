@@ -137,6 +137,23 @@ app.put('/updateUser', async (req, res) => {
   }
 });
 
+app.post('/deleteUser', async (req, res) => {
+  const {email} = req.body;
+
+  try {
+      const user = await User.findOne({email});
+
+      if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
+
+      await user.deleteOne()
+
+      res.json({ message: 'Usuario eliminado correctamente' });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error al eliminar el usuario' });
+  }
+});
+
 // Endpoint de verificación de servicio
 app.get('/health', (req, res) => res.json({ status: 'OK' }));
 

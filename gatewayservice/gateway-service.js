@@ -154,6 +154,16 @@ app.put('/api/update-user', async (req, res) => {
   }
 });
 
+app.post('/api/delete-user', async (req, res) => {
+  try {
+    const deleteResponse = await axios.post(`${userServiceUrl}/deleteUser`, req.body, { withCredentials: true })
+    res.json(deleteResponse.data)
+  } catch (error){
+    console.log(error)
+    res.status(500).json({ error: 'Error al eliminar el usuario' });
+  }
+});
+
 // 🔹 **Carga de OpenAPI Docs (Swagger)**
 app.get('/api-doc', (req, res) => {
   res.status(200).send('<html><body>Swagger UI</body></html>');
