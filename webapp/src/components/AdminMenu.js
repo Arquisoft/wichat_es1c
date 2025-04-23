@@ -15,6 +15,7 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Pagination,
 } from '@mui/material';
 import axios from 'axios';
 
@@ -28,8 +29,8 @@ const AdminMenu = () => {
     message: '',
     severity: 'success'
   });
-
-  const showButton = false;
+  const [page, setPage] = useState(1);
+  const usersPerPage = 5;
 
   const fetchUsers = async () => {
     try {
@@ -65,11 +66,17 @@ const AdminMenu = () => {
         severity: 'error',
       });
     }
-  }
+  };
 
   const handleCloseSnackbar = () => {
     setSnackbar({ ...snackbar, open: false });
   };
+
+  const handleChangePage = (event, value) => {
+    setPage(value);
+  };
+
+  const paginatedUsers = users.slice((page - 1) * usersPerPage, page * usersPerPage);
 
   return (
     <div style={{ padding: '24px', maxWidth: '1200px', margin: '0 auto' }}>
@@ -85,34 +92,45 @@ const AdminMenu = () => {
               <CircularProgress />
             </div>
           ) : (
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell><strong>Nombre</strong></TableCell>
-                    <TableCell><strong>Email</strong></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {users.map((user) => (
-                    <TableRow key={user.id}>
-                      <TableCell>{user.name}</TableCell>
-                      <TableCell>{user.email}</TableCell>
-                      <TableCell>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={() => handleDelete(user.email)}
-                          disabled={user.role === 'admin'}
-                        >
-                          Eliminar
-                        </Button>
-                      </TableCell>
+            <>
+              <TableContainer component={Paper}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell><strong>Nombre</strong></TableCell>
+                      <TableCell><strong>Email</strong></TableCell>
+                      <TableCell></TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                  </TableHead>
+                  <TableBody>
+                    {paginatedUsers.map((user) => (
+                      <TableRow key={user.id}>
+                        <TableCell>{user.name}</TableCell>
+                        <TableCell>{user.email}</TableCell>
+                        <TableCell>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => handleDelete(user.email)}
+                            disabled={user.role === 'admin'}
+                          >
+                            Eliminar
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: 16 }}>
+                <Pagination
+                  count={Math.ceil(users.length / usersPerPage)}
+                  page={page}
+                  onChange={handleChangePage}
+                  color="primary"
+                />
+              </div>
+            </>
           )}
         </CardContent>
       </Card>
