@@ -13,6 +13,20 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockedNavigate,
 }));
 
+const fillFormAndSubmit = async ({ name, email, password, confirmPassword }) => {
+  const nameInput = screen.getByTestId('nombre-input');
+  const emailInput = screen.getByTestId('email-input');
+  const passwordInput = screen.getByTestId('pass-input');
+  const confirmPasswordInput = screen.getByTestId('confirm-pass-input');
+  const registerButton = screen.getByRole('button', { name: /registrarse/i });
+
+  fireEvent.change(nameInput, { target: { value: name } });
+  fireEvent.change(emailInput, { target: { value: email } });
+  fireEvent.change(passwordInput, { target: { value: password } });
+  fireEvent.change(confirmPasswordInput, { target: { value: confirmPassword } });
+  fireEvent.click(registerButton);
+};
+
 describe('Register component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -30,17 +44,12 @@ describe('Register component', () => {
       </BrowserRouter>
     );
 
-    const nameInput = screen.getByTestId('nombre-input');
-    const emailInput = screen.getByTestId('email-input');
-    const passwordInput = screen.getByTestId('pass-input');
-    const confirmPasswordInput = screen.getByTestId('confirm-pass-input');
-    const registerButton = screen.getByRole('button', { name: /registrarse/i });
-
-    fireEvent.change(nameInput, { target: { value: 'testUser' } });
-    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-    fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
-    fireEvent.change(confirmPasswordInput, { target: { value: 'testPassword' } });
-    fireEvent.click(registerButton);
+    await fillFormAndSubmit({
+      name: 'testUser',
+      email: 'test@example.com',
+      password: 'testPassword',
+      confirmPassword: 'testPassword',
+    });
 
     await waitFor(() => {
       expect(mockedNavigate).toHaveBeenCalledWith('/home');
@@ -58,17 +67,12 @@ describe('Register component', () => {
       </BrowserRouter>
     );
 
-    const nameInput = screen.getByTestId('nombre-input');
-    const emailInput = screen.getByTestId('email-input');
-    const passwordInput = screen.getByTestId('pass-input');
-    const confirmPasswordInput = screen.getByTestId('confirm-pass-input');
-    const registerButton = screen.getByRole('button', { name: /registrarse/i });
-
-    fireEvent.change(nameInput, { target: { value: 'testUser' } });
-    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-    fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
-    fireEvent.change(confirmPasswordInput, { target: { value: 'testPassword' } });
-    fireEvent.click(registerButton);
+    await fillFormAndSubmit({
+      name: 'testUser',
+      email: 'test@example.com',
+      password: 'testPassword',
+      confirmPassword: 'testPassword',
+    });
 
     await waitFor(() => {
       expect(screen.getByText(/el usuario ya existe/i)).toBeInTheDocument();
@@ -86,17 +90,12 @@ describe('Register component', () => {
       </BrowserRouter>
     );
 
-    const nameInput = screen.getByTestId('nombre-input');
-    const emailInput = screen.getByTestId('email-input');
-    const passwordInput = screen.getByTestId('pass-input');
-    const confirmPasswordInput = screen.getByTestId('confirm-pass-input');
-    const registerButton = screen.getByRole('button', { name: /registrarse/i });
-
-    fireEvent.change(nameInput, { target: { value: 'testUser' } });
-    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-    fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
-    fireEvent.change(confirmPasswordInput, { target: { value: 'testPassword' } });
-    fireEvent.click(registerButton);
+    await fillFormAndSubmit({
+      name: 'testUser',
+      email: 'test@example.com',
+      password: 'testPassword',
+      confirmPassword: 'testPassword',
+    });
 
     await waitFor(() => {
       expect(screen.getByText(/error al registrarse/i)).toBeInTheDocument();
