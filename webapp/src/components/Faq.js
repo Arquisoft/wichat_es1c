@@ -86,31 +86,7 @@ const FAQ = () => {
                     </AccordionDetails>
                 </Accordion>
             ))}
-            {/* Botón para volver a la página de inicio */}
-            <Button
-                variant="contained"
-                color="primary"
-                style={{
-                    marginTop: "20px", 
-                    padding: "12px 24px", 
-                    borderRadius: "8px", 
-                    fontSize: "16px", 
-                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)", 
-                    textTransform: "none", 
-                    transition: "transform 0.3s ease, background-color 0.3s ease",
-                }}
-                onClick={handleGoHome}
-                onMouseEnter={(e) => {
-                    e.target.style.transform = "scale(1.1)"; 
-                    e.target.style.backgroundColor = "#3b82f6"; 
-                }}
-                onMouseLeave={(e) => {
-                    e.target.style.transform = "scale(1)"; 
-                    e.target.style.backgroundColor = "#1976d2"; 
-                }}
-            >
-                Volver a Inicio
-            </Button>
+            <button onClick={handleGoHome}>Home</button>
         </Container>
         </>
     );

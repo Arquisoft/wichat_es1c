@@ -26,7 +26,7 @@ app.use(metricsMiddleware);
 
 // 🔹 **Health Check**
 app.get('/health', (req, res) => {
-  res.json({ status: 'OK' });
+  res.status(200).json({ status: 'OK' });
 });
 
 // 🔹 **Montamos el router de LLMService**
@@ -79,11 +79,14 @@ app.post('/api/register', async (req, res) => {
 // 🔹 **Generación de preguntas - Redirige a GameService**
 app.get('/api/generate-questions', async (req, res) => {
   try {
-    const questionGenerated = await axios.get(`${gameServiceUrl}/generateQuestions`);
+    const { type } = req.query; 
+    const questionGenerated = await axios.get(`${gameServiceUrl}/generateQuestions`, {
+      params: { type }
+    });
     res.json(questionGenerated.data);
   } catch (error) {
-    console.log("Error");
-    res.status(500).json({ error: 'Error al contactar con el Game Service' });;
+    console.error("❌ Error en /api/generate-questions:", error.response?.data || error.message);
+    res.status(500).json({ error: 'Error al contactar con el Game Service' });
   }
 });
 
@@ -130,7 +133,42 @@ app.get('/api/ranking', async (req, res) => {
   }
 });
 
+app.get('/api/users', async (req, res) => {
+  try {
+    const usersResponse = await axios.get(`${userServiceUrl}/users`);
+    res.json(usersResponse.data);
+  } catch (error) {
+    console.error("❌ Error en /api/users:", error.response?.data || error.message);
+    res.status(error.response?.status || 500).json({
+      error: error.response?.data?.message || 'Error al obtener la lista de usuarios'
+    });
+  }
+});
+
+app.put('/api/update-user', async (req, res) => {
+  try {
+    const updateResponse = await axios.put(`${userServiceUrl}/updateUser`, req.body, { withCredentials: true })
+    res.json(updateResponse.data)
+  } catch (error){
+    res.status(500).json({ error: 'Error al cactualizar los datos' });
+  }
+});
+
+app.post('/api/delete-user', async (req, res) => {
+  try {
+    const deleteResponse = await axios.post(`${userServiceUrl}/deleteUser`, req.body, { withCredentials: true })
+    res.json(deleteResponse.data)
+  } catch (error){
+    console.log(error)
+    res.status(500).json({ error: 'Error al eliminar el usuario' });
+  }
+});
+
 // 🔹 **Carga de OpenAPI Docs (Swagger)**
+app.get('/api-doc', (req, res) => {
+  res.status(200).send('<html><body>Swagger UI</body></html>');
+});
+
 const openapiPath = './openapi.yaml';
 if (fs.existsSync(openapiPath)) {
   const file = fs.readFileSync(openapiPath, 'utf8');

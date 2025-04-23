@@ -7,6 +7,7 @@ import Home from './components/Home.js';
 import Game from './components/Game.js';
 import FAQ from './components/Faq.js';
 import UserAccount from './components/UserAccount.js';
+import AdminMenu from './components/AdminMenu.js';
 import Ranking from './components/Ranking.js';
 import ProtectedRoute from './components/ProtectedRoute';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -121,25 +122,18 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/admin-menu"
+                element={
+                  <ProtectedRoute>
+                    <AdminMenu />
+                  </ProtectedRoute>
+                }
+              />
             </Routes>
 
-            {/* Botón de cambio de modo */}
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => setDarkMode(!darkMode)} 
-              sx={{
-                position: 'fixed',
-                bottom: 20,
-                left: 20,
-                zIndex: 1000,
-              }}
-            >
-              {darkMode ? 'Modo Oscuro' : 'Modo Claro'}
-            </Button>
-
             {location.pathname !== '/home' && location.pathname !== '/game' && location.pathname !== '/faq' && location.pathname !== '/user-account'
-              && location.pathname !== '/ranking' && (
+              && location.pathname !== '/ranking' && location.pathname !== '/admin-menu' && (
               <Typography component="div" align="center" sx={{ mt: 2 }}>
                 {location.pathname === '/' ? (
                   <Typography variant="body2" color="white">

@@ -12,7 +12,7 @@ axios.defaults.withCredentials = true; // Habilita cookies con credenciales
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useAuth(); // Obtener la función login del contexto
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -35,8 +35,12 @@ const Login = () => {
       }
 
       localStorage.setItem('token', token);
-      login(); // Marcar al usuario como autenticado
-      navigate('/home'); // Redirigir al home
+      localStorage.setItem('role', response.data.role);
+      localStorage.setItem('userEmail', response.data.email);
+      localStorage.setItem('userName', response.data.name);
+
+      login();
+      navigate('/home');
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'Error al iniciar sesión';
       setError(errorMessage);

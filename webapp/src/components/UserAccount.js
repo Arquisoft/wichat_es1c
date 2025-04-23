@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import jwtDecode from 'jwt-decode';
-import { Container, Typography, Box } from '@mui/material';
+import {
+    Container, Typography, Box, Button, TextField
+} from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
 import OptionsDropdown from './OptionsDropdown';
 import axios from "axios";
 import { motion } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
 
 const endpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
@@ -18,22 +22,25 @@ const UserAccount = () => {
     const [accuracy, setAccuracy] = useState(0);
     const [lastTenGames, setLastTenGames] = useState([]);
 
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedName, setEditedName] = useState('');
+    const [editedEmail, setEditedEmail] = useState('');
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [updateError, setUpdateError] = useState('');
+
     useEffect(() => {
         const token = localStorage.getItem('token');
 
         if (token) {
             try {
                 const decodedToken = jwtDecode(token);
-                const extractedName =
-                    decodedToken.name ||
-                    decodedToken.user?.name ||
-                    decodedToken.username ||
-                    decodedToken.preferred_username ||
-                    decodedToken.given_name ||
-                    decodedToken.email?.split('@')[0] ||
-                    '';
-                setUserName(extractedName);
-                setUserEmail(decodedToken.email);
+
+                const storedName = localStorage.getItem('userName') || 'Guest';
+                const storedEmail = localStorage.getItem('userEmail') || '';
+
+                setUserName(storedName);
+                setUserEmail(storedEmail);
             } catch (error) {
                 console.error('Error al decodificar el token.');
             }
@@ -46,13 +53,9 @@ const UserAccount = () => {
         const fetchUserStats = async () => {
             try {
                 const response = await axios.get(`${endpoint}/api/ranking`);
-                console.log('Datos de la API:', response.data);
                 const userStats = response.data.filter((game) => game.email === userEmail);
 
-                if (userStats.length === 0) {
-                    // Si no hay datos, solo mostramos nombre y correo del usuario
-                    return;
-                }
+                if (userStats.length === 0) return;
 
                 const totalCorrectAnswers = userStats.reduce((sum, stat) => sum + parseInt(stat.correct || 0, 10), 0);
                 const totalWrongAnswers = userStats.reduce((sum, stat) => sum + parseInt(stat.wrong || 0, 10), 0);
@@ -62,26 +65,24 @@ const UserAccount = () => {
                 setWrongAnswers(totalWrongAnswers);
                 setTotalQuestions(totalCorrectAnswers + totalWrongAnswers);
 
-                const totalQuestions = totalCorrectAnswers + totalWrongAnswers;
-                const calculatedAccuracy = totalQuestions > 0 ? (totalCorrectAnswers / totalQuestions) * 100 : 0;
+                const total = totalCorrectAnswers + totalWrongAnswers;
+                const calculatedAccuracy = total > 0 ? (totalCorrectAnswers / total) * 100 : 0;
                 setAccuracy(calculatedAccuracy.toFixed(2));
 
-                // Ordenar de más antiguo a más nuevo
                 const sortedRanking = userStats.sort((a, b) => {
-                    const dateA = new Date(a.timestamp * 1000 || a.timestamp); // Convertir timestamp a fecha
+                    const dateA = new Date(a.timestamp * 1000 || a.timestamp);
                     const dateB = new Date(b.timestamp * 1000 || b.timestamp);
-                    return dateA - dateB; // Orden ascendente
+                    return dateA - dateB;
                 });
 
-                // Tomamos las últimas 10 partidas
                 const lastTen = sortedRanking.slice(-10).map((game) => {
-                    const gameTotalQuestions = parseInt(game.correct || 0, 10) + parseInt(game.wrong || 0, 10);
-                    const accuracy = gameTotalQuestions > 0 ? (parseInt(game.correct || 0, 10) / gameTotalQuestions) * 100 : 0;
+                    const gameTotal = parseInt(game.correct || 0, 10) + parseInt(game.wrong || 0, 10);
+                    const accuracy = gameTotal > 0 ? (parseInt(game.correct || 0, 10) / gameTotal) * 100 : 0;
                     return {
-                        timestamp: new Date(game.timestamp * 1000 || game.timestamp).toLocaleString(), // Fecha y hora
+                        timestamp: new Date(game.timestamp * 1000 || game.timestamp).toLocaleString(),
                         correct: parseInt(game.correct || 0, 10),
                         wrong: parseInt(game.wrong || 0, 10),
-                        totalQuestions: gameTotalQuestions,
+                        totalQuestions: gameTotal,
                         accuracy: accuracy.toFixed(2)
                     };
                 });
@@ -95,6 +96,46 @@ const UserAccount = () => {
         fetchUserStats();
     }, [userEmail]);
 
+    const handleEdit = () => {
+        setIsEditing(true);
+        setEditedName(userName);
+        setEditedEmail(userEmail);
+        setCurrentPassword('');
+        setNewPassword('');
+        setUpdateError('');
+    };
+
+    const handleCancelEdit = () => {
+        setIsEditing(false);
+        setUpdateError('');
+    };
+
+    const handleSave = async () => {
+        if (!currentPassword) {
+            setUpdateError('Debes ingresar tu contraseña actual para guardar cambios.');
+            return;
+        }
+
+        try {
+            await axios.put(`${endpoint}/api/update-user`, {
+                name: editedName,
+                email: editedEmail,
+                currentPassword,
+                newPassword: newPassword || undefined
+            }, {
+                withCredentials: true,
+            });
+
+            setUserName(editedName);
+            setUserEmail(editedEmail);
+            setIsEditing(false);
+        } catch (error) {
+            const msg = error.response?.data?.message || "Error al actualizar el perfil.";
+            setUpdateError(msg);
+            console.error("Error actualizando usuario:", error);
+        }
+    };
+
     return (
         <>
             <OptionsDropdown />
@@ -107,46 +148,85 @@ const UserAccount = () => {
                     >
                         <motion.div whileHover={{ scale: 1.03 }} transition={{ duration: 0.3 }}>
                             <Box sx={{
-                                mt: 4,
-                                p: 3,
-                                background: 'linear-gradient(135deg, #1e3c72, #2a5298)',
+                                mt: 4, p: 3,
+                                background: "linear-gradient(0deg, rgba(128,80,208,1) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,1) 100%)",
                                 borderRadius: '16px',
                                 boxShadow: '0 8px 20px rgba(0, 0, 0, 0.4)',
-                                textAlign: 'center',
-                                color: 'white',
-                                fontFamily: "'Montserrat', sans-serif",
-                                border: '2px solid transparent',
-                                backgroundClip: 'padding-box',
-                                position: 'relative',
-                                overflow: 'hidden',
+                                textAlign: 'center', color: 'white'
                             }}>
-                                <Typography component="h2" variant="h5" sx={{
-                                    fontWeight: '700',
-                                    mb: 2,
-                                    letterSpacing: '1px',
-                                    textTransform: 'uppercase',
-                                }}>
+                                <Typography 
+                                component="h2" 
+                                variant="h5" 
+                                sx={{ 
+                                    fontWeight: '700', 
+                                    mb: 2, 
+                                    textTransform: 'uppercase', 
+                                    color: '#2e1569' 
+                                }}
+                                >
                                     Datos del Usuario
                                 </Typography>
-                                <Typography variant="body1">Usuario: {userName}</Typography>
-                                <Typography variant="body1">Correo: {userEmail}</Typography>
 
-                                {/* Solo mostramos las estadísticas si existen */}
-                                {totalGames > 0 && (
+                                {isEditing ? (
                                     <>
-                                        <Typography variant="body1">Total de partidas jugadas: {totalGames}</Typography>
-                                        <Typography variant="body1">Preguntas acertadas: {correctAnswers}</Typography>
-                                        <Typography variant="body1">Preguntas falladas: {wrongAnswers}</Typography>
-                                        <Typography variant="body1">Total de preguntas: {totalQuestions}</Typography>
-                                        <Typography variant="body1" sx={{ fontWeight: '600', color: accuracy >= 50 ? '#4CAF50' : '#F44336' }}>
-                                            Porcentaje de aciertos: {accuracy}%
-                                        </Typography>
+                                        <TextField fullWidth label="Nombre" value={editedName} onChange={(e) => setEditedName(e.target.value)} sx={{ mb: 2, background: 'white', borderRadius: '6px' }} />
+                                        <TextField fullWidth label="Correo" value={editedEmail} InputProps={{ readOnly: true }} sx={{
+                                            mb: 2,
+                                            backgroundColor: '#d3d3d3',
+                                            borderRadius: '6px',
+                                            '& .MuiInputBase-input.Mui-disabled': {
+                                            WebkitTextFillColor: '#000',
+                                            },
+                                        }} />
+                                        <TextField fullWidth label="Contraseña actual" type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} sx={{ mb: 2, background: 'white', borderRadius: '6px' }} />
+                                        <TextField fullWidth label="Nueva contraseña (opcional)" type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} sx={{ mb: 2, background: 'white', borderRadius: '6px' }} />
+                                        {updateError && <Typography color="error" sx={{ mb: 2 }}>{updateError}</Typography>}
+                                        <Box display="flex" justifyContent="space-between">
+                                            <Button variant="contained" onClick={handleSave} color="success">Guardar</Button>
+                                            <Button variant="outlined" onClick={handleCancelEdit} color="inherit">Cancelar</Button>
+                                        </Box>
+                                    </>
+                                ) : (
+                                    <>
+                                <Typography variant="body1" sx={{ color: '#2e1569' }}>Usuario: {userName}</Typography>
+                                <Typography variant="body1" sx={{ color: '#2e1569' }}>Correo: {userEmail}</Typography>
+                                <Button 
+                                    variant="outlined" 
+                                    startIcon={<EditIcon />} 
+                                    onClick={handleEdit} 
+                                    sx={{ 
+                                    mt: 2, 
+                                    borderColor: '#2e1569', 
+                                    color: '#2e1569',
+                                    '&:hover': { 
+                                    borderColor: '#2e1569', 
+                                    backgroundColor: '#2e1569',
+                                    color: 'white' 
+                                    } 
+                                    }}
+                        >
+                        Editar Perfil
+                        </Button>
+
+{totalGames > 0 && (
+    <>
+        <Typography variant="body1" sx={{ color: '#2e1569' }}>Total de partidas jugadas: {totalGames}</Typography>
+        <Typography variant="body1" sx={{ color: '#2e1569' }}>Preguntas acertadas: {correctAnswers}</Typography>
+        <Typography variant="body1" sx={{ color: '#2e1569' }}>Preguntas falladas: {wrongAnswers}</Typography>
+        <Typography variant="body1" sx={{ color: '#2e1569' }}>Total de preguntas: {totalQuestions}</Typography>
+        <Typography variant="body1" sx={{ fontWeight: '600', color: accuracy >= 50 ? '#4CAF50' : '#F44336' }}>
+            Porcentaje de aciertos: {accuracy}%
+        </Typography>
+    </>
+)}
+
                                     </>
                                 )}
                             </Box>
                         </motion.div>
                     </motion.div>
                 )}
+
                 {lastTenGames.length > 0 && (
                     <Box mt={4} sx={{ background: 'white', padding: 2, borderRadius: '12px', boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)' }}>
                         <Typography variant="h6" align="center" gutterBottom>
@@ -155,34 +235,25 @@ const UserAccount = () => {
                         <ResponsiveContainer width="100%" height={300}>
                             <LineChart data={lastTenGames}>
                                 <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis tick={false} /> {/* Ocultamos los nombres en el eje X */}
+                                <XAxis tick={false} />
                                 <YAxis domain={[0, 100]} />
-                                <Tooltip
-                                    content={({ payload }) => {
-                                        if (payload && payload.length) {
-                                            const { timestamp, correct, wrong, totalQuestions, accuracy } = payload[0].payload;
-                                            return (
-                                                <Box sx={{
-                                                    backgroundColor: 'white',
-                                                    padding: '8px',
-                                                    borderRadius: '8px',
-                                                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
-                                                    fontSize: '12px',
-                                                    color: 'black',
-                                                }}>
-                                                    <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                                                        Fecha y hora: {timestamp}
-                                                    </Typography>
-                                                    <Typography variant="body2">Aciertos: {correct}</Typography>
-                                                    <Typography variant="body2">Fallos: {wrong}</Typography>
-                                                    <Typography variant="body2">Total preguntas: {totalQuestions}</Typography>
-                                                    <Typography variant="body2">Porcentaje: {accuracy}%</Typography>
-                                                </Box>
-                                            );
-                                        }
-                                        return null;
-                                    }}
-                                />
+                                <Tooltip content={({ payload }) => {
+                                    if (payload && payload.length) {
+                                        const { timestamp, correct, wrong, totalQuestions, accuracy } = payload[0].payload;
+                                        return (
+                                            <Box sx={{ backgroundColor: 'white', padding: '8px', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)', fontSize: '12px', color: 'black' }}>
+                                                <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                                                    Fecha y hora: {timestamp}
+                                                </Typography>
+                                                <Typography variant="body2">Aciertos: {correct}</Typography>
+                                                <Typography variant="body2">Fallos: {wrong}</Typography>
+                                                <Typography variant="body2">Total preguntas: {totalQuestions}</Typography>
+                                                <Typography variant="body2">Porcentaje: {accuracy}%</Typography>
+                                            </Box>
+                                        );
+                                    }
+                                    return null;
+                                }} />
                                 <Line type="monotone" dataKey="accuracy" stroke="#4CAF50" strokeWidth={2} />
                             </LineChart>
                         </ResponsiveContainer>
