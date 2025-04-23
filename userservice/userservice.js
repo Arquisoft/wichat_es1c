@@ -151,6 +151,11 @@ app.post('/deleteUser', async (req, res) => {
   const {email} = req.body;
 
   try {
+
+    if (typeof email !== 'string') {
+      throw new Error('Invalid email format');
+    }
+
       const user = await User.findOne({email});
 
       if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
