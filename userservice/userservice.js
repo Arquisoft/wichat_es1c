@@ -25,6 +25,11 @@ app.post('/api/login', async (req, res) => {
 
   try {
     console.log("🔹 Buscando usuario en la base de datos...");
+
+    if (typeof email !== 'string') {
+      throw new Error('Invalid email format');
+    }
+
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -69,6 +74,11 @@ app.post('/api/register', async (req, res) => {
   try {
     // Verificar si el usuario ya existe con Mongoose
     console.log("🔹 Verificando si el usuario ya existe...");
+
+    if (typeof email !== 'string') {
+      throw new Error('Invalid email format');
+    }
+
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       console.log("⚠️ El usuario ya existe:", email);
