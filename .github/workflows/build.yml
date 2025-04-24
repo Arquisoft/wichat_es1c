@@ -17,6 +17,7 @@ jobs:
     - run: npm --prefix gatewayservice ci
     - run: npm --prefix llmservice ci
     - run: npm --prefix userservice ci
+    - run: npm --prefix gameservice ci
     - run: npm --prefix webapp ci
     - run: npm --prefix authservice test -- --coverage
     - run: npm --prefix gatewayservice test -- --coverage
