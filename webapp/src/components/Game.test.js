@@ -107,7 +107,7 @@ describe('Game component', () => {
     
         await waitFor(() => {
             expect(audioMock).toHaveBeenCalled();
-            expect(audioMock).toHaveBeenCalledWith();
+            expect(audioMock).toHaveBeenCalledWith();//test comentario
         });
     
         audioMock.mockRestore(); 
