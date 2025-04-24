@@ -70,7 +70,7 @@ const FAQ = () => {
             {faqs.map((faq, index) => (
                 <Accordion
                     key={index}
-                    expanded={expanded === `panel${index}`} // Se despliega solo el panel seleccionado
+                    expanded={expanded == `panel${index}`} // Se despliega solo el panel seleccionado
                     onChange={handleChange(`panel${index}`)} // Cambiar el estado cuando se expande o colapsa
                     style={{ marginBottom: "10px" }}
                 >
