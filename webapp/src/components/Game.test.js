@@ -166,5 +166,21 @@ describe('Game component', () => {
           jest.advanceTimersByTime(1750);
         });
       });
+
+      it('maneja el timeout correctamente', async () => {
+        render(<BrowserRouter><Game /></BrowserRouter>);
+        
+        fireEvent.click(screen.getByTestId('start-game'));
     
+        await waitFor(() => screen.getByText('¿Capital de Francia?'));
+    
+        // Simula el timeout manualmente
+        const timeoutButton = screen.getByTestId('timeout-button');
+        fireEvent.click(timeoutButton);
+    
+        await waitFor(() => {
+            expect(screen.getByText('Incorrecto.')).toBeInTheDocument();
+        });
+    });
+ 
 });
