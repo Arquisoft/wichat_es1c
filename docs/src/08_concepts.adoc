@@ -77,7 +77,7 @@ Each of these is detailed below.
 
 #### Domain Structure
 - **User:** An individual interacting with the application, capable of handling multiple concurrent sessions.
-- **Game:** A feature allowing users to engage in individual or multiplayer challenges with different formats.
+- **Game:** A feature allowing users to engage in individual challenges with different formats.
 - **Stats:** A section displaying user performance, including total games, accuracy, and average scores.
 - **Ranking:** Displays user rankings based on scores, correct answers, and playtime.
 
@@ -87,8 +87,8 @@ image::08_entity_diagram-EN.svg["Domain Entity Diagram"]
 
 ### User Experience (UX)
 - **Intuitive Design:** A clear and accessible interface for easy navigation.
-- **Multilingual Support:** Available in multiple languages, with English as the default.
 - **Accessibility Features:** Visual aids such as icons and colors to improve understanding.
+- **Attractive design:** A beautiful and visually appealing app design.
 
 ---
 
@@ -100,7 +100,6 @@ image::08_entity_diagram-EN.svg["Domain Entity Diagram"]
 
 ### Security
 - **Access Control:** Restriction of certain sections to authenticated users.
-- **Password Security:** Minimum 8-character passwords with letters, numbers, and special characters.
 - **Data Protection:** Encrypted credentials to prevent unauthorized access.
 
 ---

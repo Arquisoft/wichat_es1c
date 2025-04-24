@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 9081;
 const endpoint = 'https://query.wikidata.org/sparql';
 
 // Load templates from templates JSON file
-const templatesPath = "../data/questions-templates.json";
+//const templatesPath = "../data/questions-templates.json";
 const templates = JSON.parse(fs.readFileSync(templatesPath, "utf8"));
 
 // Connect to MongoDB

@@ -1,27 +1,23 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import App from './App';
-import { BrowserRouter } from 'react-router-dom';
 
-test('renders welcome message', () => {
-  render(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  );
-  const welcomeMessage = screen.getByText(/Modo Claro/i);
-  expect(welcomeMessage).toBeInTheDocument();
+describe('App Component', () => {
+  test('renders correct link based on location.pathname', () => {
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByText(/¿No tienes una cuenta\? Regístrate aquí\./i)).toBeInTheDocument();
+
+    render(
+      <MemoryRouter initialEntries={['/register']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByText(/¿Ya tienes una cuenta\? Inicia sesión aquí\./i)).toBeInTheDocument();
+  });
 });
-
-test('renders Dark Mode', () => {
-  render(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  );
-  const modeButton = screen.getByRole('button', { name: /Modo Claro/i });
-  fireEvent.click(modeButton);
-  const welcomeMessage = screen.getByText(/Modo Oscuro/i);
-  expect(welcomeMessage).toBeInTheDocument();
-});
-
-

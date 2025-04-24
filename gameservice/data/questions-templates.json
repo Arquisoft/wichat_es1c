@@ -4,36 +4,7 @@
         "query": "SELECT ?label ?img WHERE { ?p wdt:P31 wd:Q6256. ?p wdt:P41 ?img. ?p rdfs:label ?label. FILTER(LANG(?label) = \"es\") } LIMIT 50",
         "type" : "Banderas",
         "category": "Geografía"
-    },
-
-    {
-        "question": "¿Quién es el autor de este cuadro?|*",
-        "query": "SELECT ?label ?img WHERE { ?painting wdt:P31 wd:Q3305213. ?painting wdt:P170 ?artist. ?painting wdt:P18 ?img. ?artist rdfs:label ?label. FILTER(LANG(?label) = \"es\") SERVICE wikibase:label { bd:serviceParam wikibase:language \"es\". } } LIMIT 50",
-        "type" : "Cuadros y pintores",
-        "category": "Arte"
-    },
-
-    {
-        "question": "¿De qué país es este platillo típico?|*",
-        "query": "SELECT ?label ?img WHERE { ?dish wdt:P31 wd:Q1778821. ?dish wdt:P17 ?country. ?dish wdt:P18 ?img. ?country rdfs:label ?label. FILTER(LANG(?label) = \"es\") SERVICE wikibase:label { bd:serviceParam wikibase:language \"es\". } } LIMIT 50",
-        "type" : "Platos típicos",
-        "category": "Gastronomía"
-    },
-
-    {
-        "question" : "¿Qué elemento químico se ve en la siguiente imagen?|*",
-        "query" : "SELECT ?label ?img WHERE { ?element wdt:P31 wd:Q11344. ?element wdt:P18 ?img. ?element rdfs:label ?label. FILTER(LANG(?label) = \"es\") SERVICE wikibase:label { bd:serviceParam wikibase:language \"es\". } } LIMIT 50",
-        "type" : "Elementos químicos",
-        "category" : "Ciencia"
-    },
-
-    {
-        "question" : "¿Quién es este actor o director?|*",
-        "query" : "SELECT ?label ?img WHERE { ?actor wdt:P31 wd:Q5. ?actor wdt:P106 wd:Q33999. ?actor wdt:P18 ?img. ?actor rdfs:label ?label. FILTER(LANG(?label) = \"es\") SERVICE wikibase:label { bd:serviceParam wikibase:language \"es\". } } LIMIT 50",
-        "type" : "Actores y directores",
-        "category" : "Arte"
-    },
-
+    }, 
     {
         "question" : "¿Cuál es el nombre de este músico famoso?|*",
         "query" : "SELECT ?label ?img WHERE { ?musician wdt:P31 wd:Q5. ?musician wdt:P106 wd:Q639669. ?musician wdt:P18 ?img. ?musician rdfs:label ?label. FILTER(LANG(?label) = \"es\") SERVICE wikibase:label { bd:serviceParam wikibase:language \"es\". } } LIMIT 50",

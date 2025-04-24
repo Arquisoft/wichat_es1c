@@ -2,6 +2,8 @@ import React from 'react';
 import ChatBot from 'react-chatbotify';
 import axios from 'axios';
 
+const endpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
+
 const GameChatbot = ({ currentAnswer }) => {
   const fetchGeminiResponse = async (userInput, streamMessage) => {
     try {
@@ -11,7 +13,7 @@ const GameChatbot = ({ currentAnswer }) => {
         Responde siempre en español, de forma clara y amigable.
       `;
 
-      const response = await axios.post('http://localhost:8000/api/chatbot', {
+      const response = await axios.post(`${endpoint}/api/chatbot`, {
         question: userInput,
         model: 'gemini',
         systemMessage

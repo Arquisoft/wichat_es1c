@@ -1,18 +1,16 @@
 openapi: 3.0.0
 info:
-  title: Gatewayservice API
-  description: Gateway OpenAPI specification.
-  version: 0.2.0
+  title: API Gateway
+  description: API Gateway que redirige a varios microservicios como LLM, User, y Game.
+  version: 1.0.0
 servers:
-  - url: http://localhost:8000
-    description: Development server
-  - url: http://SOMEIP:8000
-    description: Production server
+  - url: 'http://localhost:8000'
+    description: 'API Gateway'
 paths:
-  /adduser:
+  /api/login:
     post:
-      summary: Add a new user to the database.
-      operationId: addUser
+      summary: 'Login de usuario'
+      description: 'Este endpoint redirige al User Service para realizar el login del usuario.'
       requestBody:
         required: true
         content:
@@ -20,119 +18,149 @@ paths:
             schema:
               type: object
               properties:
-                username:
+                email:
                   type: string
-                  description: User ID.
-                  example: student
+                  example: 'usuario@ejemplo.com'
                 password:
                   type: string
-                  description: User password.
-                  example: pass
+                  example: 'contraseña123'
       responses:
         '200':
-          description: User added successfully.
+          description: 'Login exitoso'
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  username:
+                  message:
                     type: string
-                    description: User ID
-                  password:
-                    type: string
-                    description: Hashed password
-                    example: $2b$10$ZKdNYLWFQxzt5Rei/YTc/OsZNi12YiWz30JeUFHNdAt7MyfmkTuvC
-                  _id:
-                    type: string
-                    description: Identification
-                    example: 65f756db3fa22d227a4b7c7d
-                  createdAt:
-                    type: string
-                    description: Creation date.
-                    example: '2024-03-17T20:47:23.935Z'
-                  ___v:
-                    type: integer
-                    example: '0'                                        
-        '400':
-          description: Failed to add user.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    description: Error information.
-                    example: getaddrinfo EAI_AGAIN mongodb
-  /health:
-    get:
-      summary: Check the health status of the service.
-      operationId: checkHealth
-      responses:
-        '200':
-          description: Service is healthy.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    description: Health status.
-                    example: OK
-  /login:
-    post:
-      summary: Log in to the system.
-      operationId: loginUser
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                username:
-                  type: string
-                  description: User ID.
-                  example: student
-                password:
-                  type: string
-                  description: User password.
-                  example: pass
-      responses:
-        '200':
-          description: Login successful. Returns user token, username, and creation date.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
+                    example: 'Login exitoso'
                   token:
                     type: string
-                    description: User token.
-                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWY3NTZkYjNmYTIyZDIyN2E0YjdjN2QiLCJpYXQiOjE3MTA3MDg3NDUsImV4cCI6MTcxMDcxMjM0NX0.VMG_5DOyQ4GYlJQRcu1I6ICG1IGzuo2Xuei093ONHxw
-                  username:
+                    example: 'jwt-token-aqui'
+        '400':
+          description: 'Faltan campos requeridos'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
                     type: string
-                    description: Username.
-                    example: student
-                  createdAt:
-                    type: string
-                    description: Creation date.
-                    example: '2024-03-17T20:47:23.935Z'
+                    example: 'Se requieren email y password.'
         '401':
-          description: Invalid credentials.
+          description: 'Credenciales inválidas'
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  error:
+                  message:
                     type: string
-                    description: Shows the error info..
-                    example: Invalid credentials
+                    example: 'Credenciales inválidas.'
         '500':
-          description: Internal server error.
+          description: 'Error interno del servidor'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Error interno del servidor.'
+
+  /api/register:
+    post:
+      summary: 'Registro de usuario'
+      description: 'Este endpoint redirige al User Service para registrar un nuevo usuario.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'Nuevo Usuario'
+                email:
+                  type: string
+                  example: 'nuevo@ejemplo.com'
+                password:
+                  type: string
+                  example: 'contraseña123'
+      responses:
+        '201':
+          description: 'Registro exitoso'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Registro exitoso'
+                  token:
+                    type: string
+                    example: 'jwt-token-aqui'
+        '400':
+          description: 'Faltan campos requeridos'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Se requieren nombre, email y password.'
+        '409':
+          description: 'Usuario ya registrado'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'El usuario ya existe.'
+        '500':
+          description: 'Error interno del servidor'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Error interno del servidor.'
+
+  /api/chatbot:
+    post:
+      summary: 'Interacción con chatbot'
+      description: 'Este endpoint envía mensajes al servicio LLM para obtener respuestas de IA.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: 'Hola, ¿cómo estás?'
+      responses:
+        '200':
+          description: 'Respuesta del chatbot'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+                    example: '¡Hola! ¿En qué puedo ayudarte?'
+        '500':
+          description: 'Error al contactar con el servicio de LLM'
           content:
             application/json:
               schema:
@@ -140,5 +168,94 @@ paths:
                 properties:
                   error:
                     type: string
-                    description: Error information.
-                    example: Internal Server Error
+                    example: 'Error al contactar con el LLM Service'
+
+  /api/generate-questions:
+    get:
+      summary: 'Generación de preguntas de juego'
+      description: 'Este endpoint redirige al Game Service para obtener nuevas preguntas de juego.'
+      responses:
+        '200':
+          description: 'Preguntas generadas exitosamente'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '500':
+          description: 'Error al contactar con el Game Service'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Error al contactar con el Game Service'
+
+  /api/ranking:
+    get:
+      summary: 'Consulta del ranking de jugadores'
+      description: 'Obtiene la lista de jugadores ordenados por puntuación y tiempo total.'
+      responses:
+        '200':
+          description: 'Ranking obtenido exitosamente'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '500':
+          description: 'Error al obtener el ranking'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Error al cargar el ranking'
+
+  /api/save-score:
+    post:
+      summary: 'Guardar puntuación de usuario'
+      description: 'Envía la puntuación del usuario al Game Service para su almacenamiento.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  example: '1234567890abcdef'
+                score:
+                  type: integer
+                  example: 100
+                totalTime:
+                  type: integer
+                  example: 120
+      responses:
+        '200':
+          description: 'Puntuación guardada exitosamente'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Puntuación guardada correctamente'
+        '500':
+          description: 'Error al guardar la puntuación'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Error al guardar resultados'
