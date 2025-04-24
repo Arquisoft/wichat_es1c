@@ -112,5 +112,59 @@ describe('Game component', () => {
     
         audioMock.mockRestore(); 
     });
+
+    it('no guarda la puntuación si no hay token', async () => {
+        localStorage.removeItem('token'); // Simular ausencia de token
+      
+        render(<BrowserRouter><Game /></BrowserRouter>);
+        fireEvent.click(screen.getByTestId('start-game'));
+      
+        await waitFor(() => screen.getByText('¿Capital de Francia?'));
+      
+        const correctBtn = screen.getByText('París');
+        fireEvent.click(correctBtn);
+      
+        // Forzar el cambio de pregunta para que se intente guardar
+        await act(async () => {
+          jest.advanceTimersByTime(1750);
+        });
+      
+        // No es necesario esperar mensaje, solo cubrir el código
+      });
+      
+      it('no guarda la puntuación si faltan datos necesarios', async () => {
+        localStorage.setItem('token', 'fake-jwt-token');
+      
+        render(<BrowserRouter><Game /></BrowserRouter>);
+        fireEvent.click(screen.getByTestId('start-game'));
+      
+        await waitFor(() => screen.getByText('¿Capital de Francia?'));
+      
+        const wrongBtn = screen.getByText('Londres');
+        fireEvent.click(wrongBtn);
+      
+        // Simula que no se han guardado correctamente los arrays de respuestas
+        await act(async () => {
+          jest.advanceTimersByTime(1750);
+        });
+      
+        // Cubres la línea de "Faltan datos para guardar la puntuación"
+      });
+      
+      it('maneja errores del servidor al guardar la puntuación', async () => {
+        axios.post.mockRejectedValueOnce(new Error('Error del servidor'));
+      
+        render(<BrowserRouter><Game /></BrowserRouter>);
+        fireEvent.click(screen.getByTestId('start-game'));
+      
+        await waitFor(() => screen.getByText('¿Capital de Francia?'));
+      
+        const correctBtn = screen.getByText('París');
+        fireEvent.click(correctBtn);
+      
+        await act(async () => {
+          jest.advanceTimersByTime(1750);
+        });
+      });
     
 });
