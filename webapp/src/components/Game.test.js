@@ -114,7 +114,7 @@ describe('Game component', () => {
     });
 
     it('no guarda la puntuación si no hay token', async () => {
-        localStorage.removeItem('token'); // Simular ausencia de token
+        localStorage.removeItem('token'); 
       
         render(<BrowserRouter><Game /></BrowserRouter>);
         fireEvent.click(screen.getByTestId('start-game'));
@@ -123,13 +123,9 @@ describe('Game component', () => {
       
         const correctBtn = screen.getByText('París');
         fireEvent.click(correctBtn);
-      
-        // Forzar el cambio de pregunta para que se intente guardar
         await act(async () => {
           jest.advanceTimersByTime(1750);
         });
-      
-        // No es necesario esperar mensaje, solo cubrir el código
       });
       
       it('no guarda la puntuación si faltan datos necesarios', async () => {
@@ -142,13 +138,9 @@ describe('Game component', () => {
       
         const wrongBtn = screen.getByText('Londres');
         fireEvent.click(wrongBtn);
-      
-        // Simula que no se han guardado correctamente los arrays de respuestas
         await act(async () => {
           jest.advanceTimersByTime(1750);
         });
-      
-        // Cubres la línea de "Faltan datos para guardar la puntuación"
       });
       
       it('maneja errores del servidor al guardar la puntuación', async () => {
@@ -173,8 +165,6 @@ describe('Game component', () => {
         fireEvent.click(screen.getByTestId('start-game'));
     
         await waitFor(() => screen.getByText('¿Capital de Francia?'));
-    
-        // Simula el timeout manualmente
         const timeoutButton = screen.getByTestId('timeout-button');
         fireEvent.click(timeoutButton);
     
@@ -182,5 +172,46 @@ describe('Game component', () => {
             expect(screen.getByText('Incorrecto.')).toBeInTheDocument();
         });
     });
- 
+
+    it('muestra las opciones de juego inicialmente y carga preguntas cuando comienza', async () => {
+        render(<BrowserRouter><Game /></BrowserRouter>);
+        expect(screen.getByTestId('start-game')).toBeInTheDocument();
+        fireEvent.click(screen.getByTestId('start-game'));
+        await waitFor(() => screen.getByText('¿Capital de Francia?'));
+        expect(screen.getByText('¿Capital de Francia?')).toBeInTheDocument();
+    });
+
+    it('cambia el color de los botones dependiendo de la respuesta seleccionada', async () => {
+    render(<BrowserRouter><Game /></BrowserRouter>);
+
+    fireEvent.click(screen.getByTestId('start-game'));
+
+    await waitFor(() => screen.getByText('¿Capital de Francia?'));
+
+    const correctBtn = screen.getByText('París');
+    fireEvent.click(correctBtn);
+
+    await waitFor(() => {
+        expect(screen.getByText('¡Correcto!')).toBeInTheDocument();
+    });
+    expect(correctBtn).toHaveStyle('background-color: rgb(76, 175, 80)');
+
+    const wrongBtn = screen.getByText('Londres');
+    expect(wrongBtn).toHaveStyle('background-color: rgb(25, 118, 210)');
+});
+
+it('muestra la respuesta correcta cuando el tiempo se acaba', async () => {
+    render(<BrowserRouter><Game /></BrowserRouter>);
+
+    fireEvent.click(screen.getByTestId('start-game'));
+
+    await waitFor(() => screen.getByText('¿Capital de Francia?'));
+    const timeoutButton = screen.getByTestId('timeout-button');
+    fireEvent.click(timeoutButton);
+
+    await waitFor(() => {
+        expect(screen.getByText('Incorrecto.')).toBeInTheDocument();
+    });
+    expect(screen.getByText('París')).toBeInTheDocument();
+});
 });
