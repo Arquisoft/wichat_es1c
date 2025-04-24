@@ -3,6 +3,8 @@ import { render, screen, waitFor, fireEvent, act } from '@testing-library/react'
 import axios from 'axios';
 import { BrowserRouter } from 'react-router-dom';
 import Game from './Game';
+import { MemoryRouter } from 'react-router-dom'; // Importa MemoryRouter
+
 
 // Mock de axios
 jest.mock('axios');
@@ -223,5 +225,6 @@ it('muestra un mensaje de error si no se reciben preguntas del servidor', async 
     fireEvent.click(screen.getByTestId('start-game'));
     await waitFor(() => screen.getByText('Cargando preguntas...'));
 });
+
 
 });
