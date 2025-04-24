@@ -9,7 +9,6 @@ import PersonIcon from '@mui/icons-material/Person';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import HelpIcon from '@mui/icons-material/Help';
 
-
 const TopNavbar = () => {
   const navigate = useNavigate();
 
@@ -156,9 +155,9 @@ const TopNavbar = () => {
           TransitionComponent={Fade}
           sx={{
             '& .MuiPaper-root': {
-              bgcolor: '#2c2c2c',
+              bgcolor: '#321552',
               color: '#f9f9f9',
-              boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.2)',
+              boxShadow: '0px 4px 20px rgb(255, 255, 255)',
               borderRadius: '8px',
               padding: '8px',
             },
