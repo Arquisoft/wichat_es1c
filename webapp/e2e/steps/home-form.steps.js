@@ -5,9 +5,9 @@ const feature = loadFeature('./features/home-form.feature');
 
 let page;
 let browser;
-let email = `e2e@test.com`;
+let email = `e2e${Date.now()}@test.com`;
 let password = 'testpassword';
-let name = `e2e`
+let name = `Test E2E`
 
 defineFeature(feature, test => {
   beforeAll(async () => {
@@ -31,6 +31,7 @@ defineFeature(feature, test => {
       await page.type('input[type="text"]', "Test E2E");
       await page.type('input[type="email"]', email);
       await page.type('input[type="password"]', password);
+      await page.type('[data-testid="confirm-pass-input"]', password);
       await page.click('button.register-button');
       await page.waitForNavigation({ waitUntil: 'networkidle0' });
     });

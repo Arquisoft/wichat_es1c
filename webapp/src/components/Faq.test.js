@@ -2,7 +2,9 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import FAQ from './Faq';
+import { useNavigate } from 'react-router-dom';
 
+// Mock de react-router-dom
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: jest.fn(),
@@ -37,4 +39,5 @@ describe('FAQ Component', () => {
       expect(screen.getByText(question)).toBeInTheDocument();
     });
   });
+
 });
