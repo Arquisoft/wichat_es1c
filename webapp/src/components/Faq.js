@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Accordion, AccordionSummary, AccordionDetails, Typography, Container, Button } from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Container } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate } from 'react-router-dom';
 import OptionsDropdown from './OptionsDropdown';
@@ -70,7 +70,7 @@ const FAQ = () => {
             {faqs.map((faq, index) => (
                 <Accordion
                     key={index}
-                    expanded={expanded === `panel${index}`} // Se despliega solo el panel seleccionado
+                    expanded={expanded == `panel${index}`} // Se despliega solo el panel seleccionado
                     onChange={handleChange(`panel${index}`)} // Cambiar el estado cuando se expande o colapsa
                     style={{ marginBottom: "10px" }}
                 >
