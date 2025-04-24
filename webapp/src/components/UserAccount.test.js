@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import UserAccount from './UserAccount';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
@@ -86,6 +86,31 @@ describe('UserAccount Component', () => {
     expect(await screen.findByText(/Total de partidas jugadas: 2/)).toBeInTheDocument();
     expect(document.querySelector('svg')).toBeInTheDocument(); 
   });
+  test('muestra datos del tooltip del gráfico', async () => {
+    render(<UserAccount />);
+    expect(await screen.findByText(/75.00%/)).toBeInTheDocument(); // Uno de los puntos del gráfico
+  });
+  
+  test('permite editar y guardar cambios del perfil', async () => {
+    render(<UserAccount />);
+    const editButton = await screen.findByText(/Editar Perfil/);
+    fireEvent.click(editButton);
+  
+    // Espera que aparezca el input
+    const nameInput = await screen.findByLabelText(/Nombre/i);
+    fireEvent.change(nameInput, { target: { value: 'Nuevo Nombre' } });
+  
+    const currentPasswordInput = screen.getByLabelText(/Contraseña actual/i);
+    fireEvent.change(currentPasswordInput, { target: { value: '123456' } });
+  
+    const saveButton = screen.getByText(/Guardar/i);
+  
+    axios.put.mockResolvedValueOnce({}); // mockeamos éxito
+    fireEvent.click(saveButton);
+  
+    expect(axios.put).toHaveBeenCalled();
+  });
+  
   
   
 });
