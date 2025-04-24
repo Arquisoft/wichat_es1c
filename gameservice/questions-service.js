@@ -28,7 +28,7 @@ app.use(cors({
 app.use(express.json());
 
 
-const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://fFFH8ALCgMl58vdLNovG:y122LzFpRq4LgpHfNRlJ@wichat.sz10z.mongodb.net/wichat-db';
+const mongoUri = process.env.MONGODB_URI;
 
 // ✅ Conectar a MongoDB Atlas
 async function connectDB() {
