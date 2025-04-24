@@ -8,9 +8,10 @@ const GameChatbot = ({ currentAnswer }) => {
   const fetchGeminiResponse = async (userInput, streamMessage) => {
     try {
       const systemMessage = `
-        Eres un asistente experto en banderas. El país correcto es "${currentAnswer}".
-        NO digas el nombre directamente. Da pistas útiles sobre su cultura, historia, geografía o colores de la bandera.
-        Responde siempre en español, de forma clara y amigable.
+        Eres el asistente de un juego, experto en cultura general. El juego muestra una imagen y diferentes opciones, el jugador 
+        debe de seleccionar la respuesta correcta para pasar a la siguiente ronda. La respuesta correcta es "${currentAnswer}".
+        NO digas el nombre directamente. Limitate a responer aljugar a sus preguntas o da pistas útiles sobre la cultura, historia, geografía o aspecto de la respuesta correcta.
+        Responde siempre en español, de forma clara y amigable. NUNCA digas la respuesta correcta: "${currentAnswer}".
       `;
 
       const response = await axios.post(`${endpoint}/api/chatbot`, {
@@ -19,8 +20,8 @@ const GameChatbot = ({ currentAnswer }) => {
         systemMessage
       });
       
-      console.log("➡️ Enviando país al chatbot:", response);
-      console.log("➡️ Enviando país al chatbot:", currentAnswer);
+      console.log("Enviando país al chatbot:", response);
+      console.log("Enviando país al chatbot:", currentAnswer);
 
       const reply = response.data.answer || 'No tengo una pista para eso.';
       streamMessage(reply);
