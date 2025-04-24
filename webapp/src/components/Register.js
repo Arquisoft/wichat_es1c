@@ -128,7 +128,7 @@ const Register = () => {
           inputProps={{ 'data-testid': 'confirm-pass-input' }}
           margin="normal"
           fullWidth
-          label="Confirmar"
+          label="Confirmar contraseña"
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}

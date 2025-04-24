@@ -25,6 +25,11 @@ app.post('/api/login', async (req, res) => {
 
   try {
     console.log("🔹 Buscando usuario en la base de datos...");
+
+    if (typeof email !== 'string') {
+      throw new Error('Invalid email format');
+    }
+
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -69,6 +74,11 @@ app.post('/api/register', async (req, res) => {
   try {
     // Verificar si el usuario ya existe con Mongoose
     console.log("🔹 Verificando si el usuario ya existe...");
+
+    if (typeof email !== 'string') {
+      throw new Error('Invalid email format');
+    }
+
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       console.log("⚠️ El usuario ya existe:", email);
@@ -134,6 +144,28 @@ app.put('/updateUser', async (req, res) => {
   } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Error al actualizar el usuario' });
+  }
+});
+
+app.post('/deleteUser', async (req, res) => {
+  const {email} = req.body;
+
+  try {
+
+    if (typeof email !== 'string') {
+      throw new Error('Invalid email format');
+    }
+
+      const user = await User.findOne({email});
+
+      if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
+
+      await user.deleteOne()
+
+      res.json({ message: 'Usuario eliminado correctamente' });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error al eliminar el usuario' });
   }
 });
 

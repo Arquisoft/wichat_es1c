@@ -86,6 +86,7 @@ const FAQ = () => {
                     </AccordionDetails>
                 </Accordion>
             ))}
+            <button onClick={handleGoHome}>Home</button>
         </Container>
         </>
     );
