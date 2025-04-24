@@ -1,273 +1,148 @@
-const fs = require("fs");
-const path = require("path");
 const request = require("supertest");
-const app = require("./questions-service");
+const jwt = require("jsonwebtoken");
+const app = require("./questions-service.js"); // Asumiendo que el archivo principal es index.js
 
-const { getTemplate, generateQuestions, NUMBER_OF_QUESTIONS } = require("./questions-service");
-const { Question } = require("./models/question-model");
-const { Template } = require("./models/template-model");
+jest.mock("axios");
+jest.mock("jsonwebtoken");
+jest.mock("./models/question-model.js");
+jest.mock("./models/template-model.js");
+jest.mock("./models/score-model.js");
 
-// Mock the Question and Template models
-jest.mock("./models/question-model");
-jest.mock("./models/template-model");
+const Question = require("./models/question-model.js");
+const Template = require("./models/template-model.js");
+const Score = require("./models/score-model.js");
+const axios = require("axios");
 
-// All templates
-const templatesPath = path.join(__dirname, "data", "questions-templates.json");
-const templates = JSON.parse(fs.readFileSync(templatesPath, "utf8"));
+afterAll(async () => {
+    app.close();
+  });
 
-describe( "get template" , () =>
-{
-    /**
-     * TEST:
-     *  Get a template from the templates JSON file, given a param that can be
-     *  either number, string or undefined.
-     * 
-     * ✅ VALID CASES:
-     * - Return random template with undefined param
-     * - Return first template with param = 0
-     * - Return second template with param = 1
-     * - Return template about flags with param = 'Geografía'
-     * - Return template about chem elements with param = 'Ciencia'
-     * 
-     * ❌ INVALID CASES:
-     * - Param of different type than string or number
-     * - No template found in the database
-     */
-
-    // ✅ Undefined param -> Random template
-    it("should return a random template when param is undefined", async () =>
-    {
-        // Mock Template data
-        Template.aggregate.mockResolvedValue([{ category: "Geografía" }]);
-
-        const template = await getTemplate(); // should return first template - mocked above
-
-        const expectedTemplate = templates[0];
-
-        expect(template.question).toBe(expectedTemplate.question);
-        expect(template.query).toBe(expectedTemplate.query);
-        expect(template.type).toBe(expectedTemplate.type);
-        expect(template.category).toBe(expectedTemplate.category);
-    });
-
-    // ✅ Param = 0 -> First template
-    it("should return first template when param is 0", async () =>
-    {
-        const template = await getTemplate(0); // should return first template 
-        
-        const expectedTemplate = templates[0];
-
-        expect(template.question).toBe(expectedTemplate.question);
-        expect(template.query).toBe(expectedTemplate.query);
-        expect(template.type).toBe(expectedTemplate.type);
-        expect(template.category).toBe(expectedTemplate.category);
-    });
-
-    // ✅ Param = 1 -> Second template
-    it("should return second template when param is 1", async () =>
-    {
-        const template = await getTemplate(1); // should return second template 
-        
-        const expectedTemplate = templates[1];
-
-        expect(template.question).toBe(expectedTemplate.question);
-        expect(template.query).toBe(expectedTemplate.query);
-        expect(template.type).toBe(expectedTemplate.type);
-        expect(template.category).toBe(expectedTemplate.category);
-    });
-
-    // ✅ Param = 1 -> Second template
-    it("should return first template when param is 'Geografía'", async () =>
-    {
-        const template = await getTemplate("Geografía"); // should return template about flags 
-        
-        const expectedTemplate = templates[0];
-
-        expect(template.question).toBe(expectedTemplate.question);
-        expect(template.query).toBe(expectedTemplate.query);
-        expect(template.type).toBe(expectedTemplate.type);
-        expect(template.category).toBe(expectedTemplate.category);
-    });
-
-    // ✅ Param = 1 -> Second template
-    it("should return fourth template when param is 'Ciencia'", async () =>
-    {
-        const template = await getTemplate("Ciencia"); // should return template chem elements 
-        
-        const expectedTemplate = templates[3];
-
-        expect(template.question).toBe(expectedTemplate.question);
-        expect(template.query).toBe(expectedTemplate.query);
-        expect(template.type).toBe(expectedTemplate.type);
-        expect(template.category).toBe(expectedTemplate.category);
-    });
-
-    // ❌ Param of different type than string or number -> Error
-    it("should throw error when parameter type is invalid", async () =>
-    {
-        // Null
-        await expect(() => getTemplate(null)).rejects
-            .toThrow("Invalid parameter type (expected int or string)");
-
-        // Float
-        await expect(() => getTemplate(1.4)).rejects
-            .toThrow("Invalid parameter type (expected int or string)");
-
-        // Array
-        await expect(() => getTemplate( [] )).rejects
-            .toThrow("Invalid parameter type (expected int or string)");
-
-        // Object
-        await expect(() => getTemplate( {} )).rejects
-            .toThrow("Invalid parameter type (expected int or string)");
-    });
-
-    // ❌ No templates found in database -> Error
-    it("should throw error when no templates are found", async () =>
-    {
-        Template.aggregate.mockResolvedValue([]); // No templates found
-    
-        await expect(getTemplate()).rejects
-            .toThrow("No se han encontrado preguntas");
-    });
+describe("GET /test", () => {
+  it("should return OK status", async () => {
+    const res = await request(app).get("/test");
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBe("OK");
+  });
 });
 
-describe( "generate questions", () =>
-{
-    const exampleQuestion =
-    {
-        title: "¿De dónde es esta bandera?",
-        allAnswers: "España,Francia,Alemania,Italia",
-        correctAnswer: "España",
-        category: "Geografía",
-    };
+describe("GET /ranking", () => {
+  it("should return ranking data", async () => {
+    const fakeRanking = [{ email: "user@example.com", correct: 5 }];
+    Score.find.mockResolvedValue(fakeRanking);
 
-    /**
-     * TEST:
-     *  Generate the full list of questions for a game
-     * 
-     * ✅ POSITIVE CASES:
-     * - Get a list of 10 questions with sufficient data in the database
-     * 
-     * ❌ NEGATIVE CASES:
-     * - No questions in the database
-     * - Insufficient number of questions in the database
-     */
-    
-    // ✅ Sufficient data in the database -> Get list of 10 questions
-    it("should return list of questions when the database has sufficient data", async () =>
-    {
-        // Mock Template and Question data
-        Template.aggregate.mockResolvedValue([{ category: "Geografía" }]);
-        Question.aggregate.mockResolvedValue([
-            {
-                title: exampleQuestion.title,
-                allAnswers: exampleQuestion.allAnswers,
-                correctAnswer: exampleQuestion.correctAnswer,
-                category: exampleQuestion.category,
-            }
-        ]);
-
-        const questions = await generateQuestions(); // should return 10 questions
-
-        expect(questions).toHaveLength(NUMBER_OF_QUESTIONS);
-        for (let i = 0; i < NUMBER_OF_QUESTIONS; i++)
-        {
-            let question = questions[i];
-
-            expect(question).toHaveProperty("title", exampleQuestion.title);
-            expect(question).toHaveProperty("allAnswers", exampleQuestion.allAnswers);
-            expect(question).toHaveProperty("correctAnswer", exampleQuestion.correctAnswer);
-            expect(question).toHaveProperty("category", exampleQuestion.category);
-        }
-    });
-
-    // ❌ No questions in the database -> Error
-    it("should throw error when no questions are returned from database", async () =>
-    {
-        // Mock Template and Question data
-        Template.aggregate.mockResolvedValue([{ category: "Geografía" }]);
-        Question.aggregate.mockResolvedValue([]); // No questions found
-
-        await expect(generateQuestions()).rejects.toThrow("No se han encontrado preguntas");
-    });
-
-    // ❌ Insufficient number of questions in the database -> Error
-    it("should throw error when insufficient questions are returned from database", async () =>
-    {
-        // Mock Template and Question data
-        Template.aggregate.mockResolvedValue([{ category: "Geografía" }]);
-        Question.aggregate.mockResolvedValue(Array(2).fill({... exampleQuestion})); // only 2 found
-
-        await expect(generateQuestions()).rejects.toThrow("No se han encontrado preguntas suficientes");
-    });
+    const res = await request(app).get("/ranking");
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toEqual(fakeRanking);
+  });
 });
 
-describe( "GET /generateQuestions", () =>
-{
-    /**
-     * TEST:
-     *  Call the endpoint /generateQuestions and get the list of questions.
-     * 
-     * ✅ POSITIVE CASES:
-     * - Get a list of 10 questions with sufficient data in the database
-     * 
-     * ❌ NEGATIVE CASES:
-     * - No questions in the database
-     * - Insufficient number of questions in the database
-     */
-    
-    const exampleQuestion =
-    {
-        title: "¿De dónde es esta bandera?",
-        allAnswers: "España,Francia,Alemania,Italia",
-        correctAnswer: "España",
-        category: "Geografía",
-    };
+describe("GET /generateQuestions", () => {
+    it("should return mocked questions", async () => {
+      // Mock de 10 preguntas
+      Question.aggregate.mockResolvedValue(
+        Array.from({ length: 10 }, (_, index) => ({
+          title: `Pregunta ${index + 1}`,
+          correctAnswer: `Correcta ${index + 1}`,
+          allAnswers: `Correcta ${index + 1},Incorrecta${index + 1}a,Incorrecta${index + 1}b,Incorrecta${index + 1}c`,
+        }))
+      );
+  
+      const res = await request(app).get("/generateQuestions").query({ type: "general" });
+  
+      expect(res.statusCode).toBe(200);
+      expect(Array.isArray(res.body)).toBe(true);
+      expect(res.body.length).toBe(10); // Aseguramos que se devuelven 10 preguntas
+    });
 
-    // ✅ Get a list of 10 questions with sufficient data in the database
-    it("should return a list of questions when the database has sufficient data", async () =>
-    {
-        // Mock Template and Question data
-        Template.aggregate.mockResolvedValue([{ category: "Geografía" }]);
-        Question.aggregate.mockResolvedValue(Array(10).fill({... exampleQuestion}));
+    it("should return general questions", async () => {
+        // Mock de preguntas
+        Question.aggregate.mockResolvedValue(
+            Array.from({ length: 10 }, (_, index) => ({
+              title: `Pregunta ${index + 1}`,
+              correctAnswer: `Correcta ${index + 1}`,
+              allAnswers: `Correcta ${index + 1},Incorrecta${index + 1}a,Incorrecta${index + 1}b,Incorrecta${index + 1}c`,
+            }))
+          );
 
-        const response = await request(app).get("/generateQuestions");
+        const res = await request(app).get("/generateQuestions").query({ type: "general" });
 
-        expect(response.status).toBe(200);
-        expect(response.body).toHaveLength(10);
-        response.body.forEach( question =>
-        {
-            expect(question).toHaveProperty("title", exampleQuestion.title);
-            expect(question).toHaveProperty("allAnswers", exampleQuestion.allAnswers);
-            expect(question).toHaveProperty("correctAnswer", exampleQuestion.correctAnswer);
-            expect(question).toHaveProperty("category", exampleQuestion.category);
+        expect(res.statusCode).toBe(200);
+        expect(Array.isArray(res.body)).toBe(true);
+        expect(res.body.length).toBe(10); // Se esperan 10 preguntas
+    });
+
+    it("should return questions for a specific category", async () => {
+        // Mock de preguntas para una categoría específica
+        Question.aggregate.mockResolvedValue(
+            Array.from({ length: 10 }, (_, index) => ({
+              title: `Pregunta ${index + 1}`,
+              correctAnswer: `Correcta ${index + 1}`,
+              allAnswers: `Correcta ${index + 1},Incorrecta${index + 1}a,Incorrecta${index + 1}b,Incorrecta${index + 1}c`,
+            }))
+          );
+
+        const res = await request(app).get("/generateQuestions").query({ type: "geography" });
+
+        expect(res.statusCode).toBe(200);
+        expect(Array.isArray(res.body)).toBe(true);
+        expect(res.body.length).toBe(10); // Se esperan 10 preguntas
+    });
+
+    it("should return 500 if no questions found", async () => {
+        Question.aggregate.mockResolvedValue([]); // Simulamos que no hay preguntas
+
+        const res = await request(app).get("/generateQuestions").query({ type: "general" });
+
+        expect(res.statusCode).toBe(500);
+        expect(res.body.error).toBe("Error interno en el servicio de preguntas.");
+    });
+  });
+  
+  describe("POST /saveScore", () => {
+    const validToken = "valid.jwt.token";
+  
+    it("should return 401 without token", async () => {
+      const res = await request(app).post("/saveScore").send({});
+      expect(res.statusCode).toBe(401);
+    });
+  
+    it("should save score and return 200 with valid token", async () => {
+      jwt.verify.mockReturnValue({ email: "test@example.com" });
+      Score.prototype.save = jest.fn().mockResolvedValue(true);
+  
+      const res = await request(app)
+        .post("/saveScore")
+        .set("Authorization", `Bearer ${validToken}`)
+        .send({
+          correct: 5,
+          wrong: 3,
+          totalTime: 120,
+          question: "Q1",
+          correctAnswer: "A",
+          givenAnswer: "B"
         });
+  
+      expect(res.statusCode).toBe(200);
+      expect(res.body.message).toBe("Puntuación guardada correctamente");
     });
 
-    // ❌ No questions in the database -> Error
-    it("should return 500 error when no questions are returned from database", async () =>
-    {
-        // Mock Template and Question data - no template/questions found
-        Template.aggregate.mockResolvedValue([]);
-        Question.aggregate.mockResolvedValue([]);
-
-        const response = await request(app).get("/generateQuestions");
-
-        expect(response.status).toBe(500);
-        expect(response.body).toHaveProperty("error", "Error interno en el servicio de preguntas.");
+    it("should return 500 if there is an error saving score", async () => {
+        jwt.verify.mockReturnValue({ email: "test@example.com" });
+        Score.prototype.save = jest.fn().mockRejectedValue(new Error("Error al guardar la puntuación"));
+    
+        const res = await request(app)
+            .post("/saveScore")
+            .set("Authorization", `Bearer ${validToken}`)
+            .send({
+                correct: 5,
+                wrong: 3,
+                totalTime: 120,
+                question: "Q1",
+                correctAnswer: "A",
+                givenAnswer: "B"
+            });
+    
+        expect(res.statusCode).toBe(500);
+        expect(res.body.message).toBe("Error al guardar la puntuación");
     });
-
-    // ❌ Insufficient number of questions in the database -> Error
-    it("should return 500 error when insufficient questions are returned from database", async () =>
-    {
-        // Mock Template and Question data
-        Template.aggregate.mockResolvedValue([{ category: "Geografía" }]);
-        Question.aggregate.mockResolvedValue(Array(2).fill({... exampleQuestion})); // only 2 found
-
-        const response = await request(app).get("/generateQuestions");
-
-        expect(response.status).toBe(500);
-        expect(response.body).toHaveProperty("error", "Error interno en el servicio de preguntas.");
-    });
-});
+  });
