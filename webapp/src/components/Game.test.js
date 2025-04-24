@@ -214,4 +214,14 @@ it('muestra la respuesta correcta cuando el tiempo se acaba', async () => {
     });
     expect(screen.getByText('París')).toBeInTheDocument();
 });
+
+it('muestra un mensaje de error si no se reciben preguntas del servidor', async () => {
+    axios.get.mockResolvedValueOnce({ data: [] });
+
+    render(<BrowserRouter><Game /></BrowserRouter>);
+
+    fireEvent.click(screen.getByTestId('start-game'));
+    await waitFor(() => screen.getByText('Cargando preguntas...'));
+});
+
 });
