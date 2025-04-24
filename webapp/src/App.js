@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { AuthProvider } from './context/AuthContext';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Login from './components/Login.js';
@@ -13,26 +13,23 @@ import ProtectedRoute from './components/ProtectedRoute';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles'; 
-import Button from '@mui/material/Button';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import './App.css';
 
 function App() {
   const location = useLocation();
-  const [darkMode, setDarkMode] = useState(false);
 
-  // Crear tema en base al estado del darkMode
   const theme = createTheme({
     palette: {
-      mode: darkMode ? 'dark' : 'light', // Cambiar entre 'dark' y 'light'
+      mode: 'light',
     },
   });
 
   useEffect(() => {
-    // Cambiar el fondo según el estado del modo oscuro
-    const background = darkMode ? '/FondoWichat_2.png' : '/FondoWichat.png'; 
+    const background = '/FondoWichat.png'; 
+
     document.body.style.backgroundImage = `url(${background})`;
-  }, [darkMode]);
+  }, []);
 
   return (
     <AuthProvider>
