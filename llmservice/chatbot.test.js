@@ -1,6 +1,3 @@
-require('dotenv').config();
-
-process.env.GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 const request = require('supertest');
 const axios = require('axios');
