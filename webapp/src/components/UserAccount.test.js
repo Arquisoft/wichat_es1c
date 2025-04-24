@@ -73,5 +73,19 @@ describe('UserAccount Component', () => {
     expect(await screen.findByText(/Usuario: Usuario/)).toBeInTheDocument();
     expect(screen.getByText(/Correo: test@testing/)).toBeInTheDocument();
   });
+
+  test('carga correctamente las estadísticas del usuario', async () => {
+    localStorage.setItem('userEmail', 'test@testing');
+    render(<UserAccount />);
+  
+    expect(await screen.findByText(/Total de partidas jugadas: 2/)).toBeInTheDocument();
+  });
+  test('renderiza correctamente el gráfico de estadísticas', async () => {
+    render(<UserAccount />);
+  
+    expect(await screen.findByText(/Total de partidas jugadas: 2/)).toBeInTheDocument();
+    expect(document.querySelector('svg')).toBeInTheDocument(); 
+  });
+  
   
 });
