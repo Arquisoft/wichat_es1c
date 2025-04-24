@@ -58,5 +58,20 @@ describe('UserAccount Component', () => {
     render(<UserAccount />);
     expect(await screen.findByText(/Total de partidas jugadas: 2/)).toBeInTheDocument();
     expect(document.querySelector('svg')).toBeInTheDocument(); 
+  }); 
+
+  test('permite editar el perfil y cancelar los cambios', async () => {
+    render(<UserAccount />);
+    expect(await screen.findByText(/Usuario: Usuario/)).toBeInTheDocument();
+  
+    const editButton = screen.getByText(/Editar Perfil/i);
+    editButton.click();
+  
+    const cancelButton = await screen.findByText(/Cancelar/i);
+    cancelButton.click();
+    
+    expect(await screen.findByText(/Usuario: Usuario/)).toBeInTheDocument();
+    expect(screen.getByText(/Correo: test@testing/)).toBeInTheDocument();
   });
+  
 });
