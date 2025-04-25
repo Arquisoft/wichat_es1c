@@ -28,7 +28,7 @@ app.use(cors({
 app.use(express.json());
 
 
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/questionsDB';
+const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://fFFH8ALCgMl58vdLNovG:y122LzFpRq4LgpHfNRlJ@wichat.sz10z.mongodb.net/wichat-db';
 mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => {return Template.deleteMany({})})
 .then(() => {return Template.insertMany(templates)});;

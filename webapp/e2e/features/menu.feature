@@ -1,6 +1,6 @@
-Feature: Menu navigation
+Feature: Accessing the FAQ
 
-  Scenario: The user logs in and opens the FAQ from the menu
-    Given A valid user
-    When I log in and click the HELP button
-    Then I should be redirected to the FAQ page
+  Scenario: The user logs in and accesses the FAQ
+    Given I am on the login page
+    When I log in with valid credentials and open the FAQ menu
+    Then I should see the FAQ page with the questions

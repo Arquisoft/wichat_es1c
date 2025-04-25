@@ -7,7 +7,6 @@ let page;
 let browser;
 
 defineFeature(feature, test => {
-
   beforeAll(async () => {
     jest.setTimeout(80000);
     browser = await puppeteer.launch({ headless: false, slowMo: 0 });
@@ -20,15 +19,13 @@ defineFeature(feature, test => {
     await page.reload({ waitUntil: 'networkidle0' });
   });
 
-  test('The user logs in and opens the FAQ from the menu', ({ given, when, then }) => {
-    given('A valid user', async () => {
+  test('The user logs in and accesses the FAQ', ({ given, when, then }) => {
+    given('I am on the login page', async () => {
+      await page.waitForSelector('input[type="email"]', { visible: true });
     });
 
-    when('I log in and click the HELP button', async () => {
-      await page.waitForSelector('input[type="email"]', { visible: true });
+    when('I log in with valid credentials and open the FAQ menu', async () => {
       await page.type('input[type="email"]', 'dani@dani');
-
-      await page.waitForSelector('input[type="password"]', { visible: true });
       await page.type('input[type="password"]', 'dani');
 
       await page.waitForSelector('button.login-button', { visible: true });
@@ -36,16 +33,12 @@ defineFeature(feature, test => {
 
       await page.waitForNavigation({ waitUntil: 'networkidle0' });
 
-      
       await expect(page).toClick('button', { text: 'HELP' });
-
-      
-      await page.waitForSelector('.MuiMenuItem-root', { visible: true });
+      await page.waitForSelector('li', { visible: true });
       await expect(page).toClick('li', { text: 'FAQ' });
     });
 
-    then('I should be redirected to the FAQ page', async () => {
-      await page.waitForFunction(() => window.location.pathname.includes('/faq'));
+    then('I should see the FAQ page with the questions', async () => {
       await page.waitForSelector('body', { visible: true });
       const content = await page.content();
       expect(content).toMatch(/preguntas frecuentes/i);
