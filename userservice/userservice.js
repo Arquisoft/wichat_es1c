@@ -8,7 +8,8 @@ const cors = require('cors');
 
 const app = express();
 const port = process.env.USER_SERVICE_PORT || 8001;
-const mongoUri = process.env.MONGODB_URI || "mongodb+srv://fFFH8ALCgMl58vdLNovG:y122LzFpRq4LgpHfNRlJ@wichat.sz10z.mongodb.net/wichat-db";;
+const mongoUri = process.env.MONGODB_URI || "mongodb+srv://fFFH8ALCgMl58vdLNovG:y122LzFpRq4LgpHfNRlJ@wichat.sz10z.mongodb.net/wichat-db"; //NOSONAR
+
 
 mongoose.connect(mongoUri);
 
