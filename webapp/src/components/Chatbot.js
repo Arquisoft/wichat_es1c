@@ -10,7 +10,7 @@ const GameChatbot = ({ currentAnswer }) => {
       const systemMessage = `
         Eres el asistente de un juego, experto en cultura general. El juego muestra una imagen y diferentes opciones, el jugador 
         debe de seleccionar la respuesta correcta para pasar a la siguiente ronda. La respuesta correcta es "${currentAnswer}".
-        NO digas el nombre directamente. Limitate a responer aljugar a sus preguntas o da pistas útiles sobre la cultura, historia, geografía o aspecto de la respuesta correcta.
+        NO digas el nombre directamente. Limitate a responer al jugar a sus preguntas o da pistas útiles sobre la cultura, historia, geografía o aspecto de la respuesta correcta.
         Responde siempre en español, de forma clara y amigable. NUNCA digas la respuesta correcta: "${currentAnswer}".
       `;
 
@@ -33,13 +33,13 @@ const GameChatbot = ({ currentAnswer }) => {
 
   const flow = {
     start: {
-      message: '¡Hola! Soy tu asistente de banderas. ¿Necesitas una pista sobre alguna bandera? 🤔',
+      message: '¡Hola! Soy Jack, un sabelotodo, ¿Necesitas una pista ?',
       path: 'await_user_input'
     },
     await_user_input: {
       message: async ({ userInput, streamMessage }) => {
         if (!currentAnswer) {
-          streamMessage('⚠️ No tengo información sobre la bandera actual.');
+          streamMessage('⚠️ No tengo información sobre la pregunta actual.');
           return;
         }
 
