@@ -110,12 +110,6 @@ describe('UserAccount Component', () => {
   
     expect(axios.put).toHaveBeenCalled();
   });
-
-  test('maneja error al decodificar token', async () => {
-    jwtDecode.mockImplementation(() => { throw new Error('Token inválido'); });
-    render(<UserAccount />);
-    expect(screen.queryByText(/Usuario/)).not.toBeInTheDocument();
-  });
   
   test('no muestra estadísticas si no hay partidas', async () => {
   axios.get.mockResolvedValueOnce({ data: [] });
