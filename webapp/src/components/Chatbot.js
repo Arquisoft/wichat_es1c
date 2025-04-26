@@ -33,13 +33,13 @@ const GameChatbot = ({ currentAnswer }) => {
 
   const flow = {
     start: {
-      message: '¡Hola! Soy tu asistente de banderas. ¿Necesitas una pista sobre alguna bandera? 🤔',
+      message: '¡Hola! Soy Jack, un sabelotodo, ¿Necesitas una pista ?',
       path: 'await_user_input'
     },
     await_user_input: {
       message: async ({ userInput, streamMessage }) => {
         if (!currentAnswer) {
-          streamMessage('⚠️ No tengo información sobre la bandera actual.');
+          streamMessage('⚠️ No tengo información sobre la pregunta actual.');
           return;
         }
 
