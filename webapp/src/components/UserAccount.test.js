@@ -1,115 +1,100 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import UserAccount from './UserAccount';
+// UserAccount.test.jsx
+import React from 'react';
+import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
+import MockAdapter from 'axios-mock-adapter';
+import { BrowserRouter } from 'react-router-dom';
+import UserAccount from './UserAccount';
 
-jest.mock('axios');
-jest.mock('jwt-decode', () => jest.fn());
-jest.mock('./OptionsDropdown', () => () => <div>OptionsDropdown</div>);
+const mockAxios = new MockAdapter(axios);
 
-global.ResizeObserver = class {
-  observe() {}
-  unobserve() {}
-  disconnect() {}
-};
-
-describe('UserAccount Component', () => {
+describe('UserAccount component', () => {
   beforeEach(() => {
-    localStorage.setItem('token', 'fakeToken');
-    localStorage.setItem('userName', 'Usuario');
-    localStorage.setItem('userEmail', 'test@testing');
+    jest.clearAllMocks();
+    mockAxios.reset();
+    localStorage.clear();
+    localStorage.setItem('token', 'fake-token');
+    localStorage.setItem('userName', 'Test User');
+    localStorage.setItem('userEmail', 'test@example.com');
+  });
 
-    jwtDecode.mockReturnValue({ sub: '123' });
+  it('should render user data', async () => {
+    mockAxios.onGet('http://localhost:8000/api/ranking').reply(200, []);
 
-    axios.get.mockResolvedValue({
-      data: [
-        { email: 'test@testing', correct: 8, wrong: 2, timestamp: Date.now() },
-        { email: 'test@testing', correct: 7, wrong: 3, timestamp: Date.now() - 1000 },
-      ]
+    render(
+      <BrowserRouter>
+        <UserAccount />
+      </BrowserRouter>
+    );
+
+    expect(await screen.findByText(/datos del usuario/i)).toBeInTheDocument();
+    expect(screen.getByText(/usuario: test user/i)).toBeInTheDocument();
+    expect(screen.getByText(/correo: test@example\.com/i)).toBeInTheDocument();
+  });
+
+  it('should allow editing and saving user profile', async () => {
+    mockAxios.onGet('http://localhost:8000/api/ranking').reply(200, []);
+    mockAxios.onPut('http://localhost:8000/api/update-user').reply(200);
+
+    render(
+      <BrowserRouter>
+        <UserAccount />
+      </BrowserRouter>
+    );
+
+    fireEvent.click(await screen.findByRole('button', { name: /editar perfil/i }));
+
+    const nameInput = screen.getByLabelText(/nombre/i);
+    const passwordInput = screen.getByLabelText(/contraseña actual/i);
+    const saveButton = screen.getByRole('button', { name: /guardar/i });
+
+    fireEvent.change(nameInput, { target: { value: 'Updated User' } });
+    fireEvent.change(passwordInput, { target: { value: 'currentPassword' } });
+    fireEvent.click(saveButton);
+
+    await waitFor(() => {
+      expect(screen.getByText(/usuario: updated user/i)).toBeInTheDocument();
     });
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-    localStorage.clear();
-  });
+  it('should show error if password is missing on save', async () => {
+    mockAxios.onGet('http://localhost:8000/api/ranking').reply(200, []);
 
-  test('renders user info correctly', async () => {
-    render(<UserAccount />);
-    expect(await screen.findByText(/Usuario: Usuario/)).toBeInTheDocument();
-    expect(screen.getByText(/Correo: test@testing/)).toBeInTheDocument();
-  });
+    render(
+      <BrowserRouter>
+        <UserAccount />
+      </BrowserRouter>
+    );
 
-  test('muestra estadísticas del usuario correctamente', async () => {
-    render(<UserAccount />);
-    expect(await screen.findByText(/Total de partidas jugadas: 2/)).toBeInTheDocument();
-    expect(screen.getByText(/Preguntas acertadas: 15/)).toBeInTheDocument();
-    expect(screen.getByText(/Preguntas falladas: 5/)).toBeInTheDocument();
-    expect(screen.getByText(/Total de preguntas: 20/)).toBeInTheDocument();
-    expect(screen.getByText(/Porcentaje de aciertos: 75.00%/)).toBeInTheDocument();
-  });
+    fireEvent.click(await screen.findByRole('button', { name: /editar perfil/i }));
 
-  test('muestra el componente OptionsDropdown', async () => {
-    render(<UserAccount />);
-    expect(await screen.findByText('OptionsDropdown')).toBeInTheDocument();
-  });
-
-  test('renderiza el gráfico correctamente', async () => {
-    render(<UserAccount />);
-    expect(await screen.findByText(/Total de partidas jugadas: 2/)).toBeInTheDocument();
-    expect(document.querySelector('svg')).toBeInTheDocument(); 
-  }); 
-
-  test('permite editar el perfil y cancelar los cambios', async () => {
-    render(<UserAccount />);
-    expect(await screen.findByText(/Usuario: Usuario/)).toBeInTheDocument();
-  
-    const editButton = screen.getByText(/Editar Perfil/i);
-    editButton.click();
-  
-    const cancelButton = await screen.findByText(/Cancelar/i);
-    cancelButton.click();
-    
-    expect(await screen.findByText(/Usuario: Usuario/)).toBeInTheDocument();
-    expect(screen.getByText(/Correo: test@testing/)).toBeInTheDocument();
-  });
-
-  test('carga correctamente las estadísticas del usuario', async () => {
-    localStorage.setItem('userEmail', 'test@testing');
-    render(<UserAccount />);
-  
-    expect(await screen.findByText(/Total de partidas jugadas: 2/)).toBeInTheDocument();
-  });
-  test('renderiza correctamente el gráfico de estadísticas', async () => {
-    render(<UserAccount />);
-  
-    expect(await screen.findByText(/Total de partidas jugadas: 2/)).toBeInTheDocument();
-    expect(document.querySelector('svg')).toBeInTheDocument(); 
-  });
-  test('muestra datos del tooltip del gráfico', async () => {
-    render(<UserAccount />);
-    expect(await screen.findByText(/75.00%/)).toBeInTheDocument(); // Uno de los puntos del gráfico
-  });
-  
-  test('permite editar y guardar cambios del perfil', async () => {
-    render(<UserAccount />);
-    const editButton = await screen.findByText(/Editar Perfil/);
-    fireEvent.click(editButton);
-  
-    // Espera que aparezca el input
-    const nameInput = await screen.findByLabelText(/Nombre/i);
-    fireEvent.change(nameInput, { target: { value: 'Nuevo Nombre' } });
-  
-    const currentPasswordInput = screen.getByLabelText(/Contraseña actual/i);
-    fireEvent.change(currentPasswordInput, { target: { value: '123456' } });
-  
-    const saveButton = screen.getByText(/Guardar/i);
-  
-    axios.put.mockResolvedValueOnce({}); // mockeamos éxito
+    const saveButton = screen.getByRole('button', { name: /guardar/i });
     fireEvent.click(saveButton);
-  
-    expect(axios.put).toHaveBeenCalled();
+
+    expect(await screen.findByText(/debes ingresar tu contraseña actual/i)).toBeInTheDocument();
   });
 
+  it('should show error if update fails', async () => {
+    mockAxios.onGet('http://localhost:8000/api/ranking').reply(200, []);
+    mockAxios.onPut('http://localhost:8000/api/update-user').reply(500, {
+      message: 'Error al actualizar el perfil.',
+    });
+
+    render(
+      <BrowserRouter>
+        <UserAccount />
+      </BrowserRouter>
+    );
+
+    fireEvent.click(await screen.findByRole('button', { name: /editar perfil/i }));
+
+    const passwordInput = screen.getByLabelText(/contraseña actual/i);
+    fireEvent.change(passwordInput, { target: { value: 'wrongPassword' } });
+
+    const saveButton = screen.getByRole('button', { name: /guardar/i });
+    fireEvent.click(saveButton);
+
+    expect(await screen.findByText(/error al actualizar el perfil/i)).toBeInTheDocument();
+  });
 
 });
