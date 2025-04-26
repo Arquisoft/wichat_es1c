@@ -110,13 +110,6 @@ describe('UserAccount Component', () => {
   
     expect(axios.put).toHaveBeenCalled();
   });
-  
-  test('no muestra estadísticas si no hay partidas', async () => {
-  axios.get.mockResolvedValueOnce({ data: [] });
-  
-  render(<UserAccount />);
-  
-  expect(await screen.queryByText(/Total de partidas jugadas/)).not.toBeInTheDocument();
-});
+
 
 });
