@@ -110,6 +110,25 @@ describe('UserAccount Component', () => {
   
     expect(axios.put).toHaveBeenCalled();
   });
+  
+  test('no muestra estadísticas si no hay partidas', async () => {
+    axios.get.mockResolvedValueOnce({ data: [] });
+    
+    render(<UserAccount />);
+    
+    expect(await screen.queryByText(/Total de partidas jugadas/)).not.toBeInTheDocument();
+  });
 
-
+  test('muestra error si no se ingresa contraseña actual al guardar cambios', async () => {
+    render(<UserAccount />);
+    
+    const editButton = await screen.findByText(/Editar Perfil/);
+    fireEvent.click(editButton);
+    
+    const saveButton = await screen.findByText(/Guardar/);
+    fireEvent.click(saveButton);
+    
+    expect(await screen.findByText(/Debes ingresar tu contraseña actual/)).toBeInTheDocument();
+  });
+  
 });
