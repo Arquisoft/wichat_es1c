@@ -5,7 +5,7 @@ const cors = require("cors");
 const cron = require('node-cron');
 const fs = require('fs');
 const jwt = require("jsonwebtoken");
-
+require('dotenv').config();
 const Question = require("./models/question-model.js");
 const Template = require("./models/template-model.js");
 const Score = require("./models/score-model.js");
@@ -28,8 +28,7 @@ app.use(cors({
 app.use(express.json());
 
 
-const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://fFFH8ALCgMl58vdLNovG:y122LzFpRq4LgpHfNRlJ@wichat.sz10z.mongodb.net/wichat-db';
-
+const mongoUri = process.env.MONGODB_URI || "mongodb+srv://fFFH8ALCgMl58vdLNovG:y122LzFpRq4LgpHfNRlJ@wichat.sz10z.mongodb.net/wichat-db";
 // ✅ Conectar a MongoDB Atlas
 async function connectDB() {
     try {

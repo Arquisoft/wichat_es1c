@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import jwtDecode from 'jwt-decode';
 import {
     Container, Typography, Box, Button, TextField
 } from '@mui/material';
@@ -34,8 +33,6 @@ const UserAccount = () => {
 
         if (token) {
             try {
-                const decodedToken = jwtDecode(token);
-
                 const storedName = localStorage.getItem('userName') || 'Guest';
                 const storedEmail = localStorage.getItem('userEmail') || '';
 

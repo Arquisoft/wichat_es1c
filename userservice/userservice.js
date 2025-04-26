@@ -8,9 +8,9 @@ const cors = require('cors');
 
 const app = express();
 const port = process.env.USER_SERVICE_PORT || 8001;
-const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://fFFH8ALCgMl58vdLNovG:y122LzFpRq4LgpHfNRlJ@wichat.sz10z.mongodb.net/wichat-db';
-mongoose.connect(mongoUri);
+const mongoUri = process.env.MONGODB_URI || "mongodb+srv://fFFH8ALCgMl58vdLNovG:y122LzFpRq4LgpHfNRlJ@wichat.sz10z.mongodb.net/wichat-db";;
 
+mongoose.connect(mongoUri);
 
 // Middleware
 app.use(cors());
@@ -128,6 +128,11 @@ app.put('/updateUser', async (req, res) => {
   const { name, email, currentPassword, newPassword } = req.body;
 
   try {
+
+      if (typeof email !== 'string') {
+        throw new Error('Invalid email format');
+      }
+
       const user = await User.findOne({email});
 
       if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });

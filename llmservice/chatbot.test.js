@@ -1,4 +1,3 @@
-process.env.GEMINI_API_KEY = 'AIzaSyCjkcwRHgwuhMoc0N4hJB_bgud9NV2fv-0';
 
 const request = require('supertest');
 const axios = require('axios');
