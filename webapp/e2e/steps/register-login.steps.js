@@ -34,6 +34,7 @@ defineFeature(feature, test => {
       await page.type('[data-testid="nombre-input"]', 'Test E2E');
       await page.type('[data-testid="email-input"]', email);
       await page.type('[data-testid="pass-input"]', password);
+      await page.type('[data-testid="confirm-pass-input"]', password);
 
       await expect(page).toClick('button', { text: 'Registrarse' });
     });
@@ -41,7 +42,7 @@ defineFeature(feature, test => {
     then('The user should be redirected to the home page', async () => {
       await page.waitForNavigation({ waitUntil: 'networkidle0' });
       const url = await page.url();
-      expect(url).toBe('http://localhost:3000/home');
+      expect(url).toBe('http://localhost:3000/');
     });
 
     and('The user logs out and lands on the login page', async () => {

@@ -46,6 +46,6 @@ describe('GameChatbot', () => {
 
     await flow.await_user_input.message({ userInput: 'Hola', streamMessage });
 
-    expect(streamMessage).toHaveBeenCalledWith('⚠️ No tengo información sobre la bandera actual.');
+    expect(streamMessage).toHaveBeenCalledWith('⚠️ No tengo información sobre la pregunta actual.');
   });
 });
