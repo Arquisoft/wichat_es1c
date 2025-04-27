@@ -12,8 +12,10 @@ WIChat is an enhanced version of the experimental quiz application developed las
     ** Users can create accounts and log in to participate in the quiz.
 
 * *Question and answer game*: 
-    ** Menu for selecting question type and maximum response time per question. ** Display of images to contestants, who must guess the place or topic shown. 
-    ** Inclusion of image-related questions within the chatbot. ** Reward users for each correct answer.
+    ** Menu for selecting question type and maximum response time per question. 
+    ** Display of images to contestants, who must guess the place or topic shown. 
+    ** Inclusion of image-related questions within the chatbot. 
+    ** Reward users for each correct answer.
 
 * *Interactive hint functionality*: 
     ** Users can request hints about answers conversationally. 
