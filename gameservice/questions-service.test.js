@@ -56,6 +56,7 @@ describe("GET /generateQuestions", () => {
           title: `Pregunta ${index + 1}`,
           correctAnswer: `Correcta ${index + 1}`,
           allAnswers: `Correcta ${index + 1},Incorrecta${index + 1}a,Incorrecta${index + 1}b,Incorrecta${index + 1}c`,
+          category: "geography"
         }))
       );
   
@@ -73,6 +74,7 @@ describe("GET /generateQuestions", () => {
               title: `Pregunta ${index + 1}`,
               correctAnswer: `Correcta ${index + 1}`,
               allAnswers: `Correcta ${index + 1},Incorrecta${index + 1}a,Incorrecta${index + 1}b,Incorrecta${index + 1}c`,
+              category: "geography"
             }))
           );
 
@@ -90,6 +92,7 @@ describe("GET /generateQuestions", () => {
               title: `Pregunta ${index + 1}`,
               correctAnswer: `Correcta ${index + 1}`,
               allAnswers: `Correcta ${index + 1},Incorrecta${index + 1}a,Incorrecta${index + 1}b,Incorrecta${index + 1}c`,
+              category: "geography"
             }))
           );
 
