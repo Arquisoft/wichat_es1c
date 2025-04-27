@@ -5,9 +5,9 @@ require('dotenv').config();
 const app = express();
 const port = process.env.LLM_SERVICE_PORT || 8003;
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const LLM_API_KEY = process.env.LLM_API_KEY;
 
-if (!GEMINI_API_KEY) {
+if (!LLM_API_KEY) {
   console.error('⚠️ No se encontró la API Key de Gemini. Configúrala en .env');
 }
 
