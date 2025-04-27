@@ -60,5 +60,5 @@ class LoadApp extends Simulation {
         )
     )
 
-	setUp(scn.inject(atOnceUsers(1))).protocols(httpProtocol)
+	setUp(scn.inject(constantUsersPerSec(3).during(10))).protocols(httpProtocol)
 }

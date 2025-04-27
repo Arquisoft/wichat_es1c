@@ -73,5 +73,5 @@ class LoginAndNav extends Simulation {
         .headers(headers_2)
     )
 
-	setUp(scn.inject(atOnceUsers(1))).protocols(httpProtocol)
+	setUp(scn.inject(constantUsersPerSec(3).during(10))).protocols(httpProtocol)
 }

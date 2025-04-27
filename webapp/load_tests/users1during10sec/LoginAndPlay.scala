@@ -6,7 +6,7 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.jdbc.Predef._
 
-class Login extends Simulation {
+class LoginAndPlay extends Simulation {
 
   private val httpProtocol = http
     .baseUrl("http://localhost:8000")
@@ -30,9 +30,11 @@ class Login extends Simulation {
   )
   
   private val headers_2 = Map("If-None-Match" -> """W/"2653-tUg7FtDt9fV3I6CSMzsLLnuLsEs"""")
+  
+  private val headers_3 = Map("Priority" -> "u=0")
 
 
-  private val scn = scenario("Login")
+  private val scn = scenario("LoginAndPlay")
     .exec(
       http("request_0")
         .options("/api/login")
@@ -41,12 +43,20 @@ class Login extends Simulation {
           http("request_1")
             .post("/api/login")
             .headers(headers_1)
-            .body(RawFileBody("wichat/login/0001_request.json")),
+            .body(RawFileBody("wichat/loginandplay/0001_request.json")),
           http("request_2")
             .get("/api/ranking")
             .headers(headers_2)
-        )
+        ),
+      pause(2),
+      http("request_3")
+        .get("/api/generate-questions?type=Geograf%C3%ADa")
+        .headers(headers_3),
+      pause(5),
+      http("request_4")
+        .get("/api/ranking")
+        .headers(headers_2)
     )
 
-	setUp(scn.inject(atOnceUsers(1))).protocols(httpProtocol)
+	setUp(scn.inject(constantUsersPerSec(1).during(10))).protocols(httpProtocol)
 }
