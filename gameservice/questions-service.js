@@ -18,7 +18,7 @@ const NUMBER_OF_WRONG_ANSWERS = 3;
 const NUMBER_OF_QUESTIONS = 10
 
 const templatesPath = "./data/questions-templates.json";
-const templates = JSON.parse(fs.readFileSync(templatesPath, 'utf8'));
+const templates = require('./data/questions-templates.json')
 const endpoint = 'https://query.wikidata.org/sparql';
 
 app.use(cors({
