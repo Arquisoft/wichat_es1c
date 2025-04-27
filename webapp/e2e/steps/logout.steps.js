@@ -22,29 +22,30 @@ defineFeature(feature, test => {
 
   test('The user logs in and logs out using the logout button', ({ given, when, then }) => {
     given('A valid user', async () => {
-      // Nada que hacer aquí
     });
-
+  
     when('I log in and click the logout button', async () => {
       await page.waitForSelector('input[type="email"]', { visible: true });
       await page.type('input[type="email"]', 'test@test');
-
+  
       await page.waitForSelector('input[type="password"]', { visible: true });
       await page.type('input[type="password"]', 'test');
-
+  
       await page.waitForSelector('button.login-button', { visible: true });
       await page.click('button.login-button');
-
+  
       await page.waitForNavigation({ waitUntil: 'networkidle0' });
-
-      await page.click('[data-testid="logout-button"]');
+  
+      await page.waitForSelector('button.logout-button', { visible: true });
+      await page.click('button.logout-button');
     });
-
+  
     then('I should be redirected to the login page', async () => {
       await page.waitForSelector('.login-container', { visible: true });
       await expect(page).toMatchElement('h5', { text: 'Login' });
     });
   });
+  
 
   afterAll(async () => {
     await browser.close();

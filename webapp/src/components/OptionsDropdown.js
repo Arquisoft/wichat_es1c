@@ -133,6 +133,8 @@ const TopNavbar = () => {
           <Button
   variant="contained"
   onClick={handleLogout}
+  startIcon={<LogoutIcon />} 
+  className="logout-button"
   sx={{
     ...buttonStyle,
     bgcolor: '#d32f2f',
@@ -144,9 +146,8 @@ const TopNavbar = () => {
     alignItems: 'center',
     justifyContent: 'center',
   }}
-    data-testid="logout-button"
+
 >
-  <LogoutIcon />
        </Button>
         </Box>
         <Menu
