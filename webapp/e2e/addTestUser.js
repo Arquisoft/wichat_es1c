@@ -1,31 +1,29 @@
-const fetch = require('node-fetch');
+const axios = require('axios');
 
 /**
  * Añade un usuario al sistema usando el endpoint real de registro
  */
 async function addUserToDatabase(email, password) {
-    const response = await fetch('http://localhost:8000/api/register', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
+    try {
+        const response = await axios.post('http://localhost:8000/api/register', {
             name: "Test User",
             email: email,
             password: password,
             userRole: "user"
-        })
-    });
+        });
 
-    if (!response.ok) {
-        console.error(`Error creando usuario: ${response.status} ${response.statusText}`);
-        const errorBody = await response.text();
-        console.error(`Error response: ${errorBody}`);
+        console.log(`Usuario ${email} creado exitosamente.`);
+        return response.data;
+
+    } catch (error) {
+        if (error.response) {
+            console.error(`Error creando usuario: ${error.response.status} ${error.response.statusText}`);
+            console.error(`Error response: ${JSON.stringify(error.response.data)}`);
+        } else {
+            console.error(`Error creando usuario: ${error.message}`);
+        }
         throw new Error('Fallo al crear usuario de test');
     }
-
-    console.log(`✅ Usuario ${email} creado exitosamente.`);
-    return response.json();
 }
 
 module.exports = { addUserToDatabase };
