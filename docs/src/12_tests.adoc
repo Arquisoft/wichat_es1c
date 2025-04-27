@@ -21,7 +21,6 @@ End-to-end testing verifies the full functionality of the system, from the front
 | Flows tested |
 - User registration.
 - Login.
-- Logout.
 - Entering the game.
 - Navigation through the application.
 |===
