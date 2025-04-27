@@ -11,9 +11,17 @@ image::10-árbol.png[]
 === Quality Scenarios
 
 [cols="3*", options="header"]
-|=== 
-| Description | Quality Attribute | Scenario | The system must be available 24/7 with minimal downtime. | Availability | Users can access the system at any time without interruptions. | The architecture must support the addition of more servers without service disruption. | Scalability | During peak hours, the system distributes traffic across multiple servers without performance degradation. | The application must ensure the protection of user data, especially during registration and login. | Security | User credentials and personal data are encrypted and securely stored to prevent unauthorized access. | The response time to display a question and its options must be less than 2 seconds. | Availability / Performance | When a contestant requests a new question, the system presents it almost instantly. | Questions must be correctly generated from Wikidata without errors. | Mitigation of LLM Errors | The system extracts information from Wikidata accurately to generate consistent and error-free questions. | The chatbot must provide relevant and coherent hints based on the LLM API. | Mitigation of LLM Errors | When a user requests a hint, the chatbot generates it correctly using the LLM API. | The user interface must be intuitive, with clear instructions on how to participate and obtain hints. | Usability | A new user can navigate the application without prior instructions and easily understand how to interact with the game. | The application must allow easy updates and maintenance operations without major service disruptions. | Maintainability | Developers can deploy updates or fix bugs quickly without negatively affecting the user experience. 
-|===
+- |=== 
+- | Description | Quality Attribute | Scenario 
+- | The system must be available 24/7 with minimal downtime. | Availability | Users can access the system at any time without interruptions. 
+- | The architecture must support the addition of more servers without service disruption. | Scalability | During peak hours, the system distributes traffic across multiple servers without performance degradation. 
+- | The application must ensure the protection of user data, especially during registration and login. | Security | User credentials and personal data are encrypted and securely stored to prevent unauthorized access. 
+- | The response time to display a question and its options must be less than 2 seconds. | Availability / Performance | When a contestant requests a new question, the system presents it almost instantly. 
+- | Questions must be correctly generated from Wikidata without errors. | Mitigation of LLM Errors | The system extracts information from Wikidata accurately to generate consistent and error-free questions. 
+- | The chatbot must provide relevant and coherent hints based on the LLM API. | Mitigation of LLM Errors | When a user requests a hint, the chatbot generates it correctly using the LLM API. 
+- | The user interface must be intuitive, with clear instructions on how to participate and obtain hints. | Usability | A new user can navigate the application without prior instructions and easily understand how to interact with the game. | The application must allow easy updates and maintenance operations without major service disruptions. 
+- | Maintainability | Developers can deploy updates or fix bugs quickly without negatively affecting the user experience. 
+- |===
 
 
 
