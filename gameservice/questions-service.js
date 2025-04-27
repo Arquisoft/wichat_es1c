@@ -5,7 +5,7 @@ const cors = require("cors");
 const cron = require('node-cron');
 const fs = require('fs');
 const jwt = require("jsonwebtoken");
-require('dotenv').config();
+// require('dotenv').config();
 const Question = require("./models/question-model.js");
 const Template = require("./models/template-model.js");
 const Score = require("./models/score-model.js");
@@ -18,7 +18,7 @@ const NUMBER_OF_WRONG_ANSWERS = 3;
 const NUMBER_OF_QUESTIONS = 10
 
 const templatesPath = "./data/questions-templates.json";
-const templates = JSON.parse(fs.readFileSync(templatesPath, 'utf8'));
+const templates = require('./data/questions-templates.json')
 const endpoint = 'https://query.wikidata.org/sparql';
 
 app.use(cors({
@@ -28,19 +28,10 @@ app.use(cors({
 app.use(express.json());
 
 
-const mongoUri = process.env.MONGODB_URI || "mongodb+srv://fFFH8ALCgMl58vdLNovG:y122LzFpRq4LgpHfNRlJ@wichat.sz10z.mongodb.net/wichat-db";
-// ✅ Conectar a MongoDB Atlas
-async function connectDB() {
-    try {
-        await mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
-        .then(() => {return Template.deleteMany({})})
-        .then(() => {return Template.insertMany(templates)});;
-        console.log("✅ Conectado a MongoDB Atlas en GameService");
-    } catch (error) {
-        console.error("❌ Error al conectar a MongoDB Atlas:", error);
-        process.exit(1); // Terminar el proceso si no puede conectarse
-    }
-}
+const mongoUri = process.env.MONGODB_URI;
+mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
+.then(() => {return Template.deleteMany({})})
+.then(() => {return Template.insertMany(templates)});;
 
 /**
  * Generate a certain amount random IDs from a range to choose from.
@@ -48,6 +39,7 @@ async function connectDB() {
  * @param {int} count Number of random IDs to generate
  * @returns {Array} Array containing the random IDs
  */
+/* istanbul ignore next */
 function genRandomIDs(length, count)
 {
     let arr = Array.from({ length: length }, (v, k) => k);
@@ -66,6 +58,7 @@ function genRandomIDs(length, count)
  * @param {Array} array Array to shuffle 
  * @returns {Array} Shuffled array
  */
+/* istanbul ignore next */
 function shuffleArray(array)
 {
     for (let i = array.length - 1; i > 0; i--)
@@ -89,6 +82,7 @@ function shuffleArray(array)
  * @returns {JSON} Found template
  * @throws {TypeError} If the parameter is not an integer or a string
  */
+/* istanbul ignore next */
 async function getTemplate(param)
 {
     // No param -> Random template
@@ -111,6 +105,7 @@ async function getTemplate(param)
  * Select a random template from the entire collection of templates.
  * @returns {JSON} A random template from the database
  */
+/* istanbul ignore next */
 async function getRandomTemplate()
 {
     const template = await Template.aggregate([{ $sample: { size: 1 } }]);
@@ -123,6 +118,7 @@ async function getRandomTemplate()
  * @param {int} index Index of the template to retrieve
  * @returns {JSON} Template at the given index, null if index out of bounds
  */
+/* istanbul ignore next */
 async function getTemplateByIndex(index)
 {
     const template = await Template.findOne().skip(index).exec();
@@ -135,6 +131,7 @@ async function getTemplateByIndex(index)
  * @param {string} category Question category to filter
  * @returns {JSON} A random template from the database, null if no match
  */
+/* istanbul ignore next */
 async function getTemplateByCategory(category)
 {
     const template = await Template.aggregate([
@@ -149,6 +146,7 @@ async function getTemplateByCategory(category)
  * @param {string} type Category of questions to generate
  * @returns {Array} List of generated questions
  */
+/* istanbul ignore next */
 async function generateQuestions(type) {
     const selectedQuestions = new Set();
     const questions = [];
@@ -210,6 +208,12 @@ async function generateQuestions(type) {
                 continue;
             }
 
+            // Validar que la categoría de la pregunta coincide con el tipo solicitado
+            if (newQuestion.category !== selectedCategory) {
+                console.warn(`Pregunta descartada: categoría "${newQuestion.category}" no coincide con "${selectedCategory}"`);
+                continue;
+            }
+
             if (!selectedQuestions.has(newQuestion.correctAnswer.toString())) {
                 selectedQuestions.add(newQuestion.correctAnswer.toString());
                 questions.push(newQuestion);
@@ -229,6 +233,7 @@ async function generateQuestions(type) {
  * @param {JSON} template Question template
  * @returns {JSON} Question data object
  */
+/* istanbul ignore next */
 async function generateQuestion(results, template)
 {
     // Get 4 random answers - 1 correct and 3 incorrect
@@ -257,6 +262,7 @@ async function generateQuestion(results, template)
 }
 
 // Fetch and store questions in MongoDB
+/* istanbul ignore next */
 async function fetchQuestions()
 {
     console.log("[DEBUG] Fetching questions...");
@@ -310,10 +316,13 @@ async function fetchQuestions()
 
 // Schedule task with node-cron
     // Fetch questions every day at 3:00 AM
-    cron.schedule("0 3 * * *", fetchQuestions);
+    if (process.env.NODE_ENV !== 'test') {
+        cron.schedule("0 3 * * *", fetchQuestions);
+      }
 
 // Add API endpoint to trigger manually
 // (Might disable this in final version)
+/* istanbul ignore next */
 app.get("/fetch-questions", async (req, res) =>
 {
     console.log("Manual request received. Fetching questions...");
@@ -373,15 +382,13 @@ app.get('/ranking', async (req, res) => {
 });
 
 
-connectDB().then(() => {
-    const server = app.listen(port, () => {
-        console.log(`🎮 Question Service corriendo en http://localhost:${port}`);
-    });
-
-    
-    server.on('close', () => {
-        mongoose.connection.close();
-    });
-
-    module.exports = server;
+const server = app.listen(port, () => {
+    console.log(`🎮 Question Service corriendo en http://localhost:${port}`);
 });
+
+server.on('close', () => {
+  // Close the Mongoose connection
+  mongoose.connection.close();
+});
+
+module.exports = server

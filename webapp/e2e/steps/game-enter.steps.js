@@ -27,10 +27,10 @@ defineFeature(feature, test => {
 
     when('I log in and click the Juego button', async () => {
       await page.waitForSelector('input[type="email"]', { visible: true });
-      await page.type('input[type="email"]', 'dani@dani');
+      await page.type('input[type="email"]', 'test@test');
 
       await page.waitForSelector('input[type="password"]', { visible: true });
-      await page.type('input[type="password"]', 'dani');
+      await page.type('input[type="password"]', 'test');
 
       await page.waitForSelector('button.login-button', { visible: true });
       await page.click('button.login-button');

@@ -58,9 +58,10 @@ const GameOptions = ({ questionType, setQuestionType, responseTime, setResponseT
                                     >
                                         <MenuItem value="general">General</MenuItem>
                                         <MenuItem value="Geografía">Banderas de Países</MenuItem>
-                                        <MenuItem value="Deportes">Deportes</MenuItem>
-                                        <MenuItem value="Biología">Biología</MenuItem>
-                                        <MenuItem value="Arte">Arte</MenuItem>
+                                        <MenuItem value="Arte">Músicos</MenuItem>
+                                        <MenuItem value="Deportes">Deportista</MenuItem>
+                                        <MenuItem value="Biología">Pájaros</MenuItem>
+                                        <MenuItem value="Arquitectura">Monumentos</MenuItem>
                                     </Select>
                                 </FormControl>
                             </motion.div>
