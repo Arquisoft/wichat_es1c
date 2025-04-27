@@ -159,7 +159,6 @@ app.post('/api/delete-user', async (req, res) => {
     const deleteResponse = await axios.post(`${userServiceUrl}/deleteUser`, req.body, { withCredentials: true })
     res.json(deleteResponse.data)
   } catch (error){
-    console.log(error)
     res.status(500).json({ error: 'Error al eliminar el usuario' });
   }
 });

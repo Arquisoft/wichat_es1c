@@ -52,10 +52,6 @@ async function sendQuestionToLLM(question, model = 'gemini', systemMessage) {
       headers: { 'Content-Type': 'application/json' }
     });
 
-    console.log("📩 Pregunta:", question);
-    console.log("🧠 Instrucción del sistema:", systemMessage);
-    console.log("📨 Respuesta de Gemini:", JSON.stringify(response.data, null, 2));
-
     return config.transformResponse(response);
   } catch (error) {
     console.error(`❌ Error en el chatbot (${model}):`, error.response?.data || error.message || error);
