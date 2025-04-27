@@ -4,7 +4,7 @@
 === Code Coverage
 Code coverage is a metric used to measure what percentage of the source code is being executed by automated tests. In this project, unit tests have been implemented to ensure code quality and reliability.
 
-[cols="1,2"]
+[options="header", cols="1,2"]
 |===
 | Tool used | Jest
 | Description | Jest is a testing framework for JavaScript that enables unit testing and code coverage measurement.
@@ -14,7 +14,7 @@ Code coverage is a metric used to measure what percentage of the source code is 
 === End-to-End (E2E) Testing
 End-to-end testing verifies the full functionality of the system, from the frontend to the backend, ensuring that the main application flows work correctly.
 
-[cols="1,2"]
+[options="header", cols="1,2"]
 |===
 | Tool used | Cypress
 | Description | Cypress is an E2E testing framework that allows simulating user interactions in the browser and verifying system behavior.
@@ -26,7 +26,7 @@ End-to-end testing verifies the full functionality of the system, from the front
 |===
 
 === Test Results
-[cols="1,2"]
+[options="header", cols="1,2"]
 |===
 | Type of test | Result
 | Unit tests | All unit tests have successfully passed, covering the main backend functions.
