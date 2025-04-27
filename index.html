@@ -457,7 +457,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_convention_constraints">2.3. Convention Constraints</a></li>
 </ul>
 </li>
-<li><a href="#section-context-and-scope">3. Context and Scope</a>
+<li><a href="#_context_and_scope">3. Context and Scope</a>
 <ul class="sectlevel2">
 <li><a href="#_business_context">3.1. Business Context</a></li>
 <li><a href="#_technical_context">3.2. Technical Context</a></li>
@@ -520,7 +520,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_technical_debts">11.2. Technical Debts</a></li>
 </ul>
 </li>
-<li><a href="#section-glossary">12. Glossary</a></li>
+<li><a href="#section-tests">12. Testing in the Project</a>
+<ul class="sectlevel2">
+<li><a href="#_code_coverage">12.1. Code Coverage</a></li>
+<li><a href="#_end_to_end_e2e_testing">12.2. End-to-End (E2E) Testing</a></li>
+<li><a href="#_test_results">12.3. Test Results</a></li>
+<li><a href="#_conclusion_2">12.4. Conclusion</a></li>
+</ul>
+</li>
+<li><a href="#section-glossary">13. Glossary</a></li>
 </ul>
 </div>
 </div>
@@ -545,7 +553,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_requirements_overview">1.1. Requirements Overview</h3>
 <div class="paragraph">
-<p>WIChat is an enhanced version of last year&#8217;s experimental game show app developed by HappySw for RTVE. The main improvement is the addition of a chatbot powered by a large language model (LLM), allowing contestants to interact and receive clues during the game. The app generates questions and images automatically using data from Wikidata, offering a diverse range of topics and visual content. It also features user registration, history tracking, and performance data, making the game more engaging and personalized. WIChat is a web-based platform designed to be scalable, flexible, and easily maintainable while providing an interactive, fun, and educational experience for users.</p>
+<p>WIChat is an enhanced version of the experimental quiz application developed last year by HappySw for RTVE. The main improvement is the incorporation of a chatbot powered by a large language model (LLM), allowing contestants to interact and receive hints during the game. The application automatically generates questions and images using data from Wikidata, offering a wide range of topics and visual content. It also includes features such as user registration, individual game rankings, global rankings across all users, options to modify account details, and viewing general user data. All of this makes the game more engaging and personalized. WIChat is a web platform designed to be scalable, flexible, and easily maintainable, providing an interactive, fun, and educational experience for users.</p>
 </div>
 </div>
 <div class="sect2">
@@ -557,7 +565,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>Users will be able to create accounts and log in to participate in the contest.</p>
+<p>Users can create accounts and log in to participate in the quiz.</p>
 </li>
 </ul>
 </div>
@@ -567,26 +575,23 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>Presentation of images to the contestants, who must guess the place or theme represented.</p>
+<p>Menu for selecting question type and maximum response time per question. ** Display of images to contestants, who must guess the place or topic shown.</p>
 </li>
 <li>
-<p>Inclusion of questions about the images in the chatbot.</p>
-</li>
-<li>
-<p>Rewarding users for each correct answer.</p>
+<p>Inclusion of image-related questions within the chatbot. ** Reward users for each correct answer.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Interactive clue functionality</strong>:</p>
+<p><strong>Interactive hint functionality</strong>:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Users will be able to request clues about the answers conversationally.</p>
+<p>Users can request hints about answers conversationally.</p>
 </li>
 <li>
-<p>The clues will be generated using an external large language model (LLM).</p>
+<p>Hints will be generated using an external large language model (LLM).</p>
 </li>
 </ul>
 </div>
@@ -596,7 +601,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>Images and clues will be automatically generated from data obtained from Wikidata.</p>
+<p>Images and hints will be automatically generated based on data retrieved from Wikidata.</p>
 </li>
 </ul>
 </div>
@@ -609,11 +614,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Improvement of user interaction</strong>:</p>
+<p><strong>Improved user interaction</strong>:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>The inclusion of conversational clues aims to increase user interest and engagement.</p>
+<p>Including conversational hints aims to increase user engagement and participation.</p>
 </li>
 </ul>
 </div>
@@ -623,7 +628,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>Automatically generating images and clues reduces manual work and helps keep the content updated and diverse.</p>
+<p>Automatically generating images and hints reduces manual work and helps keep the content updated and diverse.</p>
 </li>
 </ul>
 </div>
@@ -633,7 +638,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>The integration of an LLM and the use of Wikidata position the app at the forefront of technology, which is key for RTVE as an innovative public media entity.</p>
+<p>Integrating an LLM and using Wikidata positions the application at the technological forefront, which is key for RTVE as an innovative public entity.</p>
 </li>
 </ul>
 </div>
@@ -644,10 +649,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_motivation">1.4. Motivation</h3>
 <div class="paragraph">
-<p>From the perspective of the end users, the WIChat system is created with the purpose of enhancing the user experience in the "Saber y Ganar" quiz. The modification of the system aims primarily to increase participant interaction by allowing them to obtain clues in a conversational manner through an external large language model (LLM). This enriches the gaming experience and makes it somewhat easier for users by receiving "assistance" from the chatbot.</p>
+<p>From the end-user perspective, the WIChat system is created to enhance the user experience in the "Saber y Ganar" quiz show. The primary goal of the system modification is to increase participant interaction by allowing them to obtain hints conversationally through an external large language model (LLM). This enriches the gaming experience and facilitates participation by offering "assistance" via the chatbot.</p>
 </div>
 <div class="paragraph">
-<p>This system is designed to improve player support through the chatbot with clues, while the quality of the game is also enhanced by integrating advanced technology to automatically generate images and clues based on Wikidata. This ensures that the content is relevant, up-to-date, and non-repetitive, which guarantees a more enriching and engaging experience for users.</p>
+<p>The system is designed to better support players through chatbot-generated hints, while also raising the overall game quality by integrating advanced technology for the automatic generation of images and hints based on Wikidata data. This ensures that the content remains relevant, up-to-date, and non-repetitive, providing a richer and more engaging experience for users.</p>
 </div>
 </div>
 <div class="sect2">
@@ -659,34 +664,34 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top"><strong>Quality Goal</strong></th>
-<th class="tableblock halign-left valign-top"><strong>Concrete Scenario</strong></th>
+<th class="tableblock halign-left valign-top">Quality Objective</th>
+<th class="tableblock halign-left valign-top">Specific Scenario</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">High Availability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The system must be available 24/7 with minimal downtime.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">High availability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The system must be available 24/7 with minimal downtime for application maintenance.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Scalability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The architecture must support the addition of more servers without interrupting service, managing traffic spikes during peak times.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The architecture must allow for adding more servers without service interruption, effectively handling traffic spikes during periods of high demand.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Security</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The application must ensure the protection of user data, particularly during registration and access.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application must ensure user data protection, especially passwords, during registration and login processes.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Performance</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The response time for displaying a question and its options should be under 2 seconds.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The response time for displaying a question and its options must be less than 2 seconds.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integration with Wikidata</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Images and clues must be generated correctly from Wikidata data without errors.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Images and hints must be correctly generated from Wikidata data without errors.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Usability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The user interface must be intuitive, with clear instructions on how to participate and get clues.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The user interface must be intuitive, with clear instructions on how to participate and request hints.</p></td>
 </tr>
 </tbody>
 </table>
@@ -696,53 +701,59 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p><strong>End Users:</strong></p>
+<p><strong>End Users</strong>:
+1.1. <strong>Role</strong>: Contestants.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Role:</strong> Contestants of the quiz.</p>
+<p><strong>Responsibility</strong>: They must understand the basic game architecture to know how to interact with questions, hints, and the different functionalities of the application. No deep technical knowledge is required.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>1.2. <strong>Role</strong>: System administrators.
+* <strong>Responsibility</strong>: They must understand the architecture to manage system maintenance and security, perform deployments, and monitor performance. They must also understand the user management menu, where they can delete users as long as the user is not an administrator.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Software Developers</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Role</strong>: Frontend and backend developers.</p>
 </li>
 <li>
-<p><strong>Responsibility:</strong> They should understand the basic architecture of the game to know how to interact with the questions and hints. They do not need to be aware of technical details.</p>
+<p><strong>Responsibility</strong>: They must deeply understand the architecture to implement system functionalities such as image generation and chatbot hint integration.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Software developers:</strong></p>
+<p><strong>Software Architects</strong>:</p>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Role:</strong> Frontend and Backend developers.</p>
+<p><strong>Role</strong>: Technical architects responsible for the system infrastructure.</p>
 </li>
 <li>
-<p><strong>Responsibility:</strong> They need to understand the architecture in detail to implement system functionalities, such as image generation and integration with the language model for the chatbot hints.</p>
+<p><strong>Responsibility</strong>: They must have a deep knowledge of the architecture and make key decisions regarding scalability, security, and system modularity.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Software Architects:</strong></p>
+<p><strong>Testers</strong>:</p>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Role:</strong> Technical architects responsible for the system&#8217;s infrastructure.</p>
+<p><strong>Role</strong>: Responsible for ensuring system quality.</p>
 </li>
 <li>
-<p><strong>Responsibility:</strong> They must have a deep understanding of the architecture and make key decisions regarding the scalability, security, and modularity of the system.</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>Testers:</strong></p>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Role:</strong> Responsible for ensuring the system’s quality.</p>
-</li>
-<li>
-<p><strong>Responsibility:</strong> They need to understand the architecture and work organization to ensure the game functions correctly, and the images and hints are generated properly.</p>
+<p><strong>Responsibility</strong>: They must understand the architecture and work organization to ensure the game works properly and that images and hints are generated correctly.</p>
 </li>
 </ul>
 </div>
@@ -750,7 +761,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ol>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Project stakeholders</caption>
+<caption class="title">Table 1. Project Stakeholders</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 40%;">
@@ -765,33 +776,32 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Software developers, architects and testers</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://github.com/uo283794">Daniel Alberto Alonso Fernández</a><br>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Software developers, architects, and testers</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://github.com/DalonfeUO">Daniel Alberto Alonso Fernández</a><br>
 <a href="https://github.com/davidalvarezcabezas">David Álvarez Cabezas</a><br>
 <a href="https://github.com/alejandrofdzgarcia">Alejandro Fernández García</a><br>
-<a href="https://github.com/AggroTheShark">Emilio García Fernández</a><br>
 <a href="https://github.com/mario5garciap">Mario García Prieto</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Collaborate effectively across all project stages, ensuring clean, maintainable code. Focus on scalability, performance, and integration with external systems. Conduct thorough testing and automation. Document and share design decisions and best practices.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Collaborate effectively across all project stages, ensuring clean and maintainable code. Focus on scalability, performance, and external system integration. Perform thorough and automated testing. Document and share design decisions and best practices.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock">Client</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://www.rtve.es/play/videos/saber-y-ganar/">Radio Televisión Española (RTVE)</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Expects a stable and attractive web solution that increases user engagement and provides an entertaining and interactive gaming experience.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Expect a stable and attractive web solution that increases user engagement and provides an entertaining and interactive gaming experience.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock">ChattySW (Development Company)</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">Internal development team at ChattySW</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Deliver a robust and interactive application that integrates AI-driven hints for the game. Ensure availability, performance, and security. Maintain clear communication with RTVE and align with project deadlines.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Deliver a robust and interactive application that integrates AI-powered hints for the game. Ensure availability, performance, and security. Maintain clear communication with RTVE and meet project deadlines.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock">System Administrator</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">IT team responsible for system maintenance</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Ensure system uptime, security, and performance. Manage deployments, monitor server load, and provide technical support.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Ensure uptime, security, and system performance. Manage deployments, monitor server load, and provide technical support. Also manage application users and their permissions.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock">Regular User (Player)</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">People who register and play the game</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Engage with the game by answering image-based questions and using the conversational hint system. Provide feedback on usability and user experience.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">People who register and play the quiz</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Participate in the game by answering image-based questions and using the conversational hint system. Provide feedback on usability and user experience.</p></td>
 </tr>
 </tbody>
 </table>
@@ -826,7 +836,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">User Management</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The system shall have a user management system that allows for login, registration, andhistorical consultation.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The system shall have a user management system that allows for login, registration, and historical consultation.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">LLM</p></td>
@@ -835,6 +845,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Deployment</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">We will use docker for local deployment.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Monitoring and Metrics</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The system shall include monitoring and metrics collection using Prometheus and Grafana to ensure system reliability and performance.</p></td>
 </tr>
 </tbody>
 </table>
@@ -882,6 +896,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-top"><p class="tableblock">Project documentation</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">We will use the Arc42 template for the documentation which will be written in English in its entirety.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Code Reviews</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">All code changes must go through a pull request and be reviewed by at least one team member before merging into the main branch.</p></td>
+</tr>
 </tbody>
 </table>
 <div style="page-break-after: always;"></div>
@@ -889,7 +907,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="section-context-and-scope">3. Context and Scope</h2>
+<h2 id="_context_and_scope">3. Context and Scope</h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_business_context">3.1. Business Context</h3>
@@ -919,13 +937,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock">Backend Service</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Takes actions from users via the web application and data returned by external APIs.</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Manages calls to APIs and updates the web application view.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Processes user actions through the web application and data returned from external APIs.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Manages API calls and updates the web application view.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock">Chatbot</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">User queries (text input).</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Clues and tips (text output).</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Hints and suggestions (text output).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock">Database</p></td>
@@ -934,13 +952,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock">Wikidata</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Receives queries about a theme or category.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Receives queries about a topic or category.</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">Returns a page corresponding to the given query.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock">LLM (Large Language Model)</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">Receives relevant information about the question the user needs to answer.</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Interacts or provides answers to the user in different ways, depending on the used wildcard.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Interacts or provides answers to the user in different ways, depending on the wildcard used.</p></td>
 </tr>
 </tbody>
 </table>
@@ -953,7 +971,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>The end-users interact with the system through the chatbot and other game features. They are provided feedback or hints within the game.</p>
+<p>End users interact with the system through the chatbot and other game features. They are provided hints during gameplay.</p>
 </li>
 </ul>
 </div>
@@ -963,7 +981,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>The web application serves as the user interface and manages the presentation of the game, including the display of questions, answers, and interactions with other components of the system.</p>
+<p>The web application acts as the user interface and manages the presentation of the game, including the display of questions, answers, and interactions with other system components.</p>
 </li>
 </ul>
 </div>
@@ -973,7 +991,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>This service processes user actions, manages the game state, communicates with external services (like Wikidata and LLM), and provides necessary data to the web application.</p>
+<p>This service processes user actions, manages the game state, communicates with external services (such as Wikidata and the LLM), and provides necessary data to the web application.</p>
 </li>
 </ul>
 </div>
@@ -983,7 +1001,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>The chatbot serves as a conversational interface for user interactions. It receives inputs in the form of questions or commands and generates responses that may provide hints or extra information.</p>
+<p>The chatbot serves as a conversational interface for user interactions. It receives inputs in the form of questions or commands and generates responses that may include hints or additional information.</p>
 </li>
 </ul>
 </div>
@@ -1003,7 +1021,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>An external data source accessed by the backend service to retrieve knowledge and information via SPARQL queries, which helps generate trivia questions and provide context.</p>
+<p>An external data source accessed by the backend service to retrieve knowledge and information via SPARQL queries, helping to generate trivia questions and provide context.</p>
 </li>
 </ul>
 </div>
@@ -1013,7 +1031,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>A complex model that processes user queries and generates responses or hints, adapting based on the wildcards used in the game.</p>
+<p>A complex model that processes user queries and generates answers or hints, adapting based on the wildcards used in the game.</p>
 </li>
 </ul>
 </div>
@@ -1038,7 +1056,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong>Web Application</strong></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">The user plays the game via the internet, connecting to the system through HTTP requests.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">The user plays the game over the internet, connecting to the system via HTTP requests.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong>Backend Service</strong></p></td>
@@ -1058,19 +1076,35 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong>Azure Cloud</strong></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Used for deploying the application, ensuring scalability, security, and availability of the system.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Used for deploying the application, ensuring system scalability, security, and availability.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong>MongoDB</strong></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">A NoSQL database for storing all application data, including user information and trivia questions.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">A NoSQL database used to store all application data, including user information and trivia questions.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong>Web Browsers</strong></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Allow users to access the game once it is deployed, supporting various browsers.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Allow users to access the game once deployed, supporting various browsers.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong>React, JavaScript, HTML, CSS</strong></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">Technologies used for the frontend development of the game, providing an interactive and responsive user interface.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>GitHub CI/CD</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Tool used for continuous integration and delivery, enabling automatic deployment of code changes and version management. It also allows automation of tests and the deployment of project documentation.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>REST API</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">A tool used to access various application data through HTTP requests. The responses return a JSON file containing the requested information.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>Jest</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Testing framework used for performing unit and integration tests in the code, ensuring its quality and functionality.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>Gatling</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Technology used to perform load and performance testing, ensuring that the application can handle multiple users simultaneously.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1078,57 +1112,93 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul>
 <li>
 <p><strong>Web Application:</strong></p>
-</li>
+<div class="ulist">
+<ul>
 <li>
-<p>The game is played through the internet. Users connect to the system via HTTP requests, allowing access via web browsers.</p>
+<p>The game is played over the internet. Users connect to the system via HTTP requests, allowing access through web browsers.</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p><strong>Backend Service:</strong></p>
-</li>
+<div class="ulist">
+<ul>
 <li>
-<p>This service manages all game-related data. It processes user actions, generates trivia questions, and interacts with the Large Language Model (LLM) to offer hints. It also calls external APIs for additional game data.</p>
+<p>This service manages all game-related data. It processes user actions, generates trivia questions, and interacts with the Large Language Model (LLM) to provide hints. It also makes calls to external APIs to retrieve additional data for the game.</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p><strong>Database:</strong></p>
-</li>
+<div class="ulist">
+<ul>
 <li>
-<p>The database, which is based on MongoDB, stores critical data like user profiles, scores, and game progress. It ensures persistent storage and retrieval of this information.</p>
+<p>The database, based on MongoDB, stores critical data such as user profiles, scores, and game progress, ensuring persistent storage and retrieval of this information.</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p><strong>Wikidata:</strong></p>
-</li>
+<div class="ulist">
+<ul>
 <li>
-<p>The backend service retrieves knowledge from Wikidata using SPARQL queries, which is then used to create trivia questions and provide game context.</p>
+<p>The backend service retrieves knowledge from Wikidata using SPARQL queries, which is used to create trivia questions and provide context for the game.</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p><strong>LLM (Large Language Model):</strong></p>
-</li>
+<div class="ulist">
+<ul>
 <li>
-<p>The LLM processes user questions and generates relevant hints or answers. It enables dynamic and intelligent interactions based on user inputs.</p>
+<p>The LLM processes user questions and generates relevant hints or answers, allowing dynamic and intelligent interactions based on user inputs.</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p><strong>Azure Cloud:</strong></p>
-</li>
+<div class="ulist">
+<ul>
 <li>
-<p>Azure Cloud is used for deploying the application, ensuring the system is scalable, secure, and available.</p>
+<p>Azure Cloud is used for deploying the application, ensuring that the system is scalable, secure, and highly available.</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p><strong>MongoDB:</strong></p>
-</li>
+<div class="ulist">
+<ul>
 <li>
-<p>MongoDB, a NoSQL database, stores all the application’s data, including user profiles and trivia questions, making it ideal for handling large volumes of unstructured data.</p>
+<p>MongoDB, a NoSQL database, stores all the application data, including user profiles and trivia questions, making it ideal for handling large volumes of unstructured data.</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p><strong>Web Browsers:</strong></p>
-</li>
+<div class="ulist">
+<ul>
 <li>
-<p>Web browsers serve as the platform for accessing the game, allowing users to interact with it across a variety of devices.</p>
+<p>Web browsers serve as the platform for accessing the game, allowing users to interact with it from a variety of devices.</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p><strong>React, JavaScript, HTML, CSS:</strong></p>
-</li>
+<div class="ulist">
+<ul>
 <li>
-<p>These technologies are used to develop the frontend of the game. React builds the interactive user interface, while JavaScript, HTML, and CSS manage the layout, functionality, and styling of the game’s web pages.</p>
+<p>These technologies are used to develop the game&#8217;s frontend. React builds the interactive user interface, while JavaScript, HTML, and CSS manage the layout, functionality, and styling of the game&#8217;s web pages.</p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
@@ -1142,7 +1212,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_technology_decisions">4.1. Technology Decisions</h3>
 <div class="paragraph">
-<p>For the implementation of <strong>WIChat</strong>, we have selected the following technologies based on their ease of development, scalability, and compatibility with the project requirements:</p>
+<p>For the implementation of <strong>WiChat</strong>, we have selected the following technologies based on their ease of development, scalability, and compatibility with the project requirements:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1159,10 +1229,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><strong>Authentication:</strong> JSON Web Tokens (JWT) for secure authentication without third-party dependencies.</p>
 </li>
 <li>
-<p><strong>Question Generation:</strong> Use of queries to Wikidata via the backend to retrieve images and data.</p>
+<p><strong>Question Generation:</strong> Use of queries to Wikidata through the backend to retrieve images and data.</p>
 </li>
 <li>
-<p><strong>Deployment:</strong> Netlify for frontend hosting and a cloud-based platform (such as Render or AWS) for the backend.</p>
+<p><strong>Deployment:</strong> Use of Azure for application deployment, ensuring scalability and accessibility.</p>
+</li>
+<li>
+<p><strong>Testing:</strong> Use of Jest and React Testing Library for unit and integration testing.</p>
+</li>
+<li>
+<p><strong>Documentation:</strong> Use of Arc42 for project documentation, ensuring a clear and accessible structure.</p>
+</li>
+<li>
+<p><strong>Monitoring and Metrics:</strong> Use of Prometheus and Grafana for metrics collection and system monitoring, ensuring reliability and performance.</p>
 </li>
 </ul>
 </div>
@@ -1170,7 +1249,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_top_level_system_decomposition">4.2. Top-Level System Decomposition</h3>
 <div class="paragraph">
-<p>The system follows a <strong>frontend + dedicated backend architecture</strong>, where all business logic is handled by a Node.js backend instead of serverless functions.</p>
+<p>The system follows a <strong>frontend + dedicated backend architecture</strong>, where all business logic is managed by a Node.js backend instead of serverless functions.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -1246,10 +1325,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><strong>Observer:</strong> MongoDB allows real-time subscriptions to data changes.</p>
 </li>
 <li>
-<p><strong>Lazy Loading:</strong> Loads data progressively to optimize frontend performance.</p>
+<p><strong>Lazy Loading:</strong> Progressive data loading to optimize frontend performance.</p>
 </li>
 <li>
-<p><strong>Producer-Consumer:</strong> A programmed auxiliar process runs to generate questions and answers, storing them in the database for the game service to use.</p>
+<p><strong>Producer-Consumer:</strong> A scheduled auxiliary process generates questions and answers, storing them in the database for the game service to use.</p>
 </li>
 </ul>
 </div>
@@ -1285,15 +1364,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Maintainability</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Use of Express framework for a structured and maintainable backend.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use of the Express framework for a structured and maintainable backend.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Usability</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Intuitive web interface with React and automatic question generation to enhance user experience.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Intuitive web interface with React and automatic question generation to enhance the user experience.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Mitigation of LLM Errors</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Use of specifically designed prompts to reduce incorrect responses and pre-filter generated hints.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Reducing Question Loading Time</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Preloading questions so that while a user answers a question, the next one is already prepared, thus preventing delays.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1307,22 +1390,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Third Party Product</th>
+<th class="tableblock halign-left valign-top">Third-Party Product</th>
 <th class="tableblock halign-left valign-top">Reason</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Git</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Easy to use distributed version control system.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Easy-to-use distributed version control system.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GitHub</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Web-based platform for hosting and managing Git repositories, including features like issues tracking, pull requests, and GitHub Actions.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Web-based platform for hosting and managing Git repositories, including features like issue tracking, pull requests, and GitHub Actions.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Netlify</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cloud service used for deploying the frontend with built-in support for continuous integration.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Azure</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cloud service used for deploying the application with built-in support for continuous integration.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">MongoDB Atlas</p></td>
@@ -1330,11 +1413,27 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">JSON Web Tokens (JWT)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Secure and stateless authentication mechanism used to handle user sessions.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Secure and stateless authentication mechanism used to manage user sessions.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Render / AWS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cloud-based hosting service for the Node.js backend, ensuring scalability and reliability.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Prometheus</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Monitoring and alerting toolkit ideal for metrics collection.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Grafana</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Analytics and monitoring platform allowing real-time visualization of metrics.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SonarQube</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Static code analysis tool to ensure code quality and detect vulnerabilities.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CodeScene</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Code analysis tool that identifies complexity patterns and technical debt.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Docker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Platform for creating, deploying, and running applications in containers, facilitating portability and scalability.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1342,7 +1441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_motivation_2">4.7. Motivation</h3>
 <div class="paragraph">
-<p>The architectural decisions in this system are based on the need for an agile and efficient development approach within a <strong>10-week academic environment</strong>. A <strong>Node.js backend with Express</strong> was chosen to ensure greater control over business logic while maintaining scalability and ease of integration with React and MongoDB.</p>
+<p>The architectural decisions in this system are based on the need for an agile and efficient development approach within an <strong>academic environment of a couple of months</strong>. A <strong>Node.js backend with Express</strong> was chosen to ensure greater control over business logic while maintaining scalability and ease of integration with React and MongoDB.
+Additionally, the use of modern tools like <strong>Prometheus and Grafana</strong> was prioritized to guarantee real-time monitoring and metrics analysis, allowing proactive performance issue detection and resolution. The choice of cloud technologies like <strong>MongoDB Atlas</strong> and <strong>Azure</strong> ensures that the system is scalable and accessible from anywhere.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -1351,91 +1451,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="section-building-block-view">5. Building Block View</h2>
 <div class="sectionbody">
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Content</div>
-<p>The building block view shows the static decomposition of the system into building blocks (modules, components, subsystems, classes, interfaces, packages, libraries, frameworks, layers, partitions, tiers, functions, macros, operations, data structures, &#8230;&#8203;) as well as their dependencies (relationships, associations, &#8230;&#8203;)</p>
-</div>
-<div class="paragraph">
-<p>This view is mandatory for every architecture documentation.
-In analogy to a house this is the <em>floor plan</em>.</p>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>Maintain an overview of your source code by making its structure understandable through
-abstraction.</p>
-</div>
-<div class="paragraph">
-<p>This allows you to communicate with your stakeholder on an abstract level without disclosing implementation details.</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>The building block view is a hierarchical collection of black boxes and white boxes
-(see figure below) and their descriptions.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="./images/05_building_blocks-EN.png" alt="Hierarchy of building blocks">
-</div>
-</div>
-<div class="paragraph">
-<p><strong>Level 1</strong> is the white box description of the overall system together with black
-box descriptions of all contained building blocks.</p>
-</div>
-<div class="paragraph">
-<p><strong>Level 2</strong> zooms into some building blocks of level 1.
-Thus it contains the white box description of selected building blocks of level 1, together with black box descriptions of their internal building blocks.</p>
-</div>
-<div class="paragraph">
-<p><strong>Level 3</strong> zooms into selected building blocks of level 2, and so on.</p>
-</div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-5/">Building Block View</a> in the arc42 documentation.</p>
-</div>
-</div>
-</div>
 <div class="sect2">
 <h3 id="_whitebox_overall_system">5.1. Whitebox Overall System</h3>
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<p>Here you describe the decomposition of the overall system using the following white box template. It contains</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>an overview diagram</p>
-</li>
-<li>
-<p>a motivation for the decomposition</p>
-</li>
-<li>
-<p>black box descriptions of the contained building blocks. For these we offer you alternatives:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>use <em>one</em> table for a short and pragmatic overview of all contained building blocks and their interfaces</p>
-</li>
-<li>
-<p>use a list of black box descriptions of the building blocks according to the black box template (see below).
-Depending on your choice of tool this list could be sub-chapters (in text files), sub-pages (in a Wiki) or nested elements (in a modeling tool).</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>(optional:) important interfaces, that are not explained in the black box templates of a building block, but are very important for understanding the white box.
-Since there are so many ways to specify interfaces why do not provide a specific template for them.
- In the worst case you have to specify and describe syntax, semantics, protocols, error handling,
- restrictions, versions, qualities, necessary compatibilities and many things more.
-In the best case you will get away with examples or simple signatures.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
 <div class="imageblock text-center">
 <div class="content">
 <img src="./images/05_building_block_view-EN.svg" alt="05 building block view EN">
@@ -1522,68 +1539,6 @@ In the best case you will get away with examples or simple signatures.</p>
 <div class="sect1">
 <h2 id="section-runtime-view">6. Runtime View</h2>
 <div class="sectionbody">
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Contents</div>
-<p>The runtime view describes concrete behavior and interactions of the system’s building blocks in form of scenarios from the following areas:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>important use cases or features: how do building blocks execute them?</p>
-</li>
-<li>
-<p>interactions at critical external interfaces: how do building blocks cooperate with users and neighboring systems?</p>
-</li>
-<li>
-<p>operation and administration: launch, start-up, stop</p>
-</li>
-<li>
-<p>error and exception scenarios</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Remark: The main criterion for the choice of possible scenarios (sequences, workflows) is their <strong>architectural relevance</strong>. It is <strong>not</strong> important to describe a large number of scenarios. You should rather document a representative selection.</p>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>You should understand how (instances of) building blocks of your system perform their job and communicate at runtime.
-You will mainly capture scenarios in your documentation to communicate your architecture to stakeholders that are less willing or able to read and understand the static models (building block view, deployment view).</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>There are many notations for describing scenarios, e.g.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>numbered list of steps (in natural language)</p>
-</li>
-<li>
-<p>activity diagrams or flow charts</p>
-</li>
-<li>
-<p>sequence diagrams</p>
-</li>
-<li>
-<p>BPMN or EPCs (event process chains)</p>
-</li>
-<li>
-<p>state machines</p>
-</li>
-<li>
-<p>&#8230;&#8203;</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-6/">Runtime View</a> in the arc42 documentation.</p>
-</div>
-</div>
-</div>
 <div class="sect2">
 <h3 id="_runtime_scenario_1_playing_a_game">6.1. Runtime Scenario 1 - Playing a game</h3>
 <div class="paragraph">
@@ -1633,60 +1588,6 @@ You will mainly capture scenarios in your documentation to communicate your arch
 <div class="sect1">
 <h2 id="section-deployment-view">7. Deployment View</h2>
 <div class="sectionbody">
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Content</div>
-<p>The deployment view describes:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>technical infrastructure used to execute your system, with infrastructure elements like geographical locations, environments, computers, processors, channels and net topologies as well as other infrastructure elements and</p>
-</li>
-<li>
-<p>mapping of (software) building blocks to that infrastructure elements.</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>Often systems are executed in different environments, e.g. development environment, test environment, production environment. In such cases you should document all relevant environments.</p>
-</div>
-<div class="paragraph">
-<p>Especially document a deployment view if your software is executed as distributed system with more than one computer, processor, server or container or when you design and construct your own hardware processors and chips.</p>
-</div>
-<div class="paragraph">
-<p>From a software perspective it is sufficient to capture only those elements of an infrastructure that are needed to show a deployment of your building blocks. Hardware architects can go beyond that and describe an infrastructure to any level of detail they need to capture.</p>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>Software does not run without hardware.
-This underlying infrastructure can and will influence a system and/or some
-cross-cutting concepts. Therefore, there is a need to know the infrastructure.</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>Maybe a highest level deployment diagram is already contained in section 3.2. as
-technical context with your own infrastructure as ONE black box. In this section one can
-zoom into this black box using additional deployment diagrams:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>UML offers deployment diagrams to express that view. Use it, probably with nested diagrams,
-when your infrastructure is more complex.</p>
-</li>
-<li>
-<p>When your (hardware) stakeholders prefer other kinds of diagrams rather than a deployment diagram, let them use any kind that is able to show nodes and channels of the infrastructure.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-7/">Deployment View</a> in the arc42 documentation.</p>
-</div>
-</div>
-</div>
 <div class="sect2">
 <h3 id="_infrastructure_level_1">7.1. Infrastructure Level 1</h3>
 <div class="sidebarblock arc42help">
@@ -1766,105 +1667,6 @@ when your infrastructure is more complex.</p>
 <div class="sect1">
 <h2 id="section-concepts">8. Cross-cutting Concepts</h2>
 <div class="sectionbody">
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Content</div>
-<p>This section describes overall, principal regulations and solution ideas that are relevant in multiple parts (= cross-cutting) of your system.
-Such concepts are often related to multiple building blocks.
-They can include many different topics, such as</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>models, especially domain models</p>
-</li>
-<li>
-<p>architecture or design patterns</p>
-</li>
-<li>
-<p>rules for using specific technology</p>
-</li>
-<li>
-<p>principal, often technical decisions of an overarching (= cross-cutting) nature</p>
-</li>
-<li>
-<p>implementation rules</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>Concepts form the basis for <em>conceptual integrity</em> (consistency, homogeneity) of the architecture.
-Thus, they are an important contribution to achieve inner qualities of your system.</p>
-</div>
-<div class="paragraph">
-<p>Some of these concepts cannot be assigned to individual building blocks, e.g. security or safety.</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>The form can be varied:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>concept papers with any kind of structure</p>
-</li>
-<li>
-<p>cross-cutting model excerpts or scenarios using notations of the architecture views</p>
-</li>
-<li>
-<p>sample implementations, especially for technical concepts</p>
-</li>
-<li>
-<p>reference to typical usage of standard frameworks (e.g. using Hibernate for object/relational mapping)</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<div class="title">Structure</div>
-<p>A potential (but not mandatory) structure for this section could be:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Domain concepts</p>
-</li>
-<li>
-<p>User Experience concepts (UX)</p>
-</li>
-<li>
-<p>Safety and security concepts</p>
-</li>
-<li>
-<p>Architecture and design patterns</p>
-</li>
-<li>
-<p>"Under-the-hood"</p>
-</li>
-<li>
-<p>development concepts</p>
-</li>
-<li>
-<p>operational concepts</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Note: it might be difficult to assign individual concepts to one specific topic
-on this list.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="./images/08-concepts-EN.drawio.png" alt="Possible topics for crosscutting concepts">
-</div>
-</div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-8/">Concepts</a> in the arc42 documentation.</p>
-</div>
-</div>
-</div>
 <div class="sect2">
 <h3 id="_domain_concepts">8.1. Domain Concepts</h3>
 <div class="sect3">
@@ -1948,7 +1750,19 @@ on this list.</p>
 <p><strong>Accessibility Features:</strong> Visual aids such as icons and colors to improve understanding.</p>
 </li>
 <li>
-<p><strong>Attractive design:</strong> A beautiful and visually appealing app design.</p>
+<p><strong>Attractive Design:</strong> A beautiful and visually appealing app design.</p>
+</li>
+<li>
+<p><strong>Consistent User Interface (UI):</strong> The layout, styles, and interaction patterns remain uniform across all screens and functionalities.</p>
+</li>
+<li>
+<p><strong>Fast Feedback:</strong> The system provides immediate visual or textual feedback after every user action (e.g., clicking a button, submitting an answer).</p>
+</li>
+<li>
+<p><strong>Minimal User Effort:</strong> Tasks should require the fewest possible steps to complete (e.g., joining a game in just two clicks).</p>
+</li>
+<li>
+<p><strong>Responsive Design:</strong> The application adapts seamlessly to different screen sizes and devices (desktop, tablet, smartphone).</p>
 </li>
 </ul>
 </div>
@@ -1964,6 +1778,18 @@ on this list.</p>
 <li>
 <p><strong>Enhanced Accessibility:</strong> Adjustments made to improve the experience for all users.</p>
 </li>
+<li>
+<p><strong>Performance Optimization:</strong> Continuous efforts to optimize loading times, response rates, and system resource consumption.</p>
+</li>
+<li>
+<p><strong>Error Handling:</strong> Systematic management of unexpected events with user-friendly error messages and internal logging.</p>
+</li>
+<li>
+<p><strong>Scalability Management:</strong> Operational processes that ensure the system can handle increased load without manual intervention.</p>
+</li>
+<li>
+<p><strong>Resource Efficiency:</strong> Strategies to optimize server and database resource usage, minimizing operational costs.</p>
+</li>
 </ul>
 </div>
 <hr>
@@ -1977,6 +1803,9 @@ on this list.</p>
 </li>
 <li>
 <p><strong>Data Protection:</strong> Encrypted credentials to prevent unauthorized access.</p>
+</li>
+<li>
+<p><strong>Authentication and Authorization:</strong> Secure mechanisms for verifying user identity and managing permissions based on roles.</p>
 </li>
 </ul>
 </div>
@@ -2005,6 +1834,9 @@ on this list.</p>
 </li>
 <li>
 <p><strong>Continuous Deployment:</strong> Use of CI/CD pipelines to ensure active development and deployment processes.</p>
+</li>
+<li>
+<p><strong>API Gateway</strong> An API Gateway can be used to consolidate access to the different microservices, handling authentication, rate limiting, and logging. It simplifies communication by abstracting the underlying complexity of multiple services.</p>
 </li>
 </ul>
 </div>
@@ -2046,28 +1878,6 @@ on this list.</p>
 <div class="sect1">
 <h2 id="section-quality-scenarios">10. Quality Requirements</h2>
 <div class="sectionbody">
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Content</div>
-<p>This section contains all quality requirements as quality tree with scenarios. The most important ones have already been described in section 1.2. (quality goals)</p>
-</div>
-<div class="paragraph">
-<p>Here you can also capture quality requirements with lesser priority,
-which will not create high risks when they are not fully achieved.</p>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>Since quality requirements will have a lot of influence on architectural
-decisions you should know for every stakeholder what is really important to them,
-concrete and measurable.</p>
-</div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-10/">Quality Requirements</a> in the arc42 documentation.</p>
-</div>
-</div>
-</div>
 <div class="sect2">
 <h3 id="_quality_tree">10.1. Quality Tree</h3>
 <div class="imageblock">
@@ -2075,127 +1885,46 @@ concrete and measurable.</p>
 <img src="./images/10-árbol.png" alt="10 árbol">
 </div>
 </div>
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Content</div>
-<p>The quality tree (as defined in ATAM – Architecture Tradeoff Analysis Method) with quality/evaluation scenarios as leafs.</p>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>The tree structure with priorities provides an overview for a sometimes large number of quality requirements.</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>The quality tree is a high-level overview of the quality goals and requirements:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>tree-like refinement of the term "quality". Use "quality" or "usefulness" as a root</p>
-</li>
-<li>
-<p>a mind map with quality categories as main branches</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>In any case the tree should include links to the scenarios of the following section.</p>
-</div>
-</div>
-</div>
 </div>
 <div class="sect2">
 <h3 id="_quality_scenarios">10.2. Quality Scenarios</h3>
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Contents</div>
-<p>Concretization of (sometimes vague or implicit) quality requirements using (quality) scenarios.</p>
-</div>
-<div class="paragraph">
-<p>These scenarios describe what should happen when a stimulus arrives at the system.</p>
-</div>
-<div class="paragraph">
-<p>For architects, two kinds of scenarios are important:</p>
-</div>
 <div class="ulist">
 <ul>
 <li>
-<p>Usage scenarios (also called application scenarios or use case scenarios) describe the system’s runtime reaction to a certain stimulus. This also includes scenarios that describe the system’s efficiency or performance. Example: The system reacts to a user’s request within one second.</p>
+<p>|===</p>
 </li>
 <li>
-<p>Change scenarios describe a modification of the system or of its immediate environment. Example: Additional functionality is implemented or requirements for a quality attribute change.</p>
+<p>| Description | Quality Attribute | Scenario</p>
+</li>
+<li>
+<p>| The system must be available 24/7 with minimal downtime. | Availability | Users can access the system at any time without interruptions.</p>
+</li>
+<li>
+<p>| The architecture must support the addition of more servers without service disruption. | Scalability | During peak hours, the system distributes traffic across multiple servers without performance degradation.</p>
+</li>
+<li>
+<p>| The application must ensure the protection of user data, especially during registration and login. | Security | User credentials and personal data are encrypted and securely stored to prevent unauthorized access.</p>
+</li>
+<li>
+<p>| The response time to display a question and its options must be less than 2 seconds. | Availability / Performance | When a contestant requests a new question, the system presents it almost instantly.</p>
+</li>
+<li>
+<p>| Questions must be correctly generated from Wikidata without errors. | Mitigation of LLM Errors | The system extracts information from Wikidata accurately to generate consistent and error-free questions.</p>
+</li>
+<li>
+<p>| The chatbot must provide relevant and coherent hints based on the LLM API. | Mitigation of LLM Errors | When a user requests a hint, the chatbot generates it correctly using the LLM API.</p>
+</li>
+<li>
+<p>| The user interface must be intuitive, with clear instructions on how to participate and obtain hints. | Usability | A new user can navigate the application without prior instructions and easily understand how to interact with the game. | The application must allow easy updates and maintenance operations without major service disruptions.</p>
+</li>
+<li>
+<p>| Maintainability | Developers can deploy updates or fix bugs quickly without negatively affecting the user experience.</p>
+</li>
+<li>
+<p>|===</p>
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>Scenarios make quality requirements concrete and allow to
-more easily measure or decide whether they are fulfilled.</p>
-</div>
-<div class="paragraph">
-<p>Especially when you want to assess your architecture using methods like
-ATAM you need to describe your quality goals (from section 1.2)
-more precisely down to a level of scenarios that can be discussed and evaluated.</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>Tabular or free form text.</p>
-</div>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Description</th>
-<th class="tableblock halign-left valign-top">Quality Attribute</th>
-<th class="tableblock halign-left valign-top">Scenario</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">El sistema debe estar disponible 24/7 con un tiempo de inactividad mínimo.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Alta Disponibilidad</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Los usuarios pueden acceder al sistema en cualquier momento sin interrupciones.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">La arquitectura debe permitir la adición de más servidores sin interrumpir el servicio.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Escalabilidad</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Durante las horas pico, el sistema distribuye el tráfico entre múltiples servidores sin degradar el rendimiento.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">La aplicación debe garantizar la protección de los datos de los usuarios, especialmente durante el registro y acceso.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Seguridad</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Las credenciales y datos personales de los usuarios están cifrados y almacenados de forma segura para evitar accesos no autorizados.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">El tiempo de respuesta para mostrar una pregunta y sus opciones debe ser menor a 2 segundos.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Rendimiento</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Un concursante solicita una nueva pregunta y el sistema la presenta casi instantáneamente.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Las preguntas deben generarse correctamente a partir de los datos de Wikidata sin errores.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integración con Wikidata</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">El sistema extrae información de Wikidata para generar preguntas de manera precisa y sin inconsistencias.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">El chatbot debe proporcionar pistas relevantes y coherentes basadas en la API de LLM.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Precisión de Pistas</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cuando un usuario solicita una pista, el chatbot la genera correctamente utilizando la API de LLM.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">La interfaz de usuario debe ser intuitiva, con instrucciones claras sobre cómo participar y obtener pistas.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Usabilidad</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Un nuevo usuario puede navegar en la aplicación sin instrucciones previas y entender cómo interactuar con el juego.</p></td>
-</tr>
-</tbody>
-</table>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -2232,6 +1961,11 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 <td class="tableblock halign-left valign-top"><p class="tableblock">Github is a version control tool in which if we do a bad management we could lose some functionality when it comes to manage the conflicts occurred.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Low</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Team Communication</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Miscommunication or lack of coordination among team members could lead to delays or misunderstandings in the development process.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Low</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -2256,6 +1990,26 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 <td class="tableblock halign-left valign-top"><p class="tableblock">React is a new technology for almost everyone in the team, so they should help each other to learn how to use it, as well as watch some tutorials to understand it better.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Documentation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The documentation of the project is incomplete or outdated, which could lead to misunderstandings or difficulties for new developers joining the team.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Medium</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Testing Coverage</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The project lacks sufficient automated tests, which increases the risk of introducing bugs when making changes or adding new features.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Code Refactoring</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Some parts of the codebase are not optimized or follow inconsistent coding standards, which could make maintenance and scalability more difficult.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Medium</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dependency Management</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The project relies on third-party libraries or services, and updates or deprecations could introduce compatibility issues.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Medium</p></td>
+</tr>
 </tbody>
 </table>
 <div style="page-break-after: always;"></div>
@@ -2263,7 +2017,98 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 </div>
 </div>
 <div class="sect1">
-<h2 id="section-glossary">12. Glossary</h2>
+<h2 id="section-tests">12. Testing in the Project</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_code_coverage">12.1. Code Coverage</h3>
+<div class="paragraph">
+<p>Code coverage is a metric used to measure what percentage of the source code is being executed by automated tests. In this project, unit tests have been implemented to ensure code quality and reliability.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tool used</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jest</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jest is a testing framework for JavaScript that enables unit testing and code coverage measurement.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Coverage achieved</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Currently, the project has achieved XX% coverage (replace with actual value) in critical areas of the system, including business logic and backend controllers.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_end_to_end_e2e_testing">12.2. End-to-End (E2E) Testing</h3>
+<div class="paragraph">
+<p>End-to-end testing verifies the full functionality of the system, from the frontend to the backend, ensuring that the main application flows work correctly.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tool used</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cypress</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cypress is an E2E testing framework that allows simulating user interactions in the browser and verifying system behavior.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flows tested</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">- User registration.
+- Login.
+- Logout.
+- Entering the game.
+- Navigation through the application.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_test_results">12.3. Test Results</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type of test</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Result</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unit tests</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">All unit tests have successfully passed, covering the main backend functions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">E2E tests</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The main application flows have been successfully validated, ensuring a smooth user experience.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_conclusion_2">12.4. Conclusion</h3>
+<div class="paragraph">
+<p>The use of coverage and end-to-end tests has allowed early detection and correction of errors during development, improving system quality and reducing the risk of failures in production. It is recommended to continue expanding test coverage and performing periodic E2E tests to ensure system stability.</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-glossary">13. Glossary</h2>
 <div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -2297,6 +2142,42 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Wikidata</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Wikidata is a free and open knowledge base that can be read and edited by both humans and machines.</em></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>API</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Application Programming Interface: A set of definitions and protocols that allow different applications to communicate with each other.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>CI/CD</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Continuous Integration/Continuous Deployment: A set of practices that automate the integration and delivery of code to improve development quality and speed.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Frontend</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>The part of an application that directly interacts with users, typically developed using technologies like HTML, CSS, and JavaScript.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Backend</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>The part of an application that handles server logic, databases, and data processing.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Cloud Computing</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>The use of remote servers hosted on the Internet to store, manage, and process data instead of local servers.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Microservices</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>An architectural style that structures an application as a collection of small, autonomous services that communicate with each other.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Scalability</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>The ability of a system to handle an increase in workload without compromising performance.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>JSON</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>JavaScript Object Notation: A lightweight data interchange format that is easy for humans and machines to read and write.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>REST</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Representational State Transfer: An architectural style for designing web services that uses standard HTTP methods.</em></p></td>
+</tr>
 </tbody>
 </table>
 <div class="paragraph">
@@ -2318,7 +2199,7 @@ See <a href="https://arc42.org" class="bare">https://arc42.org</a>.</p>
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2025-03-31 03:30:27 +0200
+Last updated 2025-04-27 17:35:31 +0200
 </div>
 </div>
 </body>
