@@ -11,16 +11,17 @@ image::10-árbol.png[]
 === Quality Scenarios
 
 [cols="3*", options="header"]
-|===
-| Description | Quality Attribute | Scenario
-| El sistema debe estar disponible 24/7 con un tiempo de inactividad mínimo. | Alta Disponibilidad | Los usuarios pueden acceder al sistema en cualquier momento sin interrupciones.
-| La arquitectura debe permitir la adición de más servidores sin interrumpir el servicio. | Escalabilidad | Durante las horas pico, el sistema distribuye el tráfico entre múltiples servidores sin degradar el rendimiento.
-| La aplicación debe garantizar la protección de los datos de los usuarios, especialmente durante el registro y acceso. | Seguridad | Las credenciales y datos personales de los usuarios están cifrados y almacenados de forma segura para evitar accesos no autorizados.
-| El tiempo de respuesta para mostrar una pregunta y sus opciones debe ser menor a 2 segundos. | Rendimiento | Un concursante solicita una nueva pregunta y el sistema la presenta casi instantáneamente.
-| Las preguntas deben generarse correctamente a partir de los datos de Wikidata sin errores. | Integración con Wikidata | El sistema extrae información de Wikidata para generar preguntas de manera precisa y sin inconsistencias.
-| El chatbot debe proporcionar pistas relevantes y coherentes basadas en la API de LLM. | Precisión de Pistas | Cuando un usuario solicita una pista, el chatbot la genera correctamente utilizando la API de LLM.
-| La interfaz de usuario debe ser intuitiva, con instrucciones claras sobre cómo participar y obtener pistas. | Usabilidad | Un nuevo usuario puede navegar en la aplicación sin instrucciones previas y entender cómo interactuar con el juego.
-|===
+- |=== 
+- | Description | Quality Attribute | Scenario 
+- | The system must be available 24/7 with minimal downtime. | Availability | Users can access the system at any time without interruptions. 
+- | The architecture must support the addition of more servers without service disruption. | Scalability | During peak hours, the system distributes traffic across multiple servers without performance degradation. 
+- | The application must ensure the protection of user data, especially during registration and login. | Security | User credentials and personal data are encrypted and securely stored to prevent unauthorized access. 
+- | The response time to display a question and its options must be less than 2 seconds. | Availability / Performance | When a contestant requests a new question, the system presents it almost instantly. 
+- | Questions must be correctly generated from Wikidata without errors. | Mitigation of LLM Errors | The system extracts information from Wikidata accurately to generate consistent and error-free questions. 
+- | The chatbot must provide relevant and coherent hints based on the LLM API. | Mitigation of LLM Errors | When a user requests a hint, the chatbot generates it correctly using the LLM API. 
+- | The user interface must be intuitive, with clear instructions on how to participate and obtain hints. | Usability | A new user can navigate the application without prior instructions and easily understand how to interact with the game. | The application must allow easy updates and maintenance operations without major service disruptions. 
+- | Maintainability | Developers can deploy updates or fix bugs quickly without negatively affecting the user experience. 
+- |===
 
 
 
