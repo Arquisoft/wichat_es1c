@@ -5,7 +5,7 @@ const cors = require("cors");
 const cron = require('node-cron');
 const fs = require('fs');
 const jwt = require("jsonwebtoken");
-
+// require('dotenv').config();
 const Question = require("./models/question-model.js");
 const Template = require("./models/template-model.js");
 const Score = require("./models/score-model.js");
@@ -205,6 +205,12 @@ async function generateQuestions(type) {
 
             if (!newQuestion.title || !newQuestion.correctAnswer || !newQuestion.allAnswers) {
                 console.error("Pregunta incompleta:", newQuestion);
+                continue;
+            }
+
+            // Validar que la categoría de la pregunta coincide con el tipo solicitado
+            if (newQuestion.category !== selectedCategory) {
+                console.warn(`Pregunta descartada: categoría "${newQuestion.category}" no coincide con "${selectedCategory}"`);
                 continue;
             }
 

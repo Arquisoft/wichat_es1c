@@ -4,96 +4,94 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 === Requirements Overview
 
-WIChat is an enhanced version of last year's experimental game show app developed by HappySw for RTVE. The main improvement is the addition of a chatbot powered by a large language model (LLM), allowing contestants to interact and receive clues during the game. The app generates questions and images automatically using data from Wikidata, offering a diverse range of topics and visual content. It also features user registration, history tracking, and performance data, making the game more engaging and personalized. WIChat is a web-based platform designed to be scalable, flexible, and easily maintainable while providing an interactive, fun, and educational experience for users.
+WIChat is an enhanced version of the experimental quiz application developed last year by HappySw for RTVE. The main improvement is the incorporation of a chatbot powered by a large language model (LLM), allowing contestants to interact and receive hints during the game. The application automatically generates questions and images using data from Wikidata, offering a wide range of topics and visual content. It also includes features such as user registration, individual game rankings, global rankings across all users, options to modify account details, and viewing general user data. All of this makes the game more engaging and personalized. WIChat is a web platform designed to be scalable, flexible, and easily maintainable, providing an interactive, fun, and educational experience for users.
 
 === Essential Functional Requirements:
+
 * *User registration and authentication*: 
-  ** Users will be able to create accounts and log in to participate in the contest.
+    ** Users can create accounts and log in to participate in the quiz.
 
-* *Question and answer game*:
-  ** Presentation of images to the contestants, who must guess the place or theme represented.
-  ** Inclusion of questions about the images in the chatbot.
-  ** Rewarding users for each correct answer.
+* *Question and answer game*: 
+    ** Menu for selecting question type and maximum response time per question. ** Display of images to contestants, who must guess the place or topic shown. 
+    ** Inclusion of image-related questions within the chatbot. ** Reward users for each correct answer.
 
-* *Interactive clue functionality*:
-  ** Users will be able to request clues about the answers conversationally.
-  ** The clues will be generated using an external large language model (LLM).
+* *Interactive hint functionality*: 
+    ** Users can request hints about answers conversationally. 
+    ** Hints will be generated using an external large language model (LLM).
 
-* *Automatic content generation*:
-  ** Images and clues will be automatically generated from data obtained from Wikidata.
+* *Automatic content generation*: 
+    ** Images and hints will be automatically generated based on data retrieved from Wikidata.
 
 === Driving Forces:
-* *Improvement of user interaction*: 
-  ** The inclusion of conversational clues aims to increase user interest and engagement.
+
+* *Improved user interaction*: 
+    ** Including conversational hints aims to increase user engagement and participation.
 
 * *Content automation*: 
-  ** Automatically generating images and clues reduces manual work and helps keep the content updated and diverse.
+    ** Automatically generating images and hints reduces manual work and helps keep the content updated and diverse.
 
-* *Alignment with modern technologies*: 
-  ** The integration of an LLM and the use of Wikidata position the app at the forefront of technology, which is key for RTVE as an innovative public media entity.
-
-
+* *Alignment with modern technologies*:
+    ** Integrating an LLM and using Wikidata positions the application at the technological forefront, which is key for RTVE as an innovative public entity.
 
 === Motivation
 
-From the perspective of the end users, the WIChat system is created with the purpose of enhancing the user experience in the "Saber y Ganar" quiz. The modification of the system aims primarily to increase participant interaction by allowing them to obtain clues in a conversational manner through an external large language model (LLM). This enriches the gaming experience and makes it somewhat easier for users by receiving "assistance" from the chatbot.
+From the end-user perspective, the WIChat system is created to enhance the user experience in the "Saber y Ganar" quiz show. The primary goal of the system modification is to increase participant interaction by allowing them to obtain hints conversationally through an external large language model (LLM). This enriches the gaming experience and facilitates participation by offering "assistance" via the chatbot.
 
-This system is designed to improve player support through the chatbot with clues, while the quality of the game is also enhanced by integrating advanced technology to automatically generate images and clues based on Wikidata. This ensures that the content is relevant, up-to-date, and non-repetitive, which guarantees a more enriching and engaging experience for users.
+The system is designed to better support players through chatbot-generated hints, while also raising the overall game quality by integrating advanced technology for the automatic generation of images and hints based on Wikidata data. This ensures that the content remains relevant, up-to-date, and non-repetitive, providing a richer and more engaging experience for users.
 
 === Quality Goals
 
-[options="header",cols="1,3"]
+[options="header",cols="1,3"] 
+|=== 
+| Quality Objective | Specific Scenario 
+| High availability | The system must be available 24/7 with minimal downtime for application maintenance. 
+| Scalability | The architecture must allow for adding more servers without service interruption, effectively handling traffic spikes during periods of high demand. 
+| Security | The application must ensure user data protection, especially passwords, during registration and login processes. 
+| Performance | The response time for displaying a question and its options must be less than 2 seconds. 
+| Integration with Wikidata | Images and hints must be correctly generated from Wikidata data without errors. 
+| Usability | The user interface must be intuitive, with clear instructions on how to participate and request hints. 
 |===
-| *Quality Goal* | *Concrete Scenario*
-| High Availability | The system must be available 24/7 with minimal downtime.
-| Scalability | The architecture must support the addition of more servers without interrupting service, managing traffic spikes during peak times.
-| Security | The application must ensure the protection of user data, particularly during registration and access.
-| Performance | The response time for displaying a question and its options should be under 2 seconds.
-| Integration with Wikidata | Images and clues must be generated correctly from Wikidata data without errors.
-| Usability | The user interface must be intuitive, with clear instructions on how to participate and get clues.
-|===
-
-
 
 === WIChat System Stakeholders
 
-1. *End Users:*
-* *Role:* Contestants of the quiz.
-* *Responsibility:* They should understand the basic architecture of the game to know how to interact with the questions and hints. They do not need to be aware of technical details.
+1. *End Users*:
+1.1. *Role*: Contestants.
+* *Responsibility*: They must understand the basic game architecture to know how to interact with questions, hints, and the different functionalities of the application. No deep technical knowledge is required.
 
-2. *Software developers:*
-* *Role:* Frontend and Backend developers.
-* *Responsibility:* They need to understand the architecture in detail to implement system functionalities, such as image generation and integration with the language model for the chatbot hints.
+1.2. *Role*: System administrators.
+* *Responsibility*: They must understand the architecture to manage system maintenance and security, perform deployments, and monitor performance. They must also understand the user management menu, where they can delete users as long as the user is not an administrator.
 
-3. *Software Architects:*
-* *Role:* Technical architects responsible for the system's infrastructure.
-* *Responsibility:* They must have a deep understanding of the architecture and make key decisions regarding the scalability, security, and modularity of the system.
+2. *Software Developers*:
+* *Role*: Frontend and backend developers.
+* *Responsibility*: They must deeply understand the architecture to implement system functionalities such as image generation and chatbot hint integration.
 
-4. *Testers:*
-* *Role:* Responsible for ensuring the system’s quality.
-* *Responsibility:* They need to understand the architecture and work organization to ensure the game functions correctly, and the images and hints are generated properly.
+3. *Software Architects*:
+* *Role*: Technical architects responsible for the system infrastructure.
+* *Responsibility*: They must have a deep knowledge of the architecture and make key decisions regarding scalability, security, and system modularity.
 
+4. *Testers*:
+* *Role*: Responsible for ensuring system quality.
+* *Responsibility*: They must understand the architecture and work organization to ensure the game works properly and that images and hints are generated correctly.
 
-.Project stakeholders
-[options="header",cols="^1,^2,^2"]
-|===
-| Role/Name         | Contact                           | Expectations  
-| Software developers, architects and testers |  
-https://github.com/DalonfeUO[Daniel Alberto Alonso Fernández] +  
-https://github.com/davidalvarezcabezas[David Álvarez Cabezas] +  
+.Project Stakeholders 
+[options="header",cols="^1,^2,^2"] 
+|=== 
+| Role/Name | Contact | Expectations | Software developers, architects, and testers | 
+https://github.com/DalonfeUO[Daniel Alberto Alonso Fernández] + 
+https://github.com/davidalvarezcabezas[David Álvarez Cabezas] + 
 https://github.com/alejandrofdzgarcia[Alejandro Fernández García] + 
-https://github.com/mario5garciap[Mario García Prieto]  
-| Collaborate effectively across all project stages, ensuring clean, maintainable code. Focus on scalability, performance, and integration with external systems. Conduct thorough testing and automation. Document and share design decisions and best practices.  
-| Client |  
-link:https://www.rtve.es/play/videos/saber-y-ganar/[Radio Televisión Española (RTVE)]  
-| Expects a stable and attractive web solution that increases user engagement and provides an entertaining and interactive gaming experience.  
-| ChattySW (Development Company) |  
-Internal development team at ChattySW  
-| Deliver a robust and interactive application that integrates AI-driven hints for the game. Ensure availability, performance, and security. Maintain clear communication with RTVE and align with project deadlines.  
-| System Administrator |  
-IT team responsible for system maintenance  
-| Ensure system uptime, security, and performance. Manage deployments, monitor server load, and provide technical support.  
-| Regular User (Player) |  
-People who register and play the game  
-| Engage with the game by answering image-based questions and using the conversational hint system. Provide feedback on usability and user experience.  
+https://github.com/mario5garciap[Mario García Prieto] 
+| Collaborate effectively across all project stages, ensuring clean and maintainable code. Focus on scalability, performance, and external system integration. Perform thorough and automated testing. Document and share design decisions and best practices. 
+| Client | 
+link:https://www.rtve.es/play/videos/saber-y-ganar/[Radio Televisión Española (RTVE)] 
+| Expect a stable and attractive web solution that increases user engagement and provides an entertaining and interactive gaming experience. 
+| ChattySW (Development Company) | 
+Internal development team at ChattySW 
+| Deliver a robust and interactive application that integrates AI-powered hints for the game. Ensure availability, performance, and security. Maintain clear communication with RTVE and meet project deadlines. 
+| System Administrator | 
+IT team responsible for system maintenance 
+| Ensure uptime, security, and system performance. Manage deployments, monitor server load, and provide technical support. Also manage application users and their permissions. 
+| Regular User (Player) | 
+People who register and play the quiz 
+| Participate in the game by answering image-based questions and using the conversational hint system. Provide feedback on usability and user experience. 
 |===

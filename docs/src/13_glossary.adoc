@@ -1,0 +1,51 @@
+ifndef::imagesdir[:imagesdir: ../images]
+
+[[section-glossary]]
+== Glossary
+
+[cols="e,2e" options="header"]
+|===
+|Term |Definition
+
+|Risks
+|Risks are something bad that could happen but has not yet happened.
+
+|Technical Debt
+|Debt acquired by consciously or unconsciously making the wrong design decisions.
+
+|LLM
+|A large language model is a type of machine learning model designed for natural language processing tasks such as language generation.
+
+|Skateholders
+|Person who affects, is affected or can contribute to the system and its architecture
+
+|Wikidata
+|Wikidata is a free and open knowledge base that can be read and edited by both humans and machines.
+
+|API
+|Application Programming Interface: A set of definitions and protocols that allow different applications to communicate with each other.
+
+|CI/CD
+|Continuous Integration/Continuous Deployment: A set of practices that automate the integration and delivery of code to improve development quality and speed.
+
+|Frontend
+|The part of an application that directly interacts with users, typically developed using technologies like HTML, CSS, and JavaScript.
+
+|Backend
+|The part of an application that handles server logic, databases, and data processing.
+
+|Cloud Computing
+|The use of remote servers hosted on the Internet to store, manage, and process data instead of local servers.
+
+|Microservices
+|An architectural style that structures an application as a collection of small, autonomous services that communicate with each other.
+
+|Scalability
+|The ability of a system to handle an increase in workload without compromising performance.
+
+|JSON
+|JavaScript Object Notation: A lightweight data interchange format that is easy for humans and machines to read and write.
+
+|REST
+|Representational State Transfer: An architectural style for designing web services that uses standard HTTP methods.
+|===

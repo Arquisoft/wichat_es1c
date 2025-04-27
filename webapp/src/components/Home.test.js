@@ -9,7 +9,7 @@ jest.mock('./PersonalRanking', () => () => <div data-testid="personal-ranking">P
 describe('Home Component', () => {
   beforeEach(() => {
     localStorage.clear();
-  });
+  });//a
 
   test('renders OptionsDropdown and PersonalRanking components', () => {
     render(<Home />);
