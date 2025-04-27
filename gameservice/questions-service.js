@@ -5,7 +5,7 @@ const cors = require("cors");
 const cron = require('node-cron');
 const fs = require('fs');
 const jwt = require("jsonwebtoken");
-// require('dotenv').config();
+require('dotenv').config();
 const Question = require("./models/question-model.js");
 const Template = require("./models/template-model.js");
 const Score = require("./models/score-model.js");
