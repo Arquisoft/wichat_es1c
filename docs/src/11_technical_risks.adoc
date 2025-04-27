@@ -11,6 +11,7 @@ Risks and problems may occur during project development.
 | Name | Description | Priority
 | Time | The available time for the project is limited due to each dev in the team having other subjects and projects to work on. | Medium
 | Version Control (GitHub) | Github is a version control tool in which if we do a bad management we could lose some functionality when it comes to manage the conflicts occurred. | Low
+| Team Communication | Miscommunication or lack of coordination among team members could lead to delays or misunderstandings in the development process. | Low
 |===
 
 === Technical Debts
@@ -19,4 +20,8 @@ Risks and problems may occur during project development.
 |===
 | Name | Description | Priority
 | React | React is a new technology for almost everyone in the team, so they should help each other to learn how to use it, as well as watch some tutorials to understand it better. | High
+| Documentation | The documentation of the project is incomplete or outdated, which could lead to misunderstandings or difficulties for new developers joining the team. | Medium
+| Testing Coverage | The project lacks sufficient automated tests, which increases the risk of introducing bugs when making changes or adding new features. | High
+| Code Refactoring | Some parts of the codebase are not optimized or follow inconsistent coding standards, which could make maintenance and scalability more difficult. | Medium
+| Dependency Management | The project relies on third-party libraries or services, and updates or deprecations could introduce compatibility issues. | Medium
 |===
