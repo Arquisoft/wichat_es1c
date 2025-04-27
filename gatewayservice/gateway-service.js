@@ -16,7 +16,7 @@ const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
 const gameServiceUrl = process.env.GAME_SERVICE_URL || 'http://localhost:8010';
 
 app.use(cors({
-  origin: ["http://172.187.128.128:3000", "http://localhost:3000"],
+  origin: ["http://172.201.120.139:3000", "http://localhost:3000"],
   credentials: true 
 }));
 app.use(express.json());
