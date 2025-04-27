@@ -9,9 +9,10 @@ ifndef::imagesdir[:imagesdir: ../images]
 |Name|Description
 |FrontEnd| The system shall have at least one frontend for user interaction.
 |Question Generation| Questions should be generated automatically from wikidata.
-|User Management| The system shall have a user management system that allows for login, registration, andhistorical consultation.
+|User Management| The system shall have a user management system that allows for login, registration, and historical consultation.
 |LLM| We will use an LLM for hint generation based on an image that we will send.
 |Deployment| We will use docker for local deployment.
+|Monitoring and Metrics| The system shall include monitoring and metrics collection using Prometheus and Grafana to ensure system reliability and performance.
 |===
 
 === Organizational constraints
@@ -27,5 +28,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 |===
 |Name|Description
 |Project documentation| We will use the Arc42 template for the documentation which will be written in English in its entirety.
+|Code Reviews| All code changes must go through a pull request and be reviewed by at least one team member before merging into the main branch.
 |===
 
