@@ -1,8 +1,8 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
-== Introduction and Objectives
+== Introduction and Goals
 
-=== Requirements Summary
+=== Requirements Overview
 
 WIChat is an enhanced version of the experimental quiz application developed last year by HappySw for RTVE. The main improvement is the incorporation of a chatbot powered by a large language model (LLM), allowing contestants to interact and receive hints during the game. The application automatically generates questions and images using data from Wikidata, offering a wide range of topics and visual content. It also includes features such as user registration, individual game rankings, global rankings across all users, options to modify account details, and viewing general user data. All of this makes the game more engaging and personalized. WIChat is a web platform designed to be scalable, flexible, and easily maintainable, providing an interactive, fun, and educational experience for users.
 
@@ -39,7 +39,7 @@ From the end-user perspective, the WIChat system is created to enhance the user 
 
 The system is designed to better support players through chatbot-generated hints, while also raising the overall game quality by integrating advanced technology for the automatic generation of images and hints based on Wikidata data. This ensures that the content remains relevant, up-to-date, and non-repetitive, providing a richer and more engaging experience for users.
 
-=== Quality Objectives
+=== Quality Goals
 
 [options="header",cols="1,3"] 
 |=== 
