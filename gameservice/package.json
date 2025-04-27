@@ -17,6 +17,7 @@
     "express": "^4.21.2",
     "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
+    "mongodb-memory-server": "^10.1.4",
     "mongoose": "^8.10.1",
     "node-cron": "^3.0.3",
     "node-fetch": "^3.3.2",
