@@ -17,7 +17,7 @@ import './App.css';
 function App() {
   const location = useLocation();
   const [darkMode, setDarkMode] = useState(false);
-
+  // esto es una prueba
   // Crear tema en base al estado del darkMode
   const theme = createTheme({
     palette: {
