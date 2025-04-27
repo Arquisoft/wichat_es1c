@@ -27,25 +27,17 @@ defineFeature(feature, test => {
 
     when('I log in and click the logout button', async () => {
       await page.waitForSelector('input[type="email"]', { visible: true });
-      await page.type('input[type="email"]', 'dani@dani');
+      await page.type('input[type="email"]', 'test@test');
 
       await page.waitForSelector('input[type="password"]', { visible: true });
-      await page.type('input[type="password"]', 'dani');
+      await page.type('input[type="password"]', 'test');
 
       await page.waitForSelector('button.login-button', { visible: true });
       await page.click('button.login-button');
 
       await page.waitForNavigation({ waitUntil: 'networkidle0' });
 
-      // Buscar el botón con LogoutIcon (no tiene texto)
-      const logoutButtons = await page.$$('button');
-      for (const btn of logoutButtons) {
-        const iconHTML = await btn.evaluate(el => el.innerHTML);
-        if (iconHTML.includes('Logout')) {
-          await btn.click();
-          break;
-        }
-      }
+      await page.click('[data-testid="logout-button"]');
     });
 
     then('I should be redirected to the login page', async () => {

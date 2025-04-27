@@ -144,6 +144,7 @@ const TopNavbar = () => {
     alignItems: 'center',
     justifyContent: 'center',
   }}
+    data-testid="logout-button"
 >
   <LogoutIcon />
        </Button>
