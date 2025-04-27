@@ -280,8 +280,7 @@ async function fetchQuestions()
             const response = await axios.get(endpoint,
             {
                 params : { query : template.query, format : "json" },
-                headers : { Accept : "application/sparql-results+json" },
-                timeout : 10000 // 10 seconds
+                headers : { Accept : "application/sparql-results+json" }
             });
 
             // Extract questions from response
