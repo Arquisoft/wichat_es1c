@@ -1,38 +1,44 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
-[[section-context-and-scope]]
 == Context and Scope
 
 === Business Context
 
 [options="header",cols="^2,^3,^3"]
 |===
-| *Communication Partner*   | *Inputs*                      | *Outputs*
+| *Communication Partner*   | *Inputs*                        | *Outputs*
 
-| Users                     | User requests and interactions.  | Responses and hints (chatbot clues).
-| Web Application           | Receives user inputs and data from backend services. | Updates the interface to display information to the user.
-| Backend Service           | Takes actions from users via the web application and data returned by external APIs. | Manages calls to APIs and updates the web application view.
-| Chatbot                   | User queries (text input).       | Clues and tips (text output).
-| Database                   | Stored game data.               | Game state, user progress, stored results.
-| Wikidata                  | Receives queries about a theme or category. | Returns a page corresponding to the given query.
-| LLM (Large Language Model)| Receives relevant information about the question the user needs to answer. | Interacts or provides answers to the user in different ways, depending on the used wildcard.
+| Users                      | User requests and interactions.  | Responses and hints (chatbot clues).
+| Web Application            | Receives user inputs and data from backend services. | Updates the interface to display information to the user.
+| Backend Service            | Processes user actions through the web application and data returned from external APIs. | Manages API calls and updates the web application view.
+| Chatbot                    | User queries (text input).        | Hints and suggestions (text output).
+| Database                   | Stored game data.                 | Game state, user progress, stored results.
+| Wikidata                   | Receives queries about a topic or category. | Returns a page corresponding to the given query.
+| LLM (Large Language Model) | Receives relevant information about the question the user needs to answer. | Interacts or provides answers to the user in different ways, depending on the wildcard used.
 |===
 
 ==== Communication Partners:
+
 * *Users:* 
-    ** The end-users interact with the system through the chatbot and other game features. They are provided feedback or hints within the game.
+** End users interact with the system through the chatbot and other game features. They are provided hints during gameplay.
+
 * *Web Application:* 
-    ** The web application serves as the user interface and manages the presentation of the game, including the display of questions, answers, and interactions with other components of the system.
+** The web application acts as the user interface and manages the presentation of the game, including the display of questions, answers, and interactions with other system components.
+
 * *Backend Service:* 
-    ** This service processes user actions, manages the game state, communicates with external services (like Wikidata and LLM), and provides necessary data to the web application.
+** This service processes user actions, manages the game state, communicates with external services (such as Wikidata and the LLM), and provides necessary data to the web application.
+
 * *Chatbot:* 
-    ** The chatbot serves as a conversational interface for user interactions. It receives inputs in the form of questions or commands and generates responses that may provide hints or extra information.
+** The chatbot serves as a conversational interface for user interactions. It receives inputs in the form of questions or commands and generates responses that may include hints or additional information.
+
 * *Database:* 
-    ** The database stores all relevant game information, such as the game state, user progress, and historical results.
+** The database stores all relevant game information, such as the game state, user progress, and historical results.
+
 * *Wikidata:* 
-    ** An external data source accessed by the backend service to retrieve knowledge and information via SPARQL queries, which helps generate trivia questions and provide context.
+** An external data source accessed by the backend service to retrieve knowledge and information via SPARQL queries, helping to generate trivia questions and provide context.
+
 * *LLM (Large Language Model):* 
-    ** A complex model that processes user queries and generates responses or hints, adapting based on the wildcards used in the game.
+** A complex model that processes user queries and generates answers or hints, adapting based on the wildcards used in the game.
 
 === Technical Context
 
@@ -40,7 +46,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 |===
 | *Communication Partner*     | *Explanation*
 
-| *Web Application*            | The user plays the game via the internet, connecting to the system through HTTP requests.
+| *Web Application*            | The user plays the game over the internet, connecting to the system via HTTP requests.
 
 | *Backend Service*            | Manages game data, processes user actions, communicates with LLMs to provide hints, and generates trivia questions by calling external APIs.
 
@@ -50,38 +56,46 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 | *LLM (Large Language Model)* | Used to process user questions and provide relevant hints, ensuring dynamic and meaningful interactions in the game.
 
-| *Azure Cloud*                | Used for deploying the application, ensuring scalability, security, and availability of the system.
+| *Azure Cloud*                | Used for deploying the application, ensuring system scalability, security, and availability.
 
-| *MongoDB*                    | A NoSQL database for storing all application data, including user information and trivia questions.
+| *MongoDB*                    | A NoSQL database used to store all application data, including user information and trivia questions.
 
-| *Web Browsers*                | Allow users to access the game once it is deployed, supporting various browsers.
+| *Web Browsers*                | Allow users to access the game once deployed, supporting various browsers.
 
 | *React, JavaScript, HTML, CSS*| Technologies used for the frontend development of the game, providing an interactive and responsive user interface.
+
+| *GitHub CI/CD* | Tool used for continuous integration and delivery, enabling automatic deployment of code changes and version management. It also allows automation of tests and the deployment of project documentation.
+
+| *REST API* | A tool used to access various application data through HTTP requests. The responses return a JSON file containing the requested information.
+
+| *Jest* | Testing framework used for performing unit and integration tests in the code, ensuring its quality and functionality.
+
+| *Gatling* | Technology used to perform load and performance testing, ensuring that the application can handle multiple users simultaneously.
 |===
 
 * *Web Application:*
-    * The game is played through the internet. Users connect to the system via HTTP requests, allowing access via web browsers.
+** The game is played over the internet. Users connect to the system via HTTP requests, allowing access through web browsers.
 
 * *Backend Service:*
-    * This service manages all game-related data. It processes user actions, generates trivia questions, and interacts with the Large Language Model (LLM) to offer hints. It also calls external APIs for additional game data.
+** This service manages all game-related data. It processes user actions, generates trivia questions, and interacts with the Large Language Model (LLM) to provide hints. It also makes calls to external APIs to retrieve additional data for the game.
 
 * *Database:*
-    * The database, which is based on MongoDB, stores critical data like user profiles, scores, and game progress. It ensures persistent storage and retrieval of this information.
+** The database, based on MongoDB, stores critical data such as user profiles, scores, and game progress, ensuring persistent storage and retrieval of this information.
 
 * *Wikidata:*
-    * The backend service retrieves knowledge from Wikidata using SPARQL queries, which is then used to create trivia questions and provide game context.
+** The backend service retrieves knowledge from Wikidata using SPARQL queries, which is used to create trivia questions and provide context for the game.
 
 * *LLM (Large Language Model):*
-    * The LLM processes user questions and generates relevant hints or answers. It enables dynamic and intelligent interactions based on user inputs.
+** The LLM processes user questions and generates relevant hints or answers, allowing dynamic and intelligent interactions based on user inputs.
 
 * *Azure Cloud:*
-    * Azure Cloud is used for deploying the application, ensuring the system is scalable, secure, and available.
+** Azure Cloud is used for deploying the application, ensuring that the system is scalable, secure, and highly available.
 
 * *MongoDB:*
-    * MongoDB, a NoSQL database, stores all the application’s data, including user profiles and trivia questions, making it ideal for handling large volumes of unstructured data.
+** MongoDB, a NoSQL database, stores all the application data, including user profiles and trivia questions, making it ideal for handling large volumes of unstructured data.
 
 * *Web Browsers:*
-    * Web browsers serve as the platform for accessing the game, allowing users to interact with it across a variety of devices.
+** Web browsers serve as the platform for accessing the game, allowing users to interact with it from a variety of devices.
 
 * *React, JavaScript, HTML, CSS:*
-    * These technologies are used to develop the frontend of the game. React builds the interactive user interface, while JavaScript, HTML, and CSS manage the layout, functionality, and styling of the game’s web pages.
+** These technologies are used to develop the game's frontend. React builds the interactive user interface, while JavaScript, HTML, and CSS manage the layout, functionality, and styling of the game's web pages.
