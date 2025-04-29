@@ -7,20 +7,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 === Infrastructure Level 1
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-Describe (usually in a combination of diagrams, tables, and text):
-
-* distribution of a system to multiple locations, environments, computers, processors, .., as well as physical connections between them
-* important justifications or motivations for this deployment structure
-* quality and/or performance features of this infrastructure
-* mapping of software artifacts to elements of this infrastructure
-
-For multiple environments or alternative deployments please copy and adapt this section of arc42 for all relevant environments.
-****
-endif::arc42help[]
-
 image::07_deployment_view-EN.svg[align="center"]
 
 Motivation::
@@ -40,3 +26,7 @@ Mapping of Building Blocks to Infrastructure::
 | Wikidata server    | Wikidata API to fetch data via SPARQL queries to dynamically generate questions
 | OpenLLM server     | Open LLM (AI) designed to give hints during the game
 |===
+
+Additional Considerations::
+
+* The OpenLLM server requires an internet connection to process user requests in real time.

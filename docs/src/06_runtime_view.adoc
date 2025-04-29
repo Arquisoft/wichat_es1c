@@ -3,20 +3,25 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-runtime-view]]
 == Runtime View
 
-=== Runtime Scenario 1 - Playing a game
+=== Runtime Scenario 1 - Playing a Game
 
-The following diagram depicts the interaction between the user and the most notable modules of the application.
+The following diagram shows the interaction between the user and the most relevant modules of the application.
 
 image::06_runtime_view-EN.svg[align="center"]
 
-The interaction can be divided into these steps:
+The interaction can be divided into the following steps:
 
-* **Logging in:** The user logs into the application. If they don't have  an account created, it will be necessary to sign up.
-* **Starting the game: ** Once logged in, the user will start a new game.
-* **Answering the questions: ** For each question, the four ellegible answers will be generated. Once per question, its info (question, image and possible answers) will be presented to the user via the GUI, and it will wait for their input. After the user inputs their answer, the score will be increased (or not) accordingly to the choosen answer.
-* **Ending the game:** Once all the questions have been answered, the GUI will display the final score of the game.
+* **Logging in:** The user logs into the application. If they do not have an account, they will need to register.
+* **Starting the game:** Once logged in, the user starts a new game.
+* **Answering the questions:** For each question, four possible answers will be generated. Once per question, its information (question, image, and possible answers) will be presented to the user through the graphical interface, and the system will wait for their response. After the user submits an answer, the score will be increased—or not—according to the selected answer.
+* **Saving progress:** During the game, the user can save their progress to continue later.
+* **Ending the game:** Once all questions have been answered, the GUI will display the final score.
+* **Sharing results:** The user will have the option to share their final score on social media or with other users.
+* **Chatbot assistance:** During the game, the user may interact with a chatbot powered by a language model (LLM) to get hints, clarifications about the questions, or general assistance. The chatbot will be available in real time and adapt its responses to the game context.
 
 Additional considerations:
 
-* Once the game is finished, the user will be asked whether they'd like to start a new game. This diagram only portrays one game.
-* In spite of simplicity, this diagram assumes the user already has an account.
+* Once the game ends, the user will be asked if they want to start a new game. This diagram only represents a single game session.
+* Despite its simplicity, this diagram assumes the user already has an account.
+* The save progress feature may be optional and depend on the implementation.
+* The chatbot integration with the LLM may require an internet connection to process user requests.
