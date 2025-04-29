@@ -11,7 +11,7 @@ const endpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
 const Game = () => {
     const [showOptions, setShowOptions] = useState(true);
-    const [questionType, setQuestionType] = useState('Geografía');
+    const [questionType, setQuestionType] = useState('general');
     const [responseTime, setResponseTime] = useState(60);
     const [isDisabled, setIsDisabled] = useState(false);
 
