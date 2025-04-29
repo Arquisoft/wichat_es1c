@@ -134,8 +134,7 @@ function App() {
               />
             </Routes>
 
-            {location.pathname !== '/home' && location.pathname !== '/game' && location.pathname !== '/faq' && location.pathname !== '/user-account'
-              && location.pathname !== '/ranking' && location.pathname !== '/admin-menu' && (
+            {(location.pathname === '/' || location.pathname === '/login') && (
               <Typography component="div" align="center" sx={{ mt: 2 }}>
                 {location.pathname === '/' ? (
                   <Typography variant="body2" color="white">
