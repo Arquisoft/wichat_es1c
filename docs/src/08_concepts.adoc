@@ -42,8 +42,7 @@ image::08_entity_diagram-EN.png["Domain Entity Diagram"]
 - **Attractive Design:** A beautiful and visually appealing app design.
 - **Consistent User Interface (UI):** The layout, styles, and interaction patterns remain uniform across all screens and functionalities.
 - **Fast Feedback:** The system provides immediate visual or textual feedback after every user action (e.g., clicking a button, submitting an answer).
-- **Minimal User Effort:** Tasks should require the fewest possible steps to complete (e.g., joining a game in just two clicks).
-- **Responsive Design:** The application adapts seamlessly to different screen sizes and devices (desktop, tablet, smartphone).
+- **Minimal User Effort:** Tasks should require the fewest possible steps to complete.
 
 ---
 
@@ -52,7 +51,6 @@ image::08_entity_diagram-EN.png["Domain Entity Diagram"]
 - **Ease of Use:** User testing conducted to enhance usability.
 - **Enhanced Accessibility:** Adjustments made to improve the experience for all users.
 - **Performance Optimization:** Continuous efforts to optimize loading times, response rates, and system resource consumption.
-- **Error Handling:** Systematic management of unexpected events with user-friendly error messages and internal logging.
 - **Scalability Management:** Operational processes that ensure the system can handle increased load without manual intervention.
 - **Resource Efficiency:** Strategies to optimize server and database resource usage, minimizing operational costs.
 
@@ -76,5 +74,4 @@ image::08_entity_diagram-EN.png["Domain Entity Diagram"]
 - **Automated Testing:** Implementation of unit and integration tests to validate system functionality.
 - **Continuous Deployment:** Use of CI/CD pipelines to ensure active development and deployment processes.
 - **API Gateway** An API Gateway can be used to consolidate access to the different microservices, handling authentication, rate limiting, and logging. It simplifies communication by abstracting the underlying complexity of multiple services.
-
 
