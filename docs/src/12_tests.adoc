@@ -25,13 +25,32 @@ End-to-end testing verifies the full functionality of the system, from the front
 - Navigation through the application.
 |===
 
+=== Usability Testing
+Usability testing focuses on evaluating the system's user interface and overall user experience by observing real users as they interact with the application. These tests aim to identify any usability issues and ensure that the system is intuitive and user-friendly.
+
+[options="header", cols="1,2"]
+|===
+| Method used | Moderated remote sessions and user feedback collection
+| Description | Test participants were asked to complete typical tasks while being observed remotely. Post-session surveys were also collected to gather subjective impressions.
+| Key findings |
+- Users found the onboarding process clear and easy to follow.
+- Navigation through the app was intuitive for the majority of testers.
+- Minor issues were noted in the accessibility of some controls on smaller screens.
+| Improvements made | Based on feedback, UI adjustments were made to improve mobile responsiveness and highlight primary action buttons.
+|===
+
+==== Examples of Usability Tests
+We asked several people of different age groups to test the application. Through these tests, we discovered errors in the graphical interface, the backend, and the internal workings of the LLM itself.
+
+
 === Test Results
 [options="header", cols="1,2"]
 |===
 | Type of test | Result
 | Unit tests | All unit tests have successfully passed, covering the main backend functions.
 | E2E tests | The main application flows have been successfully validated, ensuring a smooth user experience.
+| Usability tests | The main application has been tested by real people who have provided feedback on its performance.
 |===
 
 === Conclusion
-The use of coverage and end-to-end tests has allowed early detection and correction of errors during development, improving system quality and reducing the risk of failures in production. It is recommended to continue expanding test coverage and performing periodic E2E tests to ensure system stability.
+The use of coverage and end-to-end testing has enabled early detection and correction of errors during development, improving system quality and reducing the risk of production failures. It is recommended to continue expanding test coverage and perform periodic end-to-end (E2E) testing to ensure system stability. Thanks to Coverage testing, we have been able to review lines of code critical to development.
