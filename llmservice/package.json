@@ -13,7 +13,8 @@
         "axios": "^1.7.9",
         "dotenv": "^16.4.7",
         "express": "^4.21.2",
-        "llmservice": "file:"
+        "llmservice": "file:",
+        "yaml": "^2.7.1"
     },
     "devDependencies": {
         "jest": "^29.7.0",

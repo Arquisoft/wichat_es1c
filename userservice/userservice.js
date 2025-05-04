@@ -5,6 +5,7 @@ const User = require('./user-model')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
+require('dotenv').config();
 
 const app = express();
 const port = process.env.USER_SERVICE_PORT || 8001;
