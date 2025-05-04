@@ -3,56 +3,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-concepts]]
 == Cross-cutting Concepts
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-.Content
-This section describes overall, principal regulations and solution ideas that are relevant in multiple parts (= cross-cutting) of your system.
-Such concepts are often related to multiple building blocks.
-They can include many different topics, such as
-
-* models, especially domain models
-* architecture or design patterns
-* rules for using specific technology
-* principal, often technical decisions of an overarching (= cross-cutting) nature
-* implementation rules
-
-.Motivation
-Concepts form the basis for _conceptual integrity_ (consistency, homogeneity) of the architecture. 
-Thus, they are an important contribution to achieve inner qualities of your system.
-
-Some of these concepts cannot be assigned to individual building blocks, e.g. security or safety. 
-
-.Form
-The form can be varied:
-
-* concept papers with any kind of structure
-* cross-cutting model excerpts or scenarios using notations of the architecture views
-* sample implementations, especially for technical concepts
-* reference to typical usage of standard frameworks (e.g. using Hibernate for object/relational mapping)
-
-.Structure
-A potential (but not mandatory) structure for this section could be:
-
-* Domain concepts
-* User Experience concepts (UX)
-* Safety and security concepts
-* Architecture and design patterns
-* "Under-the-hood"
-* development concepts
-* operational concepts
-
-Note: it might be difficult to assign individual concepts to one specific topic
-on this list.
-
-image::08-concepts-EN.drawio.png["Possible topics for crosscutting concepts"]
-
-.Further Information
-
-See https://docs.arc42.org/section-8/[Concepts] in the arc42 documentation.
-****
-endif::arc42help[]
-
 === Domain Concepts
 
 #### Introduction
@@ -86,21 +36,33 @@ image::08_entity_diagram-EN.svg["Domain Entity Diagram"]
 ---
 
 ### User Experience (UX)
+
 - **Intuitive Design:** A clear and accessible interface for easy navigation.
 - **Accessibility Features:** Visual aids such as icons and colors to improve understanding.
-- **Attractive design:** A beautiful and visually appealing app design.
+- **Attractive Design:** A beautiful and visually appealing app design.
+- **Consistent User Interface (UI):** The layout, styles, and interaction patterns remain uniform across all screens and functionalities.
+- **Fast Feedback:** The system provides immediate visual or textual feedback after every user action (e.g., clicking a button, submitting an answer).
+- **Minimal User Effort:** Tasks should require the fewest possible steps to complete (e.g., joining a game in just two clicks).
+- **Responsive Design:** The application adapts seamlessly to different screen sizes and devices (desktop, tablet, smartphone).
 
 ---
 
 ### Operational Concepts
+
 - **Ease of Use:** User testing conducted to enhance usability.
 - **Enhanced Accessibility:** Adjustments made to improve the experience for all users.
+- **Performance Optimization:** Continuous efforts to optimize loading times, response rates, and system resource consumption.
+- **Error Handling:** Systematic management of unexpected events with user-friendly error messages and internal logging.
+- **Scalability Management:** Operational processes that ensure the system can handle increased load without manual intervention.
+- **Resource Efficiency:** Strategies to optimize server and database resource usage, minimizing operational costs.
 
 ---
 
 ### Security
+
 - **Access Control:** Restriction of certain sections to authenticated users.
 - **Data Protection:** Encrypted credentials to prevent unauthorized access.
+- **Authentication and Authorization:** Secure mechanisms for verifying user identity and managing permissions based on roles.
 
 ---
 
@@ -113,4 +75,6 @@ image::08_entity_diagram-EN.svg["Domain Entity Diagram"]
 ### Development Strategies
 - **Automated Testing:** Implementation of unit and integration tests to validate system functionality.
 - **Continuous Deployment:** Use of CI/CD pipelines to ensure active development and deployment processes.
+- **API Gateway** An API Gateway can be used to consolidate access to the different microservices, handling authentication, rate limiting, and logging. It simplifies communication by abstracting the underlying complexity of multiple services.
+
 

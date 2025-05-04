@@ -1,6 +1,9 @@
 const request = require("supertest");
 const jwt = require("jsonwebtoken");
-const app = require("./questions-service.js"); // Asumiendo que el archivo principal es index.js
+const { MongoMemoryServer } = require('mongodb-memory-server');
+
+let mongoServer;
+let app;
 
 jest.mock("axios");
 jest.mock("jsonwebtoken");
@@ -13,8 +16,17 @@ const Template = require("./models/template-model.js");
 const Score = require("./models/score-model.js");
 const axios = require("axios");
 
-afterAll(async () => {
+describe('Questions Service API', () => {
+  beforeAll(async () => {
+    mongoServer = await MongoMemoryServer.create();
+    const mongoUri = mongoServer.getUri();
+    process.env.MONGODB_URI = mongoUri;
+    app = require('./questions-service');
+});
+
+  afterAll(async () => {
     app.close();
+    await mongoServer.stop();
   });
 
 describe("GET /test", () => {
@@ -44,6 +56,7 @@ describe("GET /generateQuestions", () => {
           title: `Pregunta ${index + 1}`,
           correctAnswer: `Correcta ${index + 1}`,
           allAnswers: `Correcta ${index + 1},Incorrecta${index + 1}a,Incorrecta${index + 1}b,Incorrecta${index + 1}c`,
+          category: "geography"
         }))
       );
   
@@ -61,6 +74,7 @@ describe("GET /generateQuestions", () => {
               title: `Pregunta ${index + 1}`,
               correctAnswer: `Correcta ${index + 1}`,
               allAnswers: `Correcta ${index + 1},Incorrecta${index + 1}a,Incorrecta${index + 1}b,Incorrecta${index + 1}c`,
+              category: "geography"
             }))
           );
 
@@ -78,6 +92,7 @@ describe("GET /generateQuestions", () => {
               title: `Pregunta ${index + 1}`,
               correctAnswer: `Correcta ${index + 1}`,
               allAnswers: `Correcta ${index + 1},Incorrecta${index + 1}a,Incorrecta${index + 1}b,Incorrecta${index + 1}c`,
+              category: "geography"
             }))
           );
 
@@ -146,3 +161,5 @@ describe("GET /generateQuestions", () => {
         expect(res.body.message).toBe("Error al guardar la puntuación");
     });
   });
+})
+

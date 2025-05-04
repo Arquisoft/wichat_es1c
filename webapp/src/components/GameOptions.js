@@ -57,10 +57,11 @@ const GameOptions = ({ questionType, setQuestionType, responseTime, setResponseT
                                         sx={{ backgroundColor: 'white', borderRadius: 2 }}
                                     >
                                         <MenuItem value="general">General</MenuItem>
-                                        <MenuItem value="Geografía">Banderas de Países</MenuItem>
-                                        <MenuItem value="Deportes">Deportes</MenuItem>
-                                        <MenuItem value="Biología">Biología</MenuItem>
-                                        <MenuItem value="Arte">Arte</MenuItem>
+                                        <MenuItem value="Geografia">Banderas de Países</MenuItem>
+                                        <MenuItem value="Arte">Músicos</MenuItem>
+                                        <MenuItem value="Deportes">Deportista</MenuItem>
+                                        <MenuItem value="Biologia">Pájaros</MenuItem>
+                                        <MenuItem value="Arquitectura">Monumentos</MenuItem>
                                     </Select>
                                 </FormControl>
                             </motion.div>

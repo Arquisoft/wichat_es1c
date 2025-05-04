@@ -5,7 +5,7 @@ const cors = require("cors");
 const cron = require('node-cron');
 const fs = require('fs');
 const jwt = require("jsonwebtoken");
-
+require('dotenv').config();
 const Question = require("./models/question-model.js");
 const Template = require("./models/template-model.js");
 const Score = require("./models/score-model.js");
@@ -18,7 +18,7 @@ const NUMBER_OF_WRONG_ANSWERS = 3;
 const NUMBER_OF_QUESTIONS = 10
 
 const templatesPath = "./data/questions-templates.json";
-const templates = JSON.parse(fs.readFileSync(templatesPath, 'utf8'));
+const templates = require('./data/questions-templates.json')
 const endpoint = 'https://query.wikidata.org/sparql';
 
 app.use(cors({
@@ -28,7 +28,7 @@ app.use(cors({
 app.use(express.json());
 
 
-const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://fFFH8ALCgMl58vdLNovG:y122LzFpRq4LgpHfNRlJ@wichat.sz10z.mongodb.net/wichat-db';
+const mongoUri = process.env.MONGODB_URI;
 mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => {return Template.deleteMany({})})
 .then(() => {return Template.insertMany(templates)});;
@@ -208,6 +208,12 @@ async function generateQuestions(type) {
                 continue;
             }
 
+            // Validar que la categoría de la pregunta coincide con el tipo solicitado
+            if (newQuestion.category !== selectedCategory) {
+                console.warn(`Pregunta descartada: categoría "${newQuestion.category}" no coincide con "${selectedCategory}"`);
+                continue;
+            }
+
             if (!selectedQuestions.has(newQuestion.correctAnswer.toString())) {
                 selectedQuestions.add(newQuestion.correctAnswer.toString());
                 questions.push(newQuestion);
@@ -274,8 +280,7 @@ async function fetchQuestions()
             const response = await axios.get(endpoint,
             {
                 params : { query : template.query, format : "json" },
-                headers : { Accept : "application/sparql-results+json" },
-                timeout : 10000 // 10 seconds
+                headers : { Accept : "application/sparql-results+json" }
             });
 
             // Extract questions from response

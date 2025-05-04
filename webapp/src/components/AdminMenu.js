@@ -89,9 +89,34 @@ const AdminMenu = () => {
   return (
     <div style={{ padding: '24px', maxWidth: '1200px', margin: '0 auto' }}>
       <OptionsDropdown />
-      <Card elevation={3} style={{ marginTop: '24px', width: '100%' }}>
+      <Card elevation={3} 
+      sx={{
+      mt: 5,
+      p: { xs: 3, sm: 4 },
+      background: "linear-gradient(0deg, rgba(128,80,208,1) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,1) 100%)",
+      borderRadius: "16px",
+      boxShadow: "0 4px 30px rgba(0, 0, 0, 0.08)",
+      border: "1px solid rgba(128, 80, 208, 0.2)",
+      backdropFilter: "blur(10px)",
+      WebkitBackdropFilter: "blur(10px)",
+      maxWidth: "100%",
+      overflowX: "auto",
+      animation: "fadeIn 0.5s ease-in-out",
+      }}>
         <CardContent>
-          <Typography variant="h5" gutterBottom>
+          <Typography
+            variant="h5"
+            gutterBottom
+            sx={{
+              color: "#333",
+              fontWeight: "bold",
+              textAlign: "center",
+              mb: 3,
+              pb: 1,
+              borderBottom: "2px solid rgba(128, 80, 208, 0.5)",
+              fontSize: "1.8rem",
+            }}
+          >
             Lista de Usuarios
           </Typography>
 

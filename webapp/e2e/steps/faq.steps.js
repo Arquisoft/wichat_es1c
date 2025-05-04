@@ -9,7 +9,9 @@ let browser;
 defineFeature(feature, test => {
   beforeAll(async () => {
     jest.setTimeout(80000);
-    browser = await puppeteer.launch({ headless: false, slowMo: 0 });
+    browser = process.env.GITHUB_ACTIONS
+          ? await puppeteer.launch({ headless: 'new', args: ['--no-sandbox', '--disable-setuid-sandbox'] })
+          : await puppeteer.launch({ headless: false, slowMo: 0 });
     page = await browser.newPage();
     setDefaultOptions({ timeout: 60000 });
     await page.goto('http://localhost:3000', { waitUntil: 'networkidle0' });
@@ -24,9 +26,12 @@ defineFeature(feature, test => {
       await page.waitForSelector('input[type="email"]', { visible: true });
     });
 
-    when('I log in with valid credentials and open the FAQ menu', async () => {
-      await page.type('input[type="email"]', 'dani@dani');
-      await page.type('input[type="password"]', 'dani');
+    when('I log in and click the HELP button', async () => {
+      await page.waitForSelector('input[type="email"]', { visible: true });
+      await page.type('input[type="email"]', 'test@test');
+
+      await page.waitForSelector('input[type="password"]', { visible: true });
+      await page.type('input[type="password"]', 'test');
 
       await page.waitForSelector('button.login-button', { visible: true });
       await page.click('button.login-button');

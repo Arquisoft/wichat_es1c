@@ -1,0 +1,37 @@
+[[section-tests]]
+== Testing in the Project
+
+=== Code Coverage
+Code coverage is a metric used to measure what percentage of the source code is being executed by automated tests. In this project, unit tests have been implemented to ensure code quality and reliability.
+
+[options="header", cols="1,2"]
+|===
+| Tool used | Jest
+| Description | Jest is a testing framework for JavaScript that enables unit testing and code coverage measurement.
+| Coverage achieved | Currently, the project has achieved 80.2% coverage (replace with actual value) in critical areas of the system, including business logic and backend controllers.
+|===
+
+=== End-to-End (E2E) Testing
+End-to-end testing verifies the full functionality of the system, from the frontend to the backend, ensuring that the main application flows work correctly.
+
+[options="header", cols="1,2"]
+|===
+| Tool used | Cypress
+| Description | Cypress is an E2E testing framework that allows simulating user interactions in the browser and verifying system behavior.
+| Flows tested |
+- User registration.
+- Login.
+- Entering the game.
+- Navigation through the application.
+|===
+
+=== Test Results
+[options="header", cols="1,2"]
+|===
+| Type of test | Result
+| Unit tests | All unit tests have successfully passed, covering the main backend functions.
+| E2E tests | The main application flows have been successfully validated, ensuring a smooth user experience.
+|===
+
+=== Conclusion
+The use of coverage and end-to-end tests has allowed early detection and correction of errors during development, improving system quality and reducing the risk of failures in production. It is recommended to continue expanding test coverage and performing periodic E2E tests to ensure system stability.

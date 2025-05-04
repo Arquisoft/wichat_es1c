@@ -1,18 +1,26 @@
-const request = require('supertest');
-const server = require('./userservice');
+const request = require('supertest')
 const User = require('./user-model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { MongoMemoryServer } = require('mongodb-memory-server');
 
 jest.mock('./user-model');
 
 describe('User Service API', () => {
+  beforeAll(async () => {
+      mongoServer = await MongoMemoryServer.create();
+      const mongoUri = mongoServer.getUri();
+      process.env.MONGODB_URI = mongoUri;
+      server = require('./userservice');
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  afterAll(() => {
+  afterAll(async () => {
     server.close();
+    await mongoServer.stop();
   });
 
   describe('POST /api/register', () => {
