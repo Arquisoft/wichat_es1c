@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Settings } from '@mui/icons-material';
 
 const GameOptions = ({ questionType, setQuestionType, responseTime, setResponseTime, onStartGame }) => {
+    
     return (
         <Container
             maxWidth="xs"
