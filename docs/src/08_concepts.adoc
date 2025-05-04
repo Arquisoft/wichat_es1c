@@ -26,12 +26,12 @@ Each of these is detailed below.
 ### Domain Models
 
 #### Domain Structure
-- **User:** An individual interacting with the application, capable of handling multiple concurrent sessions.
-- **Game:** A feature allowing users to engage in individual challenges with different formats.
-- **Stats:** A section displaying user performance, including total games, accuracy, and average scores.
-- **Ranking:** Displays user rankings based on scores, correct answers, and playtime.
+- **User:** The person who interacts with the app and answers questions while playing the game.
+- **Question:** A feature allowing users to engage in individual challenges with different formats.
+- **Template:** The base that makes up the questions and contains the query to search for it
+- **Score:** The score for each user based on the questions answered correctly.
 
-image::08_entity_diagram-EN.svg["Domain Entity Diagram"]
+image::08_entity_diagram-EN.png["Domain Entity Diagram"]
 
 ---
 
