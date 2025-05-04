@@ -5,7 +5,7 @@ const cors = require("cors");
 const cron = require('node-cron');
 const fs = require('fs');
 const jwt = require("jsonwebtoken");
-// require('dotenv').config();
+require('dotenv').config();
 const Question = require("./models/question-model.js");
 const Template = require("./models/template-model.js");
 const Score = require("./models/score-model.js");
@@ -280,8 +280,7 @@ async function fetchQuestions()
             const response = await axios.get(endpoint,
             {
                 params : { query : template.query, format : "json" },
-                headers : { Accept : "application/sparql-results+json" },
-                timeout : 10000 // 10 seconds
+                headers : { Accept : "application/sparql-results+json" }
             });
 
             // Extract questions from response

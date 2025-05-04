@@ -5,15 +5,15 @@ require('dotenv').config();
 const app = express();
 const port = process.env.LLM_SERVICE_PORT || 8003;
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const LLM_API_KEY = process.env.LLM_API_KEY;
 
-if (!GEMINI_API_KEY) {
+if (!LLM_API_KEY) {
   console.error('⚠️ No se encontró la API Key de Gemini. Configúrala en .env');
 }
 
 const llmConfigs = {
   gemini: {
-    url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+    url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${LLM_API_KEY}`,
     transformRequest: (question, systemMessage) => ({
       contents: [
         {
@@ -51,10 +51,6 @@ async function sendQuestionToLLM(question, model = 'gemini', systemMessage) {
     const response = await axios.post(config.url, payload, {
       headers: { 'Content-Type': 'application/json' }
     });
-
-    console.log("📩 Pregunta:", question);
-    console.log("🧠 Instrucción del sistema:", systemMessage);
-    console.log("📨 Respuesta de Gemini:", JSON.stringify(response.data, null, 2));
 
     return config.transformResponse(response);
   } catch (error) {

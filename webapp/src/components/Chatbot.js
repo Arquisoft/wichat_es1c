@@ -19,9 +19,6 @@ const GameChatbot = ({ currentAnswer }) => {
         model: 'gemini',
         systemMessage
       });
-      
-      console.log("Enviando país al chatbot:", response);
-      console.log("Enviando país al chatbot:", currentAnswer);
 
       const reply = response.data.answer || 'No tengo una pista para eso.';
       streamMessage(reply);

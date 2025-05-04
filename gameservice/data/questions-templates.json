@@ -3,7 +3,7 @@
         "question": "¿De dónde es esta bandera?|*",
         "query": "SELECT ?label ?img WHERE { ?p wdt:P31 wd:Q6256. ?p wdt:P41 ?img. ?p rdfs:label ?label. FILTER(LANG(?label) = \"es\") } LIMIT 100",
         "type" : "Banderas",
-        "category": "Geografía"
+        "category": "Geografia"
     }, 
     {
         "question" : "¿Cuál es el nombre de este músico famoso?|*",
@@ -22,7 +22,7 @@
         "question": "¿De pájaro es este?|*",
         "query": "SELECT DISTINCT ?label (SAMPLE(?img) AS ?img) WHERE { ?p wdt:P31 wd:Q16521. ?p wdt:P18 ?img. ?p wdt:P171* wd:Q5113. ?p rdfs:label ?label. FILTER(LANG(?label) = \"es\") } GROUP BY ?label LIMIT 100",
         "type" : "Pajaros",
-        "category": "Biología"
+        "category": "Biologia"
     },
 
     {
