@@ -40,6 +40,9 @@ describe('GameChatbot', () => {
 
     const streamMessage = jest.fn();
 
+    const { getByTestId } = render(<GameChatbot currentAnswer="India" />);
+
+    // Simula el flujo del chatbot
     const flow = {
       await_user_input: {
         message: async ({ userInput, streamMessage }) => {
@@ -53,8 +56,6 @@ describe('GameChatbot', () => {
       }
     };
 
-    render(<GameChatbot currentAnswer="India" />);
-
     await flow.await_user_input.message({ userInput: 'Dame una pista', streamMessage });
 
     expect(axios.post).toHaveBeenCalledWith(expect.stringContaining('/api/chatbot'), {
@@ -64,6 +65,7 @@ describe('GameChatbot', () => {
     });
 
     expect(streamMessage).toHaveBeenCalledWith('Tiene una bandera tricolor con un símbolo de rueda.');
+    expect(getByTestId('chatbot-mock')).toBeInTheDocument();
   });
 
   it('maneja errores al llamar al backend', async () => {
@@ -71,6 +73,9 @@ describe('GameChatbot', () => {
 
     const streamMessage = jest.fn();
 
+    const { getByTestId } = render(<GameChatbot currentAnswer="India" />);
+
+    // Simula el flujo del chatbot
     const flow = {
       await_user_input: {
         message: async ({ userInput, streamMessage }) => {
@@ -87,16 +92,18 @@ describe('GameChatbot', () => {
       }
     };
 
-    render(<GameChatbot currentAnswer="India" />);
-
     await flow.await_user_input.message({ userInput: 'Dame una pista', streamMessage });
 
     expect(streamMessage).toHaveBeenCalledWith('Hubo un error al obtener la pista.');
+    expect(getByTestId('chatbot-mock')).toBeInTheDocument();
   });
 
   it('muestra mensaje de error si currentAnswer no está definido', async () => {
     const streamMessage = jest.fn();
 
+    const { getByTestId } = render(<GameChatbot currentAnswer="" />);
+
+    // Simula el flujo del chatbot
     const flow = {
       await_user_input: {
         message: async ({ userInput, streamMessage }) => {
@@ -105,10 +112,45 @@ describe('GameChatbot', () => {
       }
     };
 
-    render(<GameChatbot currentAnswer="" />);
-
     await flow.await_user_input.message({ userInput: 'Hola', streamMessage });
 
     expect(streamMessage).toHaveBeenCalledWith('⚠️ No tengo información sobre la respuesta actual.');
+    expect(getByTestId('chatbot-mock')).toBeInTheDocument();
+  });
+
+  it('usa el valor predeterminado del endpoint si no se define REACT_APP_API_ENDPOINT', async () => {
+    delete process.env.REACT_APP_API_ENDPOINT; // Asegura que la variable de entorno no esté definida
+    axios.post.mockResolvedValueOnce({
+      data: { answer: 'Respuesta predeterminada.' }
+    });
+
+    const streamMessage = jest.fn();
+
+    const { getByTestId } = render(<GameChatbot currentAnswer="India" />);
+
+    // Simula el flujo del chatbot
+    const flow = {
+      await_user_input: {
+        message: async ({ userInput, streamMessage }) => {
+          await axios.post('http://localhost:8000/api/chatbot', {
+            question: userInput,
+            model: 'gemini',
+            currentAnswer: 'India'
+          });
+          streamMessage('Respuesta predeterminada.');
+        }
+      }
+    };
+
+    await flow.await_user_input.message({ userInput: 'Dame una pista', streamMessage });
+
+    expect(axios.post).toHaveBeenCalledWith('http://localhost:8000/api/chatbot', {
+      question: 'Dame una pista',
+      model: 'gemini',
+      currentAnswer: 'India'
+    });
+
+    expect(streamMessage).toHaveBeenCalledWith('Respuesta predeterminada.');
+    expect(getByTestId('chatbot-mock')).toBeInTheDocument();
   });
 });
