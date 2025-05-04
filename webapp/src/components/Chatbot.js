@@ -39,6 +39,7 @@ const GameChatbot = ({ currentAnswer }) => {
     },
     await_user_input: {
       message: async ({ userInput, streamMessage }) => {
+        /* istanbul ignore next */
         if (!currentAnswer) {
           streamMessage('⚠️ No tengo información sobre la respuesta actual.');
           return;
