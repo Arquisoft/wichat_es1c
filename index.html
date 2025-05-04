@@ -434,19 +434,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
 <h1><span class="image"><img src="./images/Wichat1.png" alt="arc42"></span> wichat_es1c</h1>
-<div id="toc" class="toc">
-<div id="toctitle">table of contents</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_introduction_and_goals">1. Introduction and Goals</a>
+<li><a href="#_introduction_and_objectives">1. Introduction and Objectives</a>
 <ul class="sectlevel2">
-<li><a href="#_requirements_overview">1.1. Requirements Overview</a></li>
-<li><a href="#_essential_functional_requirements">1.2. Essential Functional Requirements:</a></li>
-<li><a href="#_driving_forces">1.3. Driving Forces:</a></li>
+<li><a href="#_requirements_summary">1.1. Requirements Summary</a></li>
+<li><a href="#_essential_functional_requirements">1.2. Essential Functional Requirements</a></li>
+<li><a href="#_main_drivers">1.3. Main Drivers</a></li>
 <li><a href="#_motivation">1.4. Motivation</a></li>
-<li><a href="#_quality_goals">1.5. Quality Goals</a></li>
+<li><a href="#_quality_objectives">1.5. Quality Objectives</a></li>
 <li><a href="#_wichat_system_stakeholders">1.6. WIChat System Stakeholders</a></li>
 </ul>
 </li>
@@ -481,7 +481,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#section-runtime-view">6. Runtime View</a>
 <ul class="sectlevel2">
-<li><a href="#_runtime_scenario_1_playing_a_game">6.1. Runtime Scenario 1 - Playing a game</a></li>
+<li><a href="#_runtime_scenario_1_playing_a_game">6.1. Runtime Scenario 1 - Playing a Game</a></li>
 </ul>
 </li>
 <li><a href="#section-deployment-view">7. Deployment View</a>
@@ -524,8 +524,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_code_coverage">12.1. Code Coverage</a></li>
 <li><a href="#_end_to_end_e2e_testing">12.2. End-to-End (E2E) Testing</a></li>
-<li><a href="#_test_results">12.3. Test Results</a></li>
-<li><a href="#_conclusion_2">12.4. Conclusion</a></li>
+<li><a href="#_usability_testing">12.3. Usability Testing</a></li>
+<li><a href="#_test_results">12.4. Test Results</a></li>
+<li><a href="#_conclusion_2">12.5. Conclusion</a></li>
 </ul>
 </li>
 <li><a href="#section-glossary">13. Glossary</a></li>
@@ -548,20 +549,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_introduction_and_goals">1. Introduction and Goals</h2>
+<h2 id="_introduction_and_objectives">1. Introduction and Objectives</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_requirements_overview">1.1. Requirements Overview</h3>
+<h3 id="_requirements_summary">1.1. Requirements Summary</h3>
 <div class="paragraph">
-<p>WIChat is an enhanced version of the experimental quiz application developed last year by HappySw for RTVE. The main improvement is the incorporation of a chatbot powered by a large language model (LLM), allowing contestants to interact and receive hints during the game. The application automatically generates questions and images using data from Wikidata, offering a wide range of topics and visual content. It also includes features such as user registration, individual game rankings, global rankings across all users, options to modify account details, and viewing general user data. All of this makes the game more engaging and personalized. WIChat is a web platform designed to be scalable, flexible, and easily maintainable, providing an interactive, fun, and educational experience for users.</p>
+<p>WIChat is an enhanced version of the experimental quiz application developed last year by HappySw for RTVE. The main improvement is the incorporation of a chatbot powered by a large language model (LLM), allowing contestants to interact and receive hints during the game. The application automatically generates questions and images using data from Wikidata, offering a wide variety of topics and visual content. It also includes features such as user registration, individual game rankings, global rankings among all users, options to modify account data, and display of general user information. All of this makes the game more engaging and personalized. WIChat is a web platform designed to be scalable, flexible, and easy to maintain, providing an interactive, fun, and educational experience for users.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_essential_functional_requirements">1.2. Essential Functional Requirements:</h3>
+<h3 id="_essential_functional_requirements">1.2. Essential Functional Requirements</h3>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>User registration and authentication</strong>:</p>
+<p><strong>User Registration and Authentication</strong>:</p>
 <div class="ulist">
 <ul>
 <li>
@@ -571,37 +572,126 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </li>
 <li>
-<p><strong>Question and answer game</strong>:</p>
+<p><strong>Question and Answer Game</strong>:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Menu for selecting question type and maximum response time per question. ** Display of images to contestants, who must guess the place or topic shown.</p>
+<p>Menu to select the type of question and the maximum response time per question.</p>
 </li>
 <li>
-<p>Inclusion of image-related questions within the chatbot. ** Reward users for each correct answer.</p>
+<p>Display of images to contestants, who must guess the place or topic shown.</p>
+</li>
+<li>
+<p>Inclusion of image-related questions within the chatbot.</p>
+</li>
+<li>
+<p>Users are rewarded for each correct answer.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Interactive hint functionality</strong>:</p>
+<p><strong>Interactive Hint Functionality</strong>:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Users can request hints about answers conversationally.</p>
+<p>Users can request hints about the answers through conversational interaction.</p>
 </li>
 <li>
-<p>Hints will be generated using an external large language model (LLM).</p>
+<p>Hints will be generated by an external large language model (LLM).</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Automatic content generation</strong>:</p>
+<p><strong>Automatic Content Generation</strong>:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Images and hints will be automatically generated based on data retrieved from Wikidata.</p>
+<p>Images and hints will be automatically generated using data retrieved from Wikidata.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Global Ranking System</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Users can view their position in the global ranking.</p>
+</li>
+<li>
+<p>The ranking displays percentage of correct answers, total time spent per game, email, game number within the ranking, and date and time of the game.</p>
+</li>
+<li>
+<p>Data is sorted from highest to lowest based on the percentage of correct answers; in case of a tie, the total time spent determines the ranking.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Personal Ranking System</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Users can view all their played games in a personal ranking displayed in the home menu.</p>
+</li>
+<li>
+<p>The personal ranking displays the number of correct and incorrect answers, total time spent per game, and the date and time of each game.</p>
+</li>
+<li>
+<p>Data is sorted from highest to lowest based on the number of correct answers; in case of a tie, the total time spent determines the ranking.</p>
+</li>
+<li>
+<p>Unlike the global ranking, the personal ranking does not display the user&#8217;s email, as it is not relevant since it only includes their own games.</p>
+</li>
+<li>
+<p>Clicking on a game result opens a pop-up showing the list of questions for that game, including the number of correct and incorrect answers and the total time spent. Clicking on each question opens a pop-up showing the question and the correct answer; if the user answered incorrectly, the wrong answer will also be displayed.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Personal Account Management Section</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Users can change their password from the personal account management menu.</p>
+</li>
+<li>
+<p>Users can view their personal data as well as general statistics from all their played games.</p>
+</li>
+<li>
+<p>They can also view a graph displaying the results of their last 10 games; hovering over each point shows the specific data for each game. The Y-axis represents the percentage of correct answers per game.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Administrator Menu</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Administrators can view the list of users registered in the application.</p>
+</li>
+<li>
+<p>For each registered user, their email and username are displayed.</p>
+</li>
+<li>
+<p>Administrators can delete non-admin users via a delete button shown next to each user&#8217;s email.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Frequently Asked Questions</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Users can access a FAQ section explaining how the application works and how to use it.</p>
+</li>
+<li>
+<p>This option will be available within the Help section in the navigation menu.</p>
 </li>
 </ul>
 </div>
@@ -610,35 +700,45 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_driving_forces">1.3. Driving Forces:</h3>
+<h3 id="_main_drivers">1.3. Main Drivers</h3>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Improved user interaction</strong>:</p>
+<p><strong>Improvement of User Interaction</strong>:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Including conversational hints aims to increase user engagement and participation.</p>
+<p>The inclusion of conversational hints aims to increase user engagement and participation.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Content automation</strong>:</p>
+<p><strong>Content Automation</strong>:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Automatically generating images and hints reduces manual work and helps keep the content updated and diverse.</p>
+<p>Automatic generation of images and hints reduces manual work and helps keep the content updated and diverse.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Alignment with modern technologies</strong>:</p>
+<p><strong>Alignment with Modern Technologies</strong>:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Integrating an LLM and using Wikidata positions the application at the technological forefront, which is key for RTVE as an innovative public entity.</p>
+<p>Integrating an LLM and using Wikidata places the application at the forefront of technology, which is key for RTVE as an innovative public entity.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>User Experience</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Aiming for greater user involvement and interaction with the application through new, highly useful and interesting functionalities.</p>
 </li>
 </ul>
 </div>
@@ -649,14 +749,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_motivation">1.4. Motivation</h3>
 <div class="paragraph">
-<p>From the end-user perspective, the WIChat system is created to enhance the user experience in the "Saber y Ganar" quiz show. The primary goal of the system modification is to increase participant interaction by allowing them to obtain hints conversationally through an external large language model (LLM). This enriches the gaming experience and facilitates participation by offering "assistance" via the chatbot.</p>
+<p>From the end-user&#8217;s perspective, the WIChat system is designed to enhance the experience of participants in the "Saber y Ganar" program. The main goal of modifying the system is to increase participant interaction by allowing them to obtain hints conversationally through an external large language model (LLM). This enriches the gaming experience and facilitates participation by offering "assistance" via the chatbot.</p>
 </div>
 <div class="paragraph">
-<p>The system is designed to better support players through chatbot-generated hints, while also raising the overall game quality by integrating advanced technology for the automatic generation of images and hints based on Wikidata data. This ensures that the content remains relevant, up-to-date, and non-repetitive, providing a richer and more engaging experience for users.</p>
+<p>The system is designed to provide better support to players through hints generated by the chatbot, while also improving the overall game quality by integrating advanced technology for automatic generation of images and hints based on Wikidata data. This ensures the content is relevant, updated, and non-repetitive, providing users with a richer and more engaging experience.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_quality_goals">1.5. Quality Goals</h3>
+<h3 id="_quality_objectives">1.5. Quality Objectives</h3>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -670,20 +770,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">High availability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The system must be available 24/7 with minimal downtime for application maintenance.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">High Availability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The system must be available 24/7 with minimal downtime for maintenance.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Scalability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The architecture must allow for adding more servers without service interruption, effectively handling traffic spikes during periods of high demand.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The architecture must allow adding more servers without service interruption, efficiently handling traffic spikes during high demand periods.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Security</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The application must ensure user data protection, especially passwords, during registration and login processes.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application must ensure the protection of user data, especially passwords, during registration and login processes.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Performance</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The response time for displaying a question and its options must be less than 2 seconds.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The response time to display a question and its options must be less than 2 seconds.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integration with Wikidata</p></td>
@@ -706,7 +806,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Responsibility</strong>: They must understand the basic game architecture to know how to interact with questions, hints, and the different functionalities of the application. No deep technical knowledge is required.</p>
+<p><strong>Responsibility</strong>: Understand the basic architecture of the game to interact with questions, hints, and functionalities of the application. No deep technical knowledge is required.</p>
 </li>
 </ul>
 </div>
@@ -714,8 +814,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ol>
 </div>
 <div class="paragraph">
-<p>1.2. <strong>Role</strong>: System administrators.
-* <strong>Responsibility</strong>: They must understand the architecture to manage system maintenance and security, perform deployments, and monitor performance. They must also understand the user management menu, where they can delete users as long as the user is not an administrator.</p>
+<p>1.2. <strong>Role</strong>: System Administrators.
+* <strong>Responsibility</strong>: Understand the architecture to manage system maintenance and security, perform deployments, and monitor performance. They must also manage the user administration menu, being able to delete users who are not administrators.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -727,7 +827,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><strong>Role</strong>: Frontend and backend developers.</p>
 </li>
 <li>
-<p><strong>Responsibility</strong>: They must deeply understand the architecture to implement system functionalities such as image generation and chatbot hint integration.</p>
+<p><strong>Responsibility</strong>: Understand the architecture in depth to implement system functionalities such as image generation and chatbot hint integration.</p>
 </li>
 </ul>
 </div>
@@ -737,10 +837,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Role</strong>: Technical architects responsible for the system infrastructure.</p>
+<p><strong>Role</strong>: Technical architects responsible for the system&#8217;s infrastructure.</p>
 </li>
 <li>
-<p><strong>Responsibility</strong>: They must have a deep knowledge of the architecture and make key decisions regarding scalability, security, and system modularity.</p>
+<p><strong>Responsibility</strong>: Have a deep understanding of the architecture and make key decisions on system scalability, security, and modularity.</p>
 </li>
 </ul>
 </div>
@@ -753,7 +853,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><strong>Role</strong>: Responsible for ensuring system quality.</p>
 </li>
 <li>
-<p><strong>Responsibility</strong>: They must understand the architecture and work organization to ensure the game works properly and that images and hints are generated correctly.</p>
+<p><strong>Responsibility</strong>: Understand the architecture and work organization to ensure the game operates correctly and images and hints are properly generated.</p>
 </li>
 </ul>
 </div>
@@ -781,26 +881,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <a href="https://github.com/davidalvarezcabezas">David Álvarez Cabezas</a><br>
 <a href="https://github.com/alejandrofdzgarcia">Alejandro Fernández García</a><br>
 <a href="https://github.com/mario5garciap">Mario García Prieto</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Collaborate effectively across all project stages, ensuring clean and maintainable code. Focus on scalability, performance, and external system integration. Perform thorough and automated testing. Document and share design decisions and best practices.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Collaborate effectively throughout all stages of the project, ensuring clean and maintainable code. Focus on scalability, performance, and integration of external systems. Perform thorough and automated testing. Document and share design decisions and best practices.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock">Client</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://www.rtve.es/play/videos/saber-y-ganar/">Radio Televisión Española (RTVE)</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Expect a stable and attractive web solution that increases user engagement and provides an entertaining and interactive gaming experience.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Expect a stable and appealing web solution that increases user participation and provides an entertaining and interactive gaming experience.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock">ChattySW (Development Company)</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Internal development team at ChattySW</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Deliver a robust and interactive application that integrates AI-powered hints for the game. Ensure availability, performance, and security. Maintain clear communication with RTVE and meet project deadlines.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Internal development team of ChattySW</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Deliver a robust and interactive application that integrates AI-based hints for the game. Ensure availability, performance, and security. Maintain clear communication with RTVE and meet project deadlines.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock">System Administrator</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">IT team responsible for system maintenance</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">Ensure uptime, security, and system performance. Manage deployments, monitor server load, and provide technical support. Also manage application users and their permissions.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Ensure system uptime, security, and performance. Manage deployments, monitor server load, and provide technical support. Also manage application users and their permissions.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock">Regular User (Player)</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">People who register and play the quiz</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">People who register and participate in the quiz</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">Participate in the game by answering image-based questions and using the conversational hint system. Provide feedback on usability and user experience.</p></td>
 </tr>
 </tbody>
@@ -1540,9 +1640,9 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 <h2 id="section-runtime-view">6. Runtime View</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_runtime_scenario_1_playing_a_game">6.1. Runtime Scenario 1 - Playing a game</h3>
+<h3 id="_runtime_scenario_1_playing_a_game">6.1. Runtime Scenario 1 - Playing a Game</h3>
 <div class="paragraph">
-<p>The following diagram depicts the interaction between the user and the most notable modules of the application.</p>
+<p>The following diagram shows the interaction between the user and the most relevant modules of the application.</p>
 </div>
 <div class="imageblock text-center">
 <div class="content">
@@ -1550,21 +1650,24 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 </div>
 </div>
 <div class="paragraph">
-<p>The interaction can be divided into these steps:</p>
+<p>The interaction can be divided into the following steps:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Logging in:</strong> The user logs into the application. If they don&#8217;t have  an account created, it will be necessary to sign up.</p>
+<p><strong>Logging in:</strong> The user logs into the application. If they do not have an account, they will need to register.</p>
 </li>
 <li>
-<p><strong>Starting the game: </strong> Once logged in, the user will start a new game.</p>
+<p><strong>Starting the game:</strong> Once logged in, the user can start a new game.</p>
 </li>
 <li>
-<p><strong>Answering the questions: </strong> For each question, the four ellegible answers will be generated. Once per question, its info (question, image and possible answers) will be presented to the user via the GUI, and it will wait for their input. After the user inputs their answer, the score will be increased (or not) accordingly to the choosen answer.</p>
+<p><strong>Answering the questions:</strong> For each question, four possible answers will be generated. Once per question, its information (question, image, and possible answers) will be presented to the user through the graphical interface, and the system will wait for their response. After the user submits an answer, the score will be increased—or not—according to the selected answer.</p>
 </li>
 <li>
-<p><strong>Ending the game:</strong> Once all the questions have been answered, the GUI will display the final score of the game.</p>
+<p><strong>Ending the game:</strong> Once all questions have been answered, the GUI will display the final score.</p>
+</li>
+<li>
+<p><strong>Chatbot assistance:</strong> During the game, the user may interact with a chatbot powered by a language model (LLM) to get hints or general assistance.</p>
 </li>
 </ul>
 </div>
@@ -1574,10 +1677,10 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 <div class="ulist">
 <ul>
 <li>
-<p>Once the game is finished, the user will be asked whether they&#8217;d like to start a new game. This diagram only portrays one game.</p>
+<p>Despite its simplicity, this diagram assumes the user already has an account.</p>
 </li>
 <li>
-<p>In spite of simplicity, this diagram assumes the user already has an account.</p>
+<p>The chatbot integration with the LLM may require an internet connection to process user requests.</p>
 </li>
 </ul>
 </div>
@@ -1590,32 +1693,6 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_infrastructure_level_1">7.1. Infrastructure Level 1</h3>
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<p>Describe (usually in a combination of diagrams, tables, and text):</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>distribution of a system to multiple locations, environments, computers, processors, .., as well as physical connections between them</p>
-</li>
-<li>
-<p>important justifications or motivations for this deployment structure</p>
-</li>
-<li>
-<p>quality and/or performance features of this infrastructure</p>
-</li>
-<li>
-<p>mapping of software artifacts to elements of this infrastructure</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>For multiple environments or alternative deployments please copy and adapt this section of arc42 for all relevant environments.</p>
-</div>
-</div>
-</div>
 <div class="imageblock text-center">
 <div class="content">
 <img src="./images/07_deployment_view-EN.svg" alt="07 deployment view EN">
@@ -1660,6 +1737,20 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 </tr>
 </tbody>
 </table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Additional Considerations</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>The OpenLLM server requires an internet connection to process user requests in real time.</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -1718,22 +1809,22 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 <div class="ulist">
 <ul>
 <li>
-<p><strong>User:</strong> An individual interacting with the application, capable of handling multiple concurrent sessions.</p>
+<p><strong>User:</strong> The person who interacts with the app and answers questions while playing the game.</p>
 </li>
 <li>
-<p><strong>Game:</strong> A feature allowing users to engage in individual challenges with different formats.</p>
+<p><strong>Question:</strong> A feature allowing users to engage in individual challenges with different formats.</p>
 </li>
 <li>
-<p><strong>Stats:</strong> A section displaying user performance, including total games, accuracy, and average scores.</p>
+<p><strong>Template:</strong> The base that makes up the questions and contains the query to search for it</p>
 </li>
 <li>
-<p><strong>Ranking:</strong> Displays user rankings based on scores, correct answers, and playtime.</p>
+<p><strong>Score:</strong> The score for each user based on the questions answered correctly.</p>
 </li>
 </ul>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/08_entity_diagram-EN.svg" alt="Domain Entity Diagram">
+<img src="./images/08_entity_diagram-EN.png" alt="Domain Entity Diagram">
 </div>
 </div>
 <hr>
@@ -1759,10 +1850,7 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 <p><strong>Fast Feedback:</strong> The system provides immediate visual or textual feedback after every user action (e.g., clicking a button, submitting an answer).</p>
 </li>
 <li>
-<p><strong>Minimal User Effort:</strong> Tasks should require the fewest possible steps to complete (e.g., joining a game in just two clicks).</p>
-</li>
-<li>
-<p><strong>Responsive Design:</strong> The application adapts seamlessly to different screen sizes and devices (desktop, tablet, smartphone).</p>
+<p><strong>Minimal User Effort:</strong> Tasks should require the fewest possible steps to complete.</p>
 </li>
 </ul>
 </div>
@@ -1780,9 +1868,6 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 </li>
 <li>
 <p><strong>Performance Optimization:</strong> Continuous efforts to optimize loading times, response rates, and system resource consumption.</p>
-</li>
-<li>
-<p><strong>Error Handling:</strong> Systematic management of unexpected events with user-friendly error messages and internal logging.</p>
 </li>
 <li>
 <p><strong>Scalability Management:</strong> Operational processes that ensure the system can handle increased load without manual intervention.</p>
@@ -1888,43 +1973,62 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 </div>
 <div class="sect2">
 <h3 id="_quality_scenarios">10.2. Quality Scenarios</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>|===</p>
-</li>
-<li>
-<p>| Description | Quality Attribute | Scenario</p>
-</li>
-<li>
-<p>| The system must be available 24/7 with minimal downtime. | Availability | Users can access the system at any time without interruptions.</p>
-</li>
-<li>
-<p>| The architecture must support the addition of more servers without service disruption. | Scalability | During peak hours, the system distributes traffic across multiple servers without performance degradation.</p>
-</li>
-<li>
-<p>| The application must ensure the protection of user data, especially during registration and login. | Security | User credentials and personal data are encrypted and securely stored to prevent unauthorized access.</p>
-</li>
-<li>
-<p>| The response time to display a question and its options must be less than 2 seconds. | Availability / Performance | When a contestant requests a new question, the system presents it almost instantly.</p>
-</li>
-<li>
-<p>| Questions must be correctly generated from Wikidata without errors. | Mitigation of LLM Errors | The system extracts information from Wikidata accurately to generate consistent and error-free questions.</p>
-</li>
-<li>
-<p>| The chatbot must provide relevant and coherent hints based on the LLM API. | Mitigation of LLM Errors | When a user requests a hint, the chatbot generates it correctly using the LLM API.</p>
-</li>
-<li>
-<p>| The user interface must be intuitive, with clear instructions on how to participate and obtain hints. | Usability | A new user can navigate the application without prior instructions and easily understand how to interact with the game. | The application must allow easy updates and maintenance operations without major service disruptions.</p>
-</li>
-<li>
-<p>| Maintainability | Developers can deploy updates or fix bugs quickly without negatively affecting the user experience.</p>
-</li>
-<li>
-<p>|===</p>
-</li>
-</ul>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 50%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Quality Attribute</th>
+<th class="tableblock halign-left valign-top">Scenario</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The system must be available 24/7 with minimal downtime.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Availability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Users can access the system at any time without interruptions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The architecture must support the addition of more servers without service disruption.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scalability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">During peak hours, the system distributes traffic across multiple servers without performance degradation.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application must ensure the protection of user data, especially during registration and login.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User credentials and personal data are encrypted and securely stored to prevent unauthorized access.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The response time to display a question and its options must be less than 2 seconds.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Availability / Performance</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When a contestant requests a new question, the system presents it almost instantly.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Questions must be correctly generated from Wikidata without errors.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mitigation of LLM Errors</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The system extracts information from Wikidata accurately to generate consistent and error-free questions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The chatbot must provide relevant and coherent hints based on the LLM API.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mitigation of LLM Errors</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When a user requests a hint, the chatbot generates it correctly using the LLM API.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The user interface must be intuitive, with clear instructions on how to participate and obtain hints.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Usability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A new user can navigate the application without prior instructions and easily understand how to interact with the game.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application must allow easy updates and maintenance operations without major service disruptions.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maintainability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Developers can deploy updates or fix bugs quickly without negatively affecting the user experience.</p></td>
+</tr>
+</tbody>
+</table>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -1965,6 +2069,11 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 <td class="tableblock halign-left valign-top"><p class="tableblock">Team Communication</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Miscommunication or lack of coordination among team members could lead to delays or misunderstandings in the development process.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Low</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Power Outage in Spain</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The Power Outage in Spain delayed the project and hampered communication among group members, leaving final aspects of the work unfinished.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
 </tr>
 </tbody>
 </table>
@@ -2029,18 +2138,20 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 <col style="width: 33.3333%;">
 <col style="width: 66.6667%;">
 </colgroup>
-<tbody>
+<thead>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tool used</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Jest</p></td>
+<th class="tableblock halign-left valign-top">Tool used</th>
+<th class="tableblock halign-left valign-top">Jest</th>
 </tr>
+</thead>
+<tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Jest is a testing framework for JavaScript that enables unit testing and code coverage measurement.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Coverage achieved</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Currently, the project has achieved XX% coverage (replace with actual value) in critical areas of the system, including business logic and backend controllers.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Currently, the project has achieved 80.2% coverage (replace with actual value) in critical areas of the system, including business logic and backend controllers.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2055,11 +2166,13 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 <col style="width: 33.3333%;">
 <col style="width: 66.6667%;">
 </colgroup>
-<tbody>
+<thead>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tool used</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cypress</p></td>
+<th class="tableblock halign-left valign-top">Tool used</th>
+<th class="tableblock halign-left valign-top">Cypress</th>
 </tr>
+</thead>
+<tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Cypress is an E2E testing framework that allows simulating user interactions in the browser and verifying system behavior.</p></td>
@@ -2068,7 +2181,6 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 <td class="tableblock halign-left valign-top"><p class="tableblock">Flows tested</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">- User registration.
 - Login.
-- Logout.
 - Entering the game.
 - Navigation through the application.</p></td>
 </tr>
@@ -2076,17 +2188,59 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 </table>
 </div>
 <div class="sect2">
-<h3 id="_test_results">12.3. Test Results</h3>
+<h3 id="_usability_testing">12.3. Usability Testing</h3>
+<div class="paragraph">
+<p>Usability testing focuses on evaluating the system&#8217;s user interface and overall user experience by observing real users as they interact with the application. These tests aim to identify any usability issues and ensure that the system is intuitive and user-friendly.</p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 66.6667%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Method used</th>
+<th class="tableblock halign-left valign-top">Moderated remote sessions and user feedback collection</th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Type of test</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Result</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test participants were asked to complete typical tasks while being observed remotely. Post-session surveys were also collected to gather subjective impressions.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Key findings</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">- Users found the onboarding process clear and easy to follow.
+- Navigation through the app was intuitive for the majority of testers.
+- Minor issues were noted in the accessibility of some controls on smaller screens.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Improvements made</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Based on feedback, UI adjustments were made to improve mobile responsiveness and highlight primary action buttons.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect3">
+<h4 id="_examples_of_usability_tests">12.3.1. Examples of Usability Tests</h4>
+<div class="paragraph">
+<p>We asked several people of different age groups to test the application. Through these tests, we discovered errors in the graphical interface, the backend, and the internal workings of the LLM itself.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test_results">12.4. Test Results</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Type of test</th>
+<th class="tableblock halign-left valign-top">Result</th>
+</tr>
+</thead>
+<tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Unit tests</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">All unit tests have successfully passed, covering the main backend functions.</p></td>
@@ -2095,13 +2249,17 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 <td class="tableblock halign-left valign-top"><p class="tableblock">E2E tests</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The main application flows have been successfully validated, ensuring a smooth user experience.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Usability tests</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The main application has been tested by real people who have provided feedback on its performance.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_conclusion_2">12.4. Conclusion</h3>
+<h3 id="_conclusion_2">12.5. Conclusion</h3>
 <div class="paragraph">
-<p>The use of coverage and end-to-end tests has allowed early detection and correction of errors during development, improving system quality and reducing the risk of failures in production. It is recommended to continue expanding test coverage and performing periodic E2E tests to ensure system stability.</p>
+<p>The use of coverage and end-to-end testing has enabled early detection and correction of errors during development, improving system quality and reducing the risk of production failures. It is recommended to continue expanding test coverage and perform periodic end-to-end (E2E) testing to ensure system stability. Thanks to Coverage testing, we have been able to review lines of code critical to development.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -2199,7 +2357,7 @@ See <a href="https://arc42.org" class="bare">https://arc42.org</a>.</p>
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2025-04-27 17:35:31 +0200
+Last updated 2025-04-28 00:45:55 +0200
 </div>
 </div>
 </body>
