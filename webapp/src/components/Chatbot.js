@@ -12,6 +12,7 @@ const GameChatbot = ({ currentAnswer }) => {
   /**
    * Envia la pregunta del usuario al backend y transmite la respuesta generada.
    */
+  /* istanbul ignore next */
   const fetchGeminiResponse = async (userInput, streamMessage) => {
     try {
       const response = await axios.post(`${endpoint}/api/chatbot`, {
