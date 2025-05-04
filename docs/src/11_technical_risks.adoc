@@ -12,6 +12,7 @@ Risks and problems may occur during project development.
 | Time | The available time for the project is limited due to each dev in the team having other subjects and projects to work on. | Medium
 | Version Control (GitHub) | Github is a version control tool in which if we do a bad management we could lose some functionality when it comes to manage the conflicts occurred. | Low
 | Team Communication | Miscommunication or lack of coordination among team members could lead to delays or misunderstandings in the development process. | Low
+| Power Outage in Spain | The Power Outage in Spain delayed the project and hampered communication among group members, leaving final aspects of the work unfinished. | High
 |===
 
 === Technical Debts
