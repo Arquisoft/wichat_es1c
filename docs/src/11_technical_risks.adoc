@@ -13,6 +13,9 @@ Risks and problems may occur during project development.
 | Version Control (GitHub) | Github is a version control tool in which if we do a bad management we could lose some functionality when it comes to manage the conflicts occurred. | Low
 | Team Communication | Miscommunication or lack of coordination among team members could lead to delays or misunderstandings in the development process. | Low
 | Power Outage in Spain | The Power Outage in Spain delayed the project and hampered communication among group members, leaving final aspects of the work unfinished. | High
+| Internet Connection Failure | A failure in the internet connection could interrupt access to cloud services, repositories, or communication tools, delaying the development process. | Medium
+| Data Loss | There is a risk of losing data due to system errors, hardware failures, or accidental deletions, which could impact project progress. | High
+| Security Breaches | The system could be vulnerable to unauthorized access or attacks, compromising sensitive information and project integrity. | High
 |===
 
 === Technical Debts

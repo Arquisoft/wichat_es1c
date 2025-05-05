@@ -7,28 +7,41 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 === Whitebox Overall System
 
-image::05_building_block_view-EN.svg[align="center"]
+image::5-building_block_view.png[align="center"]
 
 Motivation::
-The main goal of the diagram above is to provide an overall view of the structure of the system, dividing it into separate modules with defined responsibilities.
+The previous diagram provides an overview of our system’s workflow. Users can register on our platform and participate in quizzes powered by Wikidata. Additionally, players can interact with our LLM-based chatbot to receive hints.
 
 Contained Building Blocks::
 [options="header",cols="1,3"]
 |===
 | Building Block      | Description
-| **GUI**             | The user interface application that allows users to log in, start a game, answer questions, and view rankings.
-| **Game**     | The core service responsible for managing game logic, including question generation and answer processing.
-| **Ranking**         | A service dedicated to managing player scores and rankings.
-| **Authentication**  | A service responsible for handling user authentication and session management.
-| **Database**        | Data storage system that keeps info about players, statistics, games and rankings.
+| **Actor**             | Represents the end user who interacts with the WiChat application. They can register, play, answer questions, and request hints during the game.
+| **WiChat**     | The core of the system. It manages game logic, user interaction, authentication, and communication with external services like Wikidata and Gemini.
+| **Wikidata**         | An external structured data source used by WiChat to dynamically generate quiz questions. It provides up-to-date and relevant content.
+| **Gemini**  | An external service powered by Google’s language model. It generates intelligent and contextual hints during the game to enhance user experience.
 |===
 
 
-Important Interfaces::
-[options="header",cols="1,2"]
+=== Whitebox WiChat Level 2
+
+image::5.2-building_block.png[align="center"]
+
+Motivation::
+The extended diagram illustrates the complete flow of interactions within the WIChat system. Users interact with the Webapp, a React-based frontend, which sends requests to the backend through the Gateway Service. This gateway routes each request to the appropriate service depending on the operation required—such as user registration, gameplay, or requesting hints.
+Each service is responsible for a specific domain: UserService manages user data and authentication, GameService handles question generation and score tracking, and LLMService communicates with external language models like Gemini to provide personalized hints. Additionally, GameService retrieves game content from Wikidata, and all persistent data is stored in the database.
+
+Contained Building Blocks::
+[options="header",cols="1,3"]
 |===
-| Interface                         | Description
-| GUI - Game                  | Allows the GUI to request a new game, retrieve questions, and submit user answers.
-| Game - Ranking              | Allows the GameManager to store player results and retrieve rankings to show them in the GUI.
-| GUI - Authentication        | Responsible for validating user credentials via forms and managing sessions.
+| Actores             | Description
+| **Actor**           | Represents the end user who interacts with the system through the web application. Users can register, log in, play, and receive hints.
+| **Webapp**          | The frontend interface built with React. It sends requests to the backend services via the API Gateway and handles user interactions like gameplay and login.
+| **GatewayService**  | The API gateway that receives all frontend requests and routes them to the appropriate microservice. It also validates JWT tokens and handles authentication flows.
+| **UserService**     | Manages user-related operations such as registration, authentication, and user data retrieval.
+| **GameService**     | Responsible for quiz logic, including question generation, answer validation, score tracking, and category management. It retrieves dynamic content from Wikidata and stores results in MongoDB.
+| **LLMService**      | Handles communication with external language models (e.g., Gemini) to generate intelligent, context-aware hints for the user during the game.
+| **MongoDB**         | The NoSQL database used for persisting data such as users, scores, game sessions, and questions.
+| **GeminiAPI**       | External language model API (LLM) used to generate natural language hints during gameplay.
+| **Wikidata**        | A structured open data source queried by the GameService to create real-time, relevant quiz questions.
 |===

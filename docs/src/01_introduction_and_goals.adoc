@@ -86,11 +86,11 @@ The system is designed to provide better support to players through hints genera
 === WIChat System Stakeholders
 
 1. *End Users*:
-1.1. *Role*: Contestants.
-* *Responsibility*: Understand the basic architecture of the game to interact with questions, hints, and functionalities of the application. No deep technical knowledge is required.
+    - 1.1. *Role*: Contestants.
+    * *Responsibility*: Understand the basic architecture of the game to interact with questions, hints, and functionalities of the application. No deep technical knowledge is required.
 
-1.2. *Role*: System Administrators.
-* *Responsibility*: Understand the architecture to manage system maintenance and security, perform deployments, and monitor performance. They must also manage the user administration menu, being able to delete users who are not administrators.
+    - 1.2. *Role*: System Administrators.
+    * *Responsibility*: Understand the architecture to manage system maintenance and security, perform deployments, and monitor performance. They must also manage the user administration menu, being able to delete users who are not administrators.
 
 2. *Software Developers*:
 * *Role*: Frontend and backend developers.

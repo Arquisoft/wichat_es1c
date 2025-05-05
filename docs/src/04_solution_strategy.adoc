@@ -3,15 +3,25 @@
 === Technology Decisions
 For the implementation of **WiChat**, we have selected the following technologies based on their ease of development, scalability, and compatibility with the project requirements:
 
-- *Frontend:* React with TypeScript for an interactive and modular user interface.
-- *Backend:* Node.js with Express to manage business logic, authentication, and data operations.
-- *Database:* MongoDB Atlas, a cloud-based NoSQL database optimized for flexible and scalable storage.
-- *Authentication:* JSON Web Tokens (JWT) for secure authentication without third-party dependencies.
-- *Question Generation:* Use of queries to Wikidata through the backend to retrieve images and data.
-- *Deployment:* Use of Azure for application deployment, ensuring scalability and accessibility.
-- *Testing:* Use of Jest and React Testing Library for unit and integration testing.
-- *Documentation:* Use of Arc42 for project documentation, ensuring a clear and accessible structure.
-- *Monitoring and Metrics:* Use of Prometheus and Grafana for metrics collection and system monitoring, ensuring reliability and performance.
+- *Version Control:* Git – Distributed version control system that facilitates secure and collaborative source code management.
+- *Repository Hosting:* GitHub – Cloud-based platform for hosting and managing Git repositories, used for team collaboration, continuous integration, and automated deployment.
+- *CI/CD Automation:* GitHub Actions – Continuous Integration and Continuous Delivery (CI/CD) service used to automate testing, Docker image builds, and deployments to production environments.
+- *Code Quality:* SonarCloud – Continuous code quality analysis platform that detects bugs, vulnerabilities, code smells, and calculates test coverage to maintain high development standards.
+- *Programming Language:* JavaScript – Dynamic programming language used on both frontend and backend to build interactive web applications.
+- *Frontend Library:* React.js – JavaScript library focused on building efficient, modular, and interactive user interfaces on the frontend.
+- *Styling Framework:* CSS with Tailwind – Utility-first CSS framework for quickly building modern, responsive, and highly customizable interfaces.
+- *Runtime Environment:* Node.js – JavaScript runtime environment for server-side development, ideal for creating fast, scalable, and real-time backend services.
+- *Web Framework:* Express – Minimalist Node.js framework that simplifies the creation of RESTful APIs and the management of routes and middleware in the backend.
+- *ODM Library:* Mongoose – Object Data Modeling (ODM) library for MongoDB that provides a structured layer to define schemas and data models in Node.js.
+- *Authentication:* JWT (JSON Web Tokens) – Token-based secure authentication standard used to manage user sessions without the need for server-side state.
+- *Language Model:* Google Gemini (LLM) – Language model developed by Google to generate intelligent and personalized responses in chatbot interactions.
+- *Knowledge Base:* Wikidata – Open, structured knowledge base that provides semantic data used to dynamically enrich game questions.
+- *Testing Tool:* Puppeteer – Browser automation tool used to perform end-to-end testing of the application.
+- *BDD Framework:* Cucumber – Behavior-Driven Development (BDD) testing framework used with Puppeteer to describe and run natural language test scenarios.
+- *Testing Framework:* Jest – JavaScript testing framework used to perform unit and integration tests across various system services.
+- *Load Testing:* Gatling – Load testing tool that simulates multiple concurrent users to analyze the performance and scalability of backend services.
+- *Containerization:* Docker – Container platform that packages applications along with their dependencies, ensuring consistent deployments across environments.
+- *Cloud Platform:* Azure – Cloud services platform where the virtual machines hosting the system's container deployments are located.
 
 === Top-Level System Decomposition
 The system follows a *frontend + dedicated backend architecture*, where all business logic is managed by a Node.js backend instead of serverless functions.
@@ -25,20 +35,30 @@ The system follows a *frontend + dedicated backend architecture*, where all busi
 ** Connects to Wikidata to retrieve questions and answers.
 ** Handles user authentication with JWT, generating and validating tokens.
 
-. *Data Layer (MongoDB Atlas)*
-** Stores information about users, generated questions, and game statistics.
-** Optimized for flexible storage and efficient queries.
-
 === Architectural Patterns
 
-- *Monolithic Backend Architecture:* The backend is implemented as a single Node.js application managing all API requests.
-- *API Gateway:* The backend acts as a centralized API that receives requests from the frontend and processes the corresponding logic.
-- *Event-Driven Architecture:* MongoDB enables real-time updates through triggers and change streams.
+The system effectively implements the following architectural patterns:
+
+* *Microservices Architecture*:
+- The backend is divided into multiple microservices, each responsible for a specific business domain (user management, authentication, game logic, communication with the LLM).
+- Each service is independent, enabling scalability, easier maintenance, and separate deployment of components.
+
+* *API Gateway Pattern*:
+- The Gateway Service centralizes all frontend requests and routes them to the appropriate microservices.
+- It handles request routing, JWT token validation, and protection of internal services.
+
+* *RESTful API Design*:
+- The microservices expose RESTful APIs following design standards that ensure clear, structured, and resource-based communication.
+
+* *Containerization Pattern*:
+- The entire system is packaged into Docker containers, ensuring environment consistency across development, testing, and production.
+
+* *Continuous Integration and Continuous Deployment (CI/CD)*:
+- Continuous integration is achieved via GitHub Actions, which automates unit and integration testing, code quality analysis (SonarCloud), and container deployments.
 
 === Design Patterns
 
-- *Façade:* Centralizes calls to MongoDB Atlas and Wikidata within the backend API.
-- *Observer:* MongoDB allows real-time subscriptions to data changes.
+- *Façade:* Centralizes calls to database and Wikidata within the backend API.
 - *Lazy Loading:* Progressive data loading to optimize frontend performance.
 - *Producer-Consumer:* A scheduled auxiliary process generates questions and answers, storing them in the database for the game service to use.
 
@@ -48,7 +68,7 @@ To ensure system quality, the following strategic decisions have been made:
 [options="header"]
 |===
 | *Quality Goal* | *Decision Taken*
-| *Scalability* | Use of MongoDB Atlas and Node.js backend, ensuring efficient request handling.
+| *Scalability* | Use of database Atlas and Node.js backend, ensuring efficient request handling.
 | *Availability* | Deployment in a cloud-based environment with automatic scaling.
 | *Security* | Implementation of JWT-based authentication for secure access control without third-party dependencies.
 | *Maintainability* | Use of the Express framework for a structured and maintainable backend.
@@ -65,7 +85,6 @@ To ensure system quality, the following strategic decisions have been made:
 | Git | Easy-to-use distributed version control system.
 | GitHub | Web-based platform for hosting and managing Git repositories, including features like issue tracking, pull requests, and GitHub Actions.
 | Azure | Cloud service used for deploying the application with built-in support for continuous integration.
-| MongoDB Atlas | Scalable and flexible cloud-based NoSQL database solution.
 | JSON Web Tokens (JWT) | Secure and stateless authentication mechanism used to manage user sessions.
 | Prometheus | Monitoring and alerting toolkit ideal for metrics collection.
 | Grafana | Analytics and monitoring platform allowing real-time visualization of metrics.
@@ -75,5 +94,5 @@ To ensure system quality, the following strategic decisions have been made:
 |===
 
 === Motivation
-The architectural decisions in this system are based on the need for an agile and efficient development approach within an **academic environment of a couple of months**. A **Node.js backend with Express** was chosen to ensure greater control over business logic while maintaining scalability and ease of integration with React and MongoDB.  
-Additionally, the use of modern tools like **Prometheus and Grafana** was prioritized to guarantee real-time monitoring and metrics analysis, allowing proactive performance issue detection and resolution. The choice of cloud technologies like **MongoDB Atlas** and **Azure** ensures that the system is scalable and accessible from anywhere.
+The architectural decisions in this system are based on the need for an agile and efficient development approach within an **academic environment of a couple of months**. A **Node.js backend with Express** was chosen to ensure greater control over business logic while maintaining scalability and ease of integration with React.  
+Additionally, the use of modern tools like **Prometheus and Grafana** was prioritized to guarantee real-time monitoring and metrics analysis, allowing proactive performance issue detection and resolution. The choice of cloud technologies like **WikiData** and **Azure** ensures that the system is scalable and accessible from anywhere.

@@ -26,22 +26,52 @@ End-to-end testing verifies the full functionality of the system, from the front
 |===
 
 === Usability Testing
-Usability testing focuses on evaluating the system's user interface and overall user experience by observing real users as they interact with the application. These tests aim to identify any usability issues and ensure that the system is intuitive and user-friendly.
+Usability testing focuses on evaluating the system's user interface and overall experience by observing real users as they interact with the application. These tests aim to identify usability issues and ensure the system is intuitive and user-friendly.
 
 [options="header", cols="1,2"]
 |===
 | Method used | Moderated remote sessions and user feedback collection
-| Description | Test participants were asked to complete typical tasks while being observed remotely. Post-session surveys were also collected to gather subjective impressions.
+| Description | Participants were asked to complete typical tasks while being observed remotely. Post-session surveys were also collected to gather subjective impressions.
 | Key findings |
 - Users found the onboarding process clear and easy to follow.
-- Navigation through the app was intuitive for the majority of testers.
-- Minor issues were noted in the accessibility of some controls on smaller screens.
-| Improvements made | Based on feedback, UI adjustments were made to improve mobile responsiveness and highlight primary action buttons.
+- Navigation through the app was intuitive for most testers.
+- Minor issues were found regarding the accessibility of some controls on smaller screens.
+| Improvements made | Based on the feedback, UI adjustments were made to improve mobile responsiveness and highlight primary action buttons.
 |===
 
 ==== Examples of Usability Tests
-We asked several people of different age groups to test the application. Through these tests, we discovered errors in the graphical interface, the backend, and the internal workings of the LLM itself.
+Usability tests were conducted with 15 participants from various age groups (between 18 and 65 years old) and different levels of technical expertise. Participants were asked to complete the following tasks:
 
+* Complete the account creation and login process.
+* Navigate the application and locate the frequently asked questions (FAQ) section.
+* Play a game using the chatbot.
+* Navigate through the main sections of the app (ranking and my account).
+* Access the previously played game from the personal ranking on the home screen and view the game's statistics and submitted answers.
+* Log out of the application.
+
+* **Results:**
+- **Onboarding Process:** 100% of participants successfully completed the onboarding process without assistance. Most found the process clear and easy to follow, though some suggested adding an option to automatically log in after registration instead of being redirected to the login screen.
+- **Frequently Asked Questions:** 14 participants were able to find the FAQ section easily. The remaining participant had to search a bit more but eventually found the needed information.
+- **Playing a Game:** All participants were able to play a game without issues. However, some mentioned they would appreciate more information on how the chatbot works before starting. Additionally, they noted that opening the chatbot felt like a waste of time.
+- **App Navigation:** All users accessed the main sections of the app without issues.
+- **Accessing the Played Game:** 9 participants accessed the previously played game from the personal ranking on the home screen and viewed the game's statistics and their submitted answers. The remaining 6 participants did not manage to access this section because they did not realize they had to click on the played game. Some suggested including a more prominent button or visual cue to guide users toward this option.
+- **Logging Out:** All participants were able to log out without issues.
+
+* **Conclusion:** Overall, participants found the application easy to use and navigate. However, some suggested improvements in the accessibility of certain controls and the clarity of instructions for accessing game statistics. Additionally, an option to automatically log in after registration was considered.
+
+
+=== Load Testing
+Load testing is used to evaluate the system's performance under specific load conditions, ensuring it can handle multiple simultaneous users without degrading its functionality.
+
+[options="header", cols="1,2"]
+|===
+| Tool used | Gatling
+| Description | Gatling is a load testing tool that allows simulating multiple concurrent users and measuring the system's performance.
+| Scenarios tested | Simulation of an execution throughout the application, including registration and login.
+| Results | The system has satisfactorily handled the established load.
+|===
+
+* **Conclusion:** Load tests have shown that the system is capable of handling a certain level of usage. However, it is recommended to continue optimizing the backend and perform periodic tests.
 
 === Test Results
 [options="header", cols="1,2"]
@@ -50,6 +80,7 @@ We asked several people of different age groups to test the application. Through
 | Unit tests | All unit tests have successfully passed, covering the main backend functions.
 | E2E tests | The main application flows have been successfully validated, ensuring a smooth user experience.
 | Usability tests | The main application has been tested by real people who have provided feedback on its performance.
+| Load tests | The system successfully the tests.
 |===
 
 === Conclusion

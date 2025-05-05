@@ -1,17 +1,17 @@
 == Architecture Decisions
 
 === Overview
-This section outlines the key architectural decisions made during the development of **WIChat**. These decisions have been carefully evaluated based on technical feasibility, project constraints, scalability, and maintainability. The rationale for each decision is provided to ensure transparency and traceability for all stakeholders.
+This section documents the key architectural decisions made during the development of **WIChat**. Each decision has been carefully analyzed considering technical feasibility, project constraints, scalability, and maintainability. Providing the rationale behind these decisions ensures transparency and facilitates traceability for all stakeholders.
 
 === Key Architectural Decisions
 
 [options="header"]
-An up-to-date list of all architecture decisions taken can be found in this link:
+A comprehensive and up-to-date list of all architectural decisions is available at the following link:
 https://github.com/Arquisoft/wichat_es1c/wiki
 
 === Motivation
-The above decisions were made to ensure that **WIChat** is scalable, maintainable, and easy to deploy within the constraints of a university project. By selecting **a dedicated backend with Node.js and Express**, we gain better control over the application’s logic while ensuring flexibility in handling authentication, database interactions, and API management.
+The architectural decisions were guided by the need to create a system that is scalable, maintainable, and easy to deploy within the constraints of a university project. By adopting **Node.js and Express** for the backend, the project benefits from a robust and flexible framework capable of efficiently managing authentication, database interactions, and API operations.
 
 === Conclusion
-These architectural choices align with the project’s goals of rapid development, minimal operational overhead, and scalability. Future iterations of the system can refine these choices based on usage patterns and performance considerations.
+The selected architectural approach supports the project’s objectives of rapid development, minimal operational overhead, and scalability. Future iterations of **WIChat** can build upon these foundations, refining the architecture based on real-world usage patterns and performance metrics.
 
