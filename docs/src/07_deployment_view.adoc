@@ -7,26 +7,36 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 === Infrastructure Level 1
 
-image::07_deployment_view-EN.svg[align="center"]
+image::07-deployment.png[align="center"]
 
 Motivation::
 
-The diagram portrays an overview of the distrubution of each element in the infraestructure, offering details about relationships between devices and communications. Understanding this diagram will help with identifying potential points of failure in the future.
+This deployment view represents how the WiChat system is distributed across its infrastructure. It helps clarify where each component runs, how they communicate, and how third-party services are integrated. This understanding supports scalability planning, maintenance, and performance optimization.
 
-Quality and/or Performance Features::
+Infrastructure Overview::
+The system is deployed using Docker containers, hosted on a Linux-based virtual machine in Microsoft Azure. Each backend service runs in its own container. The frontend is a React application executed in the client’s browser and communicates with the backend via REST APIs through a central gateway.
 
-This design has been made taking in consideration potential performance and availability issues. Accessing data from the Wikidata servers, as well as the LLM, will ensure that their failure won't be fatal to the entire app. On the other hand, scheduling a secondary task to generate questions and answers will ensure that said questions are fully loaded before starting a game. This will also help with the performance of the app, as it will not be necessary to wait for the generation of questions during the game.
+External Services::
 
-Mapping of Building Blocks to Infrastructure::
-
-[options="header",cols="1,2"]
+[options="header", cols="1,2"]
 |===
-| Device/Node        | Deployed Artifacts
-| WIChat server      | Game app (Frontend: React, Backend: node.js), Question generation service
-| Wikidata server    | Wikidata API to fetch data via SPARQL queries to dynamically generate questions
-| OpenLLM server     | Open LLM (AI) designed to give hints during the game
+| Component | Description
+
+| Wikidata | An external data provider used to retrieve structured information and images that are used to dynamically generate quiz questions.
+
+| Gemini (LLM) | Google’s language model, used to generate contextual hints and responses for the chatbot integrated into the game.
+
+| Gateway Service | Serves as the single entry point for the frontend. It handles routing of HTTP requests to backend services.
+
+| User Service | Manages user-related operations such as registration, authentication, and user data retrieval.
+
+| Game Service | Responsible for creating quiz questions using data from Wikidata, validating answers, and managing scoring and categories.
+
+| LLM Service | Interfaces with the Gemini API to generate intelligent, context-aware hints for users during gameplay.
+
+| MongoDB Database | Stores all persistent data, including user profiles, questions, scores, and historical game data.
 |===
 
-Additional Considerations::
 
-* The OpenLLM server requires an internet connection to process user requests in real time.
+Client Side::
+Web Browser (React App): The user-facing application runs in the browser, built with React and Tailwind CSS. It communicates with the backend exclusively through the Gateway Service and provides the user interface for registration, gameplay, leaderboards, and chatbot interactions.
