@@ -8,7 +8,7 @@ Code coverage is a metric used to measure what percentage of the source code is 
 |===
 | Tool used | Jest
 | Description | Jest is a testing framework for JavaScript that enables unit testing and code coverage measurement.
-| Coverage achieved | Currently, the project has achieved 80.2% coverage (replace with actual value) in critical areas of the system, including business logic and backend controllers.
+| Coverage achieved | Currently, the project has achieved 80.2% coverage in critical areas of the system, including business logic and backend controllers.
 |===
 
 === End-to-End (E2E) Testing
