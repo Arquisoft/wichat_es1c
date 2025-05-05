@@ -40,7 +40,7 @@ Usability testing focuses on evaluating the system's user interface and overall 
 |===
 
 ==== Examples of Usability Tests
-Usability tests were conducted with 15 participants from various age groups (between 18 and 65 years old) and different levels of technical expertise. Participants were asked to complete the following tasks:
+Usability tests were conducted with 5 participants from various age groups (between 18 and 65 years old) and different levels of technical expertise. Participants were asked to complete the following tasks:
 
 * Complete the account creation and login process.
 * Navigate the application and locate the frequently asked questions (FAQ) section.
@@ -51,10 +51,10 @@ Usability tests were conducted with 15 participants from various age groups (bet
 
 * **Results:**
 - **Onboarding Process:** 100% of participants successfully completed the onboarding process without assistance. Most found the process clear and easy to follow, though some suggested adding an option to automatically log in after registration instead of being redirected to the login screen.
-- **Frequently Asked Questions:** 14 participants were able to find the FAQ section easily. The remaining participant had to search a bit more but eventually found the needed information.
+- **Frequently Asked Questions:** 4 participants were able to find the FAQ section easily. The remaining participant had to search a bit more but eventually found the needed information.
 - **Playing a Game:** All participants were able to play a game without issues. However, some mentioned they would appreciate more information on how the chatbot works before starting. Additionally, they noted that opening the chatbot felt like a waste of time.
 - **App Navigation:** All users accessed the main sections of the app without issues.
-- **Accessing the Played Game:** 9 participants accessed the previously played game from the personal ranking on the home screen and viewed the game's statistics and their submitted answers. The remaining 6 participants did not manage to access this section because they did not realize they had to click on the played game. Some suggested including a more prominent button or visual cue to guide users toward this option.
+- **Accessing the Played Game:** 3 participants accessed the previously played game from the personal ranking on the home screen and viewed the game's statistics and their submitted answers. The remaining 2 participants did not manage to access this section because they did not realize they had to click on the played game. Some suggested including a more prominent button or visual cue to guide users toward this option.
 - **Logging Out:** All participants were able to log out without issues.
 
 * **Conclusion:** Overall, participants found the application easy to use and navigate. However, some suggested improvements in the accessibility of certain controls and the clarity of instructions for accessing game statistics. Additionally, an option to automatically log in after registration was considered.
