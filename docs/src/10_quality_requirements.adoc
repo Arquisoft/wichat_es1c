@@ -45,4 +45,8 @@ image::10-árbol.png[]
 | The application must allow easy updates and maintenance operations without major service disruptions. 
 | Maintainability 
 | Developers can deploy updates or fix bugs quickly without negatively affecting the user experience. 
+
+| The appplication must be optimized to load questions quickly
+| Reducing question loading time
+| Questions should be preloaded when possible to optimize response times and ensure they are displayed instantly when needed. 
 |===
