@@ -22,7 +22,7 @@ const templates = require('./data/questions-templates.json')
 const endpoint = 'https://query.wikidata.org/sparql';
 
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: "http://20.86.137.211:3000",
     credentials: true  
   }));
 app.use(express.json());
