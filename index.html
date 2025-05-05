@@ -477,6 +477,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#section-building-block-view">5. Building Block View</a>
 <ul class="sectlevel2">
 <li><a href="#_whitebox_overall_system">5.1. Whitebox Overall System</a></li>
+<li><a href="#_whitebox_wichat_level_2">5.2. Whitebox WiChat Level 2</a></li>
 </ul>
 </li>
 <li><a href="#section-runtime-view">6. Runtime View</a>
@@ -525,8 +526,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_code_coverage">12.1. Code Coverage</a></li>
 <li><a href="#_end_to_end_e2e_testing">12.2. End-to-End (E2E) Testing</a></li>
 <li><a href="#_usability_testing">12.3. Usability Testing</a></li>
-<li><a href="#_test_results">12.4. Test Results</a></li>
-<li><a href="#_conclusion_2">12.5. Conclusion</a></li>
+<li><a href="#_load_testing">12.4. Load Testing</a></li>
+<li><a href="#_test_results">12.5. Test Results</a></li>
+<li><a href="#_conclusion_2">12.6. Conclusion</a></li>
 </ul>
 </li>
 <li><a href="#section-glossary">13. Glossary</a></li>
@@ -801,8 +803,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p><strong>End Users</strong>:
-1.1. <strong>Role</strong>: Contestants.</p>
+<p><strong>End Users</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>1.1. <strong>Role</strong>: Contestants.</p>
 <div class="ulist">
 <ul>
 <li>
@@ -811,14 +816,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </div>
 </li>
-</ol>
+<li>
+<p>1.2. <strong>Role</strong>: System Administrators.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Responsibility</strong>: Understand the architecture to manage system maintenance and security, perform deployments, and monitor performance. They must also manage the user administration menu, being able to delete users who are not administrators.</p>
+</li>
+</ul>
 </div>
-<div class="paragraph">
-<p>1.2. <strong>Role</strong>: System Administrators.
-* <strong>Responsibility</strong>: Understand the architecture to manage system maintenance and security, perform deployments, and monitor performance. They must also manage the user administration menu, being able to delete users who are not administrators.</p>
+</li>
+</ul>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p><strong>Software Developers</strong>:</p>
 <div class="ulist">
@@ -1164,7 +1174,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong>Database</strong></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">A MongoDB database stores user data, including player profiles, scores, and game progress.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Stores user data, including player profiles, scores, and game progress.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong>Wikidata</strong></p></td>
@@ -1177,10 +1187,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong>Azure Cloud</strong></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">Used for deploying the application, ensuring system scalability, security, and availability.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>MongoDB</strong></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">A NoSQL database used to store all application data, including user information and trivia questions.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong>Web Browsers</strong></p></td>
@@ -1235,7 +1241,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>The database, based on MongoDB, stores critical data such as user profiles, scores, and game progress, ensuring persistent storage and retrieval of this information.</p>
+<p>The database stores critical data such as user profiles, scores, and game progress, ensuring persistent storage and retrieval of this information.</p>
 </li>
 </ul>
 </div>
@@ -1266,16 +1272,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul>
 <li>
 <p>Azure Cloud is used for deploying the application, ensuring that the system is scalable, secure, and highly available.</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>MongoDB:</strong></p>
-<div class="ulist">
-<ul>
-<li>
-<p>MongoDB, a NoSQL database, stores all the application data, including user profiles and trivia questions, making it ideal for handling large volumes of unstructured data.</p>
 </li>
 </ul>
 </div>
@@ -1317,31 +1313,61 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Frontend:</strong> React with TypeScript for an interactive and modular user interface.</p>
+<p><strong>Version Control:</strong> Git – Distributed version control system that facilitates secure and collaborative source code management.</p>
 </li>
 <li>
-<p><strong>Backend:</strong> Node.js with Express to manage business logic, authentication, and data operations.</p>
+<p><strong>Repository Hosting:</strong> GitHub – Cloud-based platform for hosting and managing Git repositories, used for team collaboration, continuous integration, and automated deployment.</p>
 </li>
 <li>
-<p><strong>Database:</strong> MongoDB Atlas, a cloud-based NoSQL database optimized for flexible and scalable storage.</p>
+<p><strong>CI/CD Automation:</strong> GitHub Actions – Continuous Integration and Continuous Delivery (CI/CD) service used to automate testing, Docker image builds, and deployments to production environments.</p>
 </li>
 <li>
-<p><strong>Authentication:</strong> JSON Web Tokens (JWT) for secure authentication without third-party dependencies.</p>
+<p><strong>Code Quality:</strong> SonarCloud – Continuous code quality analysis platform that detects bugs, vulnerabilities, code smells, and calculates test coverage to maintain high development standards.</p>
 </li>
 <li>
-<p><strong>Question Generation:</strong> Use of queries to Wikidata through the backend to retrieve images and data.</p>
+<p><strong>Programming Language:</strong> JavaScript – Dynamic programming language used on both frontend and backend to build interactive web applications.</p>
 </li>
 <li>
-<p><strong>Deployment:</strong> Use of Azure for application deployment, ensuring scalability and accessibility.</p>
+<p><strong>Frontend Library:</strong> React.js – JavaScript library focused on building efficient, modular, and interactive user interfaces on the frontend.</p>
 </li>
 <li>
-<p><strong>Testing:</strong> Use of Jest and React Testing Library for unit and integration testing.</p>
+<p><strong>Styling Framework:</strong> CSS with Tailwind – Utility-first CSS framework for quickly building modern, responsive, and highly customizable interfaces.</p>
 </li>
 <li>
-<p><strong>Documentation:</strong> Use of Arc42 for project documentation, ensuring a clear and accessible structure.</p>
+<p><strong>Runtime Environment:</strong> Node.js – JavaScript runtime environment for server-side development, ideal for creating fast, scalable, and real-time backend services.</p>
 </li>
 <li>
-<p><strong>Monitoring and Metrics:</strong> Use of Prometheus and Grafana for metrics collection and system monitoring, ensuring reliability and performance.</p>
+<p><strong>Web Framework:</strong> Express – Minimalist Node.js framework that simplifies the creation of RESTful APIs and the management of routes and middleware in the backend.</p>
+</li>
+<li>
+<p><strong>ODM Library:</strong> Mongoose – Object Data Modeling (ODM) library for MongoDB that provides a structured layer to define schemas and data models in Node.js.</p>
+</li>
+<li>
+<p><strong>Authentication:</strong> JWT (JSON Web Tokens) – Token-based secure authentication standard used to manage user sessions without the need for server-side state.</p>
+</li>
+<li>
+<p><strong>Language Model:</strong> Google Gemini (LLM) – Language model developed by Google to generate intelligent and personalized responses in chatbot interactions.</p>
+</li>
+<li>
+<p><strong>Knowledge Base:</strong> Wikidata – Open, structured knowledge base that provides semantic data used to dynamically enrich game questions.</p>
+</li>
+<li>
+<p><strong>Testing Tool:</strong> Puppeteer – Browser automation tool used to perform end-to-end testing of the application.</p>
+</li>
+<li>
+<p><strong>BDD Framework:</strong> Cucumber – Behavior-Driven Development (BDD) testing framework used with Puppeteer to describe and run natural language test scenarios.</p>
+</li>
+<li>
+<p><strong>Testing Framework:</strong> Jest – JavaScript testing framework used to perform unit and integration tests across various system services.</p>
+</li>
+<li>
+<p><strong>Load Testing:</strong> Gatling – Load testing tool that simulates multiple concurrent users to analyze the performance and scalability of backend services.</p>
+</li>
+<li>
+<p><strong>Containerization:</strong> Docker – Container platform that packages applications along with their dependencies, ensuring consistent deployments across environments.</p>
+</li>
+<li>
+<p><strong>Cloud Platform:</strong> Azure – Cloud services platform where the virtual machines hosting the system&#8217;s container deployments are located.</p>
 </li>
 </ul>
 </div>
@@ -1382,34 +1408,71 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </div>
 </li>
-<li>
-<p><strong>Data Layer (MongoDB Atlas)</strong></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Stores information about users, generated questions, and game statistics.</p>
-</li>
-<li>
-<p>Optimized for flexible storage and efficient queries.</p>
-</li>
-</ul>
-</div>
-</li>
 </ol>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_architectural_patterns">4.3. Architectural Patterns</h3>
+<div class="paragraph">
+<p>The system effectively implements the following architectural patterns:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Monolithic Backend Architecture:</strong> The backend is implemented as a single Node.js application managing all API requests.</p>
+<p><strong>Microservices Architecture</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The backend is divided into multiple microservices, each responsible for a specific business domain (user management, authentication, game logic, communication with the LLM).</p>
 </li>
 <li>
-<p><strong>API Gateway:</strong> The backend acts as a centralized API that receives requests from the frontend and processes the corresponding logic.</p>
+<p>Each service is independent, enabling scalability, easier maintenance, and separate deployment of components.</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p><strong>Event-Driven Architecture:</strong> MongoDB enables real-time updates through triggers and change streams.</p>
+<p><strong>API Gateway Pattern</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The Gateway Service centralizes all frontend requests and routes them to the appropriate microservices.</p>
+</li>
+<li>
+<p>It handles request routing, JWT token validation, and protection of internal services.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>RESTful API Design</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The microservices expose RESTful APIs following design standards that ensure clear, structured, and resource-based communication.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Containerization Pattern</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The entire system is packaged into Docker containers, ensuring environment consistency across development, testing, and production.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Continuous Integration and Continuous Deployment (CI/CD)</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Continuous integration is achieved via GitHub Actions, which automates unit and integration testing, code quality analysis (SonarCloud), and container deployments.</p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
@@ -1419,10 +1482,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Façade:</strong> Centralizes calls to MongoDB Atlas and Wikidata within the backend API.</p>
-</li>
-<li>
-<p><strong>Observer:</strong> MongoDB allows real-time subscriptions to data changes.</p>
+<p><strong>Façade:</strong> Centralizes calls to database and Wikidata within the backend API.</p>
 </li>
 <li>
 <p><strong>Lazy Loading:</strong> Progressive data loading to optimize frontend performance.</p>
@@ -1452,7 +1512,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Scalability</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Use of MongoDB Atlas and Node.js backend, ensuring efficient request handling.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use of database Atlas and Node.js backend, ensuring efficient request handling.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Availability</strong></p></td>
@@ -1508,10 +1568,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-top"><p class="tableblock">Cloud service used for deploying the application with built-in support for continuous integration.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MongoDB Atlas</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Scalable and flexible cloud-based NoSQL database solution.</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">JSON Web Tokens (JWT)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Secure and stateless authentication mechanism used to manage user sessions.</p></td>
 </tr>
@@ -1541,8 +1597,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_motivation_2">4.7. Motivation</h3>
 <div class="paragraph">
-<p>The architectural decisions in this system are based on the need for an agile and efficient development approach within an <strong>academic environment of a couple of months</strong>. A <strong>Node.js backend with Express</strong> was chosen to ensure greater control over business logic while maintaining scalability and ease of integration with React and MongoDB.
-Additionally, the use of modern tools like <strong>Prometheus and Grafana</strong> was prioritized to guarantee real-time monitoring and metrics analysis, allowing proactive performance issue detection and resolution. The choice of cloud technologies like <strong>MongoDB Atlas</strong> and <strong>Azure</strong> ensures that the system is scalable and accessible from anywhere.</p>
+<p>The architectural decisions in this system are based on the need for an agile and efficient development approach within an <strong>academic environment of a couple of months</strong>. A <strong>Node.js backend with Express</strong> was chosen to ensure greater control over business logic while maintaining scalability and ease of integration with React.
+Additionally, the use of modern tools like <strong>Prometheus and Grafana</strong> was prioritized to guarantee real-time monitoring and metrics analysis, allowing proactive performance issue detection and resolution. The choice of cloud technologies like <strong>WikiData</strong> and <strong>Azure</strong> ensures that the system is scalable and accessible from anywhere.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -1555,14 +1611,14 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 <h3 id="_whitebox_overall_system">5.1. Whitebox Overall System</h3>
 <div class="imageblock text-center">
 <div class="content">
-<img src="./images/05_building_block_view-EN.svg" alt="05 building block view EN">
+<img src="./images/5-building_block_view.png" alt="5 building block view">
 </div>
 </div>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Motivation</dt>
 <dd>
-<p>The main goal of the diagram above is to provide an overall view of the structure of the system, dividing it into separate modules with defined responsibilities.</p>
+<p>The previous diagram provides an overview of our system’s workflow. Users can register on our platform and participate in quizzes powered by Wikidata. Additionally, players can interact with our LLM-based chatbot to receive hints.</p>
 </dd>
 <dt class="hdlist1">Contained Building Blocks</dt>
 </dl>
@@ -1580,55 +1636,88 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>GUI</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The user interface application that allows users to log in, start a game, answer questions, and view rankings.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Actor</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Represents the end user who interacts with the WiChat application. They can register, play, answer questions, and request hints during the game.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Game</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The core service responsible for managing game logic, including question generation and answer processing.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>WiChat</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The core of the system. It manages game logic, user interaction, authentication, and communication with external services like Wikidata and Gemini.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Ranking</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A service dedicated to managing player scores and rankings.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Wikidata</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An external structured data source used by WiChat to dynamically generate quiz questions. It provides up-to-date and relevant content.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Authentication</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A service responsible for handling user authentication and session management.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Database</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Data storage system that keeps info about players, statistics, games and rankings.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Gemini</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An external service powered by Google’s language model. It generates intelligent and contextual hints during the game to enhance user experience.</p></td>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="sect2">
+<h3 id="_whitebox_wichat_level_2">5.2. Whitebox WiChat Level 2</h3>
+<div class="imageblock text-center">
+<div class="content">
+<img src="./images/5.2-building_block.png" alt="5.2 building block">
+</div>
+</div>
 <div class="dlist">
 <dl>
-<dt class="hdlist1">Important Interfaces</dt>
+<dt class="hdlist1">Motivation</dt>
+<dd>
+<p>The extended diagram illustrates the complete flow of interactions within the WIChat system. Users interact with the Webapp, a React-based frontend, which sends requests to the backend through the Gateway Service. This gateway routes each request to the appropriate service depending on the operation required—such as user registration, gameplay, or requesting hints.
+Each service is responsible for a specific domain: UserService manages user data and authentication, GameService handles question generation and score tracking, and LLMService communicates with external language models like Gemini to provide personalized hints. Additionally, GameService retrieves game content from Wikidata, and all persistent data is stored in the database.</p>
+</dd>
+<dt class="hdlist1">Contained Building Blocks</dt>
 </dl>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 66.6667%;">
+<col style="width: 25%;">
+<col style="width: 75%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Interface</th>
+<th class="tableblock halign-left valign-top">Actores</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GUI - Game</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Allows the GUI to request a new game, retrieve questions, and submit user answers.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Actor</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Represents the end user who interacts with the system through the web application. Users can register, log in, play, and receive hints.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Game - Ranking</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Allows the GameManager to store player results and retrieve rankings to show them in the GUI.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Webapp</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The frontend interface built with React. It sends requests to the backend services via the API Gateway and handles user interactions like gameplay and login.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GUI - Authentication</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Responsible for validating user credentials via forms and managing sessions.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>GatewayService</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The API gateway that receives all frontend requests and routes them to the appropriate microservice. It also validates JWT tokens and handles authentication flows.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>UserService</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Manages user-related operations such as registration, authentication, and user data retrieval.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>GameService</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Responsible for quiz logic, including question generation, answer validation, score tracking, and category management. It retrieves dynamic content from Wikidata and stores results in MongoDB.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>LLMService</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Handles communication with external language models (e.g., Gemini) to generate intelligent, context-aware hints for the user during the game.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>MongoDB</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The NoSQL database used for persisting data such as users, scores, game sessions, and questions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>GeminiAPI</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">External language model API (LLM) used to generate natural language hints during gameplay.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Wikidata</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A structured open data source queried by the GameService to create real-time, relevant quiz questions.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1695,20 +1784,20 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 <h3 id="_infrastructure_level_1">7.1. Infrastructure Level 1</h3>
 <div class="imageblock text-center">
 <div class="content">
-<img src="./images/07_deployment_view-EN.svg" alt="07 deployment view EN">
+<img src="./images/07-deployment.png" alt="07 deployment">
 </div>
 </div>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Motivation</dt>
 <dd>
-<p>The diagram portrays an overview of the distrubution of each element in the infraestructure, offering details about relationships between devices and communications. Understanding this diagram will help with identifying potential points of failure in the future.</p>
+<p>This deployment view represents how the WiChat system is distributed across its infrastructure. It helps clarify where each component runs, how they communicate, and how third-party services are integrated. This understanding supports scalability planning, maintenance, and performance optimization.</p>
 </dd>
-<dt class="hdlist1">Quality and/or Performance Features</dt>
+<dt class="hdlist1">Infrastructure Overview</dt>
 <dd>
-<p>This design has been made taking in consideration potential performance and availability issues. Accessing data from the Wikidata servers, as well as the LLM, will ensure that their failure won&#8217;t be fatal to the entire app. On the other hand, scheduling a secondary task to generate questions and answers will ensure that said questions are fully loaded before starting a game. This will also help with the performance of the app, as it will not be necessary to wait for the generation of questions during the game.</p>
+<p>The system is deployed using Docker containers, hosted on a Linux-based virtual machine in Microsoft Azure. Each backend service runs in its own container. The frontend is a React application executed in the client’s browser and communicates with the backend via REST APIs through a central gateway.</p>
 </dd>
-<dt class="hdlist1">Mapping of Building Blocks to Infrastructure</dt>
+<dt class="hdlist1">External Services</dt>
 </dl>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1718,36 +1807,46 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Device/Node</th>
-<th class="tableblock halign-left valign-top">Deployed Artifacts</th>
+<th class="tableblock halign-left valign-top">Component</th>
+<th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">WIChat server</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Game app (Frontend: React, Backend: node.js), Question generation service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wikidata</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An external data provider used to retrieve structured information and images that are used to dynamically generate quiz questions.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Wikidata server</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Wikidata API to fetch data via SPARQL queries to dynamically generate questions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gemini (LLM)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Google’s language model, used to generate contextual hints and responses for the chatbot integrated into the game.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OpenLLM server</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Open LLM (AI) designed to give hints during the game</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gateway Service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Serves as the single entry point for the frontend. It handles routing of HTTP requests to backend services.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User Service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Manages user-related operations such as registration, authentication, and user data retrieval.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Game Service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Responsible for creating quiz questions using data from Wikidata, validating answers, and managing scoring and categories.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LLM Service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interfaces with the Gemini API to generate intelligent, context-aware hints for users during gameplay.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MongoDB Database</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stores all persistent data, including user profiles, questions, scores, and historical game data.</p></td>
 </tr>
 </tbody>
 </table>
 <div class="dlist">
 <dl>
-<dt class="hdlist1">Additional Considerations</dt>
+<dt class="hdlist1">Client Side</dt>
 <dd>
-<div class="ulist">
-<ul>
-<li>
-<p>The OpenLLM server requires an internet connection to process user requests in real time.</p>
-</li>
-</ul>
-</div>
+<p>Web Browser (React App): The user-facing application runs in the browser, built with React and Tailwind CSS. It communicates with the backend exclusively through the Gateway Service and provides the user interface for registration, gameplay, leaderboards, and chatbot interactions.</p>
 </dd>
 </dl>
 </div>
@@ -1935,26 +2034,26 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 <div class="sect2">
 <h3 id="_overview">9.1. Overview</h3>
 <div class="paragraph">
-<p>This section outlines the key architectural decisions made during the development of <strong>WIChat</strong>. These decisions have been carefully evaluated based on technical feasibility, project constraints, scalability, and maintainability. The rationale for each decision is provided to ensure transparency and traceability for all stakeholders.</p>
+<p>This section documents the key architectural decisions made during the development of <strong>WIChat</strong>. Each decision has been carefully analyzed considering technical feasibility, project constraints, scalability, and maintainability. Providing the rationale behind these decisions ensures transparency and facilitates traceability for all stakeholders.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_key_architectural_decisions">9.2. Key Architectural Decisions</h3>
 <div class="paragraph">
-<p>An up-to-date list of all architecture decisions taken can be found in this link:
+<p>A comprehensive and up-to-date list of all architectural decisions is available at the following link:
 <a href="https://github.com/Arquisoft/wichat_es1c/wiki" class="bare">https://github.com/Arquisoft/wichat_es1c/wiki</a></p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_motivation_4">9.3. Motivation</h3>
 <div class="paragraph">
-<p>The above decisions were made to ensure that <strong>WIChat</strong> is scalable, maintainable, and easy to deploy within the constraints of a university project. By selecting <strong>a dedicated backend with Node.js and Express</strong>, we gain better control over the application’s logic while ensuring flexibility in handling authentication, database interactions, and API management.</p>
+<p>The architectural decisions were guided by the need to create a system that is scalable, maintainable, and easy to deploy within the constraints of a university project. By adopting <strong>Node.js and Express</strong> for the backend, the project benefits from a robust and flexible framework capable of efficiently managing authentication, database interactions, and API operations.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_conclusion">9.4. Conclusion</h3>
 <div class="paragraph">
-<p>These architectural choices align with the project’s goals of rapid development, minimal operational overhead, and scalability. Future iterations of the system can refine these choices based on usage patterns and performance considerations.</p>
+<p>The selected architectural approach supports the project’s objectives of rapid development, minimal operational overhead, and scalability. Future iterations of <strong>WIChat</strong> can build upon these foundations, refining the architecture based on real-world usage patterns and performance metrics.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -2027,6 +2126,11 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 <td class="tableblock halign-left valign-top"><p class="tableblock">Maintainability</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Developers can deploy updates or fix bugs quickly without negatively affecting the user experience.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The appplication must be optimized to load questions quickly</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reducing question loading time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Questions should be preloaded when possible to optimize response times and ensure they are displayed instantly when needed.</p></td>
+</tr>
 </tbody>
 </table>
 <div style="page-break-after: always;"></div>
@@ -2073,6 +2177,21 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Power Outage in Spain</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The Power Outage in Spain delayed the project and hampered communication among group members, leaving final aspects of the work unfinished.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Internet Connection Failure</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A failure in the internet connection could interrupt access to cloud services, repositories, or communication tools, delaying the development process.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Medium</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data Loss</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">There is a risk of losing data due to system errors, hardware failures, or accidental deletions, which could impact project progress.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security Breaches</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The system could be vulnerable to unauthorized access or attacks, compromising sensitive information and project integrity.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
 </tr>
 </tbody>
@@ -2190,7 +2309,7 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 <div class="sect2">
 <h3 id="_usability_testing">12.3. Usability Testing</h3>
 <div class="paragraph">
-<p>Usability testing focuses on evaluating the system&#8217;s user interface and overall user experience by observing real users as they interact with the application. These tests aim to identify any usability issues and ensure that the system is intuitive and user-friendly.</p>
+<p>Usability testing focuses on evaluating the system&#8217;s user interface and overall experience by observing real users as they interact with the application. These tests aim to identify usability issues and ensure the system is intuitive and user-friendly.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -2206,29 +2325,118 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Test participants were asked to complete typical tasks while being observed remotely. Post-session surveys were also collected to gather subjective impressions.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Participants were asked to complete typical tasks while being observed remotely. Post-session surveys were also collected to gather subjective impressions.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Key findings</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">- Users found the onboarding process clear and easy to follow.
-- Navigation through the app was intuitive for the majority of testers.
-- Minor issues were noted in the accessibility of some controls on smaller screens.</p></td>
+- Navigation through the app was intuitive for most testers.
+- Minor issues were found regarding the accessibility of some controls on smaller screens.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Improvements made</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Based on feedback, UI adjustments were made to improve mobile responsiveness and highlight primary action buttons.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Based on the feedback, UI adjustments were made to improve mobile responsiveness and highlight primary action buttons.</p></td>
 </tr>
 </tbody>
 </table>
 <div class="sect3">
 <h4 id="_examples_of_usability_tests">12.3.1. Examples of Usability Tests</h4>
 <div class="paragraph">
-<p>We asked several people of different age groups to test the application. Through these tests, we discovered errors in the graphical interface, the backend, and the internal workings of the LLM itself.</p>
+<p>Usability tests were conducted with 15 participants from various age groups (between 18 and 65 years old) and different levels of technical expertise. Participants were asked to complete the following tasks:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Complete the account creation and login process.</p>
+</li>
+<li>
+<p>Navigate the application and locate the frequently asked questions (FAQ) section.</p>
+</li>
+<li>
+<p>Play a game using the chatbot.</p>
+</li>
+<li>
+<p>Navigate through the main sections of the app (ranking and my account).</p>
+</li>
+<li>
+<p>Access the previously played game from the personal ranking on the home screen and view the game&#8217;s statistics and submitted answers.</p>
+</li>
+<li>
+<p>Log out of the application.</p>
+</li>
+<li>
+<p><strong>Results:</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Onboarding Process:</strong> 100% of participants successfully completed the onboarding process without assistance. Most found the process clear and easy to follow, though some suggested adding an option to automatically log in after registration instead of being redirected to the login screen.</p>
+</li>
+<li>
+<p><strong>Frequently Asked Questions:</strong> 14 participants were able to find the FAQ section easily. The remaining participant had to search a bit more but eventually found the needed information.</p>
+</li>
+<li>
+<p><strong>Playing a Game:</strong> All participants were able to play a game without issues. However, some mentioned they would appreciate more information on how the chatbot works before starting. Additionally, they noted that opening the chatbot felt like a waste of time.</p>
+</li>
+<li>
+<p><strong>App Navigation:</strong> All users accessed the main sections of the app without issues.</p>
+</li>
+<li>
+<p><strong>Accessing the Played Game:</strong> 9 participants accessed the previously played game from the personal ranking on the home screen and viewed the game&#8217;s statistics and their submitted answers. The remaining 6 participants did not manage to access this section because they did not realize they had to click on the played game. Some suggested including a more prominent button or visual cue to guide users toward this option.</p>
+</li>
+<li>
+<p><strong>Logging Out:</strong> All participants were able to log out without issues.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Conclusion:</strong> Overall, participants found the application easy to use and navigate. However, some suggested improvements in the accessibility of certain controls and the clarity of instructions for accessing game statistics. Additionally, an option to automatically log in after registration was considered.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_test_results">12.4. Test Results</h3>
+<h3 id="_load_testing">12.4. Load Testing</h3>
+<div class="paragraph">
+<p>Load testing is used to evaluate the system&#8217;s performance under specific load conditions, ensuring it can handle multiple simultaneous users without degrading its functionality.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Tool used</th>
+<th class="tableblock halign-left valign-top">Gatling</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gatling is a load testing tool that allows simulating multiple concurrent users and measuring the system&#8217;s performance.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scenarios tested</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Simulation of an execution throughout the application, including registration and login.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Results</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The system has satisfactorily handled the established load.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Conclusion:</strong> Load tests have shown that the system is capable of handling a certain level of usage. However, it is recommended to continue optimizing the backend and perform periodic tests.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test_results">12.5. Test Results</h3>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -2253,11 +2461,15 @@ Additionally, the use of modern tools like <strong>Prometheus and Grafana</stron
 <td class="tableblock halign-left valign-top"><p class="tableblock">Usability tests</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The main application has been tested by real people who have provided feedback on its performance.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Load tests</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The system successfully the tests.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_conclusion_2">12.5. Conclusion</h3>
+<h3 id="_conclusion_2">12.6. Conclusion</h3>
 <div class="paragraph">
 <p>The use of coverage and end-to-end testing has enabled early detection and correction of errors during development, improving system quality and reducing the risk of production failures. It is recommended to continue expanding test coverage and perform periodic end-to-end (E2E) testing to ensure system stability. Thanks to Coverage testing, we have been able to review lines of code critical to development.</p>
 </div>
