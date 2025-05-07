@@ -95,6 +95,18 @@ const GameOptions = ({ questionType, setQuestionType, responseTime, setResponseT
                                 </FormControl>
                             </motion.div>
                         </Grid>
+                        <Grid item xs={12}>
+                            <Typography
+                                variant="body2"
+                                sx={{
+                                    color: 'gray',
+                                    textAlign: 'center',
+                                    mt: -1,
+                                }}
+                            >
+                                El tiempo mínimo es de 1 segundo.
+                            </Typography>
+                        </Grid>
 
                         {/* Botones */}
                         <Grid item xs={12}>
