@@ -78,13 +78,13 @@ const GameOptions = ({ questionType, setQuestionType, responseTime, setResponseT
                                         value={responseTime}
                                         onChange={(e) => {
                                             const value = Number(e.target.value);
-                                            if (value >= 0) { 
+                                            if (value >= 5) { 
                                                 setResponseTime(value);
                                             }
                                         }}
                                         InputProps={{
                                             inputProps: {
-                                                min: 0,
+                                                min: 5,
                                             },
                                         }}
                                         sx={{
@@ -94,6 +94,18 @@ const GameOptions = ({ questionType, setQuestionType, responseTime, setResponseT
                                     />
                                 </FormControl>
                             </motion.div>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Typography
+                                variant="body2"
+                                sx={{
+                                    color: 'gray',
+                                    textAlign: 'center',
+                                    mt: -1,
+                                }}
+                            >
+                                El tiempo mínimo es de 5 segundo.
+                            </Typography>
                         </Grid>
 
                         {/* Botones */}

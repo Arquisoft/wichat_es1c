@@ -10,7 +10,7 @@
 body {
     font-family: 'Exo', sans-serif;
     background: #4e54c8;
-    background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);
+    background: -webkit-linear-gradient(left, #8f94fb, #4e54c8);
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -52,7 +52,7 @@ body {
     width: 20px;
     height: 20px;
     background: rgba(255, 103, 60, 0.852);
-    background: -webkit-linear-gradient(to left, #ff8484, #b92c2c);
+    background: -webkit-linear-gradient(left, #ff8484, #b92c2c);
     animation: animate 25s linear infinite;
     bottom: -150px;
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); /* Forma de hexágono */
