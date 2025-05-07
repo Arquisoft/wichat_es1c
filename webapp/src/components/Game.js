@@ -268,6 +268,7 @@ const Game = () => {
                 const endTime = Date.now();
                 const finalTime = (endTime - startTime) / 1000;
                 saveScore(score, finalTime, updatedQuestionsTitles, updatedCorrectAnswers, updatedGivenAnswers);
+                setGameOver(true);
             }
         }, 1750);
     };

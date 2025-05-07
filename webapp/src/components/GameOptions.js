@@ -78,13 +78,13 @@ const GameOptions = ({ questionType, setQuestionType, responseTime, setResponseT
                                         value={responseTime}
                                         onChange={(e) => {
                                             const value = Number(e.target.value);
-                                            if (value >= 1) { 
+                                            if (value >= 5) { 
                                                 setResponseTime(value);
                                             }
                                         }}
                                         InputProps={{
                                             inputProps: {
-                                                min: 1,
+                                                min: 5,
                                             },
                                         }}
                                         sx={{
@@ -104,7 +104,7 @@ const GameOptions = ({ questionType, setQuestionType, responseTime, setResponseT
                                     mt: -1,
                                 }}
                             >
-                                El tiempo mínimo es de 1 segundo.
+                                El tiempo mínimo es de 5 segundo.
                             </Typography>
                         </Grid>
 
