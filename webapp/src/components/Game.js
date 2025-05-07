@@ -247,6 +247,14 @@ const Game = () => {
         setIncorrectAnswer('');
         setCorrectAnswer(question.correctAnswer);
 
+        const updatedQuestionsTitles = questionsTitles ? `${questionsTitles}¬${question.title}` : question.title;
+        const updatedCorrectAnswers = correctAnswers ? `${correctAnswers}¬${question.correctAnswer}` : question.correctAnswer;
+        const updatedGivenAnswers = givenAnswers ? `${givenAnswers}¬NC` : 'NC';
+
+        setQuestionsTitles(updatedQuestionsTitles);
+        setCorrectAnswers(updatedCorrectAnswers);
+        setGivenAnswers(updatedGivenAnswers);
+
         setTimeout(() => {
             setSelected('');
             setResult('');
@@ -259,7 +267,7 @@ const Game = () => {
             if (currentQuestionIndex >= questions.length - 1) {
                 const endTime = Date.now();
                 const finalTime = (endTime - startTime) / 1000;
-                saveScore(score, finalTime, questionsTitles, correctAnswers, givenAnswers);
+                saveScore(score, finalTime, updatedQuestionsTitles, updatedCorrectAnswers, updatedGivenAnswers);
             }
         }, 1750);
     };

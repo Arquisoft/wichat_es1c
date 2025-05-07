@@ -26,21 +26,10 @@ End-to-end testing verifies the full functionality of the system, from the front
 |===
 
 === Usability Testing
-Usability testing focuses on evaluating the system's user interface and overall experience by observing real users as they interact with the application. These tests aim to identify usability issues and ensure the system is intuitive and user-friendly.
-
-[options="header", cols="1,2"]
-|===
-| Method used | Moderated remote sessions and user feedback collection
-| Description | Participants were asked to complete typical tasks while being observed remotely. Post-session surveys were also collected to gather subjective impressions.
-| Key findings |
-- Users found the onboarding process clear and easy to follow.
-- Navigation through the app was intuitive for most testers.
-- Minor issues were found regarding the accessibility of some controls on smaller screens.
-| Improvements made | Based on the feedback, UI adjustments were made to improve mobile responsiveness and highlight primary action buttons.
-|===
+Usability testing focuses on evaluating the system's user interface and the overall user experience when interacting with the application. The goal of these tests is to identify usability issues and ensure that the system is intuitive and easy to use.
 
 ==== Examples of Usability Tests
-Usability tests were conducted with 5 participants from various age groups (between 18 and 65 years old) and different levels of technical expertise. Participants were asked to complete the following tasks:
+Usability tests were conducted with 5 participants from various age groups and different levels of technical expertise. Participants were asked to complete the following tasks:
 
 * Complete the account creation and login process.
 * Navigate the application and locate the frequently asked questions (FAQ) section.

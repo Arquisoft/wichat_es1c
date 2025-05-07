@@ -78,13 +78,13 @@ const GameOptions = ({ questionType, setQuestionType, responseTime, setResponseT
                                         value={responseTime}
                                         onChange={(e) => {
                                             const value = Number(e.target.value);
-                                            if (value >= 0) { 
+                                            if (value >= 1) { 
                                                 setResponseTime(value);
                                             }
                                         }}
                                         InputProps={{
                                             inputProps: {
-                                                min: 0,
+                                                min: 1,
                                             },
                                         }}
                                         sx={{

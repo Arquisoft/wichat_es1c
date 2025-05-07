@@ -33,7 +33,7 @@ This is a base project for the **Software Architecture course (2024/2025)**. It 
 
 - **User Service**: Handles the insertion of new users in the system.
 - **LLM Service**: Communicates with the LLM (Language Learning Model).
-- **Gateway Service**: Acts as a public-facing proxy for the above services.
+- **Gateway Service**: Acts as a intermediary proxy for the above services.
 - **Webapp**: A React-based web application for login and user management.
 
 ## ✨ Key Features
